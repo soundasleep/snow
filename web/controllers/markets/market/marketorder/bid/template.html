@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="span4 well">
+        <p style="margin-bottom:2em;">
+            <%- i18n('markets.market.marketorder.bid.you have') %>
+            <span class="available">...</span>
+            <%- i18n('markets.market.marketorder.bid.to spend') %>
+        </p>
+
+        <form>
+            <div class="control-group spend">
+                <label class="control-label">
+                    <%= quote %> <%- i18n('markets.market.marketorder.bid.spend.label') %>
+                    (<a href="#" data-action="spend-all">
+                        <%- i18n('markets.market.marketorder.bid.spend all') %>
+                    </a>)
+                </label>
+
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" name="spend" />
+                        <span class="add-on"><%= quote %></span>
+                    </div>
+
+                    <span class="help-inline">
+                        <span class="visible-insufficient-funds hidden-precision-too-high">
+                            <%- i18n('markets.market.marketorder.bid.spend.insufficient funds') %>
+                        </span>
+                        <span class="visible-precision-too-high">
+                            <%- i18n('markets.market.marketorder.bid.spend.too many decimals') %>
+                        </span>
+                        <span class="visible-too-deep hidden-insufficient-funds hidden-too-many-decimals">
+                            <%- i18n('markets.market.marketorder.bid.spend.more than for sale') %>
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <table class="table" style="margin-bottom:2em;max-width:22em;font-size:0.85em;">
+                <tr>
+                    <td>
+                        <%- i18n('markets.market.marketorder.bid.summary.you spend') %>
+                    </td>
+                    <td style="text-align:right;">
+                        <span class="hidden-too-deep">
+                            <span class="actual-spend"></span> <%= quote %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <%- i18n('markets.market.marketorder.bid.summary.price per') %>
+                        <%= base %>
+                    </td>
+                    <td style="text-align:right;">
+                        <span class="hidden-too-deep">
+                            <span class="receive-price"></span> <%= quote %>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <%- i18n('markets.market.marketorder.bid.summary.you receive') %>
+                    </td>
+                    <td style="text-align:right;">
+                        <span class="hidden-too-deep">
+                            <span class="receive-quote"></span> <%= base %>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success btn-large" style="width:100%;max-width:15em;">
+                        <%- i18n('markets.market.marketorder.bid.buy button') %>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
