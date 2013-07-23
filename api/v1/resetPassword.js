@@ -106,7 +106,7 @@ exports.resetPasswordContinue = function(req, res, next) {
         var msg = [
             '<speak>',
             '<prosody rate=\'-5%\'>',
-            'Password reset.',
+            'Justcoin password reset.',
             '</prosody>',
             codeMsg,
             codeMsg,

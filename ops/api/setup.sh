@@ -1,6 +1,6 @@
 # Ubuntu 12.04 ebs (8gb) from http://alestic.com/
 # Zone: eu-west-1a
-# Security group: prod-api
+# Security group: justcoin-prod-api
 # Ports: 8000 (HTTP)
 
 export environment=production
@@ -74,7 +74,7 @@ sudo tee /etc/monit/monitrc << EOL
 set daemon 120
 set logfile syslog
 #set alert a@abrkn.com
-set mail-format { from: webmaster@${environment}.snow }
+set mail-format { from: webmaster@${environment}.justcoin.com }
 set mailserver localhost
 
 set httpd port 2812
@@ -97,25 +97,25 @@ EOL
 # Config
 tee ~/snow-api/config.${environment}.json << EOL
 {
-    "website_url": "https://${prefix)snow",
+    "website_url": "https://${prefix)justcoin.com",
     "pg_read_url": {
         "user": "postgres",
         "host": "TODO",
-        "database": "snow",
+        "database": "justcoin",
         "ssl": true,
         "password": "postgres"
     },
     "pg_write_url": {
         "user": "postgres",
         "host": "TODO",
-        "database": "snow",
+        "database": "justcoin",
         "ssl": true,
         "password": "postgres"
     },
     "pg_native": true,
     "port": 8000,
     "ripple_federation": {
-        "domain": "snow",
+        "domain": "justcoin.com",
         "currencies": [
             {
                 "currency": "XRP"
@@ -153,7 +153,7 @@ server {
     set_real_ip_from 0.0.0.0/0;
 
     listen 8010;
-    server_name ${prefix}api.snow;
+    server_name ${prefix}api.justcoin.com;
     access_log /home/ubuntu/snow-api/log/access.log;
     error_log /home/ubuntu/snow-api/log/error.log;
 
@@ -174,8 +174,8 @@ server {
 EOL
 
 # --- make site available and enabled
-sudo ln nginx.conf /etc/nginx/sites-available/api.snow
-sudo ln /etc/nginx/sites-available/api.snow /etc/nginx/sites-enabled/api.snow
+sudo ln nginx.conf /etc/nginx/sites-available/api.justcoin.com
+sudo ln /etc/nginx/sites-available/api.justcoin.com /etc/nginx/sites-enabled/api.justcoin.com
 
 sudo nginx -s reload
 
