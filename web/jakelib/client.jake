@@ -95,6 +95,6 @@ file(base + '/styles.css', [
 ], common.concatFiles)
 
 file(base + '/entry.js', ['build'].concat(vendor), function() {
-    var bundle = common.exec('browserify -d -t ./node_modules/browserify-ejs ./client.js')
+    var bundle = common.exec('browserify -d -t ./node_modules/browserify-ejs ./index.js')
     bundle.to(this.name)
 })

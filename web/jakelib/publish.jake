@@ -4,18 +4,18 @@ var common = require('./common')
 
 function publish(hostname, cb) {
     var files = {
-        'build/client/head.js': 'client/head.js',
-        'build/client/entry.js': 'client/entry.js',
-        'build/client/vendor.js': 'client/vendor.js',
-        'build/client/styles.css': 'client/styles.css',
-        'build/client/index.html': 'client/index.html',
+        'build/head.js': 'client/head.js',
+        'build/entry.js': 'client/entry.js',
+        'build/vendor.js': 'client/vendor.js',
+        'build/styles.css': 'client/styles.css',
+        'build/index.html': 'client/index.html',
         'assets/ripple.txt': 'ripple.txt',
         'assets/irba.html': 'irba.html',
-        'build/client/img/icon-top-bar.png': 'client/img/icon-top-bar.png',
-        'build/client/img/registerbg.jpg': 'client/img/registerbg.jpg',
-        'build/client/img/flags/NO.png': 'client/img/flags/NO.png',
-        'build/client/img/flags/ES.png': 'client/img/flags/ES.png',
-        'build/client/img/flags/US.png': 'client/img/flags/US.png'
+        'build/img/icon-top-bar.png': 'client/img/icon-top-bar.png',
+        'build/img/registerbg.jpg': 'client/img/registerbg.jpg',
+        'build/img/flags/NO.png': 'client/img/flags/NO.png',
+        'build/img/flags/ES.png': 'client/img/flags/ES.png',
+        'build/img/flags/US.png': 'client/img/flags/US.png'
     }
 
     var cmds = []
