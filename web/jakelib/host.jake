@@ -12,7 +12,6 @@ task('host', ['default'], function() {
                 port: 5071
             })
         }
-        if (req.url.match(/^\/$/)) req.url += 'landing'
         proxy.proxyRequest(req, res, {
             host: 'localhost',
             port: 5072

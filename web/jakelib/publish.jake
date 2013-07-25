@@ -15,19 +15,7 @@ function publish(hostname, cb) {
         'build/client/img/registerbg.jpg': 'client/img/registerbg.jpg',
         'build/client/img/flags/NO.png': 'client/img/flags/NO.png',
         'build/client/img/flags/ES.png': 'client/img/flags/ES.png',
-        'build/client/img/flags/US.png': 'client/img/flags/US.png',
-        'build/landing/head.js': 'head.js',
-        'build/landing/entry.js': 'entry.js',
-        'build/landing/vendor.js': 'vendor.js',
-        'build/landing/styles.css': 'styles.css',
-        'build/landing/index.html': 'index.html',
-        'build/landing/logo-top-left.png': 'logo-top-left.png',
-        'build/icons/favicon.ico': 'favicon.ico',
-        'build/icons/favicon.png': 'favicon.png',
-        'build/icons/tileicon.png': 'tileicon.png',
-        'build/icons/touch-icon-ipad-retina.png': 'touch-icon-ipad-retina.png',
-        'build/icons/touch-icon-iphone-retina.png': 'touch-icon-iphone-retina.png',
-        'build/icons/touch-icon-iphone.png': 'touch-icon-iphone.png'
+        'build/client/img/flags/US.png': 'client/img/flags/US.png'
     }
 
     var cmds = []
