@@ -1,10 +1,9 @@
 # Ubuntu 12.04 from http://alestic.com/
 # Ports:
-#   8001 (HTTP)
-#   8002 HTTP (redirect http to https)
+#   9001 (HTTP)
 
 export environment=production
-export prefix=production.
+export prefix=""
 export api=10.0.0.184:8010
 
 sudo apt-get update
@@ -14,13 +13,11 @@ sudo apt-get upgrade -y
 sudo apt-get install -y nginx
 
 cd ~
-mkdir snow-web
-cd snow-web
-mkdir log
+mkdir snow-admin
+cd snow-admin
 mkdir log public
 
-# --- /home/ubuntu/snow-web/nginx.conf
-tee /home/ubuntu/snow-web/nginx.conf << EOL
+tee /home/ubuntu/snow-admin/nginx.conf << EOL
 server {
     listen 8001;
     server_name ${prefix}justcoin.com;
@@ -49,10 +46,8 @@ server {
     server_name ${prefix}justcoin.com;
     rewrite ^ https://${prefix}justcoin.com\$request_uri? permanent;
 }
-EOL
 
 sudo nginx -s reload
-vim /home/ubuntu/snow-web/nginx.conf
 
 # --- make site available and enabled
 sudo ln nginx.conf /etc/nginx/sites-available/justcoin.com
