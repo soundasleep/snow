@@ -113,7 +113,13 @@ module.exports = function(market) {
                 valid = true
             } else {
                 var item = _.find(api.balances.current, { currency: base })
-                , available = num(item.available)
+
+                if (!item) {
+                    debug('User does not have a %s balance', base)
+                    return
+                }
+
+                var available = num(item.available)
                 , required = amount
 
                 if (available.lt(required)) {
