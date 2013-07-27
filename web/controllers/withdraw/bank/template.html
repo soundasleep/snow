@@ -1,0 +1,42 @@
+<div class="container withdraw-btc">
+    <div class="row">
+        <div class="span6">
+            <h3><%= i18n('withdrawbank.heading') %></h3>
+
+            <p><%= i18n('withdrawbank.intro') %></p>
+
+            <div class="no-bank-accounts error" style="display:none;">
+                <p>
+                    <%- i18n('withdrawbank.no bank account error') %>
+                    <a href="#bankaccounts"><%- i18n('withdrawbank.no bank account add') %></a>
+                </p>
+            </div>
+
+            <form class="form-horizontal well">
+                <div class="control-group">
+                    <label class="control-label"><%- i18n('withdrawbank.bank account.label') %></label>
+                    <div class="controls">
+                        <select name="bankAccount" class="bank-account"></select>
+
+                        <span class="help-inline">
+                            <a href="#bankaccounts"><%- i18n('withdrawbank.no bank account manage') %></a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="amount"><%= i18n('amount') %></label>
+                    <div class="controls">
+                        <input class="amount" type="text" id="amount" placeholder="<%= i18n('amount') %>" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary"><%- i18n('withdrawbank.submit') %></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

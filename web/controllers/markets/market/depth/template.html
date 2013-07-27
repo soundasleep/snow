@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="span5">
+        <h5 style="margin-bottom:1.8em;"><%= i18n('markets.market.depth.heading') %></h5>
+
+        <table class="depth table table-bordered table-striped table-compact" style="width:23em;">
+            <thead>
+                <tr>
+                    <th>
+                        <%- i18n('markets.market.depth.columns.bid volume') %>
+                    </th>
+                    <th>
+                        <%= i18n('markets.market.depth.columns.price') %>
+                        (<%= id.substr(3) %>)
+                    </th>
+                    <th>
+                        <%- i18n('markets.market.depth.columns.ask volume') %>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

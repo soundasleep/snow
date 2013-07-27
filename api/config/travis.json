@@ -1,5 +1,5 @@
 {
-    "website_url": "https://snow",
+    "website_url": "https://justcoin.com",
     "pg_write_url": null,
     "pg_read_url": null,
     "port": 5071,
@@ -16,5 +16,6 @@
     "ripple_account": "rnipVEZ2hi6qh7BedivFR13rXHYdpzhKfc",
     "intercom_secret": null,
     "intercom_app_id": null,
-    "bde_api_key": null
+    "bde_api_key": null,
+    "tropo_voice_token": null
 }

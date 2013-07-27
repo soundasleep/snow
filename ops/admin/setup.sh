@@ -19,11 +19,11 @@ mkdir log public
 
 tee /home/ubuntu/snow-admin/nginx.conf << EOL
 server {
-    listen 9001;
-    server_name ${prefix}snow;
-    root /home/ubuntu/snow-admin/public/;
-    access_log /home/ubuntu/snow-admin/log/access.log;
-    error_log /home/ubuntu/snow-admin/log/error.log;
+    listen 8001;
+    server_name ${prefix}justcoin.com;
+    root /home/ubuntu/snow-web/public/;
+    access_log /home/ubuntu/snow-web/log/access.log;
+    error_log /home/ubuntu/snow-web/log/error.log;
 
     gzip on;
     gzip_http_version 1.1;
@@ -40,13 +40,17 @@ server {
         proxy_set_header X-Real-IP \$remote_addr;
     }
 }
-EOL
+
+server {
+    listen 8002;
+    server_name ${prefix}justcoin.com;
+    rewrite ^ https://${prefix}justcoin.com\$request_uri? permanent;
+}
 
 sudo nginx -s reload
 
-sudo ln nginx.conf /etc/nginx/sites-available/snow-admin
-sudo ln /etc/nginx/sites-available/snow-admin /etc/nginx/sites-enabled/snow-admin
-
-sudo nginx -s reload
+# --- make site available and enabled
+sudo ln nginx.conf /etc/nginx/sites-available/justcoin.com
+sudo ln /etc/nginx/sites-available/justcoin.com /etc/nginx/sites-enabled/justcoin.com
 
 sudo reboot

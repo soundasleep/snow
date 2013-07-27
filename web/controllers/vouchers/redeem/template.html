@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <div class="redeem hidden-cancelled hidden-redeemed">
+                <h3>Redeem voucher</h3>
+
+                <p>Intro text</p>
+
+                <form class="form form-horizontal well">
+                    <div class="code control-group">
+                        <label class="control-label">
+                            Code
+                        </label>
+
+                        <div class="controls">
+                            <input type="text" name="code" placeholder="XXXX-XXXX-XXXX" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"></label>
+
+                        <div class="controls">
+                            <button type="submit" class="submit btn btn-success">Redeem voucher</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="redeemed visible-redeemed">
+                <h3>Voucher redeemed</h3>
+
+                <p class="credit"></p>
+
+                <p>
+                    <a href="#reload">Redeem another voucher</a>
+                </p>
+            </div>
+
+            <div class="cancelled visible-cancelled">
+                <h3>Voucher cancelled</h3>
+
+                <p>Your voucher has been cancelled and the funds returned to your account.</p>
+            </div>
+        </div>
+    </div>
+</div>

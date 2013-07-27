@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <h3><%= i18n('orders.heading') %></h3>
+
+            <table class="active-orders table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th><%= i18n('orders.column headers.id') %></th>
+                        <th><%= i18n('orders.column headers.market') %></th>
+                        <th><%= i18n('orders.column headers.type') %></th>
+                        <th><%= i18n('orders.column headers.price') %></th>
+                        <th><%= i18n('orders.column headers.volume') %></th>
+                        <th>Matched</th>
+                        <th>Remaining</th>
+                        <th>Cancelled</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="items"></tbody>
+            </table>
+
+            <h4><%= i18n('orders.history heading') %></h4>
+
+            <table class="order-history table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th><%= i18n('orders.column headers.id') %></th>
+                        <th><%= i18n('orders.column headers.market') %></th>
+                        <th><%= i18n('orders.column headers.type') %></th>
+                        <th><%= i18n('orders.column headers.requested price') %></th>
+                        <th><%= i18n('orders.column headers.matched') %></th>
+                        <th><%= i18n('orders.column headers.average price') %></th>
+                    </tr>
+                </thead>
+                <tbody class="items"></tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="reset-password container">
+    <div class="row">
+        <div class="span6">
+            <h3><%= i18n('resetPassword.heading') %></h3>
+
+            <p><%- i18n('resetPassword.intro') %></p>
+
+            <div class="begin">
+                <form class="begin-form form-horizontal">
+                    <div class="control-group email">
+                        <label class="control-label">Email</label>
+                        <div class="controls">
+                            <input type="text" name="email">
+                            <button type="submit" class="submit btn btn-primary">Email me</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="phone" style="display:none;">
+                <p>We are calling you to read you a 4 digit code</p>
+
+                <form class="phone-form form-horizontal">
+                    <div class="control-group code">
+                        <label class="control-label">4 digit code</label>
+                        <div class="controls">
+                            <input type="text" class="input-small" name="code" />
+                            <button type="submit" class="submit btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="end" style="display:none;">
+                <form class="end-form form-horizontal">
+                    <div class="control-group password">
+                        <label class="control-label">New password</label>
+                        <div class="controls">
+                            <input type="password" class="input-small" name="password" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <button type="submit" class="submit btn btn-success">Reset password</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

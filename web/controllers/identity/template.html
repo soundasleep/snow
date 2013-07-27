@@ -1,0 +1,64 @@
+<div class="container identity">
+    <h3><%= i18n('identity.heading') %></h3>
+    <p><%= i18n('identity.intro') %></p>
+
+    <form class="form-horizontal" style="margin-top:25px;">
+        <div class="control-group">
+            <label class="control-label"><%= i18n('identity.firstName') %></label>
+            <div class="controls">
+                <input type="text" name="firstName" class="first-name">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><%= i18n('identity.lastName') %></label>
+            <div class="controls">
+                <input type="text" name="lastName" class="last-name">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><%= i18n('identity.address') %></label>
+            <div class="controls">
+                <div>
+                    <input type="text" name="address1" class="address1">
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <div>
+                    <input type="text" name="address2" class="address2">
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><%= i18n('identity.city') %></label>
+            <div class="controls">
+                <input type="text" name="city" class="city">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><%= i18n('identity.postalArea') %></label>
+            <div class="controls">
+                <input type="text" name="postalArea" class="postal-area">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><%= i18n('identity.country') %></label>
+            <div class="controls">
+                <select name="country" class="country" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success" style="width:220px;"><%= i18n('identity.save') %></button>
+            </div>
+        </div>
+    </form>
+</div>

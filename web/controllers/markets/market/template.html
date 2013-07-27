@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row">
+        <div class="offset2 span10">
+            <h3><%- i18n('markets.market.heading', base, quote) %></h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="order-modes span2">
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs">
+                    <li><a href="#" data-action="toggle-order-mode" data-order-mode="market">
+                        <%- i18n('markets.market.instant order') %>
+                    </a></li>
+                    <li><a href="#" data-action="toggle-order-mode" data-order-mode="limit">
+                        <%- i18n('markets.market.limit order') %>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="visible-order-mode-market">
+                <div class="market-order">
+                </div>
+            </div>
+
+            <div class="visible-order-mode-limit">
+                <div class="limit-order">
+                </div>
+            </div>
+        </div>
+
+        <div class="depth-container hidden-order-mode-market span4">
+        </div>
+    </div>
+</div>

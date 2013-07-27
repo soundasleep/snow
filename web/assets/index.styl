@@ -1,0 +1,52 @@
+@import "../node_modules/nib/lib/nib/vendor.styl"
+@import "loading.styl"
+@import "states.styl"
+@import "square.styl"
+
+-animation()
+    animation arguments
+    -webkit-animation arguments
+    -moz-animation arguments
+
+body
+    position relative
+    padding-top 50px
+    padding-top: 60px
+
+// Remove padding when collapsing nav
+@media (max-width: 979px)
+    body
+        padding-top 0px
+
+footer
+    text-align: center;
+
+// Registration and login
+.is-section-register, .is-section-login
+    background: url('img/registerbg.jpg')  no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    > .top
+        display none
+
+    footer, hr
+        display none
+
+// Don't show the direct support link when logged in (use Intercom)
+body.is-logged-in
+    footer
+        .support
+            display none
+
+@import "../controllers"
+
+// Since terms, etc. are made from Markdown, apply
+// styling to standard tags here
+#section > .terms,
+#section > .about,
+#section > .privacy
+    h2, h3
+        font-size 1.5em

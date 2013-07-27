@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="span4 well">
+        <p style="margin-bottom:2em;">
+            <%- i18n('markets.market.limitorder.bid.available.you have') %>
+            <span class="available">...</span>
+        </p>
+
+        <form>
+            <div class="control-group amount">
+                <label class="control-label">
+                    <%- i18n('markets.market.limitorder.bid.amount.label') %>
+                </label>
+
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" name="amount" />
+                        <span class="add-on"><%= base %></span>
+                    </div>
+
+                    <span class="help-inline">
+                        <span class="visible-insufficient-funds hidden-precision-too-high">
+                            <%- i18n('markets.market.limitorder.bid.amount.insufficient funds') %>
+                        </span>
+                        <span class="visible-precision-too-high">
+                            <%- i18n('markets.market.limitorder.bid.amount.too many decimals') %>
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="control-group price">
+                <label class="control-label">
+                    <%- i18n('markets.market.limitorder.bid.price.label') %>
+                    <%= base %>
+                </label>
+
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" name="price" />
+                        <span class="add-on"><%= quote %></span>
+                    </div>
+
+                    <span class="help-inline">
+                        <span class="visible-precision-too-high">
+                            <%- i18n('markets.market.limitorder.bid.price.too many decimals') %>
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <table class="table" style="margin-bottom:2em;max-width:22em;font-size:0.85em;">
+                <tr>
+                    <td>
+                        <%- i18n('markets.market.limitorder.bid.summary.order total') %>
+                    </td>
+                    <td style="text-align:right;">
+                        <span class="visible-valid">
+                            <span class="quote"></span> <%= quote %>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success btn-large" style="width:100%;max-width:15em;">
+                        <%- i18n('markets.market.limitorder.bid.submit') %>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

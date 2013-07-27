@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <h3>Create voucher</h3>
+
+            <div class="create visible-creating">
+                <p>Intro text</p>
+
+                <form class="form form-horizontal well">
+                    <div class="currency control-group">
+                        <label class="control-label">
+                            Currency
+                        </label>
+
+                        <div class="controls">
+                            <select name="currency"></select>
+                        </div>
+                    </div>
+
+                    <div class="amount control-group">
+                        <label class="control-label">
+                            Amount
+                        </label>
+
+                        <div class="controls">
+                            <input type="text" name="amount" />
+                            <span class="help-inline">
+                                of <span class="available"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"></label>
+
+                        <div class="controls">
+                            <button type="submit" class="submit btn btn-success">Create voucher</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="created visible-created">
+                <p>Outro text</p>
+
+                <div class="code"></div>
+            </div>
+        </div>
+    </div>
+</div>
