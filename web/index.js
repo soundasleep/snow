@@ -68,11 +68,10 @@ api.on('user', function(user) {
     }
 
     checkEmail(function() {
-        checkPhone(function() {
-            debug('verifications done')
-            api.activities()
-
-        })
+        //checkPhone(function() {
+        //    debug('verifications done')
+        api.activities()
+        //})
     })
 })
 
