@@ -131,7 +131,13 @@ module.exports = function(market) {
                 $el.addClass('is-precision-too-high')
             } else {
                 var item = _.find(api.balances.current, { currency: quote })
-                , available = item.available
+
+                if (!item) {
+                    debug('User does not have a %s balance', quote)
+                    return
+                }
+
+                var available = item.available
 
                 if (num(spend).gt(available)) {
                     valid = false
