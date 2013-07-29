@@ -306,9 +306,9 @@
                 }))
             })
 
-            analytics.trackLink('.terms', 'Clicked Terms')
-            analytics.trackLink('.privacy', 'Clicked Privacy')
-            analytics.trackLink('.support', 'Clicked Support')
+            analytics.trackLink($('.terms'), 'Clicked Terms')
+            analytics.trackLink($('.privacy'), 'Clicked Privacy')
+            analytics.trackLink($('.support'), 'Clicked Support')
         }
     </script>
 </body>
