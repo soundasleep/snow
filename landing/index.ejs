@@ -295,15 +295,15 @@
 
         $(refreshTickers)
 
-        if (typeof analytics != 'undefined') {
+        if (analytics) {
             analytics.trackLink($('.btn-login'), 'Clicked Login')
 
             var signups = ['main', 'screenshot', 'bitcoin', 'ripple', 'litecoin', 'about']
 
             $.each(signups, function(i, which) {
-                analytics.trackLink($('.signup-' + which, 'Clicked Sign Up', {
+                analytics.trackLink($('.signup-' + which), 'Clicked Sign Up', {
                     which: which
-                }))
+                })
             })
 
             analytics.trackLink($('.terms'), 'Clicked Terms')
