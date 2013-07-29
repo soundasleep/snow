@@ -216,8 +216,14 @@ module.exports = function(market) {
 
     $el.on('click', '[data-action="sell-all"]', function(e) {
         e.preventDefault()
-        $el.field('sell').val(numbers.format(
-            _.find(api.balances.current, { currency: base }).available))
+        var item = _.find(api.balances.current, { currency: base })
+
+        if (!item) {
+            alert(base + ' balance unknown')
+            return
+        }
+
+        $el.field('sell').val(numbers.format(item.available))
         $el.field('sell').trigger('change')
     })
 
