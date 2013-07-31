@@ -3,10 +3,9 @@
 #   8001 (HTTP)
 #   8002 HTTP (redirect http to https)
 
-export environment=production
-export prefix=
 export api=10.0.0.184:8010
 export admin=10.0.0.184:9001
+export domain=justcoin.com
 
 sudo apt-get update
 sudo apt-get upgrade -y
@@ -24,7 +23,7 @@ mkdir log public
 tee /home/ubuntu/snow-web/nginx.conf << EOL
 server {
     listen 8001;
-    server_name ${prefix}justcoin.com;
+    server_name ${domain};
     root /home/ubuntu/snow-web/public/;
     access_log /home/ubuntu/snow-web/log/access.log;
     error_log /home/ubuntu/snow-web/log/error.log;
@@ -39,7 +38,7 @@ server {
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 
     location ^/client$ {
-        rewrite ^ https://justcoin.com/client/ permanent;
+        rewrite ^ https://${domain}/client/ permanent;
     }
 
     location /api {
@@ -57,17 +56,17 @@ server {
 
 server {
     listen 8002;
-    server_name ${prefix}justcoin.com;
-    rewrite ^ https://${prefix}justcoin.com\$request_uri? permanent;
+    server_name ${domain};
+    rewrite ^ https://${domain}\$request_uri? permanent;
 }
 EOL
-
-sudo nginx -s reload
 
 vim /home/ubuntu/snow-web/nginx.conf
 
 # --- make site available and enabled
-sudo ln nginx.conf /etc/nginx/sites-available/justcoin.com
-sudo ln /etc/nginx/sites-available/justcoin.com /etc/nginx/sites-enabled/justcoin.com
+sudo ln nginx.conf /etc/nginx/sites-available/snow-web
+sudo ln /etc/nginx/sites-available/snow-web /etc/nginx/sites-enabled/snow-web
+
+sudo nginx -s reload
 
 sudo reboot
