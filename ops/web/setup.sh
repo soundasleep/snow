@@ -38,6 +38,10 @@ server {
     gzip_buffers 16 8k;
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 
+    location ^/client$ {
+        rewrite ^ https://justcoin.com/client/ permanent;
+    }
+
     location /api {
         proxy_pass http://${api};
         rewrite ^/api(/.+)\$ \$1 break;
