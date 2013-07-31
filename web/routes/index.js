@@ -8,8 +8,6 @@ var master = require('../modules/master')
 , terms = require('../modules/terms')
 , about = require('../modules/about')
 , privacy = require('../modules/privacy')
-, depositbtc = require('../modules/deposit/btc')
-, depositbank = require('../modules/deposit/bank')
 , identity = require('../modules/identity')
 , resetPassword = require('../modules/resetPassword')
 , apiKeys = require('../modules/apiKeys')
@@ -17,8 +15,6 @@ var master = require('../modules/master')
 , createvoucher = require('../modules/vouchers/create')
 , redeemvoucher = require('../modules/vouchers/redeem')
 , vouchers = require('../modules/vouchers/index')
-, depositltc = require('../modules/deposit/ltc')
-, withdraw = require('../modules/withdraw')
 , bankaccounts = require('../modules/bankaccounts')
 , authorize = require('../authorize')
 
@@ -77,10 +73,6 @@ module.exports = function() {
         if (!authorize.user()) return
         master(identity(after), 'identity')
     })
-    .add(/^deposit\/btc$/, function() {
-        if (!authorize.user()) return
-        master(depositbtc(), 'depositbtc')
-    })
     .add(/^changepassword$/, function() {
         if (!authorize.user()) return
         master(changepassword(), 'changepassword')
@@ -94,24 +86,12 @@ module.exports = function() {
     .add(/^privacy$/, function() {
         master(privacy(), 'privacy')
     })
-    .add(/^deposit\/ltc$/, function() {
-        if (!authorize.user()) return
-        master(depositltc(), 'depositltc')
-    })
-    .add(/^withdraw\/([a-z]+)$/, function(type) {
-        if (!authorize.user()) return
-        if (!authorize.identity()) return
-        master(withdraw(type), 'withdraw')
-    })
     .add(/^([a-z0-9]{12})$/i, function(code) {
         if (!authorize.user(true)) return
         master(redeemvoucher(code), 'redeem-voucher')
     })
-    .add(/^deposit\/bank$/, function() {
-        if (!authorize.user()) return
-        if (!authorize.identity()) return
-        master(depositbank(), 'depositbank')
-    })
+
+    require('../modules/account/routes.js')(router, master, authorize)
 
     router
     .add(/^(.+)$/, function(hash) {

@@ -9,7 +9,7 @@ module.exports = function() {
     , currencies = _.filter(_.pluck(api.currencies.value, 'id'), function(id) {
         return id !== 'NOK'
     })
-    , amount = require('../../shared/amount-input')({
+    , amount = require('../../../shared/amount-input')({
         fixedCurrency: false,
         currency: 'BTC',
         currencies: currencies

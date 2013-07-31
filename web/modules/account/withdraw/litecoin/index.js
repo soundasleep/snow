@@ -6,7 +6,7 @@ module.exports = function() {
     , controller = {
         $el: $el
     }
-    , amount = require('../../shared/amount-input')({
+    , amount = require('../../../shared/amount-input')({
         fixedCurrency: true,
         currency: 'LTC'
     })
