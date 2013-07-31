@@ -1,6 +1,8 @@
+var template = require('./index.html')
+, nav = require('../nav')
 
 module.exports = function() {
-    var $el = $(require('./template.html')())
+    var $el = $(template())
     , controller = {
         $el: $el
     }
@@ -79,6 +81,8 @@ module.exports = function() {
     })
 
     refresh()
+
+    $el.find('.account-nav').replaceWith(nav('bankaccounts').$el)
 
     return controller
 }

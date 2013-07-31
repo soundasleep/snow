@@ -1,7 +1,8 @@
-var template = require('./template.html')
+var template = require('./index.html')
+, nav = require('../nav')
 
 module.exports = function() {
-    var $el = $('<div class="api-keys">').html(template())
+    var $el = $('<div class=account-apikeys>').html(template())
     , controller = {
         $el: $el
     }
@@ -74,6 +75,8 @@ module.exports = function() {
     })
 
     refresh()
+
+    $el.find('.account-nav').replaceWith(nav('apikeys').$el)
 
     return controller
 }
