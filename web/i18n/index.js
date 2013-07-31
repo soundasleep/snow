@@ -26,7 +26,7 @@ var i18n = module.exports = function(key) {
 
     if (typeof s == 'undefined') {
         debug('ERROR: missing translation key: ' + key)
-        return 'translation missing!'
+        return '!!' + key + '!!'
     }
 
     if (i18n.debug) s = '!!' + s + '!!'
