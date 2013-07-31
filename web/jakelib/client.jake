@@ -41,8 +41,7 @@ task('client', [
     base + '/img/icon-top-bar.png',
     base + '/img/flags',
     base + '/img/flags/NO.png',
-    base + '/img/flags/US.png',
-    base + '/img/flags/ES.png'
+    base + '/img/flags/US.png'
 ])
 
 file(base + '/head.js', head, common.concatFiles)
@@ -57,7 +56,6 @@ file(base + '/img/registerbg.jpg', ['assets/img/registerbg.jpg'], common.copy)
 file(base + '/img/icon-top-bar.png', ['assets/img/icon-top-bar.png'], common.copy)
 file(base + '/img/flags/NO.png', ['assets/img/flags/NO.png'], common.copy)
 file(base + '/img/flags/US.png', ['assets/img/flags/US.png'], common.copy)
-file(base + '/img/flags/ES.png', ['assets/img/flags/ES.png'], common.copy)
 
 file(base + '/index.html', function() {
     var ejs = require('ejs')

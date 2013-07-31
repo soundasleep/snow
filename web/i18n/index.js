@@ -4,18 +4,15 @@ var util = require('util')
 , _ = require('lodash')
 , dicts = {
     'en-US': require('./en-US.json'),
-    'nb-NO': require('./nb-NO.json'),
-    'es-ES': require('./es-ES.json')
+    'nb-NO': require('./nb-NO.json')
 }
 , fallback = 'en-US'
 , mappings = {
     '^en': 'en-US',
-    '^(no|nb)': 'nb-NO',
-    '^es': 'es-ES'
+    '^(no|nb)': 'nb-NO'
 }
 , moment = require('moment')
 
-require('moment/lang/es')
 require('moment/lang/nb')
 
 var i18n = module.exports = function(key) {
@@ -97,7 +94,6 @@ i18n.set = function(lang) {
     debug('setting language of moment')
 
     if (i18n.lang == 'nb-NO') moment.lang('nb')
-    else if (i18n.lang == 'es-ES') moment.lang('es')
     else moment.lang('en')
 
     debug('changing html and content-language attributes')

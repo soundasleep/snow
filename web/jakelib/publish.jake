@@ -14,7 +14,6 @@ function publish(hostname, cb) {
         'build/img/icon-top-bar.png': 'client/img/icon-top-bar.png',
         'build/img/registerbg.jpg': 'client/img/registerbg.jpg',
         'build/img/flags/NO.png': 'client/img/flags/NO.png',
-        'build/img/flags/ES.png': 'client/img/flags/ES.png',
         'build/img/flags/US.png': 'client/img/flags/US.png'
     }
 
