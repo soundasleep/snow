@@ -17,7 +17,7 @@ debug('shared components inited')
 i18n.detect()
 
 require('./helpers/jquery')
-require('./routes')()
+require('./routes.js')()
 
 if (window.analytics) {
     require('./segment')

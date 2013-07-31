@@ -1,19 +1,19 @@
-var master = require('../modules/master')
-, markets = require('../modules/markets')
-, orders = require('../modules/orders')
-, login = require('../modules/login')
-, register = require('../modules/register')
-, notfound = require('../modules/notfound')
-, dashboard = require('../modules/dashboard')
-, terms = require('../modules/terms')
-, about = require('../modules/about')
-, privacy = require('../modules/privacy')
-, identity = require('../modules/identity')
-, resetPassword = require('../modules/resetPassword')
-, createvoucher = require('../modules/vouchers/create')
-, redeemvoucher = require('../modules/vouchers/redeem')
-, vouchers = require('../modules/vouchers/index')
-, authorize = require('../authorize')
+var master = require('./modules/master')
+, markets = require('./modules/markets')
+, orders = require('./modules/orders')
+, login = require('./modules/login')
+, register = require('./modules/register')
+, notfound = require('./modules/notfound')
+, dashboard = require('./modules/dashboard')
+, terms = require('./modules/terms')
+, about = require('./modules/about')
+, privacy = require('./modules/privacy')
+, identity = require('./modules/identity')
+, resetPassword = require('./modules/resetPassword')
+, createvoucher = require('./modules/vouchers/create')
+, redeemvoucher = require('./modules/vouchers/redeem')
+, vouchers = require('./modules/vouchers/index')
+, authorize = require('./authorize')
 
 module.exports = function() {
     router
@@ -76,7 +76,7 @@ module.exports = function() {
         master(redeemvoucher(code), 'redeem-voucher')
     })
 
-    require('../modules/account/routes.js')(router, master, authorize)
+    require('./modules/account/routes.js')(router, master, authorize)
 
     router
     .add(/^(.+)$/, function(hash) {
