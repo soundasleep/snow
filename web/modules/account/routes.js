@@ -26,4 +26,8 @@ module.exports = function(router, master, authorize) {
         if (!authorize.identity()) return
         master(require('./bankaccounts')())
     })
+    .add(/^account\/changepassword$/, function() {
+        if (!authorize.user()) return
+        master(require('./changepassword')())
+    })
 }

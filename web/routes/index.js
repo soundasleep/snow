@@ -11,7 +11,6 @@ var master = require('../modules/master')
 , identity = require('../modules/identity')
 , resetPassword = require('../modules/resetPassword')
 , apiKeys = require('../modules/apiKeys')
-, changepassword = require('../modules/changepassword')
 , createvoucher = require('../modules/vouchers/create')
 , redeemvoucher = require('../modules/vouchers/redeem')
 , vouchers = require('../modules/vouchers/index')
@@ -66,10 +65,6 @@ module.exports = function() {
     .add(/^identity(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return
         master(identity(after), 'identity')
-    })
-    .add(/^changepassword$/, function() {
-        if (!authorize.user()) return
-        master(changepassword(), 'changepassword')
     })
     .add(/^terms$/, function() {
         master(terms(), 'terms')

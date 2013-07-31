@@ -1,4 +1,4 @@
-require('../../vendor/shake')
+require('../../../vendor/shake')
 
 module.exports = function() {
     var $el = $(require('./template.html')())
