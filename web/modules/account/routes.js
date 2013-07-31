@@ -1,16 +1,12 @@
 module.exports = function(router, master, authorize) {
     return router
-    .add(/^account\/deposit\/btc$/, function() {
+    .add(/^account\/deposit\/bitcoin$/, function() {
         if (!authorize.user()) return
-        master(require('./deposit/btc')())
+        master(require('./deposit/bitcoin')())
     })
-    .add(/^account\/deposit\/ltc$/, function() {
+    .add(/^account\/deposit\/litecoin$/, function() {
         if (!authorize.user()) return
-        master(require('./deposit/ltc')())
-    })
-    .add(/^account\/deposit\/btc$/, function() {
-        if (!authorize.user()) return
-        master(require('./deposit/btc')())
+        master(require('./deposit/litecoin')())
     })
     .add(/^account\/deposit\/bank$/, function() {
         if (!authorize.user()) return
