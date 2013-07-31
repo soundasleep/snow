@@ -9,7 +9,7 @@ var master = require('../modules/master')
 , about = require('../modules/about')
 , privacy = require('../modules/privacy')
 , depositbtc = require('../modules/deposit/btc')
-, depositnok = require('../modules/deposit/nok')
+, depositbank = require('../modules/deposit/bank')
 , identity = require('../modules/identity')
 , resetPassword = require('../modules/resetPassword')
 , apiKeys = require('../modules/apiKeys')
@@ -107,10 +107,10 @@ module.exports = function() {
         if (!authorize.user(true)) return
         master(redeemvoucher(code), 'redeem-voucher')
     })
-    .add(/^depositnok$/, function() {
+    .add(/^depositbank$/, function() {
         if (!authorize.user()) return
         if (!authorize.identity()) return
-        master(depositnok(), 'depositnok')
+        master(depositbank(), 'depositbank')
     })
 
     router

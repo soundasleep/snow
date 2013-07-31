@@ -18,14 +18,14 @@ module.exports = function() {
     , $activities = controller.$el.find('.activities')
     , $withdraws = controller.$el.find('.withdraws')
     , $depositXrp = controller.$el.find('.deposit-xrp')
-    , $depositNok = controller.$el.find('.deposit-nok')
+    , $depositBank = controller.$el.find('.deposit-bank')
 
     $activities.replaceWith(activities.$el)
     $withdraws.replaceWith(withdraws.$el)
 
-    $depositNok.on('click', function(e) {
+    $depositBank.on('click', function(e) {
         e.preventDefault()
-        window.location.hash = '#depositnok'
+        window.location.hash = '#depositbank'
     })
 
     function balancesUpdated(balances) {
