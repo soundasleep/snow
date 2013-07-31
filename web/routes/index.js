@@ -77,7 +77,7 @@ module.exports = function() {
         if (!authorize.user()) return
         master(identity(after), 'identity')
     })
-    .add(/^depositbtc$/, function() {
+    .add(/^deposit\/btc$/, function() {
         if (!authorize.user()) return
         master(depositbtc(), 'depositbtc')
     })
@@ -94,7 +94,7 @@ module.exports = function() {
     .add(/^privacy$/, function() {
         master(privacy(), 'privacy')
     })
-    .add(/^depositltc$/, function() {
+    .add(/^deposit\/ltc$/, function() {
         if (!authorize.user()) return
         master(depositltc(), 'depositltc')
     })
@@ -107,7 +107,7 @@ module.exports = function() {
         if (!authorize.user(true)) return
         master(redeemvoucher(code), 'redeem-voucher')
     })
-    .add(/^depositbank$/, function() {
+    .add(/^deposit\/bank$/, function() {
         if (!authorize.user()) return
         if (!authorize.identity()) return
         master(depositbank(), 'depositbank')

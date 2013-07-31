@@ -18,15 +18,9 @@ module.exports = function() {
     , $activities = controller.$el.find('.activities')
     , $withdraws = controller.$el.find('.withdraws')
     , $depositXrp = controller.$el.find('.deposit-xrp')
-    , $depositBank = controller.$el.find('.deposit-bank')
 
     $activities.replaceWith(activities.$el)
     $withdraws.replaceWith(withdraws.$el)
-
-    $depositBank.on('click', function(e) {
-        e.preventDefault()
-        window.location.hash = '#depositbank'
-    })
 
     function balancesUpdated(balances) {
         var dict = _.reduce(balances, function(p, c) {
