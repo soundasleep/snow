@@ -15,7 +15,6 @@ var master = require('../modules/master')
 , createvoucher = require('../modules/vouchers/create')
 , redeemvoucher = require('../modules/vouchers/redeem')
 , vouchers = require('../modules/vouchers/index')
-, bankaccounts = require('../modules/bankaccounts')
 , authorize = require('../authorize')
 
 module.exports = function() {
@@ -63,11 +62,6 @@ module.exports = function() {
     .add(/^vouchers\/redeem$/, function() {
         if (!authorize.user()) return
         master(redeemvoucher())
-    })
-    .add(/^bankaccounts$/, function() {
-        if (!authorize.user()) return
-        if (!authorize.identity()) return
-        master(bankaccounts(), 'bankaccounts')
     })
     .add(/^identity(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return

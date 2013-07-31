@@ -21,4 +21,9 @@ module.exports = function(router, master, authorize) {
         if (!authorize.identity()) return
         master(require('./withdraw')(type))
     })
+    .add(/^account\/bankaccounts$/, function() {
+        if (!authorize.user()) return
+        if (!authorize.identity()) return
+        master(require('./bankaccounts')())
+    })
 }
