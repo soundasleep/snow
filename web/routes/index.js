@@ -10,7 +10,6 @@ var master = require('../modules/master')
 , privacy = require('../modules/privacy')
 , identity = require('../modules/identity')
 , resetPassword = require('../modules/resetPassword')
-, apiKeys = require('../modules/apiKeys')
 , createvoucher = require('../modules/vouchers/create')
 , redeemvoucher = require('../modules/vouchers/redeem')
 , vouchers = require('../modules/vouchers/index')
@@ -26,9 +25,6 @@ module.exports = function() {
                 master(login())
             }
         })
-    })
-    .add(/^apiKeys$/, function() {
-        master(apiKeys(), 'home')
     })
     .add(/^resetPassword$/, function() {
         master(resetPassword(), 'resetPassword')

@@ -30,4 +30,7 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user()) return
         master(require('./changepassword')())
     })
+    .add(/^account\/apiKeys$/, function() {
+        master(require('./apiKeys')(), 'home')
+    })
 }
