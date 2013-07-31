@@ -1,9 +1,11 @@
 var format = require('util').format
 , _ = require('lodash')
 , num = require('num')
+, nav = require('../nav')
+, template = require('./index.html')
 
 module.exports = function(currency) {
-    var $el = $(require('./template.html')())
+    var $el = $(template())
     , controller = {
         $el: $el
     }
@@ -59,6 +61,8 @@ module.exports = function(currency) {
             window.location.hash = '#'
         })
     })
+
+    $el.find('.withdraw-nav').replaceWith(nav('bank').$el)
 
     return controller
 }

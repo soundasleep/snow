@@ -6,22 +6,22 @@ module.exports = function(router, master, authorize) {
     })
     .add(/^account\/funds$/, function() {
         if (!authorize.user()) return
-        master(require('./funds')())
+        master(require('./funds')(), 'account')
     })
     .add(/^account\/activity$/, function() {
         if (!authorize.user()) return
-        master(require('./activity')())
+        master(require('./activity')(), 'account')
     })
     .add(/^account\/bankaccounts$/, function() {
         if (!authorize.user()) return
         if (!authorize.identity()) return
-        master(require('./bankaccounts')())
+        master(require('./bankaccounts')(), 'account')
     })
     .add(/^account\/changepassword$/, function() {
         if (!authorize.user()) return
-        master(require('./changepassword')())
+        master(require('./changepassword')(), 'account')
     })
     .add(/^account\/apiKeys$/, function() {
-        master(require('./apiKeys')())
+        master(require('./apiKeys')(), 'account')
     })
 }

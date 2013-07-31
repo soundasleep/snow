@@ -75,6 +75,7 @@ module.exports = function() {
 
     require('./modules/account/routes.js')(router, master, authorize)
     require('./modules/deposit/routes.js')(router, master, authorize)
+    require('./modules/withdraw/routes.js')(router, master, authorize)
 
     router
     .add(/^(.+)$/, function(hash) {

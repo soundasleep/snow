@@ -1,9 +1,12 @@
 var moment = require('moment')
+, template = require('./index.html')
+, nav = require('../nav')
 
 module.exports = function() {
     var itemTemplate = require('./item.html')
+    , $el = $('<div class=withdraw-withdraws>').html(template())
     , controller = {
-        $el: $(require('./template.html')())
+        $el: $el
     }
     , $items = controller.$el.find('.items')
 
@@ -63,6 +66,8 @@ module.exports = function() {
     })
 
     refresh()
+
+    $el.find('.withdraw-nav').replaceWith(nav('withdraws').$el)
 
     return controller
 }

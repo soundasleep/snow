@@ -1,5 +1,6 @@
 var template = require('./index.html')
 , _ = require('lodash')
+, nav = require('../nav')
 
 module.exports = function() {
     var $el = $('<div class="withdraw-ripple is-entry">').html($(template()))
@@ -9,7 +10,7 @@ module.exports = function() {
     , currencies = _.filter(_.pluck(api.currencies.value, 'id'), function(id) {
         return id !== 'NOK'
     })
-    , amount = require('../../../shared/amount-input')({
+    , amount = require('../../shared/amount-input')({
         fixedCurrency: false,
         currency: 'BTC',
         currencies: currencies
@@ -121,6 +122,8 @@ module.exports = function() {
     controller.destroy = function() {
         timer && clearTimeout(timer)
     }
+
+    $el.find('.withdraw-nav').replaceWith(nav('ripple').$el)
 
     return controller
 }

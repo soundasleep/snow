@@ -1,12 +1,13 @@
 var template = require('./index.html')
 , _ = require('lodash')
+, nav = require('../nav')
 
 module.exports = function() {
     var $el = $('<div class="withdraw-bitcoin is-entry">').html($(template()))
     , controller = {
         $el: $el
     }
-    , amount = require('../../../shared/amount-input')({
+    , amount = require('../../shared/amount-input')({
         fixedCurrency: true,
         currency: 'BTC'
     })
@@ -116,6 +117,8 @@ module.exports = function() {
     controller.destroy = function() {
         timer && clearTimeout(timer)
     }
+
+    $el.find('.withdraw-nav').replaceWith(nav('bitcoin').$el)
 
     return controller
 }

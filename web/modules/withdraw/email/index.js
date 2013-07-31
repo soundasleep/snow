@@ -1,7 +1,8 @@
-var template = require('./template.html')
+var template = require('./index.html')
 , format = require('util').format
 , _ = require('lodash')
 , num = require('num')
+, nav = require('../nav')
 
 module.exports = function() {
     var $el = $('<div class="withdraw-email">').html(template())
@@ -139,6 +140,8 @@ module.exports = function() {
     })
 
     $transferForm.field('email').focusSoon()
+
+    $el.find('.withdraw-nav').replaceWith(nav('email').$el)
 
     return controller
 }
