@@ -45,7 +45,7 @@ api.on('user', function(user) {
         debug('checking phone')
         if (user.phone) return next()
         debug('not ok, need top verify phone')
-        var verifyphone = require('./controllers/verifyphone')()
+        var verifyphone = require('./modules/verifyphone')()
         $app.append(verifyphone.$el)
         verifyphone.$el.modal({
             keyboard: false,
@@ -58,7 +58,7 @@ api.on('user', function(user) {
         debug('checking email...')
         if (user.emailVerified) return next()
         debug('not ok, need to verify email')
-        var verifyemail = require('./controllers/verifyemail')()
+        var verifyemail = require('./modules/verifyemail')()
         $app.append(verifyemail.$el)
         verifyemail.$el.modal({
             keyboard: false,
@@ -83,7 +83,7 @@ $app.on('click', 'a[href="#set-language"]', function(e) {
 api.bootstrap().done(function() {
     var apiKey = $.cookie('apiKey')
 
-    var master = require('./controllers/master')
+    var master = require('./modules/master')
     master.render()
 
     if (apiKey) {
