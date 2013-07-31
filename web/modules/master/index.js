@@ -24,6 +24,7 @@ var master = module.exports = function(val, name) {
 }
 
 master.section = function(name) {
+    console.log('SETION', name)
     if (name !== undefined) {
         $nav.find('li').removeClass('active')
         name && $nav.find('.' + name).addClass('active')
@@ -44,7 +45,7 @@ master.render = function() {
 
     $section = $('#section')
     header = require('../top')()
-    $top = $('.top')
+    $top = header.$el
     $nav = $top.find('.nav')
     master.$el.find('.top').replaceWith(header.$el)
 

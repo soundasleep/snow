@@ -1,10 +1,13 @@
 var moment = require('moment')
+, nav = require('../nav')
 , _ = require('lodash')
+,  itemTemplate = require('./item.html')
+, template = require('./index.html')
 
 module.exports = function() {
-    var itemTemplate = require('./item.html')
+    var $el = $('<div class=account-activity>').html(template())
     , controller = {
-        $el: $(require('./template.html')())
+        $el: $el
     }
     , $items = controller.$el.find('.activities')
 
@@ -38,6 +41,8 @@ module.exports = function() {
     }
 
     refresh()
+
+    $el.find('.account-nav').replaceWith(nav('activity').$el)
 
     return controller
 }

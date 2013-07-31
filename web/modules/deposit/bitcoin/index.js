@@ -1,7 +1,10 @@
+var template = require('./index.html')
+, nav = require('../nav')
 
 module.exports = function() {
-    var controller = {
-        $el: $(require('./template.html')())
+    var $el = $('<div class=deposit-bitcoin>').html(template())
+    , controller = {
+        $el: $el
     }
     , $address = controller.$el.find('.address')
 
@@ -10,6 +13,8 @@ module.exports = function() {
     })
 
     api.bitcoinAddress.value || api.bitcoinAddress()
+
+    $el.find('.deposit-nav').replaceWith(nav('bitcoin').$el)
 
     return controller
 }

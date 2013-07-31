@@ -1,6 +1,10 @@
+var template = require('./index.html')
+, nav = require('../nav')
+
 module.exports = function() {
-    var controller = {
-        $el: $(require('./template.html')())
+    var $el = $('<div class=deposit-litecoin>').html(template())
+    , controller = {
+        $el: $el
     }
     , $address = controller.$el.find('.address')
 
@@ -9,6 +13,8 @@ module.exports = function() {
     })
 
     api.litecoinAddress.value || api.litecoinAddress()
+
+    $el.find('.deposit-nav').replaceWith(nav('litecoin').$el)
 
     return controller
 }

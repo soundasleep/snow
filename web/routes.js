@@ -4,7 +4,6 @@ var master = require('./modules/master')
 , login = require('./modules/login')
 , register = require('./modules/register')
 , notfound = require('./modules/notfound')
-, dashboard = require('./modules/dashboard')
 , terms = require('./modules/terms')
 , about = require('./modules/about')
 , privacy = require('./modules/privacy')
@@ -18,13 +17,11 @@ var master = require('./modules/master')
 module.exports = function() {
     router
     .add(/^$/, function() {
-        api.once('user', function(user) {
-            if (user) {
-                master(dashboard())
-            } else {
-                master(login())
-            }
-        })
+        if (api.user) {
+            return router.go('account/funds')
+        }
+
+        master(login())
     })
     .add(/^resetPassword$/, function() {
         master(resetPassword(), 'resetPassword')
@@ -77,6 +74,7 @@ module.exports = function() {
     })
 
     require('./modules/account/routes.js')(router, master, authorize)
+    require('./modules/deposit/routes.js')(router, master, authorize)
 
     router
     .add(/^(.+)$/, function(hash) {

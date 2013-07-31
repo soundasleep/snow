@@ -1,21 +1,16 @@
 module.exports = function(router, master, authorize) {
     return router
-    .add(/^account\/deposit\/bitcoin$/, function() {
+    .add(/^account$/, function() {
         if (!authorize.user()) return
-        master(require('./deposit/bitcoin')())
+        router.go('account/funds')
     })
-    .add(/^account\/deposit\/litecoin$/, function() {
+    .add(/^account\/funds$/, function() {
         if (!authorize.user()) return
-        master(require('./deposit/litecoin')())
+        master(require('./funds')())
     })
-    .add(/^account\/deposit\/bank$/, function() {
+    .add(/^account\/activity$/, function() {
         if (!authorize.user()) return
-        master(require('./deposit/bank')())
-    })
-    .add(/^account\/withdraw\/([a-z]+)$/, function(type) {
-        if (!authorize.user()) return
-        if (!authorize.identity()) return
-        master(require('./withdraw')(type))
+        master(require('./activity')())
     })
     .add(/^account\/bankaccounts$/, function() {
         if (!authorize.user()) return
@@ -27,6 +22,6 @@ module.exports = function(router, master, authorize) {
         master(require('./changepassword')())
     })
     .add(/^account\/apiKeys$/, function() {
-        master(require('./apiKeys')(), 'home')
+        master(require('./apiKeys')())
     })
 }
