@@ -115,7 +115,13 @@ module.exports = function(market) {
             } else {
                 var price = num($el.field('price').parseNumber())
                 , item = _.find(api.balances.current, { currency: quote })
-                , available = num(item.available)
+
+                if (!item) {
+                    debug('User does not have a %s balance', quote)
+                    return
+                }
+
+                var available = num(item.available)
                 , required = price.mul(amount)
 
                 if (available.lt(required)) {

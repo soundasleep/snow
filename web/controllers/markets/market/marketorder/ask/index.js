@@ -133,7 +133,13 @@ module.exports = function(market) {
                 $el.addClass('is-precision-too-high')
             } else {
                 var item = _.find(api.balances.current, { currency: base })
-                , available = item.available
+
+                if (!item) {
+                    debug('User does not have a %s balance', base)
+                    return
+                }
+
+                var available = item.available
 
                 if (num(sell).gt(available)) {
                     debug('Available %s < required %s', available.toString(),
@@ -210,8 +216,14 @@ module.exports = function(market) {
 
     $el.on('click', '[data-action="sell-all"]', function(e) {
         e.preventDefault()
-        $el.field('sell').val(numbers.format(
-            _.find(api.balances.current, { currency: base }).available))
+        var item = _.find(api.balances.current, { currency: base })
+
+        if (!item) {
+            alert(base + ' balance unknown')
+            return
+        }
+
+        $el.field('sell').val(numbers.format(item.available))
         $el.field('sell').trigger('change')
     })
 

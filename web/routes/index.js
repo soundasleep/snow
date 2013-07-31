@@ -113,8 +113,6 @@ module.exports = function() {
         master(depositnok(), 'depositnok')
     })
 
-    require('./admin').configure()
-
     router
     .add(/^(.+)$/, function(hash) {
         master(notfound(hash))

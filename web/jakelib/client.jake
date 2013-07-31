@@ -1,5 +1,5 @@
 /* global file, directory, task, cat */
-var base = 'build/client'
+var base = 'build'
 , common = require('./common')
 
 directory(base)
@@ -20,7 +20,7 @@ var vendor = [
     'components/bootstrap-notify/js/bootstrap-notify.js'
 ]
 
-task('client-dist', [
+task('dist', [
     'client',
     base + '/head.min.js',
     base + '/entry.min.js',
@@ -53,15 +53,15 @@ file(base + '/vendor.min.js', [base + '/vendor.js'], common.compressJs)
 file(base + '/head.min.js', [base + '/head.js'], common.compressJs)
 file(base + '/styles.min.css', [base + '/styles.css'], common.compressCss)
 
-file(base + '/img/registerbg.jpg', ['assets/client/img/registerbg.jpg'], common.copy)
-file(base + '/img/icon-top-bar.png', ['assets/client/img/icon-top-bar.png'], common.copy)
-file(base + '/img/flags/NO.png', ['assets/client/img/flags/NO.png'], common.copy)
-file(base + '/img/flags/US.png', ['assets/client/img/flags/US.png'], common.copy)
-file(base + '/img/flags/ES.png', ['assets/client/img/flags/ES.png'], common.copy)
+file(base + '/img/registerbg.jpg', ['assets/img/registerbg.jpg'], common.copy)
+file(base + '/img/icon-top-bar.png', ['assets/img/icon-top-bar.png'], common.copy)
+file(base + '/img/flags/NO.png', ['assets/img/flags/NO.png'], common.copy)
+file(base + '/img/flags/US.png', ['assets/img/flags/US.png'], common.copy)
+file(base + '/img/flags/ES.png', ['assets/img/flags/ES.png'], common.copy)
 
 file(base + '/index.html', function() {
     var ejs = require('ejs')
-    ejs.render(cat('assets/client/index.ejs'), {
+    ejs.render(cat('assets/index.ejs'), {
         minify: false,
         segment: process.env.SEGMENT,
         timestamp: +new Date(),
@@ -72,7 +72,7 @@ file(base + '/index.html', function() {
 
 file(base + '/index.min.html', function() {
     var ejs = require('ejs')
-    ejs.render(cat('assets/client/index.ejs'), {
+    ejs.render(cat('assets/index.ejs'), {
         minify: false,
         segment: process.env.SEGMENT,
         timestamp: +new Date(),
@@ -82,7 +82,7 @@ file(base + '/index.min.html', function() {
 })
 
 file(base + '/index.css', function() {
-    common.exec('stylus assets/client/index.styl -o ' + base)
+    common.exec('stylus assets/index.styl -o ' + base)
 })
 
 file(base + '/styles.css', [
@@ -91,10 +91,10 @@ file(base + '/styles.css', [
     'vendor/bootstrap/css/bootstrap.min.css',
     'vendor/bootstrap/css/bootstrap-responsive.min.css',
     'components/bootstrap-notify/css/bootstrap-notify.css',
-    'build/client/index.css'
+    'build/index.css'
 ], common.concatFiles)
 
 file(base + '/entry.js', ['build'].concat(vendor), function() {
-    var bundle = common.exec('browserify -d -t ./node_modules/browserify-ejs ./client.js')
+    var bundle = common.exec('browserify -d -t ./node_modules/browserify-ejs ./index.js')
     bundle.to(this.name)
 })

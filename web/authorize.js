@@ -9,11 +9,6 @@ exports.user = function(register) {
     router.go((register ? 'register' : 'login') + (after ? '?after=' + after : ''))
 }
 
-exports.admin = function() {
-    if (api.user && api.user.admin) return true
-    alert('Not admin')
-}
-
 exports.identity = function() {
     if (api.user && api.user.firstName) return true
     router.go('identity?after=' + window.location.hash.substr(1))

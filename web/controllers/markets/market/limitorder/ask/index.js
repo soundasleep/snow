@@ -113,7 +113,13 @@ module.exports = function(market) {
                 valid = true
             } else {
                 var item = _.find(api.balances.current, { currency: base })
-                , available = num(item.available)
+
+                if (!item) {
+                    debug('User does not have a %s balance', base)
+                    return
+                }
+
+                var available = num(item.available)
                 , required = amount
 
                 if (available.lt(required)) {
@@ -214,8 +220,14 @@ module.exports = function(market) {
 
     $el.on('click', '[data-action="sell-all"]', function(e) {
         e.preventDefault()
-        $el.field('amount').val(numbers.format(
-            _.find(api.balances.current, { currency: base }).available))
+        var item = _.find(api.balances.current, { currency: base })
+
+        if (!item) {
+            alert(base + ' balance unknown')
+            return
+        }
+
+        $el.field('amount').val(numbers.format(item.available))
         $el.field('amount').trigger('change')
     })
 

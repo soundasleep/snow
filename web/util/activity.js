@@ -51,15 +51,6 @@ function formatCreateOrder(details) {
     }
 }
 
-function formatAdminBankAccountCredit(details) {
-    return format('Admin: Credited user %s\'s bank account (#%s) with %s %s (%s)',
-        details.user_id,
-        details.bank_account_id,
-        numbers.format(details.amount),
-        details.currency_id,
-        details.reference)
-}
-
 module.exports = function(activity) {
     var details = activity.details
 
@@ -134,24 +125,6 @@ module.exports = function(activity) {
 
     if (activity.type == 'IdentitySet') {
         return i18n('activities.IdentitySet')
-    }
-
-    if (activity.type == 'AdminBankAccountCredit') {
-        return formatAdminBankAccountCredit(details)
-    }
-
-    if (activity.type == 'AdminWithdrawCancel') {
-        return format('Admin: Cancelled withdraw request #%s (%s)',
-            activity.details.id, activity.details.error)
-    }
-
-    if (activity.type == 'AdminWithdrawComplete') {
-        return format('Admin: Completed withdraw request #%s', activity.details.id)
-    }
-
-    if (activity.type == 'AdminWithdrawProcess') {
-        return format('Admin: Started processing withdraw request #%s',
-            activity.details.id)
     }
 
     return JSON.stringify(activity)

@@ -9,8 +9,6 @@ module.exports = exports = function(app) {
         app.auth.admin, exports.bankAccounts)
     app.post('/admin/users/:user/bankAccounts/:id/startVerify',
         app.auth.admin, exports.startBankAccountVerify)
-    app.get('/admin/users/:user/withdrawRequests', app.auth.admin,
-        exports.withdrawRequests)
     app.get('/admin/users/:user/activity', app.auth.admin, exports.activity)
     app.post('/admin/users/:user/sendVerificationEmail', app.auth.admin,
         exports.sendVerificationEmail)
@@ -250,44 +248,13 @@ exports.accounts = function(req, res, next) {
 exports.activity = function(req, res, next) {
     req.app.conn.read.query({
         text: [
-            'SELECT * FROM activity WHERE user_id = $1 ORDER BY created DESC LIMIT 100'
+            'SELECT * FROM activity WHERE user_id = $1 ORDER BY created_at DESC LIMIT 100'
         ].join('\n'),
         values: [req.params.user]
     }, function(err, dr) {
         if (err) return next(err)
         res.send(200, dr.rows.map(function(row) {
             row.details = JSON.parse(row.details)
-            return row
-        }))
-    })
-}
-
-exports.withdrawRequests = function(req, res, next) {
-    req.app.conn.read.query({
-        text: 'SELECT * FROM withdraw_request_view WHERE user_id = $1',
-        values: [req.params.user]
-    }, function(err, dr) {
-        if (err) return next(err)
-        res.send(dr.rows.map(function(row) {
-            var destination
-
-            if (row.method == 'BTC') {
-                destination = row.bitcoin_address
-            } else if (row.method == 'LTC') {
-                destination = row.litecoin_address
-            } else if (row.method == 'ripple') {
-                destination = row.ripple_address
-            } else if (row.method == 'bank') {
-                destination = row.bank_account_id
-            }
-
-            if (!destination) {
-                return next(new Error('Unknown destination for ' + JSON.stringify(row)))
-            }
-
-            row.destination = destination
-            row.amount = req.app.cache.formatCurrency(row.amount, row.currency_id)
-
             return row
         }))
     })
@@ -333,7 +300,20 @@ exports.buildQuery = function(params) {
         }).join(' OR '))
     }
 
-    query.push('ORDER BY user_id ASC')
+    var orders = []
+
+    // Prioritize direct matching of user id
+    if (params.user_id || params.all) {
+        values.push(params.user_id || params.all)
+        orders.push(format(
+            'CASE WHEN user_id::varchar = $%d THEN 0 ELSE 1 END',
+            values.length))
+    }
+
+    orders.push('user_id')
+
+    query.push('ORDER BY')
+    query.push(orders.join(','))
 
     return {
         text: query.join('\n'),
