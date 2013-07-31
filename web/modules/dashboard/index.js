@@ -1,4 +1,4 @@
-var Activities = require('../activities')
+var Activities = require('../account/activities')
 , Withdraws = require('./withdraws')
 , format = require('util').format
 , _ = require('lodash')
