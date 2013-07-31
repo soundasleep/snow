@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="span4">
+        <ul class="order-types nav nav-pills">
+            <li class="visible-order-type-bid active">
+                <a href="#trade/<%= market %>/advanced/buy">
+                    <%- i18n('markets.market.limitorder.order types.bid') %>
+                </a>
+            </li>
+            <li class="hidden-order-type-bid">
+                <a href="#trade/<%= market %>/advanced/buy">
+                    <%- i18n('markets.market.limitorder.order types.bid') %>
+                </a>
+            </li>
+
+            <li class="visible-order-type-ask active">
+                <a href="#trade/<%= market %>/advanced/sell">
+                    <%- i18n('markets.market.limitorder.order types.ask') %>
+                </a>
+            </li>
+            <li class="hidden-order-type-ask">
+                <a href="#trade/<%= market %>/advanced/sell">
+                    <%- i18n('markets.market.limitorder.order types.ask') %>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="visible-order-type-bid">
+    <div class="bid">
+    </div>
+</div>
+
+<div class="visible-order-type-ask">
+    <div class="ask">
+    </div>
+</div>

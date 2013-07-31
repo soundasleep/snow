@@ -1,6 +1,4 @@
 var master = require('./modules/master')
-, markets = require('./modules/markets')
-, orders = require('./modules/orders')
 , login = require('./modules/login')
 , register = require('./modules/register')
 , notfound = require('./modules/notfound')
@@ -30,18 +28,11 @@ module.exports = function() {
         $.removeCookie('apiKey')
         window.location = '/'
     })
-    .add(/^markets\/([A-Z]{6})$/, function(id) {
-        master(markets(id), 'markets')
-    })
     .add(/^register(?:\?after=(.+))?$/, function(after) {
         master(register(after), 'register')
     })
     .add(/^login(?:\?after=(.+))?$/, function(after) {
         master(login(after), 'login')
-    })
-    .add(/^orders$/, function() {
-        if (!authorize.user()) return
-        master(orders(), 'orders')
     })
     .add(/^vouchers$/, function() {
         if (!authorize.user()) return
@@ -76,6 +67,7 @@ module.exports = function() {
     require('./modules/account/routes.js')(router, master, authorize)
     require('./modules/deposit/routes.js')(router, master, authorize)
     require('./modules/withdraw/routes.js')(router, master, authorize)
+    require('./modules/trade/routes.js')(router, master, authorize)
 
     router
     .add(/^(.+)$/, function(hash) {

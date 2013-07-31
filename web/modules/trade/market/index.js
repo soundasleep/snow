@@ -1,9 +1,13 @@
-var template = require('./template.html')
+var template = require('./index.html')
+, nav = require('../nav')
 
-module.exports = function(market) {
-    var $el = $('<div class="market">').html(template({
+module.exports = function(market, mode, type) {
+    var $el = $('<div class="trade-market">').html(template({
         base: market.substr(0, 3),
-        quote: market.substr(3, 3)
+        quote: market.substr(3, 3),
+        id: market,
+        mode: mode == 'limit' ? 'advanced' : 'instant',
+        type: type == 'ask' ? 'sell' : 'buy'
     }))
     , controller = {
         $el: $el
@@ -25,20 +29,18 @@ module.exports = function(market) {
         $el.find('input:visible:first').focus()
     }
 
-    // Change order mode
-    $el.on('click', '[data-action="toggle-order-mode"]', function(e) {
-        e.preventDefault()
-        var mode = $(this).attr('data-order-mode')
-        setOrderMode(mode)
-    })
+    setOrderMode(mode)
 
-    setOrderMode('market')
+    var subModule = mode == 'limit' ? limitOrder : marketOrder
+    subModule.setOrderType(type)
 
     controller.destroy = function() {
         marketOrder.destroy()
         limitOrder.destroy()
         depth.destroy()
     }
+
+    $el.find('.trade-nav').replaceWith(nav(market, mode, type).$el)
 
     return controller
 }

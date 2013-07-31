@@ -1,9 +1,10 @@
-var template = require('./template.html')
+var template = require('./index.html')
 
 module.exports = function(market) {
     var $el = $('<div class="market-order">').html(template({
         base: market.substr(0, 3),
-        quote: market.substr(3, 3)
+        quote: market.substr(3, 3),
+        market: market
     }))
     , controller = {
         $el: $el
@@ -39,7 +40,7 @@ module.exports = function(market) {
         ask.destroy()
     }
 
-    setOrderType('bid')
+    controller.setOrderType = setOrderType
 
     return controller
 }

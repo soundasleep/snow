@@ -1,8 +1,10 @@
 var itemTemplate = require('./item.html')
 , historyItemTemplate = require('./history-item.html')
+, template = require('./index.html')
+, nav = require('../nav')
 
 module.exports = function() {
-    var $el = $('<div class="orders">').html(require('./template.html')())
+    var $el = $('<div class=trade-orders>').html(template())
     , controller = {
         $el: $el
     }
@@ -54,6 +56,8 @@ module.exports = function() {
 
     refresh()
     refreshHistory()
+
+    $el.find('.trade-nav').replaceWith(nav('orders').$el)
 
     return controller
 }

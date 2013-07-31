@@ -1,0 +1,33 @@
+.markets-nav
+    height 2em
+
+#section > .trade-market
+    states order-mode-limit order-mode-market too-deep
+
+    .order-modes
+        font-size 1.15em
+
+#section > .trade-market .limit-order
+    .order-types
+        font-size 1.15em
+
+    .amount
+        states insufficient-funds precision-too-high
+
+    .price
+        states precision-too-high
+
+    .span4
+        max-width 19em
+
+#section > .trade-market .market-order .ask
+    states insufficient-funds precision-too-high
+
+    .span4
+        max-width 17.5em
+
+#section > .trade-market .market-order
+    states order-type-bid order-type-ask
+
+    .order-types
+        font-size 1.15em

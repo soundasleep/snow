@@ -1,6 +1,6 @@
 var num = require('num')
 , _ = require('lodash')
-, template = require('./template.html')
+, template = require('./index.html')
 , debug = require('../../../../../util/debug')('trade')
 
 module.exports = function(market) {

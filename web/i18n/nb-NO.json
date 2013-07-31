@@ -184,8 +184,8 @@
 
 
     "markets.market.heading": "Bytt %s for %s",
-    "markets.market.instant order": "Ekspress-ordre",
-    "markets.market.limit order": "Avansert ordre",
+    "markets.market.instant order": "Ekspress",
+    "markets.market.limit order": "Avansert",
     "markets.market.marketorder.buy bitcoin": "Kjøp Bitcoin",
     "markets.market.marketorder.sell bitcoin": "Selg Bitcoin",
     "markets.market.marketorder.bid.you have": "Du har",
