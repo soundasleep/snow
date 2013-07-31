@@ -1,39 +1,41 @@
 var _ = require('lodash')
+, template = require('./template.html')
+, format = require('util').format
 
 module.exports = function() {
-    var balanceTemplate = require('./balance.html')
-    , $el = $(require('./template.html')())
+    var $el = $('<div class="top">').html(template())
     , controller = {
         $el: $el
     }
-    , $summary = controller.$el.find('.account-summary')
     , balancesTimer
-    , $balances = $summary.find('.balances')
-    , oldBalances
 
     function balancesChanged(balances) {
-        balances = _.filter(balances, function(x) {
-            return x.available > 0 || x.currency == 'BTC'
+        var fiats = _.filter(balances, function(x) {
+            return ~['NOK'].indexOf(x.currency)
         })
 
-        $balances.html($.map(balances, function(item) {
-            return balanceTemplate(item)
+        var digitals = _.filter(balances, function(x) {
+            return ~['BTC', 'LTC', 'XRP'].indexOf(x.currency)
+        })
+
+        var $fiats = $el.find('.fiat-currencies')
+        , $fiat = $el.find('.fiat-balance')
+        , $digitals = $el.find('.digital-currencies')
+        , $digital = $el.find('.digital-balance')
+
+        $fiats.html($.map(fiats, function(item) {
+            return format('<a>%s</a>', numbers.format(item.available, { currency: item.currency }))
         }))
 
-        if (oldBalances) {
-            var changed = _.filter(balances, function(x) {
-                var ob = _.find(oldBalances, { currency: x.currency })
-                return !ob || ob.available != x.available
-            })
+        $digitals.html($.map(digitals, function(item) {
+            return format('<a>%s</a>', numbers.format(item.available, { currency: item.currency }))
+        }))
 
-            _.each(changed, function(x) {
-                var $available = $balances.find('.balance[data-currency="' +
-                    x.currency + '"] .available')
-                $available.addClass('flash')
-            })
-        }
+        var fiat = _.find(fiats, { currency: 'NOK' })
+        , digital = _.find(digitals, { currency: 'BTC' })
 
-        oldBalances = balances
+        $fiat.html(numbers.format(fiat.available, { currency: fiat.currency }))
+        $digital.html(numbers.format(digital.available, { currency: digital.currency }))
     }
 
     api.on('balances', function(balances) {
@@ -43,7 +45,7 @@ module.exports = function() {
     })
 
     api.on('user', function(user) {
-        $summary.find('.email').html(user.email)
+        $el.find('.user-name').html(user.firstName || user.email)
         api.balances()
     })
 

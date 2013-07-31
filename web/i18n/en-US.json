@@ -26,8 +26,11 @@
     "amount": "Amount",
     "price": "Price",
 
-    "top.existing user": "Log in",
-    "top.new user": "Register",
+    "top.account": "Account",
+    "top.trade": "Trade",
+    "top.deposit": "Deposit",
+    "top.withdraw": "Withdraw",
+    "top.log out": "Log out",
 
     "register.heading": "Start using Justcoin.",
     "register.tagline": "Justcoin lets you buy and sell digital currencies, like Bitcoin.",

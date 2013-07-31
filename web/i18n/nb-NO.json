@@ -18,8 +18,11 @@
     "markets": "Markeder",
     "sign out": "Logg ut",
 
-    "top.existing user": "Logg inn",
-    "top.new user": "Registrere",
+    "top.account": "Konto",
+    "top.trade": "Handle",
+    "top.deposit": "Innskudd",
+    "top.withdraw": "Uttak",
+    "top.log out": "Logg ut",
 
     "register.heading": "Start med Justcoin.",
     "register.tagline": "Justcoin lar deg kjøpe og selge digital valuta, som Bitcoin.",
