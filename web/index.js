@@ -104,6 +104,8 @@ api.bootstrap().done(function() {
     }
 
     $(window).on('hashchange', function() {
+        $(window).scrollTop(0)
+
         if (typeof analytics != 'undefined') {
             analytics.pageview()
         }
