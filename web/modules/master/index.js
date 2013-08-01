@@ -47,6 +47,7 @@ master.render = function() {
     $top = header.$el
     $nav = $top.find('.nav')
     master.$el.find('.top').replaceWith(header.$el)
+    master.$el.find('.footer').replaceWith(require('./footer')().$el)
 
     return master.$l
 }
