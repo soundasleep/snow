@@ -1,4 +1,4 @@
-#section > .withdraw-bitcoin
+#area > .withdraw-bitcoin
     states entry review summary
 
     .entry, .review, .summary
@@ -32,7 +32,7 @@
         .status
             states requested processing completed cancelled updating
 
-#section > .withdraw-email
+#area > .withdraw-email
     .transfer-form, .send-form, .send-confirmed
         border solid 1px #ccc
         background-color #fafafa
@@ -68,7 +68,7 @@
             width 100%
             max-width 13.7em
 
-#section > .withdraw-litecoin
+#area > .withdraw-litecoin
     states entry review summary
 
     .entry, .review, .summary
@@ -102,7 +102,7 @@
         .status
             states requested processing completed cancelled updating
 
-#section > .withdraw-ripple
+#area > .withdraw-ripple
     states entry review summary
 
     .entry, .review, .summary
@@ -135,3 +135,27 @@
     .summary
         .status
             states requested processing completed cancelled updating
+
+#area > .withdraw-voucher
+    states created creating
+
+    .form
+        max-width 28em
+
+        .control-label
+            width 5em
+
+        .controls
+            margin-left 6.5em
+
+            select, input, button
+                width 100%
+                max-width 10em
+
+            input
+                max-width 9em
+
+.withdraw-nav
+    .nav li i
+        display inline-block
+        width 1.1em

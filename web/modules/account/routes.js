@@ -8,6 +8,10 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user()) return
         master(require('./funds')(), 'account')
     })
+    .add(/^account\/vouchers$/, function() {
+        if (!authorize.user()) return
+        master(require('./vouchers')(), 'account')
+    })
     .add(/^account\/activity$/, function() {
         if (!authorize.user()) return
         master(require('./activity')(), 'account')

@@ -8,6 +8,10 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user()) return
         master(require('./bitcoin')(), 'withdraw')
     })
+    .add(/^withdraw\/voucher$/, function() {
+        if (!authorize.user()) return
+        master(require('./voucher')(), 'withdraw')
+    })
     .add(/^withdraw\/litecoin$/, function() {
         if (!authorize.user()) return
         master(require('./litecoin')(), 'withdraw')

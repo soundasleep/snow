@@ -1,5 +1,6 @@
-var template = require('./template.html')
+var template = require('./index.html')
 , itemTemplate = require('./item.html')
+, nav = require('../nav')
 
 module.exports = function() {
     var $el = $('<div class="vouchers">').html(template())
@@ -40,6 +41,8 @@ module.exports = function() {
     })
 
     refresh()
+
+    $el.find('.account-nav').replaceWith(nav('vouchers').$el)
 
     return controller
 }

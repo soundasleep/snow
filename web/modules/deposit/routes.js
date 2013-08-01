@@ -17,4 +17,12 @@ module.exports = function(router, master, authorize) {
         if (!authorize.identity()) return
         master(require('./bank')(), 'deposit')
     })
+    .add(/^deposit\/voucher$/, function() {
+        if (!authorize.user()) return
+        master(require('./voucher')(), 'deposit')
+    })
+    .add(/^([a-z0-9]{12})$/i, function(code) {
+        if (!authorize.user(true)) return
+        master(require('./voucher')(code), 'redeem-voucher')
+    })
 }

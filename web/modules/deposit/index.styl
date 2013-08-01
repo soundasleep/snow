@@ -1,19 +1,40 @@
-#section > .deposit-btc
+#area > .deposit-btc
     .address
         font-size 1.6em
         padding-top 20px
         padding-bottom 20px
         text-align center
         border solid 1px #ccc
+
     .disclaimer
         font-size 0.85em
 
-#section > .deposit-ltc
+#area > .deposit-ltc
     .address
         font-size 1.6em
         padding-top 20px
         padding-bottom 20px
         text-align center
         border solid 1px #ccc
+
     .disclaimer
         font-size 0.85em
+
+#area > .deposit-voucher
+    states redeeming redeemed cancelled
+
+    .form
+        max-width 28em
+
+        .control-label
+            width 5em
+
+        .controls
+            margin-left 6.5em
+
+            select, input, button
+                width 100%
+                max-width 11em
+
+            input
+                max-width 10em

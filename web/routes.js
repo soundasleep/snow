@@ -2,14 +2,8 @@ var master = require('./modules/master')
 , login = require('./modules/login')
 , register = require('./modules/register')
 , notfound = require('./modules/notfound')
-, terms = require('./modules/terms')
-, about = require('./modules/about')
-, privacy = require('./modules/privacy')
 , identity = require('./modules/identity')
 , resetPassword = require('./modules/resetPassword')
-, createvoucher = require('./modules/vouchers/create')
-, redeemvoucher = require('./modules/vouchers/redeem')
-, vouchers = require('./modules/vouchers/index')
 , authorize = require('./authorize')
 
 module.exports = function() {
@@ -34,40 +28,16 @@ module.exports = function() {
     .add(/^login(?:\?after=(.+))?$/, function(after) {
         master(login(after), 'login')
     })
-    .add(/^vouchers$/, function() {
-        if (!authorize.user()) return
-        master(vouchers())
-    })
-    .add(/^vouchers\/create$/, function() {
-        if (!authorize.user()) return
-        master(createvoucher())
-    })
-    .add(/^vouchers\/redeem$/, function() {
-        if (!authorize.user()) return
-        master(redeemvoucher())
-    })
     .add(/^identity(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return
         master(identity(after), 'identity')
-    })
-    .add(/^terms$/, function() {
-        master(terms(), 'terms')
-    })
-    .add(/^about$/, function() {
-        master(about(), 'about')
-    })
-    .add(/^privacy$/, function() {
-        master(privacy(), 'privacy')
-    })
-    .add(/^([a-z0-9]{12})$/i, function(code) {
-        if (!authorize.user(true)) return
-        master(redeemvoucher(code), 'redeem-voucher')
     })
 
     require('./modules/account/routes.js')(router, master, authorize)
     require('./modules/deposit/routes.js')(router, master, authorize)
     require('./modules/withdraw/routes.js')(router, master, authorize)
     require('./modules/trade/routes.js')(router, master, authorize)
+    require('./modules/about/routes.js')(router, master, authorize)
 
     router
     .add(/^(.+)$/, function(hash) {

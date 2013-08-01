@@ -1,9 +1,10 @@
-var template = require('./template.html')
+var template = require('./index.html')
 , sjcl = require('../../../vendor/sjcl')
 , _ = require('lodash')
+, nav = require('../nav')
 
 module.exports = function(code) {
-    var $el = $('<div class="redeem-voucher">').html(template())
+    var $el = $('<div class=deposit-voucher>').html(template())
     , controller = {
         $el: $el
     }
@@ -96,9 +97,9 @@ module.exports = function(code) {
         window.location.reload()
     })
 
-
-
     $form.field('code').focusSoon()
+
+    $el.find('.deposit-nav').replaceWith(nav('voucher').$el)
 
     return controller
 }

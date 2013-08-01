@@ -1,14 +1,14 @@
 var debug = require('../../util/debug')('snow:master')
 , page
 , template = require('./index.html')
-, section
-, $section
+, area
+, $area
 , header
 , $top
 , $nav
 
 var master = module.exports = function(val, name) {
-    if (!$section) {
+    if (!$area) {
         throw new Error('master called before render')
     }
 
@@ -17,23 +17,23 @@ var master = module.exports = function(val, name) {
             page.destroy()
         }
         page = val
-        $section.html(page.$el)
-        master.section(name || null)
+        $area.html(page.$el)
+        master.area(name || null)
     }
     return page
 }
 
-master.section = function(name) {
+master.area = function(name) {
     if (name !== undefined) {
         $nav.find('li').removeClass('active')
         name && $nav.find('.' + name).addClass('active')
 
-        master.$el.removeClasses(/^is-section-/)
-        name && master.$el.addClass('is-section-' + name)
+        master.$el.removeClasses(/^is-area-/)
+        name && master.$el.addClass('is-area-' + name)
 
-        section = name
+        area = name
     }
-    return section
+    return area
 }
 
 master.render = function() {
@@ -42,7 +42,7 @@ master.render = function() {
     master.$el = $('body')
     master.$el.prepend(template())
 
-    $section = $('#section')
+    $area = $('#area')
     header = require('../top')()
     $top = header.$el
     $nav = $top.find('.nav')

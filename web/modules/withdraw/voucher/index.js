@@ -1,7 +1,8 @@
 var _ = require('lodash')
-, template = require('./template.html')
+, template = require('./index.html')
 , format = require('util').format
 , num = require('num')
+, nav = require('../nav')
 
 module.exports = function() {
     var $el = $('<div class="create-voucher is-creating">').html(template())
@@ -132,6 +133,8 @@ module.exports = function() {
     }
 
     $form.field('amount').focusSoon()
+
+    $el.find('.withdraw-nav').replaceWith(nav('voucher').$el)
 
     return controller
 }
