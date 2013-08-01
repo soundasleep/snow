@@ -1,6 +1,6 @@
 <div class="row">
     <div class="span4 well">
-        <p style="margin-bottom:2em;">
+        <p class="available-container">
             <%- i18n('markets.market.limitorder.bid.available.you have') %>
             <span class="available">...</span>
         </p>
@@ -48,12 +48,12 @@
                 </div>
             </div>
 
-            <table class="table" style="margin-bottom:2em;max-width:22em;font-size:0.85em;">
+            <table class="order-summary table">
                 <tr>
-                    <td>
+                    <th>
                         <%- i18n('markets.market.limitorder.bid.summary.order total') %>
-                    </td>
-                    <td style="text-align:right;">
+                    </th>
+                    <td>
                         <span class="visible-valid">
                             <span class="quote"></span> <%= quote %>
                         </span>
@@ -63,7 +63,7 @@
 
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-success btn-large" style="width:100%;max-width:15em;">
+                    <button type="submit" class="btn btn-success btn-large">
                         <%- i18n('markets.market.limitorder.bid.submit') %>
                     </button>
                 </div>

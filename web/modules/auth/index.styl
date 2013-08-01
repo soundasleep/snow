@@ -16,6 +16,10 @@
     .email .help-inline
         visibility visible
 
+    .new-user
+        position relative
+        top -15px
+
 #area > .auth-register
     max-width: 550px
     padding: 19px 0px 29px 100px
@@ -47,6 +51,13 @@
     .email .help-inline
         visibility visible
 
+    .existing-container
+        padding-top 1em
+
+    .existing
+        position relative
+        top -15px
+
 #area > .auth-verifyphone
     .call
         select[name="country"]
@@ -59,6 +70,20 @@
             margin-right 15px
         button
             width 120px
+
+    .code-form
+        display none
+
+#area > .auth-identity
+    form
+        margin-top 25px
+
+        button[type="submit"]
+            width 220px
+
+#area > .auth-resetpassword
+    .phone, .end
+        display none
 
 .is-area-register
 .is-area-login
@@ -76,3 +101,4 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+

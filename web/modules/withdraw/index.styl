@@ -7,6 +7,10 @@
         padding 1.5em 6em 2em 2em
         max-width 40em
 
+    .review
+        .actions
+            margin-top 3em
+
     .control-label
         max-width 7.5em
 
@@ -31,6 +35,10 @@
     .summary
         .status
             states requested processing completed cancelled updating
+
+    .payment-details
+        margin 3em 0 3em
+        width auto
 
 #area > .withdraw-email
     .transfer-form, .send-form, .send-confirmed
@@ -102,6 +110,14 @@
         .status
             states requested processing completed cancelled updating
 
+    .payment-details
+        margin 3em 0 3em
+        width auto
+
+    .review
+        .actions
+            margin-top 3em
+
 #area > .withdraw-ripple
     states entry review summary
 
@@ -136,6 +152,14 @@
         .status
             states requested processing completed cancelled updating
 
+    .payment-details
+        margin 3em 0 3em
+        width auto
+
+    .review
+        .actions
+            margin-top 3em
+
 #area > .withdraw-voucher
     states created creating
 
@@ -154,6 +178,14 @@
 
             input
                 max-width 9em
+
+#area > .withdraw-bank
+    .no-bank-accounts
+        display none
+
+#area > .withdraw-withdraws
+    table.withdraws
+        width auto
 
 .withdraw-nav
     .nav li i

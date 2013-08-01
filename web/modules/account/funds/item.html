@@ -1,6 +1,6 @@
-<tr data-id="<%= currency %>">
+<tr class="currency" data-id="<%= currency %>">
     <td><%- currency %></td>
-    <td style="text-align:right"><%- numbers.format(balance, { trim: false, maxPrecision: 3 }) %></td>
-    <td style="text-align:right"><%- numbers.format(hold, { trim: false, maxPrecision: 3 }) %></td>
-    <td style="text-align:right"><%- numbers.format(available, { trim: false, maxPrecision: 3 }) %></td>
+    <td class="amount"><%- numbers.format(balance, { trim: false, maxPrecision: 3 }) %></td>
+    <td class="amount"><%- numbers.format(hold, { trim: false, maxPrecision: 3 }) %></td>
+    <td class="amount"><%- numbers.format(available, { trim: false, maxPrecision: 3 }) %></td>
 </tr>
