@@ -1,33 +1,31 @@
+// TODO: Qualify with area
 .markets-nav
     height 2em
 
 #section > .trade-market
-    states order-mode-limit order-mode-market too-deep
+    states order-mode-limit order-mode-market
 
     .order-modes
         font-size 1.15em
 
-#section > .trade-market .limit-order
     .order-types
         font-size 1.15em
 
-    .amount
+    .amount, .spend
         states insufficient-funds precision-too-high
 
-    .price
-        states precision-too-high
+    .market-order, .limit-order
+        states order-type-bid order-type-ask
 
-    .span4
-        max-width 19em
+    .limit-order
+        .price
+            states precision-too-high
 
-#section > .trade-market .market-order .ask
-    states insufficient-funds precision-too-high
+    .market-order
+        .amount
+            too-deep
 
-    .span4
-        max-width 17.5em
-
-#section > .trade-market .market-order
-    states order-type-bid order-type-ask
-
-    .order-types
-        font-size 1.15em
+#section > .trade-orders
+    .active-orders, .order-history
+        td.number
+            text-align right
