@@ -1,6 +1,6 @@
 var debug = require('../../util/debug')('snow:master')
 , page
-, template = require('./template.html')
+, template = require('./index.html')
 , section
 , $section
 , header
@@ -24,7 +24,6 @@ var master = module.exports = function(val, name) {
 }
 
 master.section = function(name) {
-    console.log('SETION', name)
     if (name !== undefined) {
         $nav.find('li').removeClass('active')
         name && $nav.find('.' + name).addClass('active')
