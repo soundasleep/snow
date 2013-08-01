@@ -43,7 +43,7 @@ master.render = function() {
     master.$el.prepend(template())
 
     $area = $('#area')
-    header = require('../top')()
+    header = require('./top')()
     $top = header.$el
     $nav = $top.find('.nav')
     master.$el.find('.top').replaceWith(header.$el)
