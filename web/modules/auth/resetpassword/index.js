@@ -1,7 +1,9 @@
-require('../../vendor/shake')
+require('../../../vendor/shake')
+
+var template = require('./index.html')
 
 module.exports = function() {
-    var $el = $(require('./template.html')())
+    var $el = $('<div class=auth-resetpassword>').html(template())
     , controller = {
         $el: $el
     }

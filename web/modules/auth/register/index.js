@@ -1,12 +1,13 @@
-require('../../vendor/shake')
+require('../../../vendor/shake')
 
 var _ = require('lodash')
 , validateEmailTimer
 , validatePasswordTimer
 , validateRepeatTimer
+, template = require('./index.html')
 
 module.exports = function(after) {
-    var $el = $(require('./template.html')())
+    var $el = $('<div class=auth-register>').html(template())
     , controller = {
         $el: $el
     }
@@ -166,7 +167,7 @@ module.exports = function(after) {
             .removeClass('is-loading')
             .html(i18n('register.create button'))
         }).done(function() {
-            router.go(after || '')
+            router.after(after)
         }).fail(function(err) {
             if (err.name == 'EmailFailedCheck') {
                 $email.find('input').focus()

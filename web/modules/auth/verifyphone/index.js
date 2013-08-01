@@ -1,9 +1,10 @@
 var util = require('util')
 , _ = require('lodash')
-, debug = require('../../util/debug')('verifyemail')
+, debug = require('../../../util/debug')('verifyemail')
+, template = require('./index.html')
 
 module.exports = function() {
-    var $el = $(require('./template.html')())
+    var $el = $('<div class=verifyphone>').html(template())
     , controller = {
         $el: $el
     }
@@ -15,7 +16,7 @@ module.exports = function() {
     , number
 
     // Add countries
-    var countries = require('../../assets/callingcodes.json')
+    var countries = require('../../../assets/callingcodes.json')
     $country.append(_.map(countries, function(country) {
         return util.format('<option value="%s">%s (%s)</option>',
             country.code, country.name, country.dial_code)

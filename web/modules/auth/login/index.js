@@ -1,11 +1,12 @@
-require('../../vendor/shake')
+require('../../../vendor/shake')
 
 var _ = require('lodash')
-, debug = require('../../util/debug')('login')
+, debug = require('../../../util/debug')('login')
+, template = require('./index.html')
 
 module.exports = function(after) {
     var controller = {
-        $el: $(require('./template.html')())
+        $el: $('<div class=auth-login>').html(template())
     }
     , $form = controller.$el.find('.login')
     , $email = $form.find('.control-group.email')
@@ -117,7 +118,7 @@ module.exports = function(after) {
             .html(i18n('login.login button'))
         }).done(function() {
             debug('login success')
-            window.location.hash = '#' + (after || '')
+            router.after(after)
         }).fail(function(err) {
             if (err !== null && err.name == 'UnknownApiKey') {
                 $email

@@ -1,7 +1,8 @@
-var debug = require('../../util/debug')('verifyemail')
+var debug = require('../../../util/debug')('verifyemail')
+, template = require('./index.html')
 
 module.exports = function() {
-    var $el = $(require('./template.html')({
+    var $el = $('<div class=auth-verifyemail>').html(template({
         email: api.user.email
     }))
     , controller = {

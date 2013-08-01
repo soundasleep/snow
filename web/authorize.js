@@ -4,12 +4,12 @@ exports.user = function(register) {
     var after = window.location.hash.substr(1)
 
     // Avoid looping after-inception
-    after = after.replace(/(register|login)(\?after=)?/, '')
+    after = after.replace(/(register|login|auth\/)(\?after=)?/g, '')
 
-    router.go((register ? 'register' : 'login') + (after ? '?after=' + after : ''))
+    router.go((register ? 'auth/register' : 'auth/login') + (after ? '?after=' + after : ''))
 }
 
 exports.identity = function() {
     if (api.user && api.user.firstName) return true
-    router.go('identity?after=' + window.location.hash.substr(1))
+    router.go('auth/identity?after=' + window.location.hash.substr(1))
 }

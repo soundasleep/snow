@@ -44,8 +44,8 @@ api.on('user', function(user) {
     var checkPhone = function(next) {
         debug('checking phone')
         if (user.phone) return next()
-        debug('not ok, need top verify phone')
-        var verifyphone = require('./modules/verifyphone')()
+        debug('not ok, need to verify phone')
+        var verifyphone = require('./modules/auth/verifyphone')()
         $app.append(verifyphone.$el)
         verifyphone.$el.modal({
             keyboard: false,
@@ -58,7 +58,7 @@ api.on('user', function(user) {
         debug('checking email...')
         if (user.emailVerified) return next()
         debug('not ok, need to verify email')
-        var verifyemail = require('./modules/verifyemail')()
+        var verifyemail = require('./modules/auth/verifyemail')()
         $app.append(verifyemail.$el)
         verifyemail.$el.modal({
             keyboard: false,
@@ -68,10 +68,11 @@ api.on('user', function(user) {
     }
 
     checkEmail(function() {
-        //checkPhone(function() {
-        //    debug('verifications done')
         api.activities()
-        //})
+        /*checkPhone(function() {
+            debug('verifications done')
+            api.activities()
+        })*/
     })
 })
 

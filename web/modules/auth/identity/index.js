@@ -1,14 +1,15 @@
 var util = require('util')
 , _ = require('lodash')
+, template = require('./index.html')
 
 module.exports = function(after) {
-    var $el = $(require('./template.html')())
+    var $el = $('<div class=auth-identity>').html(template())
     , controller = {
         $el: $el
     }
     , $form = $el.find('form')
 
-    var countries = require('../../assets/callingcodes.json')
+    var countries = require('../../../assets/callingcodes.json')
     , $country = $el.find('.country')
     $country.append(_.map(countries, function(country) {
         return util.format('<option value="%s">%s</option>', country.code, country.name)
@@ -46,7 +47,7 @@ module.exports = function(after) {
                 })
             }
 
-            window.location.hash = '#' + (after || '')
+            router.after(after)
         })
         .fail(function(xhr) {
             errors.alertFromXhr(xhr)
