@@ -1,7 +1,7 @@
 require('../../../vendor/shake')
 
 module.exports = function() {
-    var $el = $(require('./template.html')())
+    var $el = $(require('./index.html')())
     , controller = {
         $el: $el
     }

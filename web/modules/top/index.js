@@ -1,5 +1,5 @@
 var _ = require('lodash')
-, template = require('./template.html')
+, template = require('./index.html')
 , format = require('util').format
 
 module.exports = function() {

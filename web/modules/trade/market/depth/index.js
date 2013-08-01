@@ -1,6 +1,6 @@
 var _ = require('lodash')
 , priceTemplate = require('./price.html')
-, template = require('./template.html')
+, template = require('./index.html')
 
 module.exports = function(id) {
     var base = id.substr(0, 3)
