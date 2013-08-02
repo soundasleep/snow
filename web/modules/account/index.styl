@@ -18,7 +18,29 @@
 
 #area > .account-funds
     .balances
-         width: auto
+        //width: auto
+        a[href="#my/withdraw/XRP"],
+        a[href="#my/deposit/XRP"],
+        a[href^="#my/send"]
+            display: none
 
-         tr .amount
+         tr .amount, th.amount
             text-align right
+
+        th
+            font-size 1.3em
+
+        td.currency
+            font-size 1.3em
+
+        .balance
+            td
+                padding 15px 20px 10px 20px
+
+        .available
+            font-size 2em
+            color #555
+            text-align right
+
+    .withdraws.is-empty
+        display none

@@ -1,39 +1,40 @@
 <div class="container">
     <div class="row">
         <div class="withdraw-nav"></div>
-        <div class="span6">
-            <h3>Create voucher</h3>
+        <div class="col-lg-9">
+            <h1>Create voucher</h1>
+
+            <p class="lead">
+                A voucher is like a gift card. You can cancel the voucher at any time
+                from the <a href="#account/vouchers">vouchers page</a>.
+            </p>
 
             <div class="create visible-creating">
-                <form class="form form-horizontal well">
-                    <div class="currency control-group">
-                        <label class="control-label">
-                            Currency
-                        </label>
+                <form class="form">
+                    <div class="row">
+                        <div class="col-lg-6 panel">
+                            <div class="currency form-group">
+                                <label>
+                                    Currency
+                                </label>
 
-                        <div class="controls">
-                            <select name="currency"></select>
-                        </div>
-                    </div>
+                                <select name="currency" class="form-control"></select>
+                            </div>
 
-                    <div class="amount control-group">
-                        <label class="control-label">
-                            Amount
-                        </label>
+                            <div class="amount form-group">
+                                <label>
+                                    Amount
+                                </label>
 
-                        <div class="controls">
-                            <input type="text" name="amount" />
-                            <span class="help-inline">
-                                of <span class="available"></span>
-                            </span>
-                        </div>
-                    </div>
+                                <input type="text" name="amount" class="form-control" />
+                                <span class="help-block">
+                                    of <span class="available"></span>
+                                </span>
+                            </div>
 
-                    <div class="control-group">
-                        <label class="control-label"></label>
-
-                        <div class="controls">
-                            <button type="submit" class="submit btn btn-success">Create voucher</button>
+                            <div class="form-group">
+                                <button type="submit" class="submit btn btn-primary btn-block btn-large">Create voucher</button>
+                            </div>
                         </div>
                     </div>
                 </form>

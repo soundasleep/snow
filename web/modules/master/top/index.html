@@ -1,59 +1,64 @@
-<div class="top navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="brand" href="#account" title="Justcoin">
-                <img src="img/icon.png" alt="Justcoin" />
-            </a>
-            <div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li class="account"><a href="#account"><%= i18n('top.account') %></a></li>
-                    <li class="trade"><a href="#trade"><%= i18n('top.trade') %></a></li>
-                    <li class="deposit"><a href="#deposit"><%= i18n('top.deposit') %></a></li>
-                    <li class="withdraw"><a href="#withdraw"><%= i18n('top.withdraw') %></a></li>
+<div class="top navbar navbar-inverse navbar-fixed-top jc-nav">
+    <div class="container" style="width:auto">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <a class="navbar-brand" href="#account" title="Justcoin">
+            <img src="img/icon-inverse.png" alt="Justcoin" />
+        </a>
+
+        <div class="nav-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                <li class="account"><a href="#account"><%= i18n('top.account') %></a></li>
+                <li class="trade"><a href="#trade"><%= i18n('top.trade') %></a></li>
+                <li class="deposit"><a href="#deposit"><%= i18n('top.deposit') %></a></li>
+                <li class="withdraw"><a href="#withdraw"><%= i18n('top.withdraw') %></a></li>
+            </ul>
+
+            <div class="pull-right">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a>
+                        </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="fiat-balance"></span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="fiat-currencies">
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="digital-balance"></span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="digital-currencies">
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#account"><span class="user-name"></span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-cog"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#signOut"><%- i18n('top.log out') %></a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-
-                <div class="pull-right">
-                    <ul class="nav">
-                        <li><a><span class="fiat-balance"></span></a></li>
-                        <li class="dropdown pull-right">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="fiat-currencies">
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li><a><span class="digital-balance"></span></a></li>
-                        <li class="dropdown pull-right">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="digital-currencies">
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li><a href="#account"><span class="user-name"></span></a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-cog"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="#signOut"><%- i18n('top.log out') %></a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>

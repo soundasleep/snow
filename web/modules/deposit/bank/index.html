@@ -2,38 +2,32 @@
     <div class="row">
         <div class="deposit-nav"></div>
 
-        <div class="span6">
-            <h3><%= i18n('depositbank.heading') %></h3>
+        <div class="col-lg-9">
+            <h1><%= i18n('depositbank.heading') %></h1>
 
-            <p><%= i18n('depositbank.intro') %></p>
+            <p class="lead"><%= i18n('depositbank.intro') %></p>
 
-            <div class="well">
-                <table class="payment-details">
-                    <tr>
-                        <td><%= i18n('depositbank.recipient') %></td>
-                        <td>
-                            Justcoin AS<br />
-                            Tordenskioldsgate 3<br />
-                            0160 Oslo
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="account-number"><%= i18n('depositbank.account') %></td>
-                        <td>1503.36.59595</td>
-                    </tr>
-                    <tr>
-                        <td><%= i18n('depositbank.messageToRecipient') %></td>
-                        <td><%= messageToRecipient %></td>
-                    </tr>
-                    <tr>
-                        <td><%= i18n('depositbank.minimumAmount') %></td>
-                        <td>100 NOK</td>
-                    </tr>
-                    <tr>
-                        <td><%= i18n('depositbank.maximumAmount') %></td>
-                        <td>8500 NOK</td>
-                    </tr>
-                </table>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="well">
+                        <dl class="payment-details dl-horizontal">
+                            <dt><%= i18n('depositbank.recipient') %></dt>
+                            <dd>
+                                Justcoin AS<br />
+                                Tordenskioldsgate 3<br />
+                                0160 Oslo
+                            </dd>
+                            <dt class="account-number"><%= i18n('depositbank.account') %></dt>
+                            <dd>1503.36.59595</dd>
+                            <dt><%= i18n('depositbank.messageToRecipient') %></dt>
+                            <dd><%= messageToRecipient %></dd>
+                            <dt><%= i18n('depositbank.minimumAmount') %></dt>
+                            <dd>100 NOK</dd>
+                            <dt><%= i18n('depositbank.maximumAmount') %></dt>
+                            <dd>8500 NOK</dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

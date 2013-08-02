@@ -46,7 +46,7 @@ module.exports = function() {
     }
 
     $transferForm.on('change', '.field', function() {
-        $(this).closest('.control-group').removeClass('is-error')
+        $(this).closest('.form-group').removeClass('is-error')
     })
 
     $transferForm.on('submit', function(e) {
@@ -79,7 +79,7 @@ module.exports = function() {
 
             if (err.name == 'CannotTransferToSelf') {
                 $email.addClass('error')
-                .find('.help-inline')
+                .find('.help-block')
                 .html('Cannot send to self')
                 $email.find('.field').focus()
                 return

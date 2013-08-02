@@ -16,7 +16,7 @@ var vendor = [
     'vendor/jquery.cookie.js',
     'vendor/sjcl.js',
     'components/alertify/alertify.min.js',
-    'vendor/bootstrap/js/bootstrap.min.js',
+    'vendor/bootstrap/dist/js/bootstrap.min.js',
     'components/bootstrap-notify/js/bootstrap-notify.js'
 ]
 
@@ -39,6 +39,7 @@ task('client', [
     base + '/img',
     base + '/img/registerbg.jpg',
     base + '/img/icon.png',
+    base + '/img/icon-inverse.png',
     base + '/img/flags',
     base + '/img/flags/NO.png',
     base + '/img/flags/US.png'
@@ -54,6 +55,7 @@ file(base + '/styles.min.css', [base + '/styles.css'], common.compressCss)
 
 file(base + '/img/registerbg.jpg', ['assets/img/registerbg.jpg'], common.copy)
 file(base + '/img/icon.png', ['assets/img/icon.png'], common.copy)
+file(base + '/img/icon-inverse.png', ['assets/img/icon-inverse.png'], common.copy)
 file(base + '/img/flags/NO.png', ['assets/img/flags/NO.png'], common.copy)
 file(base + '/img/flags/US.png', ['assets/img/flags/US.png'], common.copy)
 
@@ -86,8 +88,7 @@ file(base + '/index.css', function() {
 file(base + '/styles.css', [
     'components/alertify/themes/alertify.core.css',
     'components/alertify/themes/alertify.bootstrap.css',
-    'vendor/bootstrap/css/bootstrap.min.css',
-    'vendor/bootstrap/css/bootstrap-responsive.min.css',
+    'vendor/bootstrap/dist/css/bootstrap.min.css',
     'components/bootstrap-notify/css/bootstrap-notify.css',
     'build/index.css'
 ], common.concatFiles)

@@ -1,22 +1,25 @@
 <div class="container">
     <div class="row">
         <div class="trade-nav"></div>
-        <div class="span10">
+
+        <div class="col-lg-9">
+            <h1><%- i18n('markets.market.heading', base, quote) %></h1>
+
             <div class="market-nav"></div>
 
             <div class="row">
-                <div class="span3">
-                    <h3><%- i18n('markets.market.heading', base, quote) %></h3>
+                <div class="col-lg-3">
+                    <h3></h3>
                 </div>
 
-                <div class="order-modes span1">
+                <div class="order-modes col-lg-1">
                     <a href="#trade/<%= id %>/advanced/<%= type %>" class="visible-order-mode-market">Advanced</a>
                     <a href="#trade/<%= id %>/instant/<%= type %>" class="visible-order-mode-limit">Instant</a>
                 </div>
             </div>
 
             <div class="row">
-                <div class="span4">
+                <div class="col-lg-4">
                     <div class="visible-order-mode-market">
                         <div class="market-order">
                         </div>
@@ -28,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="depth-container hidden-order-mode-market span4">
+                <div class="depth-container hidden-order-mode-market col-lg-4">
                 </div>
             </div>
         </div>

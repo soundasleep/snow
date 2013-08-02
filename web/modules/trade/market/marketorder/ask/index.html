@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="span4 well">
+    <div class="well">
         <p class="available-container">
             <%- i18n('markets.market.marketorder.ask.you have') %>
             <span class="available">...</span>
@@ -7,7 +7,7 @@
         </p>
 
         <form>
-            <div class="control-group sell">
+            <div class="form-group sell">
                 <label class="control-label">
                     <%= base %>
                     <%- i18n('markets.market.marketorder.ask.sell.to sell') %>
@@ -16,24 +16,22 @@
                     </a>)
                 </label>
 
-                <div class="controls">
-                    <div class="input-append">
-                        <input type="text" name="sell" />
-                        <span class="add-on"><%= base %></span>
-                    </div>
-
-                    <span class="help-inline">
-                        <span class="visible-insufficient-funds hidden-precision-too-high">
-                            <%- i18n('markets.market.marketorder.ask.sell.insufficient funds') %>
-                        </span>
-                        <span class="visible-precision-too-high">
-                            <%- i18n('markets.market.marketorder.ask.sell.too many decimals') %>
-                        </span>
-                        <span class="visible-too-deep hidden-insufficient-funds hidden-too-many-decimals">
-                            <%- i18n('markets.market.marketorder.ask.sell.more than for sale') %>
-                        </span>
-                    </span>
+                <div class="input-append">
+                    <input type="text" name="sell" class="form-control" />
+                    <span class="add-on"><%= base %></span>
                 </div>
+
+                <span class="help-inline">
+                    <span class="visible-insufficient-funds hidden-precision-too-high">
+                        <%- i18n('markets.market.marketorder.ask.sell.insufficient funds') %>
+                    </span>
+                    <span class="visible-precision-too-high">
+                        <%- i18n('markets.market.marketorder.ask.sell.too many decimals') %>
+                    </span>
+                    <span class="visible-too-deep hidden-insufficient-funds hidden-too-many-decimals">
+                        <%- i18n('markets.market.marketorder.ask.sell.more than for sale') %>
+                    </span>
+                </span>
             </div>
 
             <table class="order-summary table">
@@ -60,12 +58,10 @@
                 </tr>
             </table>
 
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-success btn-large">
-                        <%- i18n('markets.market.marketorder.ask.sell button') %>
-                    </button>
-                </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-large">
+                    <%- i18n('markets.market.marketorder.ask.sell button') %>
+                </button>
             </div>
         </form>
     </div>

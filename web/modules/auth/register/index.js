@@ -12,9 +12,9 @@ module.exports = function(after) {
         $el: $el
     }
     , $form = $el.find('.register-form')
-    , $email = $form.find('.control-group.email')
-    , $password = $form.find('.control-group.password')
-    , $repeat = $form.find('.control-group.repeat')
+    , $email = $form.find('.form-group.email')
+    , $password = $form.find('.form-group.password')
+    , $repeat = $form.find('.form-group.repeat')
     , $submit = $form.find('button')
 
     $email.find('.help-inline').html(i18n('register.hints.email'))
@@ -29,7 +29,7 @@ module.exports = function(after) {
     .on('focus keyup', 'input', function() {
         // Show initial hint on focus
         $(this)
-        .closest('.control-group')
+        .closest('.form-group')
         .find('.help-inline')
         .css('visibility', 'visible')
     })
@@ -37,7 +37,7 @@ module.exports = function(after) {
         if (e.which == 13 || e.which == 9) return
 
         // Revert to the original hint
-        var group = $(this).closest('.control-group')
+        var group = $(this).closest('.form-group')
         group.removeClass('error warning success is-valid')
         .find('.help-inline')
         .html(i18n('register.hints.' + group.find('input').attr('name')))

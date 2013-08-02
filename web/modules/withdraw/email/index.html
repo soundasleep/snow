@@ -1,39 +1,39 @@
 <div class="container">
     <div class="row">
         <div class="withdraw-nav"></div>
-        <div class="span8">
-            <form class="transfer-form form-horizontal">
+
+        <div class="col-lg-8">
+            <h1>Send funds from Justcoin</h1>
+
+            <p class="lead">
+                Use this form to send funds from your account to an email address.
+                If the recipient is not registered on Justcoin, we'll send them
+                an invitation.
+            </p>
+
+            <form class="transfer-form">
                 <div>
-                    <h4>Send funds from Justcoin</h4>
-
-                    <p>
-                        Use this form to send funds from your account to an email address.
-                    </p>
                 </div>
 
-                <div class="email control-group">
-                    <label class="control-label" for="email">Send to</label>
-                    <div class="controls">
-                        <input type="text" name="email" class="field" />
-                        <span class="help-inline"></span>
-                    </div>
+                <div class="email form-group">
+                    <label for="email">Send to</label>
+                    <input type="text" name="email" class="field form-control" />
+                    <span class="help-block"></span>
                 </div>
 
-                <div class="amount control-group">
-                    <label class="control-label" for="amount">Amount</label>
-                    <div class="controls form-inline">
-                        <input name="amount" type="text" class="field" />
-                        <select name="currency" class="field">
+                <div class="amount form-group">
+                    <label for="amount">Amount</label>
+                    <div class="form-inline">
+                        <input name="amount" type="text" class="field form-control" />
+                        <select name="currency" class="field form-control">
                         </select>
-                        <span class="help-inline"></span>
+                        <span class="help-block"></span>
                     </div>
                 </div>
 
-                <div class="actions control-group">
-                    <label class="control-label"></label>
-                    <div class="controls">
-                        <button type="submit" class="submit btn btn-success btn-large">Send</button>
-                    </div>
+                <div class="actions form-group">
+                    <label></label>
+                    <button type="submit" class="submit btn btn-success btn-large">Send</button>
                 </div>
             </form>
 
@@ -43,11 +43,9 @@
                     Do you want to send using email?
                 </div>
 
-                <div class="actions control-group">
-                    <label class="control-label"></label>
-                    <div class="controls">
-                        <button type="submit" class="submit btn btn-danger btn-large">Send as email</button>
-                    </div>
+                <div class="actions form-group">
+                    <label></label>
+                    <button type="submit" class="submit btn btn-danger btn-large">Send as email</button>
                 </div>
             </form>
 

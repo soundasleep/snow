@@ -9,8 +9,8 @@ module.exports = function(after) {
         $el: $('<div class=auth-login>').html(template())
     }
     , $form = controller.$el.find('.login')
-    , $email = $form.find('.control-group.email')
-    , $password = $form.find('.control-group.password')
+    , $email = $form.find('.form-group.email')
+    , $password = $form.find('.form-group.password')
     , $submit = $form.find('button')
     , validatePasswordTimer
     , validateEmailTimer
@@ -20,7 +20,7 @@ module.exports = function(after) {
         if (e.which == 13 || e.which == 9) return
 
         // Revert to the original hint
-        var group = $(this).closest('.control-group')
+        var group = $(this).closest('.form-group')
         group.removeClass('error warning success is-valid')
         .find('.help-inline')
         .empty()

@@ -33,14 +33,14 @@ module.exports = function(opts) {
 
         if (empty) {
             debug('amount is empty')
-            $amount.toggleClass('error is-invalid', !!emptyIsError)
+            $amount.toggleClass('has-error is-invalid', !!emptyIsError)
             return
         }
 
         var valn = $amountField.parseNumber()
 
         if (valn === null) {
-            $amount.addClass('error is-invalid')
+            $amount.addClass('has-error is-invalid')
             return
         }
 
@@ -58,30 +58,30 @@ module.exports = function(opts) {
             debug('precision %s is higher than max, %s', valn.get_precision(),
                 maxPrecision)
 
-            $amount.addClass('error is-invalid')
+            $amount.addClass('has-error is-invalid')
             return
         }
 
         if (opts.minInclusive !== null && valn.lt(opts.minInclusive)) {
-            $amount.addClass('error is-invalid')
+            $amount.addClass('has-error is-invalid')
             debug('lt min inclusive %s', opts.minInclusive)
             return
         }
 
         if (opts.maxInclusive !== null && valn.gt(opts.maxInclusive)) {
-            $amount.addClass('error is-invalid')
+            $amount.addClass('has-error is-invalid')
             debug('gt max inclusive %s', opts.maxInclusive)
             return
         }
 
         if (opts.minExclusive !== null && valn.lte(opts.minExclusive)) {
-            $amount.addClass('error is-invalid')
+            $amount.addClass('has-error is-invalid')
             debug('lte min exclusive %s', opts.minExclusive)
             return
         }
 
         if (opts.maxExclusive !== null && valn.gte(opts.maxExclusive)) {
-            $amount.addClass('error is-invalid')
+            $amount.addClass('has-error is-invalid')
             debug('gte max exclusive %s', opts.maxExclusive)
             return
         }
@@ -90,12 +90,12 @@ module.exports = function(opts) {
         , avail = balanceItem.available
 
         if (valn.gt(avail)) {
-            $amount.addClass('error is-invalid')
+            $amount.addClass('has-error is-invalid')
             debug('gt available %s', avail)
             return
         }
 
-        $amount.removeClass('error is-invalid')
+        $amount.removeClass('has-error is-invalid')
 
         return true
     }
