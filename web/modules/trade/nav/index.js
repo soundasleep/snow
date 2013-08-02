@@ -8,10 +8,6 @@ module.exports = function(tab, mode, type) {
         $el: $el
     }
 
-    if (tab) {
-        $el.find('.nav .' + tab).addClass('active')
-    }
-
     function marketsFetched(markets) {
         markets = _.sortBy(markets, function(x) {
             return (x.id == 'BTCNOK' ? 0 : 1) + x.id
@@ -27,6 +23,13 @@ module.exports = function(tab, mode, type) {
 
         if (tab) {
             $el.find('.nav .' + tab).addClass('active')
+
+
+            if (type) {
+                console.log('???', '.nav .' + tab + ' .' + type)
+                $el.find('.nav .' + tab + ' .' + type)
+                .addClass('active')
+            }
         }
     }
 

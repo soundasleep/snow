@@ -3,23 +3,26 @@
         <div class="trade-nav"></div>
 
         <div class="col-lg-9">
-            <h1><%- i18n('markets.market.heading', base, quote) %></h1>
-
             <div class="market-nav"></div>
 
-            <div class="row">
-                <div class="col-lg-3">
-                    <h3></h3>
-                </div>
+            <h1><%- i18n('markets.market.heading', base, quote) %></h1>
 
-                <div class="order-modes col-lg-1">
-                    <a href="#trade/<%= id %>/advanced/<%= type %>" class="visible-order-mode-market">Advanced</a>
-                    <a href="#trade/<%= id %>/instant/<%= type %>" class="visible-order-mode-limit">Instant</a>
-                </div>
-            </div>
+            <p class="lead">
+                <span class="visible-order-mode-market">
+                    You'll be matched with the best price on the market.
+                    If you'd like to place an order with a specific price,
+                    use the <a href="#trade/<%= id %>/advanced/<%= type %>">
+                    advanced order form</a>.
+                </span>
+                <span class="visible-order-mode-limit">
+                    Unlike an <a href="#trade/<%= id %>/instant/<%= type %>">
+                    instant order</a>, limit orders remain listed
+                    until filled or cancelled.
+                </span>
+            </p>
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="visible-order-mode-market">
                         <div class="market-order">
                         </div>
@@ -31,7 +34,7 @@
                     </div>
                 </div>
 
-                <div class="depth-container hidden-order-mode-market col-lg-4">
+                <div class="depth-container hidden-order-mode-market col-lg-6">
                 </div>
             </div>
         </div>

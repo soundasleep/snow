@@ -14,9 +14,9 @@
                     </a>)
                 </label>
 
-                <div class="input-append">
+                <div class="input-group">
                     <input type="text" name="amount" class="form-control" />
-                    <span class="add-on"><%= base %></span>
+                    <span class="input-group-addon"><%= base %></span>
                 </div>
 
                 <span class="help-inline">
@@ -35,9 +35,9 @@
                     <%= base %>
                 </label>
 
-                <div class="input-append">
+                <div class="input-group">
                     <input type="text" name="price" class="form-control" />
-                    <span class="add-on"><%= quote %></span>
+                    <span class="input-group-addon"><%= quote %></span>
                 </div>
 
                 <span class="help-inline">
@@ -61,7 +61,7 @@
             </table>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-success btn-large">
+                <button type="submit" class="btn btn-primary btn-large" style="width:100%">
                     <%- i18n('markets.market.limitorder.ask.submit') %>
                 </button>
             </div>
