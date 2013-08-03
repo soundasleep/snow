@@ -26,7 +26,6 @@ module.exports = function(tab, mode, type) {
 
 
             if (type) {
-                console.log('???', '.nav .' + tab + ' .' + type)
                 $el.find('.nav .' + tab + ' .' + type)
                 .addClass('active')
             }

@@ -21,8 +21,8 @@ module.exports = function(after) {
 
         // Revert to the original hint
         var group = $(this).closest('.form-group')
-        group.removeClass('error warning success is-valid')
-        .find('.help-inline')
+        group.removeClass('has-error warning success is-valid')
+        .find('.help-block')
         .empty()
     })
 
@@ -33,16 +33,16 @@ module.exports = function(after) {
     function validateEmail() {
         var email = $email.find('input').val()
         , expression = /^\S+@\S+$/
-        , $hint = $email.find('.help-inline')
+        , $hint = $email.find('.help-block')
 
         var valid = !!email.match(expression)
 
         if (email.length === 0 || valid) {
-            $email.removeClass('error')
+            $email.removeClass('has-error')
             if (valid) $email.addClass('success')
             $hint.empty()
         } else {
-            $email.removeClass('success').addClass('error')
+            $email.removeClass('success').addClass('has-error')
             $hint.empty()
         }
 
@@ -53,16 +53,16 @@ module.exports = function(after) {
 
     function validatePassword() {
         var password = $password.find('input').val()
-        , $hint = $password.find('.help-inline')
+        , $hint = $password.find('.help-block')
 
         var valid = password.length >= 6
 
         if (password.length === 0 || valid) {
-            $password.removeClass('error')
+            $password.removeClass('has-error')
             if (valid) $password.addClass('success')
             $hint.empty()
         } else {
-            $password.removeClass('success').addClass('error')
+            $password.removeClass('success').addClass('has-error')
         }
 
         $password.toggleClass('is-valid', valid)
@@ -122,8 +122,8 @@ module.exports = function(after) {
         }).fail(function(err) {
             if (err !== null && err.name == 'UnknownApiKey') {
                 $email
-                .addClass('error')
-                .find('.help-inline')
+                .addClass('has-error')
+                .find('.help-block')
                 .html(i18n('login.errors.wrong username or password'))
                 return
             }

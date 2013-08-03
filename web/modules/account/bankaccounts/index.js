@@ -2,7 +2,7 @@ var template = require('./index.html')
 , nav = require('../nav')
 
 module.exports = function() {
-    var $el = $(template())
+    var $el = $('<div class=account-bankaccounts>').html(template())
     , controller = {
         $el: $el
     }

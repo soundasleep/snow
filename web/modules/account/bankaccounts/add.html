@@ -1,22 +1,29 @@
-<div class="modal fade hide add-bank-account">
-    <div class="modal-header">
-        <h3>Add bank account</h3>
-    </div>
-    <div class="modal-body">
-        <p class="alert alert-block">
-            When you add the account, we will send you a small transfer.<br />The message on your bank statement is
-            the 4 letter verification code.
-        </p>
-
-        <form class="bank-account-form form-horizontal">
-            <div class="form-group account-number">
-                <label class="control-label">Account #</label>
-                <input type="text" class="form-control" />
+<div class="modal fade add-bank-account">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><%- i18n('account.bankaccounts.add.heading') %></h4>
             </div>
+            <div class="modal-body">
+                <p class="alert alert-block">
+                    <%- i18n('account.bankaccounts.add.explanation') %>
+                </p>
 
-            <div class="form-group">
-                <button type="submit" class="add-button btn btn-success">Add bank account</button>
+                <form class="bank-account-form form-horizontal">
+                    <div class="form-group account-number">
+                        <label class="control-label">
+                            <%- i18n('account.bankaccounts.add.account-number') %>
+                        </label>
+                        <input type="text" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="add-button btn btn-primary">
+                            <%- i18n('account.bankaccounts.add.submit') %>
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>

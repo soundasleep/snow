@@ -42,8 +42,8 @@ body {
 /* Top nav and header
 -------------------------------------------------- */
 
-topbarbg = #C83224
-topbarbgactive = #FFC52C
+topbarbg = #07415B
+topbarbgactive = #C0ECFF
 
 .jc-nav
   background-color topbarbg
@@ -72,82 +72,6 @@ topbarbgactive = #FFC52C
   background-color topbarbgactive
   border-color: #463265;
 }
-
-
-/* Homepage masthead
--------------------------------------------------- */
-
-.jc-masthead {
-  position: relative;
-  padding: 30px 15px;
-  text-align: center;
-}
-.jc-masthead h1 {
-  font-size: 50px;
-  line-height: 1;
-}
-
-/* Download button */
-.jc-masthead .btn-jc {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 18px 24px;
-  font-size: 21px;
-}
-
-/* Textual links */
-.jc-social {
-  margin-top: 30px;
-  text-align: center;
-}
-.jc-masthead-links {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-left: 0;
-  list-style: none;
-  text-align: center;
-}
-.jc-masthead-links li {
-  display: inline;
-  color: #999;
-}
-.jc-masthead-links li + li {
-  margin-left: 20px;
-}
-
-
-
-/* Customize and Download button
--------------------------------------------------- */
-
-.jc-customizer .toggle {
-  float: right;
-}
-.jc-customizer label {
-  margin-top: 10px;
-  font-weight: 500;
-  color: #444;
-}
-.jc-customizer h2 {
-  margin-top: 0;
-  margin-bottom: 5px;
-  padding-top: 30px;
-}
-.jc-customizer h4 {
-  margin-top: 15px;
-}
-.jc-customizer input[type="text"] {
-  background-color: #fafafa;
-}
-.jc-customizer .help-block {
-  font-size: 12px;
-}
-
-.jc-customize-download {
-  text-align: center;
-}
-
-
 
 /* Docs pages and sections
 -------------------------------------------------- */
@@ -538,10 +462,8 @@ input.focused {
   .jc-sidebar {
     display: block;
   }
+
   /* Show the hidden subnavs when space allows it */
-  .jc-sidebar .nav > .active > ul {
-    display: block;
-  }
 
   /* Tweak display of docs jumbotrons */
   .jc-masthead {
@@ -562,6 +484,10 @@ input.focused {
     position: absolute;
   }
 
+}
+
+.jc-sidebar .nav > .active > ul {
+  display: block;
 }
 
 /* Tablets/desktops and up */

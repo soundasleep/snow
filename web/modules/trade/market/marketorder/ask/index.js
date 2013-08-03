@@ -21,7 +21,7 @@ module.exports = function(market) {
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
 
     function updateQuote() {
-        $el.removeClass('is-too-deep')
+        $sell.removeClass('is-too-deep')
 
         if (!depth) return
         var sell = numbers.parse($el.field('sell').val())
@@ -32,7 +32,7 @@ module.exports = function(market) {
         if (sell.lte(0)) return
 
         if (!depth.bids.length) {
-            $sell.addClass('error')
+            $sell.addClass('has-error')
             $el.addClass('is-too-deep')
             return
         }
@@ -71,7 +71,7 @@ module.exports = function(market) {
         $el.toggleClass('is-too-deep', !filled)
 
         if (!filled) {
-            $sell.addClass('error')
+            $sell.addClass('has-error')
             return
         }
 
@@ -105,7 +105,7 @@ module.exports = function(market) {
     }
 
     function validateSell(emptyIsError) {
-        $el
+        $sell
         .removeClass('has-insufficient-funds')
         .removeClass('is-precision-too-high')
 
@@ -114,7 +114,7 @@ module.exports = function(market) {
 
         if (!val.length) {
             valid = !emptyIsError
-            $sell.toggleClass('error', !valid)
+            $sell.toggleClass('has-error', !valid)
             return valid
         }
 
@@ -130,7 +130,7 @@ module.exports = function(market) {
 
             if (precision > maxPrecision) {
                 valid = false
-                $el.addClass('is-precision-too-high')
+                $sell.addClass('is-precision-too-high')
             } else {
                 var item = _.find(api.balances.current, { currency: base })
 
@@ -146,14 +146,14 @@ module.exports = function(market) {
                         sell.toString())
 
                     valid = false
-                    $el.addClass('has-insufficient-funds')
+                    $sell.addClass('has-insufficient-funds')
                 } else {
                     valid = true
                 }
             }
         }
 
-        $sell.toggleClass('error', !valid)
+        $sell.toggleClass('has-error', !valid)
 
         return valid
     }

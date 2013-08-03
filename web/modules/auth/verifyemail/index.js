@@ -42,5 +42,16 @@ module.exports = function() {
         })
     })
 
+    controller.show = function() {
+        $('body').append($el)
+
+        console.log($el.find('.modal'))
+
+        $el.find('.modal').modal({
+            keyboard: false,
+            backdrop: 'static'
+        })
+    }
+
     return controller
 }

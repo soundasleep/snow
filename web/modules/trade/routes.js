@@ -2,7 +2,7 @@ module.exports = function(router, master, authorize) {
     return router
     .add(/^trade$/, function() {
         if (!authorize.user()) return
-        router.go('trade/BTCNOK/instant/buy')
+        router.go('trade/BTCNOK/instant/buy', true)
     })
     .add(/^trade\/orders$/, function() {
         if (!authorize.user()) return

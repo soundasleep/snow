@@ -18,11 +18,11 @@ module.exports = function(code) {
     // Validation
     function validateCode(emptyIsError) {
         var code = $form.field('code').val()
-        $code.removeClass('error is-invalid is-empty')
+        $code.removeClass('has-error is-invalid is-empty')
 
         if (!code.length) {
             $code.addClass('is-empty')
-            if (emptyIsError === true) $code.addClass('error')
+            if (emptyIsError === true) $code.addClass('has-error')
             return
         }
 

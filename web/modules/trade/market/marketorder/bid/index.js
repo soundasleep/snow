@@ -29,7 +29,7 @@ module.exports = function(market) {
         if (spend.lte(0)) return
 
         if (!depth.asks.length) {
-            $spend.addClass('error')
+            $spend.addClass('has-error')
             $el.addClass('is-too-deep')
             return
         }
@@ -68,7 +68,7 @@ module.exports = function(market) {
 
         if (!filled) {
             debug('Would not be filled')
-            $spend.addClass('error')
+            $spend.addClass('has-error')
             return
         }
 
@@ -105,7 +105,7 @@ module.exports = function(market) {
     }
 
     function validateSpend(emptyIsError) {
-        $el
+        $spend
         .removeClass('has-insufficient-funds')
         .removeClass('is-precision-too-high')
 
@@ -114,7 +114,7 @@ module.exports = function(market) {
 
         if (!val.length) {
             valid = !emptyIsError
-            $spend.toggleClass('error', !valid)
+            $spend.toggleClass('has-error', !valid)
             return valid
         }
 
@@ -128,7 +128,7 @@ module.exports = function(market) {
 
             if (precision > maxPrecision) {
                 valid = false
-                $el.addClass('is-precision-too-high')
+                $spend.addClass('is-precision-too-high')
             } else {
                 var item = _.find(api.balances.current, { currency: quote })
 
@@ -141,14 +141,14 @@ module.exports = function(market) {
 
                 if (num(spend).gt(available)) {
                     valid = false
-                    $el.addClass('has-insufficient-funds')
+                    $spend.addClass('has-insufficient-funds')
                 } else {
                     valid = true
                 }
             }
         }
 
-        $spend.toggleClass('error', !valid)
+        $spend.toggleClass('has-error', !valid)
 
         return valid
     }

@@ -18,14 +18,9 @@
                 <li class="withdraw"><a href="#withdraw"><%= i18n('top.withdraw') %></a></li>
             </ul>
 
-            <div class="pull-right">
+            <div class="pull-right summary">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a>
-                        </a>
-                    </li>
-
-                    <li class="dropdown">
+                    <li class="dropdown fiat">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="fiat-balance"></span>
                             <b class="caret"></b>
@@ -36,7 +31,7 @@
                         </ul>
                     </li>
 
-                    <li class="dropdown">
+                    <li class="dropdown digital">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="digital-balance"></span>
                             <b class="caret"></b>
@@ -52,7 +47,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="icon-cog"></i>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu pull-right">
                             <li>
                                 <a href="#signOut"><%- i18n('top.log out') %></a>
                             </li>

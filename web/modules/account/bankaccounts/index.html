@@ -1,22 +1,32 @@
 <div class="container">
     <div class="row">
         <div class="account-nav"></div>
+
         <div class="col-lg-9">
-            <h1>Bank accounts</h1>
+            <h1><%- i18n('account.bankaccounts.heading') %></h1>
 
             <div class="row">
-                <div class="col-lg-4">
-                    <button class="add btn jc-btn">Add bank account</button>
+                <div class="col-lg-12">
+                    <div class="btn-group btn-group-justified btn-default">
+                        <a class="add btn jc-btn">
+                            <i class="icon-plus"></i>
+                            <%- i18n('account.bankaccounts.add button') %>
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-12">
                     <table class="accounts-table table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th class="account-number-header">Account #</th>
-                                <th class="verified-header">Status</th>
+                                <th class="account-number-header">
+                                    <%- i18n('account.bankaccounts.headers.account-number') %>
+                                </th>
+                                <th class="verified-header">
+                                    <%- i18n('account.bankaccounts.headers.status') %>
+                                </th>
                                 <th class="actions-header"></th>
                             </tr>
                         </thead>

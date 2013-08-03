@@ -4,14 +4,6 @@ var master = require('./modules/master')
 
 module.exports = function() {
     router
-    .add(/^$/, function() {
-        if (api.user) {
-            return router.go('account/funds')
-        }
-
-        master(login())
-    })
-
     require('./modules/account/routes.js')(router, master, authorize)
     require('./modules/deposit/routes.js')(router, master, authorize)
     require('./modules/withdraw/routes.js')(router, master, authorize)

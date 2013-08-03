@@ -3,33 +3,42 @@
         <div class="account-nav"></div>
 
         <div class="col-lg-9">
-            <h1>API keys</h1>
+            <h1><%- i18n('account.apikeys.heading') %></h1>
 
             <div class="row">
                 <div class="col-lg-4">
-                    <button class="show-add btn hidden-showing-add">New API key</button>
+                    <button class="show-add btn hidden-showing-add">
+                        <%- i18n('account.apikeys.new key') %>
+                    </button>
 
                     <div class="add visible-showing-add well">
-                        <h4>Add API key</h4>
+                        <h4>
+                            <%- i18n('account.apikeys.add.add key') %>
+                        </h4>
 
                         <form class="add-form">
                             <label class="checkbox">
                                 <input type="checkbox" name="canTrade" />
-                                Can trade
+                                <%- i18n('account.apikeys.add.can trade') %>
                             </label>
 
                             <label class="checkbox">
                                 <input type="checkbox" name="canDeposit" />
-                                Can deposit
+                                <%- i18n('account.apikeys.add.can deposit') %>
                             </label>
 
                             <label class="checkbox">
                                 <input type="checkbox" name="canWithdraw" />
-                                Can withdraw
+                                <%- i18n('account.apikeys.add.can withdraw') %>
                             </label>
 
-                            <button type="submit" class="btn btn-primary add-button">Add API key</button>
-                            <button class="btn hide-add">Cancel</button>
+                            <button type="submit" class="btn btn-primary add-button">
+                                <%- i18n('account.apikeys.add.add key') %>
+                            </button>
+
+                            <button class="btn hide-add">
+                                <%- i18n('account.apikeys.add.cancel') %>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -40,10 +49,18 @@
                     <table class="keys-table table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th class="key-header">Key</th>
-                                <th class="can-trade-header">Trade</th>
-                                <th class="can-deposit-header">Deposit</th>
-                                <th class="can-withdraw-header">Withdraw</th>
+                                <th class="key-header">
+                                    <%- i18n('account.apikeys.keys.headers.key') %>
+                                </th>
+                                <th class="can-trade-header">
+                                    <%- i18n('account.apikeys.keys.headers.trade') %>
+                                </th>
+                                <th class="can-deposit-header">
+                                    <%- i18n('account.apikeys.keys.headers.deposit') %>
+                                </th>
+                                <th class="can-withdraw-header">
+                                    <%- i18n('account.apikeys.keys.headers.withdraw') %>
+                                </th>
                             </tr>
                         </thead>
 

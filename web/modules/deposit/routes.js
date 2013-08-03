@@ -2,7 +2,7 @@ module.exports = function(router, master, authorize) {
     return router
     .add(/^deposit$/, function() {
         if (!authorize.user()) return
-        router.go('deposit/bitcoin')
+        router.go('deposit/bitcoin', true)
     })
     .add(/^deposit\/bitcoin$/, function() {
         if (!authorize.user()) return

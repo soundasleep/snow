@@ -79,7 +79,7 @@ module.exports = function(market) {
             valid = !emptyIsError
         }
 
-        $price.toggleClass('error', !valid)
+        $price.toggleClass('has-error', !valid)
 
         return valid
     }
@@ -94,7 +94,7 @@ module.exports = function(market) {
 
         if (!val.length) {
             valid = !emptyIsError
-            $amount.toggleClass('error', !valid)
+            $amount.toggleClass('has-error', !valid)
             return valid
         }
 
@@ -133,7 +133,7 @@ module.exports = function(market) {
             }
         }
 
-        $amount.toggleClass('error', !valid)
+        $amount.toggleClass('has-error', !valid)
 
         return valid
     }

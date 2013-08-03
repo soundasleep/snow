@@ -40,7 +40,7 @@ api.on('user', function(user) {
         api.patchUser({ language: i18n.desired })
         .fail(errors.reportFromXhr)
     }
-
+/*
     var checkPhone = function(next) {
         debug('checking phone')
         if (user.phone) return next()
@@ -53,18 +53,14 @@ api.on('user', function(user) {
         })
         verifyphone.$el.on('hidden', next)
     }
-
+*/
     var checkEmail = function(next) {
         debug('checking email...')
         if (user.emailVerified) return next()
         debug('not ok, need to verify email')
         var verifyemail = require('./modules/auth/verifyemail')()
-        $app.append(verifyemail.$el)
-        verifyemail.$el.modal({
-            keyboard: false,
-            backdrop: 'static'
-        })
-        verifyemail.$el.on('hidden', next)
+        verifyemail.show()
+        verifyemail.$el.find('.modal').on('hidden', next)
     }
 
     checkEmail(function() {

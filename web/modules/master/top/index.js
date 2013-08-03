@@ -18,9 +18,9 @@ module.exports = function() {
             return ~['BTC', 'LTC', 'XRP'].indexOf(x.currency)
         })
 
-        var $fiats = $el.find('.fiat-currencies')
+        var $fiats = $el.find('.fiat .dropdown-menu li')
         , $fiat = $el.find('.fiat-balance')
-        , $digitals = $el.find('.digital-currencies')
+        , $digitals = $el.find('.digital .dropdown-menu li')
         , $digital = $el.find('.digital-balance')
 
         $fiats.html($.map(fiats, function(item) {

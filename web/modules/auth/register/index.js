@@ -17,9 +17,9 @@ module.exports = function(after) {
     , $repeat = $form.find('.form-group.repeat')
     , $submit = $form.find('button')
 
-    $email.find('.help-inline').html(i18n('register.hints.email'))
-    $password.find('.help-inline').html(i18n('register.hints.password'))
-    $repeat.find('.help-inline').html(i18n('register.hints.repeat'))
+    $email.find('.help-block').html(i18n('register.hints.email'))
+    $password.find('.help-block').html(i18n('register.hints.password'))
+    $repeat.find('.help-block').html(i18n('register.hints.repeat'))
 
     if (after) {
         $el.find('.existing').attr('href', '#login?after=' + after)
@@ -30,7 +30,7 @@ module.exports = function(after) {
         // Show initial hint on focus
         $(this)
         .closest('.form-group')
-        .find('.help-inline')
+        .find('.help-block')
         .css('visibility', 'visible')
     })
     .on('keyup', function(e) {
@@ -38,23 +38,23 @@ module.exports = function(after) {
 
         // Revert to the original hint
         var group = $(this).closest('.form-group')
-        group.removeClass('error warning success is-valid')
-        .find('.help-inline')
+        group.removeClass('has-error warning success is-valid')
+        .find('.help-block')
         .html(i18n('register.hints.' + group.find('input').attr('name')))
     })
 
     function validateEmail() {
         var email = $email.find('input').val()
         , expression = /^\S+@\S+$/
-        , $hint = $email.find('.help-inline')
+        , $hint = $email.find('.help-block')
 
         var valid = !!email.match(expression)
 
         if (valid) {
-            $email.removeClass('error').addClass('success')
+            $email.removeClass('has-error').addClass('success')
             $hint.html(i18n('register.successes.email'))
         } else {
-            $email.removeClass('success').addClass('error')
+            $email.removeClass('success').addClass('has-error')
             $hint.html(i18n('register.errors.email.badFormat'))
         }
 
@@ -65,15 +65,15 @@ module.exports = function(after) {
 
     function validatePassword() {
         var password = $password.find('input').val()
-        , $hint = $password.find('.help-inline')
+        , $hint = $password.find('.help-block')
 
         var valid = password.length >= 6
 
         if (valid) {
-            $password.removeClass('error').addClass('success')
+            $password.removeClass('has-error').addClass('success')
             $hint.html(i18n('register.successes.password'))
         } else {
-            $password.removeClass('success').addClass('error')
+            $password.removeClass('success').addClass('has-error')
             $hint.html(i18n('register.errors.password.tooShort'))
         }
 
@@ -84,7 +84,7 @@ module.exports = function(after) {
 
     function validateRepeat() {
         var repeat = $repeat.find('input').val()
-        , $hint = $repeat.find('.help-inline')
+        , $hint = $repeat.find('.help-block')
         , password = $password.find('input').val()
 
         if (!$password.hasClass('is-valid')) {
@@ -96,10 +96,10 @@ module.exports = function(after) {
         var valid = repeat == password
 
         if (valid) {
-            $repeat.removeClass('error').addClass('success')
+            $repeat.removeClass('has-error').addClass('success')
             $hint.html(i18n('register.successes.repeat'))
         } else {
-            $repeat.removeClass('success').addClass('error')
+            $repeat.removeClass('success').addClass('has-error')
             $hint.html(i18n('register.errors.repeat.notSame'))
         }
 
@@ -174,8 +174,8 @@ module.exports = function(after) {
 
                 $email
                 .removeClass('success')
-                .addClass('error')
-                .find('.help-inline')
+                .addClass('has-error')
+                .find('.help-block')
                 .html(i18n('register.errors.email.checkFailed'))
 
                 $submit.shake()
@@ -187,8 +187,8 @@ module.exports = function(after) {
 
                 $email
                 .removeClass('success')
-                .addClass('error')
-                .find('.help-inline')
+                .addClass('has-error')
+                .find('.help-block')
                 .html(i18n('register.errors.email.alreadyInUse'))
 
                 $submit.shake()

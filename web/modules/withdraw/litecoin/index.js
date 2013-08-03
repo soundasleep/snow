@@ -23,16 +23,16 @@ module.exports = function() {
         , empty = !val.length
 
         if (empty) {
-            $address.toggleClass('error is-invalid', emptyIsError === true)
+            $address.toggleClass('has-error is-invalid', emptyIsError === true)
             return
         }
 
         if (!val.match(/^L[a-z0-9]{26,33}$/i)){
-            $address.addClass('error is-invalid')
+            $address.addClass('has-error is-invalid')
             return
         }
 
-        $address.removeClass('error is-invalid')
+        $address.removeClass('has-error is-invalid')
         return true
     }
 

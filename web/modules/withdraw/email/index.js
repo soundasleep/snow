@@ -26,7 +26,7 @@ module.exports = function() {
     function validateEmail() {
         var val = $transferForm.field('email').val()
         return $email
-        .toggleClass('error', !/^\S+@\S+$/.exec(val))
+        .toggleClass('has-error', !/^\S+@\S+$/.exec(val))
         .hasClass('error')
     }
 
@@ -41,7 +41,7 @@ module.exports = function() {
         , precisionTooHigh = !invalidNumber && precision > currency.scale
 
         return $amount
-        .toggleClass('error', empty || invalidNumber || precisionTooHigh)
+        .toggleClass('has-error', empty || invalidNumber || precisionTooHigh)
         .hasClass('error')
     }
 
@@ -57,8 +57,8 @@ module.exports = function() {
         validateEmail()
         validateAmount()
 
-        if ($transferForm.find('.error').length) {
-            $transferForm.find('.error:first').find('.field:first').focus()
+        if ($transferForm.find('.has-error').length) {
+            $transferForm.find('.has-error:first').find('.field:first').focus()
             $transferButton.shake()
             return
         }
@@ -78,7 +78,7 @@ module.exports = function() {
             $transferForm.find('.field').enabled(true)
 
             if (err.name == 'CannotTransferToSelf') {
-                $email.addClass('error')
+                $email.addClass('has-error')
                 .find('.help-block')
                 .html('Cannot send to self')
                 $email.find('.field').focus()

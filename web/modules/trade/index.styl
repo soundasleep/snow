@@ -21,8 +21,12 @@
             states precision-too-high
 
     .market-order
-        .amount
-            too-deep
+        .spend
+            states too-deep
+
+        .ask
+            .sell
+                states too-deep insufficient-funds precision-too-high
 
 //    .ask, .bid
 //        .available-container

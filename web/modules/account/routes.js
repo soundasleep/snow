@@ -1,8 +1,12 @@
 module.exports = function(router, master, authorize) {
     return router
+    .add(/^$/, function() {
+        if (!authorize.user()) return
+        router.go('account', true)
+    })
     .add(/^account$/, function() {
         if (!authorize.user()) return
-        router.go('account/funds')
+        router.go('account/funds', true)
     })
     .add(/^account\/funds$/, function() {
         if (!authorize.user()) return

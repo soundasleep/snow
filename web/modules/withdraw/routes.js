@@ -2,7 +2,7 @@ module.exports = function(router, master, authorize) {
     return router
     .add(/^withdraw$/, function() {
         if (!authorize.user()) return
-        router.go('withdraw/withdraws')
+        router.go('withdraw/withdraws', true)
     })
     .add(/^withdraw\/bitcoin$/, function() {
         if (!authorize.user()) return

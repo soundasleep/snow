@@ -34,14 +34,15 @@ router.after = function(hash) {
     return router.go(hash)
 }
 
-router.go = function(hash) {
+router.go = function(hash, replace) {
     if (hash == window.location.hash.substr(1)) {
         router.reload()
         debug('reloading %s', hash)
         return
     }
 
-    window.location.hash = hash
+    if (replace) location.replace('#' + hash)
+    else location.hash = hash
 }
 
 $window.on('hashchange', router.now)

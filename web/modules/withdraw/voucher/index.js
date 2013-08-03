@@ -57,11 +57,11 @@ module.exports = function() {
     // Validation
     function validateAmount(emptyIsError) {
         var amount = $form.field('amount').val()
-        $amount.removeClass('error is-invalid is-empty')
+        $amount.removeClass('has-error is-invalid is-empty')
 
         if (!amount.length) {
             $amount.addClass('is-empty')
-            if (emptyIsError === true) $amount.addClass('error')
+            if (emptyIsError === true) $amount.addClass('has-error')
             return
         }
 
