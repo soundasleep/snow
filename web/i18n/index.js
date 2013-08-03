@@ -41,7 +41,12 @@ i18n.set = function(lang) {
     debug('setting language to %s', lang || '<null>')
 
     if (lang && $.cookie('language') != lang) {
+        debug('lang %s <> language cookie', lang, $.cookie('language') || '<null>')
         debug('setting language cookie')
+
+        // Remove obsolete cookie without path
+        $.removeCookie('language')
+
         $.cookie('language', lang, { path: '/', expires: 365 * 10 })
     }
 
