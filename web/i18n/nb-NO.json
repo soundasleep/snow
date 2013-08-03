@@ -183,7 +183,7 @@
     "orders.history heading": "Ordrehistorikk",
 
 
-    "markets.market.heading": "Bytt %s for %s",
+    "markets.market.heading": "Handle %s mot %s",
     "markets.market.instant order": "Ekspress",
     "markets.market.limit order": "Avansert",
     "markets.market.marketorder.buy bitcoin": "Kjøp Bitcoin",
