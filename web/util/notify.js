@@ -25,8 +25,7 @@ module.exports = function() {
     api.on('activities', function(items) {
         if (since === undefined) {
             if (items.length) {
-                var item = _.sortBy(items, 'id').pop()
-                since = item.id
+                since = _.sortBy(items, 'id').pop().id
                 debug('initial since = %s', since)
             }
         } else {
