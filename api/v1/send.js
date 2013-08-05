@@ -3,7 +3,7 @@ var async = require('async')
 , util = require('util')
 
 module.exports = exports = function(app) {
-    app.post('/v1/send', app.auth.withdraw, exports.send)
+    app.post('/v1/send', app.auth.withdraw(2), exports.send)
 }
 
 exports.sendToEmail = function(app, from, to, currency, amount, allowNew, cb) {
@@ -144,7 +144,7 @@ exports.sendVoucher = function(app, from, to, currency, amount, cb)
 exports.send = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/transfer', res)) return
 
-    if (req.body.currency == 'NOK') {
+    if (req.app.cache.fiat[req.body.currency]) {
         return res.send(400, {
             name: 'CannotSendFiat',
             message: 'Cannot send FIAT to other users at this time'

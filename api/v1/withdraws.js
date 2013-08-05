@@ -3,7 +3,7 @@ var withdraws = require('../withdraws')
 
 module.exports = exports = function(app) {
     app.del('/v1/withdraws/:id', app.auth.withdraw, exports.cancel)
-    app.post('/v1/withdraws/bank', app.auth.withdraw, exports.withdrawBank)
+    app.post('/v1/withdraws/bank', app.auth.withdraw(4), exports.withdrawBank)
 
     app.get('/v1/withdraws', app.auth.any, function(req, res, next) {
         withdraws.query(req.app, { user_id: req.user }, function(err, items) {
@@ -22,6 +22,13 @@ exports.withdrawBank = function(req, res, next) {
         return res.send(401, {
             name: 'MissingApiKeyPermission',
             message: 'Must have withdraw permission'
+        })
+    }
+
+    if (!req.app.cache.fiat[req.body.currency]) {
+        return res.send(400, {
+            name: 'CannotWithdrawNonFiatToBank',
+            message: 'Cannot withdraw non-fiat to a bank account'
         })
     }
 
