@@ -3,14 +3,20 @@
         <div class="account-nav"></div>
 
         <div class="col-lg-9">
-            <h1>Funds</h1>
+            <h1><%- i18n('account.funds.heading') %></h1>
 
             <table class="balances table table-striped">
                 <thead>
                     <th class="currency"></th>
-                    <th class="amount">Balance</th>
-                    <th class="amount hidden-sm">Reserved</th>
-                    <th class="amount">Available</th>
+                    <th class="amount">
+                        <%- i18n('account.funds.headers.balance') %>
+                    </th>
+                    <th class="amount hidden-sm">
+                        <%- i18n('account.funds.headers.reserved') %>
+                    </th>
+                    <th class="amount">
+                        <%- i18n('account.funds.headers.available') %>
+                    </th>
                 </thead>
                 <tbody>
                 </tbody>

@@ -281,10 +281,9 @@
     "account.bankaccounts.add button": "Add bank account",
     "account.bankaccounts.headers.account-number": "Account #",
     "account.bankaccounts.headers.status": "Status",
-    "account.bankaccounts.": "",
-    "account.bankaccounts.": "",
-    "account.bankaccounts.": "",
-    "account.bankaccounts.": "",
-    "account.bankaccounts.": "",
-    "account.bankaccounts.": "",
+
+    "account.funds.heading": "Funds",
+    "account.funds.headers.balance": "Balance",
+    "account.funds.headers.reserved": "Reserved",
+    "account.funds.headers.available": "Available"
 }

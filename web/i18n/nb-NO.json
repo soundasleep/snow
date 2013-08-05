@@ -246,5 +246,37 @@
     "activities.WithdrawComplete": "Uttak av %s fullført",
     "activities.ChangePassword": "Du endret passord",
     "activities.Credit": "Kreditert %s fra et innskudd",
-    "activities.VerifyBankAccount": "Bankkontoen %s ble bekreftet"
+    "activities.VerifyBankAccount": "Bankkontoen %s ble bekreftet",
+
+    "about.nav.about justcoin": "About Justcoin",
+    "about.nav.terms": "Terms of Use",
+    "about.nav.privacy": "Privacy Policy",
+
+    "account.apikeys.heading": "API-nøkler",
+    "account.apikeys.new key": "Any API-nøkkel",
+    "account.apikeys.add.add key": "Opprett API-nøkkel",
+    "account.apikeys.add.can trade": "Kan handle",
+    "account.apikeys.add.can deposit": "Kan sette inn",
+    "account.apikeys.add.can withdraw": "Kan ta ut",
+    "account.apikeys.add.cancel": "Avbryt",
+    "account.apikeys.keys.headers.key": "Nøkkel",
+    "account.apikeys.keys.headers.trade": "Handle",
+    "account.apikeys.keys.headers.deposit": "Sette inn",
+    "account.apikeys.keys.headers.withdraw": "Ta ut",
+
+    "account.activity.heading": "Kontoaktivitet",
+
+    "account.bankaccounts.add.heading": "Legg til bankkonto",
+    "account.bankaccounts.add.explanation": "Etter du legger inn bankkontoen, sender vi deg et lite beløp.<br />Meldingen i kontoutskriften i nettbanken en kode på 4 bokstaver du trenger for å bevise at det er din egen konto.",
+    "account.bankaccounts.add.account-number": "Kontonummer",
+    "account.bankaccounts.add.submit": "Legg til bankkonto",
+    "account.bankaccounts.heading": "Bankkontoer",
+    "account.bankaccounts.add button": "Legg til bankkonto",
+    "account.bankaccounts.headers.account-number": "Kontonummer",
+    "account.bankaccounts.headers.status": "Status",
+
+    "account.funds.heading": "Beholdning",
+    "account.funds.headers.balance": "Balanse",
+    "account.funds.headers.reserved": "Reservert",
+    "account.funds.headers.available": "Disponibelt"
 }
