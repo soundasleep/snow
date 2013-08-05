@@ -75,8 +75,9 @@ exports.whoami = function(req, res, next) {
             '   country,',
             '   postal_area postalarea,',
             '   language,',
+            '   security_level,',
             '   city',
-            'FROM "user"',
+            'FROM user_view',
             'WHERE user_id = $1'
         ].join('\n'),
 		values: [req.user]
@@ -99,6 +100,7 @@ exports.whoami = function(req, res, next) {
             country: row.country,
             postalArea: row.postalarea,
             city: row.city,
+            securityLevel: row.security_level,
             language: row.language
         })
 	})
