@@ -5,3 +5,12 @@
 #area > .privacy
     h2, h3
         font-size 1.5em
+
+html
+    &[lang="nb-NO"] .visible-nb-NO
+    &[lang="en-US"] .visible-en-US
+        display block
+
+    .visible-en-US
+    .visible-nb-NO
+        display none
