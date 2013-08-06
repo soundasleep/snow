@@ -29,4 +29,8 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user(3)) return
         master(require('./norwaydeposit')(), 'norwaydeposit')
     })
+    .add(/^auth\/cip$/, function() {
+        if (!authorize.user(3)) return
+        master(require('./cip')(), 'cip')
+    })
 }

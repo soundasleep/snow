@@ -11,5 +11,7 @@ module.exports = function() {
 
     $el.find('.deposit-nav').replaceWith(nav('bank').$el)
 
+    $el.toggleClass('is-norway', api.user.country == 'NO')
+
     return controller
 }

@@ -134,8 +134,8 @@
     "login.new user register": "Ikke registrert? Klikk her",
     "login.errors.email.badFormat": "Ser ikke gyldig ut.",
 
-    "depositbank.heading": "Innskudd med norsk bankoveføring",
-    "depositbank.intro": "For å sette inn NOK med norsk bankoveføring, send med detaljene under. Du må sende fra en konto som er i ditt eget navn. Pass på at melding til mottaker er riktig.",
+    "depositbank.heading": "Innskudd med bankoverføring",
+    "depositbank.intro": "Send med detaljene under",
     "depositbank.account": "Kontonummer",
     "depositbank.messageToRecipient": "Melding til mottaker",
     "depositbank.minimumAmount": "Minste beløp",

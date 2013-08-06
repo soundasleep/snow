@@ -66,7 +66,7 @@ exports.demandLevel = function(level, after) {
             router.go('auth/norwaydeposit', true)
         } else {
             debug('suggesting to go through CIP')
-            router.go('auth/cip?after=' + after, true)
+            router.go('auth/cip', true)
         }
     }
 }

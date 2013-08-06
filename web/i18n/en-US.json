@@ -159,8 +159,8 @@
     "privacy.heading": "Privacy Policy",
     "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>",
 
-    "depositbank.heading": "Deposit with Norwegian bank transfer",
-    "depositbank.intro": "To deposit NOK with Norwegian bank transfer, send using the details below. You must send from a bank account that is in your own name. Make sure that the message to recipient is correct.",
+    "depositbank.heading": "Deposit using bank transfer",
+    "depositbank.intro": "To deposit with bank transfer, send using the details below",
     "depositbank.account": "Account number",
     "depositbank.messageToRecipient": "Message to recipient",
     "depositbank.minimumAmount": "Minimum amount",
@@ -294,5 +294,13 @@
     "withdraw.bank.bank account.label": "Bank account",
     "withdraw.bank.amount label": "Amount",
     "withdraw.bank.submit": "Withdraw to bank",
-    "withdraw.bank.manage": "Manage accounts"
+    "withdraw.bank.manage": "Manage accounts",
+
+    "auth.cip.heading": "Account level 4 required",
+    "auth.cip.intro": "We'll now verify your name and address. Email one proof of identity and one proof of address to the email address below",
+    "auth.cip.requirements": "<li>Passport, driver license, or national identification card</li><li>Utility bill (water, electricity, house phone) or tax statement</li><li>Both must be color scans/photos with nothing blanked out and all four corners visible</li>",
+    "auth.cip.no retain": "We will delete the pictures immediately after reviewing them.",
+    "auth.cip.continue": "I've emailed both the documents",
+    "auth.cip.return": "Return to my account",
+    "auth.cip.outro": "Thanks! We'll review the documents as fast and we can and notify you when we have."
 }
