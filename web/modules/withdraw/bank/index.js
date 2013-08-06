@@ -5,38 +5,57 @@ var format = require('util').format
 , template = require('./index.html')
 
 module.exports = function(currency) {
-    var $el = $(template())
+    var $el = $('<div class=withdraw-bank>').html(template())
     , controller = {
         $el: $el
     }
     , $form = controller.$el.find('form')
-    , $amount = $form.find('.amount')
-    , $bankAccount = $form.find('.bank-account')
+    , $amount = $form.field('amount')
+    , $currencies = $form.find('.currencies')
+    , $currency = $form.field('currency')
+    , $account = $form.field('account')
 
-    currency = 'NOK'
+    currency || (currency = 'NOK')
 
-    if (currency !== 'NOK') {
-        throw new Error('Expected currency to equal NOK')
-    }
-
-    api.call('v1/bankAccounts')
+    api.bankAccounts()
     .fail(errors.alertFromXhr)
     .done(function(accounts) {
-        accounts = _.filter(accounts, function(a) {
-            return a.verified
-        })
+        $el.toggleClass('is-empty', !accounts.length)
 
-        if (!accounts.length) {
-            // TODO: use classes for state, not show/hide
-            $el.find('.no-bank-accounts').show()
-            $el.find('button, .amount, .bank-account').enabled(false)
-            return
-        }
-
-        $bankAccount.html(_.map(accounts, function(a) {
-            return format('<option class="bank-account" value="%s">%s (%s)</option>',
-                a.id, a.displayName || 'Unnamed', a.accountNumber)
+        $account.html(_.map(accounts, function(a) {
+            return format(
+                '<option class="bank-account" value="%s">%s</option>',
+                a.id, formatters.bankAccount(a))
         }))
+    })
+
+    function renderBalances(balances) {
+        $currencies.html($.map(balances, function(x) {
+            // TODO: Proper fiat check
+            if (!~['NOK', 'EUR'].indexOf(x.currency)) return ''
+
+            var $li = $(format('<li><a href="#">%s (%s)</a>',
+            x.currency, numbers.format(x.available)))
+            .attr('data-currency', x.currency)
+
+            return $li.toggleClass('disabled', +x.available === 0)
+        }))
+
+        var $first = $currencies.find('li:not(.disabled):first')
+
+        if ($first.length) {
+            $currency.html($first.attr('data-currency'))
+        }
+    }
+
+    if (api.balances.current) renderBalances(api.balances.current)
+    else api.once('balances', renderBalances)
+
+    $currencies.on('click', 'li', function(e) {
+        e.preventDefault()
+        var $li = $(this).closest('li')
+        if ($li.hasClass('disabled')) return
+        $currency.html($li.attr('data-currency'))
     })
 
     $form.on('submit', function(e) {
@@ -51,14 +70,13 @@ module.exports = function(currency) {
 
         api.call('v1/withdraws/bank', {
             amount: $amount.parseNumber(),
-            bankAccount: +$bankAccount.val(),
-            currency: currency
+            bankAccount: +$account.val(),
+            currency: $currency.html()
         })
         .fail(errors.alertFromXhr)
         .done(function() {
-            alert('Request to withdraw received.')
             api.balances()
-            window.location.hash = '#'
+            router.go('#withdraw/withdraws')
         })
     })
 

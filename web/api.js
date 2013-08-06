@@ -248,3 +248,7 @@ api.activities = function(since) {
         api.trigger('activities', items)
     })
 }
+
+api.bankAccounts = function() {
+    return api.call('v1/bankAccounts')
+}

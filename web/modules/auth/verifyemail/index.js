@@ -1,7 +1,7 @@
 var debug = require('../../../util/debug')('verifyemail')
 , template = require('./index.html')
 
-module.exports = function() {
+module.exports = function(after) {
     var $el = $('<div class=auth-verifyemail>').html(template({
         email: api.user.email
     }))
@@ -14,8 +14,7 @@ module.exports = function() {
         e.preventDefault()
 
         $(e.target)
-        .loading(true)
-        .html(i18n('verifyemail.send button.sending', api.user.email))
+        .loading(true, i18n('verifyemail.send button.sending', api.user.email))
 
         api.call('v1/email/verify/send', {}, { type: 'POST' })
         .fail(errors.alertFromXhr)
@@ -35,23 +34,13 @@ module.exports = function() {
                 .done(function(u) {
                     if (!u.emailVerified) return
                     api.user.emailVerified = true
+                    api.user.securityLevel = 1
                     clearInterval(timer)
-                    $el.modal('hide')
+                    router.after(after)
                 })
             }, 5e3)
         })
     })
-
-    controller.show = function() {
-        $('body').append($el)
-
-        console.log($el.find('.modal'))
-
-        $el.find('.modal').modal({
-            keyboard: false,
-            backdrop: 'static'
-        })
-    }
 
     return controller
 }

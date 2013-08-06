@@ -47,6 +47,8 @@ module.exports = function(after) {
                 })
             }
 
+            api.user.securityLevel = 3
+
             router.after(after)
         })
         .fail(function(xhr) {

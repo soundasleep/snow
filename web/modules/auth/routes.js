@@ -4,7 +4,6 @@ module.exports = function(router, master, authorize) {
         master(require('./resetpassword')(), 'resetpassword')
     })
     .add(/^(?:auth\/)?signOut$/, function() {
-        if (!authorize.user()) return
         $.removeCookie('apiKey')
         window.location = '/'
     })
@@ -17,5 +16,17 @@ module.exports = function(router, master, authorize) {
     .add(/^(?:auth\/)?identity(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return
         master(require('./identity')(after), 'identity')
+    })
+    .add(/^auth\/verifyemail(?:\?after=(.+))?$/, function(after) {
+        if (!authorize.user()) return
+        master(require('./verifyemail')(after), 'verifyemail')
+    })
+    .add(/^auth\/verifyphone(?:\?after=(.+))?$/, function(after) {
+        if (!authorize.user(1)) return
+        master(require('./verifyphone')(after), 'verifyphone')
+    })
+    .add(/^auth\/norwaydeposit$/, function() {
+        if (!authorize.user(3)) return
+        master(require('./norwaydeposit')(), 'norwaydeposit')
     })
 }

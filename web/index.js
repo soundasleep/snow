@@ -9,6 +9,7 @@ window.errors = require('./errors')
 window.i18n = require('./i18n')
 window.numbers = require('./util/numbers')
 window.notify = require('./util/notify')()
+window.formatters = require('./util/formatters')
 
 $app.append(window.notify.$el)
 
@@ -40,36 +41,8 @@ api.on('user', function(user) {
         api.patchUser({ language: i18n.desired })
         .fail(errors.reportFromXhr)
     }
-/*
-    var checkPhone = function(next) {
-        debug('checking phone')
-        if (user.phone) return next()
-        debug('not ok, need to verify phone')
-        var verifyphone = require('./modules/auth/verifyphone')()
-        $app.append(verifyphone.$el)
-        verifyphone.$el.modal({
-            keyboard: false,
-            backdrop: 'static'
-        })
-        verifyphone.$el.on('hidden', next)
-    }
-*/
-    var checkEmail = function(next) {
-        debug('checking email...')
-        if (user.emailVerified) return next()
-        debug('not ok, need to verify email')
-        var verifyemail = require('./modules/auth/verifyemail')()
-        verifyemail.show()
-        verifyemail.$el.find('.modal').on('hidden', next)
-    }
 
-    checkEmail(function() {
-        api.activities()
-        /*checkPhone(function() {
-            debug('verifications done')
-            api.activities()
-        })*/
-    })
+    api.activities()
 })
 
 $app.on('click', 'a[href="#set-language"]', function(e) {

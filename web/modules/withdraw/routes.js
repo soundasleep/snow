@@ -9,7 +9,7 @@ module.exports = function(router, master, authorize) {
         master(require('./bitcoin')(), 'withdraw')
     })
     .add(/^withdraw\/voucher$/, function() {
-        if (!authorize.user()) return
+        if (!authorize.user(2)) return
         master(require('./voucher')(), 'withdraw')
     })
     .add(/^withdraw\/litecoin$/, function() {
@@ -21,13 +21,11 @@ module.exports = function(router, master, authorize) {
         master(require('./ripple')(), 'withdraw')
     })
     .add(/^withdraw\/bank$/, function() {
-        if (!authorize.user()) return
-        if (!authorize.identity()) return
+        if (!authorize.user(4)) return
         master(require('./bank')(), 'withdraw')
     })
     .add(/^withdraw\/email$/, function() {
-        if (!authorize.user()) return
-        if (!authorize.identity()) return
+        if (!authorize.user(3)) return
         master(require('./email')(), 'withdraw')
     })
     .add(/^withdraw\/ripple$/, function() {

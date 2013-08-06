@@ -1,0 +1,32 @@
+<div class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-action="close" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><%- i18n('account.bankaccounts.add.heading') %></h4>
+            </div>
+
+            <form>
+                <div class="modal-body">
+                    <div class="form-group account-number">
+                        <label for="accountNumber">
+                            <%- i18n('account.bankaccounts.add.account-number') %>
+                        </label>
+                        <input type="text" class="form-control" name="accountNumber" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group actions">
+                            <button type="button" class="btn btn-default" data-action="close">
+                                <%- i18n('account.bankaccounts.add.close') %>
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <%- i18n('account.bankaccounts.add.submit') %>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

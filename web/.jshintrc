@@ -5,6 +5,7 @@
     "globals": {
         "$app": false,
         "i18n": false,
+        "formatters": false,
         "api": false,
         "router": false,
         "errors": false,

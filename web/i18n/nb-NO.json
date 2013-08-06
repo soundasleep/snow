@@ -108,7 +108,7 @@
     "withdrawripple.button": "Ta ut til Ripple",
 
     "verifyphone.heading": "Godkjenn telefonnummer",
-    "verifyphone.intro": "For å gjøre kontoen din sikrere, ringer vi deg og leser opp en kode med fire tall. Vi betaler for samtalen.",
+    "verifyphone.intro": "For å gjøre kontoen din sikrere, ringer en robot deg og leser opp en kode med fire tall. Vi betaler for samtalen.",
     "verifyphone.call me": "Ring meg nå!",
     "verifyphone.verify code": "Bekreft kode",
     "verifyphone.calling you": "Ringer...",
@@ -160,11 +160,6 @@
     "verifyemail.send button.waiting": "Sjekk eposten din nå",
     "verifyemail.confirmation": "Eposten din har blitt godkjent.",
 
-    "withdrawbank.heading": "Ta ut til en bankkonto",
-    "withdrawbank.intro": "Alle uttak til bankkonto håndteres manuelt.",
-    "withdrawbank.bank account.label": "Bankkonto",
-    "withdrawbank.submit": "Ta ut",
-
     "top.vouchers": "Kuponger",
     "top.send": "Send til epost",
     "activities.BankCredit": "Du satte inn %s %s fra en bankkonto",
@@ -174,9 +169,6 @@
     "privacy.body": "<p>Oppdatert 2013-06-17</p><p>Kommer snart</p>",
     "resetPassword.heading": "Reset passord",
     "resetPassword.intro": "<p>For å sette om passordet ditt, må du ha tilgang til både eposten og telefonnummeret du registrerte deg med.</p><p>Først sender vi deg en post med en link i den. Etter du har trykket på linken, gå tilbake til dette vinduet.</p>",
-    "withdrawbank.no bank account error": "Du har ingen godkjent bankkonto.",
-    "withdrawbank.no bank account add": "Legg til bankkonto",
-    "withdrawbank.no bank account manage": "Se bankkontoer",
     "orders.column headers.matched": "Handlet",
     "orders.column headers.requested price": "Min pris",
     "orders.column headers.average price": "Faktisk pris",
@@ -265,15 +257,6 @@
     "account.apikeys.keys.headers.withdraw": "Ta ut",
 
     "account.activity.heading": "Kontoaktivitet",
-
-    "account.bankaccounts.add.heading": "Legg til bankkonto",
-    "account.bankaccounts.add.explanation": "Etter du legger inn bankkontoen, sender vi deg et lite beløp.<br />Meldingen i kontoutskriften i nettbanken en kode på 4 bokstaver du trenger for å bevise at det er din egen konto.",
-    "account.bankaccounts.add.account-number": "Kontonummer",
-    "account.bankaccounts.add.submit": "Legg til bankkonto",
-    "account.bankaccounts.heading": "Bankkontoer",
-    "account.bankaccounts.add button": "Legg til bankkonto",
-    "account.bankaccounts.headers.account-number": "Kontonummer",
-    "account.bankaccounts.headers.status": "Status",
 
     "account.funds.heading": "Beholdning",
     "account.funds.headers.balance": "Balanse",

@@ -3,8 +3,8 @@ var util = require('util')
 , debug = require('../../../util/debug')('verifyemail')
 , template = require('./index.html')
 
-module.exports = function() {
-    var $el = $('<div class=verifyphone>').html(template())
+module.exports = function(after) {
+    var $el = $('<div class=auth-verifyphone>').html(template())
     , controller = {
         $el: $el
     }
@@ -113,8 +113,9 @@ module.exports = function() {
         api.call('v1/users/verify', { code: code })
         .done(function() {
             api.user.phone = number
+            api.user.securityLevel = 2
             $app.trigger('verifiedphone', { number: number })
-            $el.modal('hide')
+            router.after(after)
         })
         .fail(function(xhr) {
             errors.alertFromXhr(xhr)

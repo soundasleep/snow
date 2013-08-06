@@ -8,9 +8,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="btn-group btn-group-justified btn-default">
-                        <a class="add btn jc-btn">
+                        <a class="add btn jc-btn" href="#account/bankaccounts/add/norway">
                             <i class="icon-plus"></i>
-                            <%- i18n('account.bankaccounts.add button') %>
+                            <%- i18n('account.bankaccounts.add other button') %>
+                        </a>
+                        <a class="add btn jc-btn" href="#account/bankaccounts/add">
+                            <i class="icon-plus"></i>
+                            <%- i18n('account.bankaccounts.add norway button') %>
                         </a>
                     </div>
                 </div>
@@ -18,16 +22,12 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <table class="accounts-table table table-striped table-bordered">
+                    <table class="accounts-table table table-striped">
                         <thead>
                             <tr>
                                 <th class="account-number-header">
                                     <%- i18n('account.bankaccounts.headers.account-number') %>
                                 </th>
-                                <th class="verified-header">
-                                    <%- i18n('account.bankaccounts.headers.status') %>
-                                </th>
-                                <th class="actions-header"></th>
                             </tr>
                         </thead>
                         <tbody class="accounts">

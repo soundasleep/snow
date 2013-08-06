@@ -16,7 +16,7 @@ var vendor = [
     'vendor/jquery.cookie.js',
     'vendor/sjcl.js',
     'components/alertify/alertify.min.js',
-    'vendor/bootstrap/dist/js/bootstrap.min.js',
+    'vendor/bootstrap/js/bootstrap.min.js',
     'components/bootstrap-notify/js/bootstrap-notify.js'
 ]
 
@@ -88,7 +88,7 @@ file(base + '/index.css', function() {
 file(base + '/styles.css', [
     'components/alertify/themes/alertify.core.css',
     'components/alertify/themes/alertify.bootstrap.css',
-    'vendor/bootstrap/dist/css/bootstrap.min.css',
+    'vendor/bootstrap/css/bootstrap.min.css',
     'components/bootstrap-notify/css/bootstrap-notify.css',
     'build/index.css'
 ], common.concatFiles)

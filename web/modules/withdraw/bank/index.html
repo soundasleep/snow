@@ -1,37 +1,61 @@
 <div class="container">
     <div class="row">
         <div class="withdraw-nav"></div>
+
         <div class="col-lg-6">
-            <h1><%= i18n('withdrawbank.heading') %></h1>
+            <h1><%= i18n('withdraw.bank.heading') %></h1>
 
-            <p><%= i18n('withdrawbank.intro') %></p>
+            <div class="visible-empty">
+                <p class="lead">
+                    <%- i18n('withdraw.bank.empty') %>
+                </p>
 
-            <div class="no-bank-accounts error">
                 <p>
-                    <%- i18n('withdrawbank.no bank account error') %>
-                    <a href="#account/bankaccounts"><%- i18n('withdrawbank.no bank account add') %></a>
+                    <a href="#account/bankaccounts/add" class="btn btn-default btn-lg">
+                        <%- i18n('withdraw.bank.empty.link') %>
+                    </a>
                 </p>
             </div>
 
-            <form class="well">
-                <div class="form-group">
-                    <label><%- i18n('withdrawbank.bank account.label') %></label>
-                    <select name="bankAccount" class="bank-account form-control"></select>
+            <div class="hidden-empty">
+                <form class="well">
+                    <div class="account form-group">
+                        <label for="account">
+                            <%- i18n('withdraw.bank.bank account.label') %>
+                        </label>
 
-                    <span class="help-block">
-                        <a href="#account/bankaccounts"><%- i18n('withdrawbank.no bank account manage') %></a>
-                    </span>
-                </div>
+                        <p class="pull-right">
+                            <a href="#account/bankaccounts">
+                                <%- i18n('withdraw.bank.manage') %>
+                            </a>
+                        </p>
 
-                <div class="form-group">
-                    <label for="amount"><%= i18n('amount') %></label>
-                    <input class="amount form-control" type="text" id="amount" placeholder="<%= i18n('amount') %>" />
-                </div>
+                        <select name="account" class="form-control"></select>
+                    </div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-large btn-block"><%- i18n('withdrawbank.submit') %></button>
-                </div>
-            </form>
+                    <div class="form-group amount">
+                        <label for="amount"><%= i18n('withdraw.bank.amount label') %></label>
+
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="amount" />
+
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle currency" data-toggle="dropdown" name="button">
+                                    <span name="currency"></span>
+                                    <span class="caret"></span>
+                                </button>
+
+                                <ul class="dropdown-menu pull-right currencies">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block"><%- i18n('withdraw.bank.submit') %></button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

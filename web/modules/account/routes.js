@@ -1,11 +1,9 @@
 module.exports = function(router, master, authorize) {
     return router
     .add(/^$/, function() {
-        if (!authorize.user()) return
         router.go('account', true)
     })
     .add(/^account$/, function() {
-        if (!authorize.user()) return
         router.go('account/funds', true)
     })
     .add(/^account\/funds$/, function() {
@@ -21,15 +19,23 @@ module.exports = function(router, master, authorize) {
         master(require('./activity')(), 'account')
     })
     .add(/^account\/bankaccounts$/, function() {
-        if (!authorize.user()) return
-        if (!authorize.identity()) return
+        if (!authorize.user(3)) return
         master(require('./bankaccounts')(), 'account')
+    })
+    .add(/^account\/bankaccounts\/add\/norway$/, function() {
+        if (!authorize.user(3)) return
+        master(require('./bankaccounts/addnorway')(), 'account')
+    })
+    .add(/^account\/bankaccounts\/add$/, function() {
+        if (!authorize.user(3)) return
+        master(require('./bankaccounts/add')(), 'account')
     })
     .add(/^account\/changepassword$/, function() {
         if (!authorize.user()) return
         master(require('./changepassword')(), 'account')
     })
     .add(/^account\/apikeys$/, function() {
+        if (!authorize.user()) return
         master(require('./apikeys')(), 'account')
     })
 }

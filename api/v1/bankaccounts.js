@@ -28,7 +28,7 @@ exports.index = function(req, res, next) {
 exports.add = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/bankaccounts_add', res)) return
 
-    req.app.conn.write.query({
+    var q = {
         text: [
             'INSERT INTO bank_account (user_id, account_number, iban, swiftbic, routing_number)',
             'VALUES ($1, $2, $3, $4, $5)'
@@ -40,7 +40,11 @@ exports.add = function(req, res, next) {
             req.body.swiftbic,
             req.body.routingNumber
         ]
-    }, function(err) {
+    }
+
+    console.log(q)
+
+    req.app.conn.write.query(q, function(err) {
         if (err) return next(err)
         res.send(204)
     })

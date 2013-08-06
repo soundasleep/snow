@@ -1,16 +1,3 @@
 <tr class="account" data-id="<%= id %>">
-    <td class="account-number"><%= accountNumber %></td>
-    <td class="status">
-        <%- verified ? 'Verified' : 'Not verified' %>
-    </td>
-    <td class="actions">
-        <% if (!verified) { %>
-        <div class="input-group">
-            <input type="text" name="code" class="code form-control" placeholder="Code" />
-            <span class="input-group-btn">
-                <button class="verify btn">Verify</button>
-            </span>
-        </div>
-        <% } %>
-    </td>
+    <td class="account-number"><%= formatted %></td>
 </tr>

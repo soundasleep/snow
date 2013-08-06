@@ -133,7 +133,7 @@
     "withdrawripple.button": "Withdraw to Ripple",
 
     "verifyphone.heading": "Verify phone",
-    "verifyphone.intro": "To make your account more secure, we'll now call you and read a four digit code. Don't worry, we're paying for the call.",
+    "verifyphone.intro": "To make your account more secure, a robot will now call you and read a four digit code. Don't worry, we're paying for the call.",
     "verifyphone.call me": "Call me now",
     "verifyphone.verify code": "Verify code",
 
@@ -187,14 +187,6 @@
 
     "resetPassword.heading": "Reset your password",
     "resetPassword.intro": "<p>To reset your password, you will need access to the email and phone number you registered with.</p><p>We will first email you a link. After you click the link, go back to this window.</p>",
-
-    "withdrawbank.heading": "Withdraw to a bank account",
-    "withdrawbank.intro": "Please note that bank withdraws are handled manually.",
-    "withdrawbank.no bank account error": "You have no verified bank accounts.",
-    "withdrawbank.no bank account add": "Add bank account",
-    "withdrawbank.no bank account manage": "Manage",
-    "withdrawbank.bank account.label": "Bank account",
-    "withdrawbank.submit": "Withdraw",
 
     "markets.market.heading": "Trade %s for %s",
     "markets.market.instant order": "Instant order",
@@ -278,12 +270,29 @@
     "account.bankaccounts.add.account-number": "Account #",
     "account.bankaccounts.add.submit": "Add bank account",
     "account.bankaccounts.heading": "Bank accounts",
-    "account.bankaccounts.add button": "Add bank account",
+    "account.bankaccounts.add norway button": "Add bank account",
+    "account.bankaccounts.add other button": "Add Norwegian bank account",
     "account.bankaccounts.headers.account-number": "Account #",
     "account.bankaccounts.headers.status": "Status",
+    "account.bankaccounts.add.close": "Close",
+    "account.bankaccounts.add.iban": "IBAN",
+    "account.bankaccounts.add.swiftbic": "SWIFT/BIC",
 
     "account.funds.heading": "Funds",
     "account.funds.headers.balance": "Balance",
     "account.funds.headers.reserved": "Reserved",
-    "account.funds.headers.available": "Available"
+    "account.funds.headers.available": "Available",
+
+    "auth.norwaydeposit.heading": "Account level 4 required",
+    "auth.norwaydeposit.intro": "We'll now verify your name and address. Deposit any amount from your Norwegian bank account and we'll verify and credit your Justcoin account.",
+    "auth.norwaydeposit.continue": "I've done the deposit",
+    "auth.norwaydeposit.return": "Return to account",
+    "auth.norwaydeposit.sender": "Sent from",
+    "auth.norwaydeposit.outro": "Great! We'll credit your deposit and notify you by email as soon as it shows up in our bank.",
+
+    "withdraw.bank.heading": "Withdraw to a bank account",
+    "withdraw.bank.bank account.label": "Bank account",
+    "withdraw.bank.amount label": "Amount",
+    "withdraw.bank.submit": "Withdraw to bank",
+    "withdraw.bank.manage": "Manage accounts"
 }
