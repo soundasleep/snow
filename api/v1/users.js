@@ -3,7 +3,6 @@ var _ = require('lodash')
 , async = require('async')
 , Tropo = require('tropo')
 , debug = require('debug')('snow:users')
-, crypto = require('crypto')
 
 require('tropo-webapi')
 
@@ -49,7 +48,7 @@ exports.patch = function(req, res, next) {
         if (!dr.rowCount) {
             return next(new Error('User ' + req.user + ' not found'))
         }
-        req.app.auth.invalidate(req.app, req.key)
+        req.app.auth.invalidate(req.app, req.user)
         res.send(204)
     })
 }
@@ -186,7 +185,10 @@ exports.identity = function(req, res, next) {
             })
         }
 
+        req.app.auth.invalidate(req.app, req.user)
+
         req.app.activity(req.user, 'IdentitySet', {})
+
         return res.send(204)
     })
 }
@@ -215,7 +217,7 @@ exports.verifyPhone = function(req, res, next) {
             })
         }
 
-        req.app.auth.invalidate(req.app, req.key)
+        req.app.auth.invalidate(req.app, req.user)
 
         res.send(204)
     })
