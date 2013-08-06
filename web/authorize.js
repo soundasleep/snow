@@ -12,6 +12,10 @@ exports.user = function(level, register) {
 exports.demand = function(level, register) {
     var here = location.hash.substr(1)
 
+    if (here.match(/^auth\//)) {
+        here = ''
+    }
+
     debug('requiring security level %d', level)
 
     if (!api.user) {
@@ -19,21 +23,25 @@ exports.demand = function(level, register) {
 
         if (register) {
             if (here) {
-                router.go('auth/login?after=' + here, true)
-            } else {
-                router.go('auth/login', true)
-            }
-        } else {
-            if (here) {
                 router.go('auth/register?after=' + here, true)
             } else {
                 router.go('auth/register', true)
+            }
+        } else {
+            if (here) {
+                router.go('auth/login?after=' + here, true)
+            } else {
+                router.go('auth/login', true)
             }
         }
 
         return false
     }
 
+    return exports.demandLevel(level, here)
+}
+
+exports.demandLevel = function(level, after) {
     debug('user has security level %d', api.user.securityLevel)
 
     if (api.user.securityLevel >= level) {
@@ -43,13 +51,13 @@ exports.demand = function(level, register) {
 
     if (api.user.securityLevel < 1) {
         debug('suggesting to verify email to reach level 1')
-        router.go('auth/verifyemail?after=' + here, true)
+        router.go('auth/verifyemail?after=' + after, true)
     } else if (api.user.securityLevel < 2) {
         debug('suggesting to verify phone to reach level 2')
-        router.go('auth/verifyphone?after=' + here, true)
+        router.go('auth/verifyphone?after=' + after, true)
     } else if (api.user.securityLevel < 3) {
         debug('suggesting to enter full name and address to reach level 3')
-        router.go('auth/identity?after=' + here, true)
+        router.go('auth/identity?after=' + after, true)
     } else if (api.user.securityLevel < 4) {
         debug('user country is %s', api.user.country)
 
@@ -58,7 +66,7 @@ exports.demand = function(level, register) {
             router.go('auth/norwaydeposit', true)
         } else {
             debug('suggesting to go through CIP')
-            router.go('auth/cip?after=' + here, true)
+            router.go('auth/cip?after=' + after, true)
         }
     }
 }
