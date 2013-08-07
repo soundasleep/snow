@@ -10,28 +10,41 @@ module.exports = function(after) {
     , $form = $el.find('form')
 
     var countries = require('../../../assets/callingcodes.json')
-    , $country = $el.find('.country')
+    , $country = $el.field('country')
     $country.append(_.map(countries, function(country) {
         return util.format('<option value="%s">%s</option>', country.code, country.name)
     }))
 
-    $form.find('.first-name').focusSoon()
+    $form.field('first-name').focusSoon()
 
     $form.on('submit', function(e) {
         e.preventDefault()
+        var $btn = $form.find('[type="submit"]')
 
-        var address1 = $el.find('.address1').val()
-        , address2 = $el.find('.address2').val()
+        var address1 = $el.field('address1').val()
+        , address2 = $el.field('address2').val()
         , address = address2 ? address1 + '\n' + address2 : address1
-
-        var data = {
-            firstName: $el.find('.first-name').val(),
-            lastName: $el.find('.last-name').val(),
+        , data = {
+            firstName: $el.field('firstName').val(),
+            lastName: $el.field('lastName').val(),
             address: address,
-            city: $el.find('.city').val(),
-            postalArea: $el.find('.postal-area').val(),
-            country: $el.find('.country').val()
+            city: $el.field('city').val(),
+            postalArea: $el.field('postalArea').val(),
+            country: $el.field('country').val()
         }
+
+        $form.find('.first-name').toggleClass('has-error', !data.firstName)
+        $form.find('.last-name').toggleClass('has-error', !data.lastName)
+        $form.find('.address1').toggleClass('has-error', !data.address)
+        $form.find('.city').toggleClass('has-error', !data.city)
+        $form.find('.postal-area').toggleClass('has-error', !data.postalArea)
+        $form.find('.country').toggleClass('has-error', !data.country)
+
+        if ($form.find('.has-error').length) {
+            return
+        }
+
+        $btn.loading(true)
 
         api.call('v1/users/identity', data)
         .done(function() {
@@ -51,10 +64,20 @@ module.exports = function(after) {
 
             router.after(after)
         })
+        .always(function() {
+            $btn.loading(false)
+        })
         .fail(function(xhr) {
             errors.alertFromXhr(xhr)
         })
     })
+
+    var lang = api.user.language
+
+    if (lang) {
+        var countryCodeGuess = lang.substr(lang.length - 2, 2)
+        $country.val(countryCodeGuess)
+    }
 
     return controller
 }
