@@ -296,6 +296,8 @@
     "withdraw.bank.amount label": "Amount",
     "withdraw.bank.submit": "Withdraw to bank",
     "withdraw.bank.manage": "Manage accounts",
+    "withdraw.bank.empty": "You have not added any bank accounts.",
+    "withdraw.bank.empty.link": "Add a bank account",
 
     "auth.cip.heading": "Account level 4 required",
     "auth.cip.intro": "We'll now verify your name and address. Email one proof of identity and one proof of address to the email address below",
