@@ -5,7 +5,15 @@
         <div class="col-lg-9">
             <h1><%= i18n('withdraws.heading') %></h1>
 
-            <table class="withdraws table table-striped">
+            <div class="alert alert-info visible-loading lead">
+                <p class=""><%- i18n('loading') %>...</p>
+            </div>
+
+            <div class="alert alert-info lead visible-empty">
+                <%- i18n('withdraw.withdraws.empty') %>
+            </div>
+
+            <table class="withdraws table table-striped visible-loaded hidden-empty">
                 <thead>
                     <th><%= i18n('withdraws.column headers.date') %></th>
                     <th><%= i18n('withdraws.column headers.amount') %></th>

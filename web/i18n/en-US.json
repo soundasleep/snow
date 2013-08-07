@@ -305,5 +305,6 @@
     "auth.cip.no retain": "We will delete the pictures immediately after reviewing them.",
     "auth.cip.continue": "I've emailed both the documents",
     "auth.cip.return": "Return to my account",
-    "auth.cip.outro": "Thanks! We'll review the documents as fast and we can and notify you when we have."
+    "auth.cip.outro": "Thanks! We'll review the documents as fast and we can and notify you when we have.",
+    "withdraw.withdraws.empty": "You have not requested any withdraws."
 }

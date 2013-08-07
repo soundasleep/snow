@@ -8,7 +8,7 @@ module.exports = function() {
     , controller = {
         $el: $el
     }
-    , $items = controller.$el.find('.items')
+    , $items = $el.find('.items')
 
     function itemsChanged(items) {
         $items.html($.map(items, function(item) {
@@ -44,12 +44,18 @@ module.exports = function() {
             return $el
         }))
 
-        controller.$el.toggleClass('is-empty', !items.length)
+        $el.toggleClass('is-empty', !items.length)
+        .addClass('has-loaded')
     }
 
     function refresh() {
+        $el.addClass('is-loading')
+
         api.call('v1/withdraws')
         .fail(errors.alertFromXhr)
+        .always(function() {
+            $el.removeClass('is-loading')
+        })
         .done(itemsChanged)
     }
 
