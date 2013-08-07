@@ -78,11 +78,11 @@
 
     "depositbtc.heading": "Add BTC to your account",
     "depositbtc.address.label": "Send to this address",
-    "depositbtc.disclaimer": "We require seks confirmations before your account is credited. This should take less than an hour.",
+    "depositbtc.disclaimer": "We require six confirmations before your account is credited. This should take less than an hour.",
 
     "depositltc.heading": "Add LTC to your account",
     "depositltc.address.label": "Send to this address",
-    "depositltc.disclaimer": "We require seks confirmations before your account is credited. This should take less than an hour.",
+    "depositltc.disclaimer": "We require six confirmations before your account is credited. This should take less than an hour.",
 
     "login.errors.wrong username or password": "Wrong e-mail/password",
     "login.heading": "Please sign in",
