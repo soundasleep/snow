@@ -67,8 +67,12 @@ module.exports = function(after) {
         .always(function() {
             $btn.loading(false)
         })
-        .fail(function(xhr) {
-            errors.alertFromXhr(xhr)
+        .fail(function(err) {
+            if (err.name == 'IdentityAlreadySet') {
+                return router.after(after)
+            }
+
+            errors.alertFromXhr(err)
         })
     })
 
