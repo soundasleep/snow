@@ -5,56 +5,64 @@
         <div class="col-lg-6">
             <h1><%= i18n('withdraw.bank.heading') %></h1>
 
-            <div class="visible-empty">
-                <p class="lead">
-                    <%- i18n('withdraw.bank.empty') %>
-                </p>
-
-                <p>
-                    <a href="#account/bankaccounts/add" class="btn btn-default btn-lg">
-                        <%- i18n('withdraw.bank.empty.link') %>
-                    </a>
-                </p>
+            <div class="hidden-sepa">
+                <div class="alert lead">
+                    Sorry, but we are not currently sending bank transfers to your country (outside SEPA)
+                </div>
             </div>
 
-            <div class="hidden-empty">
-                <form class="well">
-                    <div class="account form-group">
-                        <label for="account">
-                            <%- i18n('withdraw.bank.bank account.label') %>
-                        </label>
+            <div class="visible-sepa">
+                <div class="visible-empty">
+                    <p class="lead">
+                        <%- i18n('withdraw.bank.empty') %>
+                    </p>
 
-                        <p class="pull-right">
-                            <a href="#account/bankaccounts">
-                                <%- i18n('withdraw.bank.manage') %>
-                            </a>
-                        </p>
+                    <p>
+                        <a href="#account/bankaccounts/add" class="btn btn-default btn-lg">
+                            <%- i18n('withdraw.bank.empty.link') %>
+                        </a>
+                    </p>
+                </div>
 
-                        <select name="account" class="form-control"></select>
-                    </div>
+                <div class="hidden-empty">
+                    <form class="well">
+                        <div class="account form-group">
+                            <label for="account">
+                                <%- i18n('withdraw.bank.bank account.label') %>
+                            </label>
 
-                    <div class="form-group amount">
-                        <label for="amount"><%= i18n('withdraw.bank.amount label') %></label>
+                            <p class="pull-right">
+                                <a href="#account/bankaccounts">
+                                    <%- i18n('withdraw.bank.manage') %>
+                                </a>
+                            </p>
 
-                        <div class="input-group">
-                            <input class="form-control" type="text" name="amount" />
+                            <select name="account" class="form-control"></select>
+                        </div>
 
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle currency" data-toggle="dropdown" name="button">
-                                    <span name="currency"></span>
-                                    <span class="caret"></span>
-                                </button>
+                        <div class="form-group amount">
+                            <label for="amount"><%= i18n('withdraw.bank.amount label') %></label>
 
-                                <ul class="dropdown-menu pull-right currencies">
-                                </ul>
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="amount" />
+
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle currency" data-toggle="dropdown" name="button">
+                                        <span name="currency"></span>
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu pull-right currencies">
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block"><%- i18n('withdraw.bank.submit') %></button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block"><%- i18n('withdraw.bank.submit') %></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

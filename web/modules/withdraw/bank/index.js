@@ -3,6 +3,7 @@ var format = require('util').format
 , num = require('num')
 , nav = require('../nav')
 , template = require('./index.html')
+, sepa = require('../../../assets/sepa.json')
 
 module.exports = function(currency) {
     var $el = $('<div class=withdraw-bank>').html(template())
@@ -81,6 +82,7 @@ module.exports = function(currency) {
     })
 
     $el.find('.withdraw-nav').replaceWith(nav('bank').$el)
+    $el.toggleClass('is-sepa', !!~sepa.indexOf(api.user.country))
 
     return controller
 }

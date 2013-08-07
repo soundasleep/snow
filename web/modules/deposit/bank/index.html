@@ -2,92 +2,106 @@
     <div class="row">
         <div class="deposit-nav"></div>
 
-        <div class="col-lg-6 payment-details">
-            <h1><%= i18n('depositbank.heading') %></h1>
-
-            <p class="lead"><%= i18n('depositbank.intro') %></p>
-
+        <div class="col-lg-9">
             <div class="row">
-                <div class="col-lg-6">
-                    <strong><%= i18n('depositbank.recipient') %></strong>
-                </div>
-                <div class="col-lg-6 visible-norway">
-                    Justcoin AS<br />
-                    Tordenskioldsgate 3<br />
-                    0160 Oslo
-                </div>
-                <div class="col-lg-6 hidden-norway">
-                    Justcoin AS<br />
-                    Tordenskioldsgate 3<br />
-                    0160 Oslo<br>
-                    Norway
-                </div>
-            </div>
-            <div class="row visible-norway">
-                <div class="col-lg-6">
-                    <strong><%= i18n('depositbank.account') %></strong>
-                </div>
-
-                <div class="col-lg-6">
-                    1503.36.59595
-                </div>
-            </div>
-
-            <div class="row hidden-norway">
-                <div class="col-lg-6">
-                    <strong>IBAN</strong>
-                </div>
-
-                <div class="col-lg-6">
-                    NO0512506115084
-                </div>
-            </div>
-
-            <div class="row hidden-norway">
-                <div class="col-lg-6">
-                    <strong>SWIFT/BIC</strong>
-                </div>
-
-                <div class="col-lg-6">
-                    DNBANOKKXXX
+                <div class="col-lg-12">
+                    <h1><%= i18n('depositbank.heading') %></h1>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
-                    <strong><%= i18n('depositbank.messageToRecipient') %></strong>
+                <div class="col-lg-12 hidden-sepa">
+                    <div class="alert lead">
+                        Sorry, but we are not currently taking deposits from your country (outside SEPA)
+                    </div>
                 </div>
 
-                <div class="col-lg-6">
-                    <%= messageToRecipient %>
-                </div>
-            </div>
+                <div class="col-lg-12 payment-details visible-sepa">
+                    <p class="lead"><%= i18n('depositbank.intro') %></p>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <%= i18n('depositbank.minimumAmount') %>
-                </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <strong><%= i18n('depositbank.recipient') %></strong>
+                        </div>
+                        <div class="col-lg-6 visible-norway">
+                            Justcoin AS<br />
+                            Tordenskioldsgate 3<br />
+                            0160 Oslo
+                        </div>
+                        <div class="col-lg-6 hidden-norway">
+                            Justcoin AS<br />
+                            Tordenskioldsgate 3<br />
+                            0160 Oslo<br>
+                            Norway
+                        </div>
+                    </div>
+                    <div class="row visible-norway">
+                        <div class="col-lg-6">
+                            <strong><%= i18n('depositbank.account') %></strong>
+                        </div>
 
-                <div class="col-lg-6 visible-norway">
-                    100 NOK
-                </div>
+                        <div class="col-lg-6">
+                            1503.36.59595
+                        </div>
+                    </div>
 
-                <div class="col-lg-6 hidden-norway">
-                    25 EUR
-                </div>
-            </div>
+                    <div class="row hidden-norway">
+                        <div class="col-lg-6">
+                            <strong>IBAN</strong>
+                        </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <%= i18n('depositbank.maximumAmount') %>
-                </div>
+                        <div class="col-lg-6">
+                            NO0512506115084
+                        </div>
+                    </div>
 
-                <div class="col-lg-6 visible-norway">
-                    8 500 NOK
-                </div>
+                    <div class="row hidden-norway">
+                        <div class="col-lg-6">
+                            <strong>SWIFT/BIC</strong>
+                        </div>
 
-                <div class="col-lg-6 hidden-norway">
-                    950 EUR
+                        <div class="col-lg-6">
+                            DNBANOKKXXX
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <strong><%= i18n('depositbank.messageToRecipient') %></strong>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <%= messageToRecipient %>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <%= i18n('depositbank.minimumAmount') %>
+                        </div>
+
+                        <div class="col-lg-6 visible-norway">
+                            100 NOK
+                        </div>
+
+                        <div class="col-lg-6 hidden-norway">
+                            25 EUR
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <%= i18n('depositbank.maximumAmount') %>
+                        </div>
+
+                        <div class="col-lg-6 visible-norway">
+                            8 500 NOK
+                        </div>
+
+                        <div class="col-lg-6 hidden-norway">
+                            950 EUR
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
