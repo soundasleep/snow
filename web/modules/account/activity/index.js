@@ -12,6 +12,11 @@ module.exports = function() {
     , $items = controller.$el.find('.activities')
 
     function itemsChanged(items) {
+        // Filter out admin items
+        items = _.filter(items, function(item) {
+            return !item.type.match(/^Admin/)
+        })
+
         // Sort so that fills appear after creates
         items = _.sortBy(items, function(item) {
             var epoch = moment(item.created).unix()
