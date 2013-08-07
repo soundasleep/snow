@@ -1,7 +1,9 @@
 var template = require('./index.html')
 
 module.exports = function(tab) {
-    var $el = $('<div class=account-nav>').html(template())
+    var $el = $('<div class=account-nav>').html(template({
+        tag: api.user.tag
+    }))
     , controller = {
         $el: $el
     }
