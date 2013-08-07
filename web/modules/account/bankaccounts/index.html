@@ -5,7 +5,9 @@
         <div class="col-lg-9">
             <h1><%- i18n('account.bankaccounts.heading') %></h1>
 
-            <div class="row">
+            <p class="lead alert alert-info visible-loading"><%- i18n('loading') %>...</p>
+
+            <div class="row visible-loaded">
                 <div class="col-lg-12">
                     <div class="btn-group btn-group-justified btn-default">
                         <a class="add btn jc-btn" href="#account/bankaccounts/add/norway">
@@ -20,9 +22,13 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row visible-loaded">
                 <div class="col-lg-12">
-                    <table class="accounts-table table table-striped">
+                    <div class="alert alert-info visible-empty">
+                        <p class="lead visible-empty"><%- i18n('account.bankaccounts.empty') %></p>
+                    </div>
+
+                    <table class="accounts-table table table-striped hidden-empty">
                         <thead>
                             <tr>
                                 <th class="account-number-header">

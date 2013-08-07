@@ -270,6 +270,7 @@
     "account.bankaccounts.add.account-number": "Account #",
     "account.bankaccounts.add.submit": "Add bank account",
     "account.bankaccounts.heading": "Bank accounts",
+    "account.bankaccounts.empty": "You have not added any bank accounts yet.",
     "account.bankaccounts.add norway button": "Add bank account",
     "account.bankaccounts.add other button": "Add Norwegian bank account",
     "account.bankaccounts.headers.account-number": "Account #",

@@ -9,7 +9,12 @@ module.exports = function() {
     }
 
     function refresh() {
+        $el.addClass('is-loading')
+
         api.call('v1/bankAccounts')
+        .always(function() {
+            $el.removeClass('is-loading')
+        })
         .fail(errors.alertFromXhr)
         .done(renderAccounts)
     }
@@ -22,10 +27,14 @@ module.exports = function() {
                 formatted: formatters.bankAccount(a)
             }, a)))
         })
+
         $accounts.html($items)
+
+        $el.toggleClass('is-empty', !accounts.length).addClass('is-loaded')
     }
 
     refresh()
+
 
     $el.find('.account-nav').replaceWith(nav('bankaccounts').$el)
 
