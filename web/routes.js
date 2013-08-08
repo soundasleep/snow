@@ -10,6 +10,7 @@ module.exports = function() {
     require('./modules/trade/routes.js')(router, master, authorize)
     require('./modules/about/routes.js')(router, master, authorize)
     require('./modules/auth/routes.js')(router, master, authorize)
+    require('./modules/settings/routes.js')(router, master, authorize)
 
     router
     .add(/^(.+)$/, function(hash) {

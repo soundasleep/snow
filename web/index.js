@@ -59,6 +59,15 @@ api.bootstrap().done(function() {
     if (apiKey) {
         debug('using cached credentials')
         api.loginWithKey(apiKey)
+        .fail(function(err) {
+            if (err.name == 'OtpRequired') {
+                $.removeCookie('apiKey')
+                window.location = '/'
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(router.now)
     } else {
         debug('no cached credentials')

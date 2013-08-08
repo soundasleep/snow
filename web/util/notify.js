@@ -23,23 +23,17 @@ module.exports = function() {
     }
 
     api.on('activities', function(items) {
-        if (since === undefined) {
-            if (items.length) {
-                since = _.sortBy(items, 'id').pop().id
-                debug('initial since = %s', since)
-            }
-        } else {
-            _.each(items, function(item) {
-                var phrased = activity(item)
-                module.show(phrased)
-            })
+        var highestItem = _.sortBy(items, 'id').pop
+        , highestId = highestItem ? highestItem.id : null
 
-            if (items.length) {
-                debug('%s new items', items.length)
-                since = items[items.length - 1].id
-                debug('since = %s', since)
-            } else {
-                debug('no new items')
+        if (since === undefined && highestId) {
+            since = highestId
+            debug('initial since = %s', since)
+        } else {
+            if (highestId && highestId > since) {
+                _.each(items, function(item) {
+                    module.show(activity(item))
+                })
             }
 
             timer && clearTimeout(timer)

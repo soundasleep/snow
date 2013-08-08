@@ -69,11 +69,22 @@ api.call = function(method, data, options) {
         }
 
         return error
+    }).fail(function(err) {
+        if (err.name == 'OtpRequired' || err.name == 'UnknownApiKey') {
+            if (!options.authorizing && api.user) {
+                debug('invalidating "session" because of %s', err.name)
+                api.user = null
+                require('./authorize').demand(0)
+                return
+            }
+
+            return err
+        }
     })
 }
 
 api.loginWithKey = function(key) {
-    return api.call('v1/whoami', null, { key: key })
+    return api.call('v1/whoami', null, { key: key, authorizing: true })
     .then(function(user) {
         $.cookie('apiKey', key)
         $.cookie('existingUser', true, { path: '/', expires: 365 * 10 })
@@ -86,9 +97,28 @@ api.loginWithKey = function(key) {
     })
 }
 
+api.logout = function() {
+    return api.call('v1/twoFactor/logout', {})
+    .done(function() {
+        $.removeCookie('apiKey')
+    })
+}
+
 api.login = function(email, password) {
     var key = keyFromCredentials(email, password)
     return api.loginWithKey(key)
+}
+
+api.twoFactor = function(email, password, otp) {
+    return api.call('v1/twoFactor/auth', {
+        otp: otp
+    }, {
+        qs: {
+            key: keyFromCredentials(email, password)
+        }
+    }).then(function() {
+        return api.login(email, password)
+    })
 }
 
 api.register = function(email, password) {

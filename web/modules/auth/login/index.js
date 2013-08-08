@@ -11,6 +11,7 @@ module.exports = function(after) {
     , $form = controller.$el.find('.login')
     , $email = $form.find('.form-group.email')
     , $password = $form.find('.form-group.password')
+    , $otp = $form.find('.otp')
     , $submit = $form.find('button')
     , validatePasswordTimer
     , validateEmailTimer
@@ -28,6 +29,19 @@ module.exports = function(after) {
 
     if (after) {
         controller.$el.find('.new-user').attr('href', '#register?after=' + after)
+    }
+
+    function validateOtp() {
+        var otp = $form.find('.otp')
+        , expression = /^[0-9]{6}$/
+        , valid = otp.field('otp').val().match(expression)
+
+        $otp
+        .removeClass('is-wrong is-locked-out')
+        .toggleClass('is-invalid has-error', !valid)
+        .toggleClass('is-valid', !!valid)
+
+        return valid
     }
 
     function validateEmail() {
@@ -86,32 +100,8 @@ module.exports = function(after) {
         }, 750)
     })
 
-    $form.on('submit', function(e) {
-        e.preventDefault()
-
-        validateEmail()
-        validatePassword()
-
-        var fields = [$email, $password]
-        , invalid
-
-        _.some(fields, function($e) {
-            if ($e.hasClass('is-valid')) return
-            $submit.shake()
-            $e.find('input').focus()
-            invalid = true
-            return true
-        })
-
-        if (invalid) return
-
-        $submit.prop('disabled', true)
-        .addClass('is-loading')
-        .html(i18n('login.login button.logging in'))
-
-        debug('logging in')
-
-        api.login($email.find('input').val(), $password.find('input').val())
+    function login() {
+        return api.login($email.find('input').val(), $password.find('input').val())
         .always(function() {
             $submit.prop('disabled', false)
             .removeClass('is-loading')
@@ -128,7 +118,77 @@ module.exports = function(after) {
                 return
             }
 
+            if (err.name == 'OtpRequired') {
+                $form.find('.otp').show()
+                $form.field('otp').focus()
+                return
+            }
+
             errors.alertFromXhr(err)
+        })
+    }
+
+    function submitOtp() {
+        return api.twoFactor(
+            $email.find('input').val(),
+            $password.find('input').val(),
+            $form.field('otp').val()
+        )
+        .fail(function(err) {
+            if (err.name == 'WrongOtp') {
+                $otp.addClass('is-wrong has-error')
+                $otp.field().focus()
+                return
+            }
+
+            if (err.name == 'BlockedOtp') {
+                $otp.addClass('is-locked-out has-error')
+                $otp.field().focus()
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
+        .done(function() {
+            router.after(after)
+        })
+    }
+
+    $form.on('submit', function(e) {
+        var useOtp = $form.find('.otp:visible').length
+
+        e.preventDefault()
+
+        validateEmail()
+        validatePassword()
+
+        var fields = [$email, $password]
+        , invalid
+
+
+        if (useOtp) {
+            validateOtp()
+            fields.push($form.find('.otp'))
+        }
+
+        _.some(fields, function($e) {
+            if ($e.hasClass('is-valid')) return
+            $submit.shake()
+            $e.find('input').focus()
+            invalid = true
+            return true
+        })
+
+        if (invalid) return
+
+        $submit.loading(true, i18n('login.login button.logging in'))
+
+        debug('logging in')
+
+        var method = useOtp ? submitOtp : login
+
+        method().always(function() {
+            $submit.loading(false)
         })
     })
 
