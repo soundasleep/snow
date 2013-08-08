@@ -31,6 +31,7 @@
     "top.deposit": "Deposit",
     "top.withdraw": "Withdraw",
     "top.log out": "Log out",
+    "top.settings": "Account Settings",
 
     "register.heading": "Start using Justcoin.",
     "register.tagline": "Justcoin lets you buy and sell digital currencies, like Bitcoin.",
@@ -92,6 +93,7 @@
     "login.login button.logging in": "Signing in...",
     "login.new user register": "Not registered? Click here",
     "login.errors.email.badFormat": "Doesn't look valid.",
+    "login.otp.label": "One-Time Password",
 
     "not found.heading": "Not found",
     "not found.body": "There's nothing at this address.",
@@ -308,5 +310,14 @@
     "auth.cip.outro": "Thanks! We'll review the documents as fast and we can and notify you when we have.",
     "withdraw.withdraws.empty": "You have not requested any withdraws.",
 
-    "required": "Required"
+    "required": "Required",
+
+    "settings.twofactor.heading": "Two-Factor Authentication",
+    "settings.twofactor.disabled.lead": "Turning on Two-Factor Authentication will greatly increase the security of your account. Look for Google Authenticator in the marketplace or app store on your phone.",
+    "settings.twofactor.disabled.secret": "Write down this key in case you lose your phone",
+    "settings.twofactor.disabled.otp": "One-time password from phone",
+    "settings.twofactor.disabled.enable": "Turn on Two-Factor Authentication",
+    "settings.twofactor.enabled.lead": "Your account has two-factor authentication enabled. Use this form to turn it off.",
+    "settings.twofactor.enabled.otp": "One-time password from phone",
+    "settings.twofactor.enabled.disable": "Turn off Two-Factor Authentication"
 }

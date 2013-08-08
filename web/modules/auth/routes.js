@@ -4,8 +4,9 @@ module.exports = function(router, master, authorize) {
         master(require('./resetpassword')(), 'resetpassword')
     })
     .add(/^(?:auth\/)?signOut$/, function() {
-        $.removeCookie('apiKey')
-        window.location = '/'
+        api.logout().done(function() {
+            window.location = '/'
+        })
     })
     .add(/^(?:auth\/)?register(?:\?after=(.+))?$/, function(after) {
         master(require('./register')(after), 'register')

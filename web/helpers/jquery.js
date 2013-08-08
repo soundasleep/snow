@@ -59,7 +59,9 @@ $.fn.focusSoon = function() {
 }
 
 $.fn.field = function(name, value) {
-    var $fields = $(this).find('[name="' + name + '"]')
+    var $fields = name === null ?
+        $(this).find('input, select, textarea') :
+        $(this).find('[name="' + name + '"]')
 
     if (value !== undefined) {
         $fields.each(function() {
