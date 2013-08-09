@@ -13,6 +13,7 @@ function publish(hostname, cb) {
         'assets/irba.html': 'irba.html',
         'build/img/registerbg.jpg': 'client/img/registerbg.jpg',
         'build/img/icon.png': 'client/img/icon.png',
+        'build/img/justcoin-footer.png': 'client/img/justcoin-footer.png',
         'build/img/flags/NO.png': 'client/img/flags/NO.png',
         'build/img/flags/US.png': 'client/img/flags/US.png'
     }
