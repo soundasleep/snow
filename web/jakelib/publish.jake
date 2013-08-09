@@ -11,8 +11,8 @@ function publish(hostname, cb) {
         'build/index.html': 'client/index.html',
         'assets/ripple.txt': 'ripple.txt',
         'assets/irba.html': 'irba.html',
-        'build/img/icon-inverse.png': 'client/img/icon-inverse.png',
         'build/img/registerbg.jpg': 'client/img/registerbg.jpg',
+        'build/img/icon.png': 'client/img/icon.png',
         'build/img/flags/NO.png': 'client/img/flags/NO.png',
         'build/img/flags/US.png': 'client/img/flags/US.png'
     }
