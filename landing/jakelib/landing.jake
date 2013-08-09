@@ -22,7 +22,8 @@ task('dist', [
 ])
 
 var vendor = [
-    'vendor/jquery/jquery-1.10.2.min.js'
+    'vendor/jquery/jquery-1.10.2.min.js',
+    'vendor/highstock.js'
 ]
 
 file(base + '/vendor.js', vendor, common.concatFiles)
@@ -34,6 +35,7 @@ file(base + '/index.css', function() {
 file(base + '/index.html', function() {
     var ejs = require('ejs')
     ejs.render(cat('index.ejs'), {
+        filename: 'index.ejs',
         segment: process.env.SEGMENT,
         timestamp: +new Date(),
         bucket: process.env.BUCKET

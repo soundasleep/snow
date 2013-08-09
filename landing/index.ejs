@@ -16,6 +16,12 @@
     <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
     <meta name="msapplication-TileImage" content="/tileicon.png">
 
+    <script>
+        if (document.cookie && document.cookie.match('existingUser')) {
+            window.location = '/client/#login'
+        }
+    </script>
+
     <% if (segment !== undefined) { %>
         <script type="text/javascript">
           var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
@@ -27,11 +33,23 @@
 <body>
     <a name="top"></a>
 
-    <div class="header-background">
+    <div class="charts visible-showing-chart">
+        <div id="vohlc" style="height: 500px; min-width: 500px"></div>
+    </div>
+
+    <div class="header-background top">
         <!-- Market prices (BTC/NOK) -->
-        <div class="row-fluid tickers">
+        <div class="row-fluid tickers visible-fetched-markets">
             <div class="span12" style="text-align:center;color:#fff;">
-                <span class="ticker-stock">BTC/NOK:</span>
+                <!-- Login for tablet and desktop -->
+                <a class="btn-login hidden-phone" href="/client/#login">Login</a>
+
+                <div style="float:left;margin-top:10px" class="visible-fetched-markets">
+                    <a href="#" data-action="show-chart" class="hidden-showing-chart">Show chart</a>
+                    <a href="#" data-action="hide-chart" class="visible-showing-chart">Hide chart</a>
+                </div>
+
+                <select class="ticker-stock"></select>:
                 <span class="ticker-type">Last:</span>
                 <span class="ticker-type-last"></span>
                 <span class="ticker-type">High:</span>
@@ -53,12 +71,7 @@
         <!-- Tagline -->
         <div class="row-fluid">
             <div class="header offset1 span8">
-                <h1>Buy and trade Bitcoin the easy way</h1>
-
-                <p class="lead">Justcoin is your trusted and preferred digital
-                currency exchange.<br>
-                Justcoin reaches globally from our base in Norway.<br>
-                Register and start trading today.</p>
+                <h1>Buy and trade Bitcoin the easy way.</h1>
             </div>
 
             <div class="logo hidden-phone" style="text-align:right;">
@@ -66,9 +79,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Login for tablet and desktop -->
-    <a class="btn-login hidden-phone" href="/client/#login">Login</a>
 
     <!-- Call to action -->
     <div class="container" style="margin-bottom:4em;">
@@ -260,56 +270,9 @@
         </footer>
     </div>
 
-    <script src="vendor.js"></script>
-
     <script>
-        if (document.cookie && document.cookie.match('existingUser')) {
-            window.location = '/client/#login'
-        }
-    </script>
-
-    <script>
-        function refreshTickers() {
-            $.ajax({
-                url: '/api/v1/markets',
-                qs: {
-                    ts: +new Date()
-                }
-            }).fail(function(xhr, statusText, status) {
-                try {
-                    console.error('Unable to refresh tickers: ' + xhr.responseText)
-                } catch (e) {
-                }
-            }).always(function() {
-                setTimeout(refreshTickers, 10e3)
-            }).done(function(markets) {
-                $.each(markets, function(i, market) {
-                    if (market.id != 'BTCNOK') return
-                    $.each(['last', 'high', 'low', 'volume'], function(i, name) {
-                        $('.ticker-type-' + name).html(market[name])
-                    })
-                })
-                $('.tickers').css('visibility', 'visible')
-            })
-        }
-
-        $(refreshTickers)
-
-        if (analytics) {
-            analytics.trackLink($('.btn-login'), 'Clicked Login')
-
-            var signups = ['main', 'screenshot', 'bitcoin', 'ripple', 'litecoin', 'about']
-
-            $.each(signups, function(i, which) {
-                analytics.trackLink($('.signup-' + which), 'Clicked Sign Up', {
-                    which: which
-                })
-            })
-
-            analytics.trackLink($('.terms'), 'Clicked Terms')
-            analytics.trackLink($('.privacy'), 'Clicked Privacy')
-            analytics.trackLink($('.support'), 'Clicked Support')
-        }
+        <% include build/vendor.js %>
+        <% include landing.js %>
     </script>
 </body>
 </html>
