@@ -319,5 +319,11 @@
     "settings.twofactor.disabled.enable": "Turn on Two-Factor Authentication",
     "settings.twofactor.enabled.lead": "Your account has two-factor authentication enabled. Use this form to turn it off.",
     "settings.twofactor.enabled.otp": "One-time password from phone",
-    "settings.twofactor.enabled.disable": "Turn off Two-Factor Authentication"
+    "settings.twofactor.enabled.disable": "Turn off Two-Factor Authentication",
+
+    "master.footer.about": "About Justcoin",
+    "master.footer.terms": "Terms",
+    "master.footer.privacy": "Privacy",
+    "master.footer.source code": "Source Code",
+    "master.footer.api docs": "API"
 }

@@ -38,6 +38,7 @@ task('client', [
     base + '/index.html',
     base + '/img',
     base + '/img/registerbg.jpg',
+    base + '/img/justcoin-footer.png',
     base + '/img/icon.png',
     base + '/img/flags',
     base + '/img/flags/NO.png',
@@ -54,6 +55,7 @@ file(base + '/styles.min.css', [base + '/styles.css'], common.compressCss)
 
 file(base + '/img/registerbg.jpg', ['assets/img/registerbg.jpg'], common.copy)
 file(base + '/img/icon.png', ['assets/img/icon.png'], common.copy)
+file(base + '/img/justcoin-footer.png', ['assets/img/justcoin-footer.png'], common.copy)
 file(base + '/img/flags/NO.png', ['assets/img/flags/NO.png'], common.copy)
 file(base + '/img/flags/US.png', ['assets/img/flags/US.png'], common.copy)
 
