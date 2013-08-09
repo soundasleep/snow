@@ -22,13 +22,14 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user(3)) return
         master(require('./bankaccounts')(), 'account')
     })
-    .add(/^account\/bankaccounts\/add\/norway$/, function() {
-        if (!authorize.user(3)) return
-        master(require('./bankaccounts/addnorway')(), 'account')
-    })
     .add(/^account\/bankaccounts\/add$/, function() {
         if (!authorize.user(3)) return
-        master(require('./bankaccounts/add')(), 'account')
+
+        if (api.user.country == 'NO') {
+            master(require('./bankaccounts/addnorway')(), 'account')
+        } else {
+            master(require('./bankaccounts/add')(), 'account')
+        }
     })
     .add(/^account\/changepassword$/, function() {
         if (!authorize.user()) return

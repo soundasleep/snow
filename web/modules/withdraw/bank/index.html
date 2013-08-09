@@ -25,6 +25,15 @@
                 </div>
 
                 <div class="hidden-empty">
+                    <div class="alert alert-info">
+                        <p class=""></p>
+                        <% if (api.user.country == 'NO') { %>
+                            A fee of 10 NOK will be deducted from the amount.
+                        <% } else { %>
+                            A fee of 5 EUR will be deducted from the amount.
+                        <% } %>
+                    </div>
+
                     <form class="well">
                         <div class="account form-group">
                             <label for="account">
