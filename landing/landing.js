@@ -129,6 +129,8 @@ function paintTicker() {
 }
 
 function selectedMarket() {
+    paintTicker()
+
     if ($app.hasClass('is-showing-chart')) {
         updateChart($('.ticker-stock').val())
     }
