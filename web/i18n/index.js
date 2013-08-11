@@ -29,6 +29,7 @@ var i18n = module.exports = function(key) {
         return '!!' + key + '!!'
     }
 
+    i18n.debug = true
     if (i18n.debug) s = '!!' + s + '!!'
 
     var args = _.toArray(arguments)

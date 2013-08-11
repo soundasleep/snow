@@ -9,15 +9,10 @@
 
             <p class="lead">
                 <span class="visible-order-mode-market">
-                    You'll be matched with the best price on the market.
-                    If you'd like to place an order with a specific price,
-                    use the <a href="#trade/<%= id %>/advanced/<%= type %>">
-                    advanced order form</a>.
+                    <%- i18n('trade.market.market order.intro', '#trade/' + id + '/advanced/' + type) %>
                 </span>
                 <span class="visible-order-mode-limit">
-                    Unlike an <a href="#trade/<%= id %>/instant/<%= type %>">
-                    instant order</a>, limit orders remain listed
-                    until filled or cancelled.
+                    <%- i18n('trade.market.limit order.intro', '#trade/' + id + '/instant/' + type) %>
                 </span>
             </p>
 

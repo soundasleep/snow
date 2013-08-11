@@ -7,7 +7,7 @@
 
             <div class="hidden-sepa">
                 <div class="alert lead">
-                    Sorry, but we are not currently sending bank transfers to your country (outside SEPA)
+                    <%- i18n('withdraw.bank.outside sepa') %>
                 </div>
             </div>
 
@@ -28,9 +28,9 @@
                     <div class="alert alert-info">
                         <p class=""></p>
                         <% if (api.user.country == 'NO') { %>
-                            A fee of 10 NOK will be deducted from the amount.
+                            <%- i18n('withdraw.bank.nok fee') %>
                         <% } else { %>
-                            A fee of 5 EUR will be deducted from the amount.
+                            <%- i18n('withdraw.ank.eur fee') %>
                         <% } %>
                     </div>
 
