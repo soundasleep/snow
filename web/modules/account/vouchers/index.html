@@ -2,19 +2,19 @@
     <div class="row">
         <div class="account-nav"></div>
         <div class="col-lg-9">
-            <h1>Vouchers</h1>
+            <h1><%- i18n('account.vouchers.heading') %></h1>
 
             <p>
-                <a href="#withdraw/voucher">Create a voucher</a>
-                <a href="#deposit/voucher">Redeem a voucher</a>
+                <a href="#withdraw/voucher"><%- i18n('account.vouchers.create') %></a>
+                <a href="#deposit/voucher"><%- i18n('account.vouchers.redeem') %></a>
             </p>
 
-            <p class="visible-empty">You have no unredeemed vouchers.</p>
+            <p class="visible-empty"><%- i18n('account.vouchers.empty') %></p>
 
             <table class="vouchers-table table table-striped table-bordered hidden-empty">
                 <thead>
                     <tr>
-                        <th>Code</th>
+                        <th><%- i18n('account.vouchers.headers.code') %></th>
                         <th></th>
                     </tr>
                 </thead>
