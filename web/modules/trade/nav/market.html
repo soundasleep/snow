@@ -6,12 +6,12 @@
     <ul class="nav">
         <li class="bid">
             <a href="#trade/<%= id %>/<%= mode %>/buy" title="<%= id.substr(0, 3) %> / <%= id.substr(3, 3) %>">
-                Buy
+                <%- i18n('trade.nav.market.buy') %>
             </a>
         </li>
         <li class="ask">
             <a href="#trade/<%= id %>/<%= mode %>/sell" title="<%= id.substr(0, 3) %> / <%= id.substr(3, 3) %>">
-                Sell
+                <%- i18n('trade.nav.market.sell') %>
             </a>
         </li>
     </ul>
