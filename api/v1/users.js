@@ -127,6 +127,12 @@ exports.create = function(req, res, next) {
         }, function(err, dr) {
             if (!err) {
                 var row = dr.rows[0]
+
+                req.app.intercom.createUser({
+                    email: req.body.email,
+                    id: dr.rows[0].user_id
+                })
+
                 req.app.activity(row.user_id, 'Created', {})
                 return res.send(201, { id: row.user_id })
             }
@@ -188,6 +194,7 @@ exports.identity = function(req, res, next) {
         }
 
         req.app.auth.invalidate(req.app, req.user)
+        req.app.intercom.setIdentity(req.user, req.body)
 
         req.app.activity(req.user, 'IdentitySet', {})
 
@@ -220,6 +227,19 @@ exports.verifyPhone = function(req, res, next) {
         }
 
         req.app.auth.invalidate(req.app, req.user)
+
+        req.app.conn.read.query({
+            text: [
+                'SELECT phone_number',
+                'FROM "user"',
+                'WHERE user_id = $1'
+            ].join('\n'),
+            values: [req.user]
+        }, function(err, dr) {
+            if (err) return console.error(err)
+            req.app.intercom.setUserPhoneVerified(req.user, dr.rows[0].phone_number)
+        })
+
 
         res.send(204)
     })
