@@ -98,10 +98,21 @@ api.loginWithKey = function(key) {
 }
 
 api.logout = function() {
-    return api.call('v1/twoFactor/logout', {})
-    .done(function() {
+    var d
+
+    function finish() {
         $.removeCookie('apiKey')
-    })
+    }
+
+    if (api.user.twoFactor) {
+        d = api.call('v1/twoFactor/logout', {})
+        .always(finish)
+    } else {
+        d = $.Deferred()
+        d.resolve()
+    }
+
+    return d.always(finish)
 }
 
 api.login = function(email, password) {
