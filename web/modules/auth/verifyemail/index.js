@@ -13,15 +13,25 @@ module.exports = function(after) {
     $el.on('click', '.send', function(e) {
         e.preventDefault()
 
-        $(e.target)
+        var $send = $(e.target)
         .loading(true, i18n('verifyemail.send button.sending', api.user.email))
 
         api.call('v1/email/verify/send', {}, { type: 'POST' })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            $send.loading(false)
+
+            if (err.name == 'EmailVerificationLockedOut') {
+                alertify.alert(i18n('auth.verifyemail.locked out'), function() {
+                    router.go('account')
+                })
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function() {
-            $(e.target)
+            $send
             .toggleClass('btn-success btn-primary')
-            .loading(false)
             .enabled(false)
             .html(i18n('verifyemail.send button.waiting', api.user.email))
 

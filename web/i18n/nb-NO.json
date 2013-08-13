@@ -418,5 +418,6 @@
     "deposit.voucher.redeemed.reload": "Bruk et gavekort til",
     "deposit.voucher.cancelled.heading": "Gavekort slettet",
     "deposit.voucher.cancelled.intro": "Gavekortet er slettet og pengene returnert til kontoen din.",
-    "auth.verifyphone.phone number in use": "En annen bruker har allerede godkjent dette telefonnummeret.<br>Hver person har bare lov til å registrere seg én gang.<br>Kontakt support om du har registrert deg flere ganger."
+    "auth.verifyphone.phone number in use": "En annen bruker har allerede godkjent dette telefonnummeret.<br>Hver person har bare lov til å registrere seg én gang.<br>Kontakt support om du har registrert deg flere ganger.",
+    "auth.verifyemail.locked out": "Du prøvde å bekrefte eposten din for ikke lenge siden og må vente før du kan forsøke igjen."
 }
