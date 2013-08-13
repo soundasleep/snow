@@ -7,7 +7,7 @@ function publish(hostname, cb) {
         'build/vendor.min.js': 'vendor.min.js',
         'build/styles.min.css': 'styles.min.css',
         'build/index.html': 'index.html',
-        'build/vann.jpg': 'vann.jpg',
+        'build/norway.jpg': 'norway.jpg',
         'build/litecoin.png': 'litecoin.png',
         'build/justcoin.png': 'justcoin.png',
         'build/screenshot.png': 'screenshot.png',

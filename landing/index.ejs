@@ -17,7 +17,7 @@
     <meta name="msapplication-TileImage" content="/tileicon.png">
 
     <script>
-        if (document.cookie && document.cookie.match('existingUser')) {
+        if (document.cookie && document.cookie.match('existingUser') && !location.href.match(/landing/)) {
             window.location = '/client/#auth/login'
         }
     </script>
@@ -69,13 +69,11 @@
         </div>
 
         <!-- Tagline -->
-        <div class="row-fluid">
-            <div class="header offset1 span8">
-                <h1>Buy and trade Bitcoin the easy way.</h1>
-            </div>
-
-            <div class="logo hidden-phone" style="text-align:right;">
-                <img src="justcoin.png" alt="Justcoin">
+        <div class="logo-background">
+            <div class="row">
+                <div class="logo offset1 span6 hidden-phone">
+                    <img src="justcoin.png" alt="Justcoin">
+                </div>
             </div>
         </div>
     </div>

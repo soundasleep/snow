@@ -11,7 +11,7 @@ task('dist', [
     base + '/index.html',
     base + '/litecoin.png',
     base + '/screenshot.png',
-    base + '/vann.jpg',
+    base + '/norway.jpg',
     base + '/justcoin.png',
     base + '/favicon.png',
     base + '/favicon.ico',
@@ -48,7 +48,7 @@ file(base + '/head.min.js', [base + '/head.js'], common.compressJs)
 file(base + '/entry.min.js', [base + '/entry.js'], common.compressJs)
 file(base + '/styles.min.css', [base + '/styles.css'], common.compressCss)
 file(base + '/litecoin.png', ['litecoin.png'], common.copy)
-file(base + '/vann.jpg', ['vann.jpg'], common.copy)
+file(base + '/norway.jpg', ['norway.jpg'], common.copy)
 file(base + '/screenshot.png', ['screenshot.png'], common.copy)
 file(base + '/justcoin.png', ['justcoin.png'], common.copy)
 file(base + '/favicon.png', ['favicon.png'], common.copy)

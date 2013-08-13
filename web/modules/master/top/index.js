@@ -24,11 +24,13 @@ module.exports = function() {
         , $digital = $el.find('.digital-balance')
 
         $fiats.html($.map(fiats, function(item) {
-            return format('<a>%s</a>', numbers.format(item.available, { currency: item.currency }))
+            return format('<a>%s</a>',
+                numbers.format(item.available, { currency: item.currency }))
         }))
 
         $digitals.html($.map(digitals, function(item) {
-            return format('<a>%s</a>', numbers.format(item.available, { currency: item.currency }))
+            return format('<a>%s</a>',
+                numbers.format(item.available, { currency: item.currency }))
         }))
 
         var fiat = _.find(fiats, { currency: 'NOK' })

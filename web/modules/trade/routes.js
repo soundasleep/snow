@@ -7,7 +7,9 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user()) return
         master(require('./orders')(), 'trade')
     })
-    .add(/^trade\/([A-Z]{6})\/(instant|advanced)\/(buy|sell)$/, function(market, mode, type) {
+    .add(/^trade\/([A-Z]{6})\/(instant|advanced)\/(buy|sell)$/,
+        function(market, mode, type)
+    {
         if (!authorize.user(2)) return
         mode = mode == 'instant' ? 'market' : 'limit'
         type = type == 'buy' ? 'bid' : 'ask'
