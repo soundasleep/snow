@@ -439,5 +439,6 @@
     "deposit.voucher.redeemed.reload": "Redeem another voucher",
     "deposit.voucher.cancelled.heading": "Voucher cancelled",
     "deposit.voucher.cancelled.intro": "Your voucher has been cancelled and the funds returned to your account.",
-    "auth.verifyphone.phone number in use": "Another user has already verified that phone number.<br> Each person may only have one user account.<br> Contact support if you've registered multiple times."
+    "auth.verifyphone.phone number in use": "Another user has already verified that phone number.<br> Each person may only have one user account.<br> Contact support if you've registered multiple times.",
+    "auth.verifyemail.locked out": "You tried to verify your email not long ago and need to wait before making another attempt."
 }
