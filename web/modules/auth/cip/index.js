@@ -1,5 +1,4 @@
 var template = require('./index.html')
-, _ = require('lodash')
 
 module.exports = function() {
     var $el = $('<div class=auth-cip>').html(template(api.user))
