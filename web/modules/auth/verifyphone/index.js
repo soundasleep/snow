@@ -61,13 +61,10 @@ module.exports = function(after) {
 
         number = code + number
 
-        $callForm.find('button')
-        .enabled(false)
-        .addClass('is-loading')
-        .html(i18n('verifyphone.calling you'))
+        var $callButton = $callForm.find('button')
+        .loading(true, i18n('verifyphone.calling you'))
 
-        $number.enabled(false)
-        $country.enabled(false)
+        $number.add($country).enabled(false)
 
         api.call('v1/users/verify/call', { number: number })
         .done(function() {
@@ -84,6 +81,13 @@ module.exports = function(after) {
                     function() {
                         window.location.reload()
                     })
+                return
+            }
+
+            if (err.name == 'PhoneNumberInUse') {
+                alertify.alert(i18n('auth.verifyphone.phone number in use'))
+                $callButton.loading(false)
+                $number.add($country).enabled(true)
                 return
             }
 
