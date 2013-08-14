@@ -74,7 +74,15 @@ module.exports = function(currency) {
             bankAccount: +$account.val(),
             currency: $currency.html()
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'NoFunds') {
+                alertify.alert('Amount to withdraw cannot be more ' +
+                    'than your available balance')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function() {
             api.balances()
             router.go('#withdraw/withdraws')
