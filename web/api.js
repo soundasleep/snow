@@ -137,7 +137,7 @@ api.register = function(email, password) {
         email: email,
         key: keyFromCredentials(email, password)
     })
-    .done(function() {
+    .then(function() {
         return api.login(email, password)
     })
 }
