@@ -25,6 +25,10 @@ module.exports = function() {
     $el.on('submit', 'form', function(e) {
         e.preventDefault()
 
+        if (!$el.find('form').validate(true)) {
+            return
+        }
+
         var $btn = $el.find('[type="submit"]')
         .loading(true)
 
@@ -39,6 +43,8 @@ module.exports = function() {
             history.go(-1)
         })
     })
+
+    $el.field().focusSoon()
 
     return ctrl
 }
