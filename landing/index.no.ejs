@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="utf-8">
+    <title>Justcoin</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Buy and trade Bitcoin the easy way" name="description">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="styles.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/touchicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon-precomposed" href="/touch-icon-iphone.png">
+    <link rel="icon" href="/favicon.png">
+    <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
+    <meta name="msapplication-TileImage" content="/tileicon.png">
+
+    <script>
+        if (document.cookie && document.cookie.match('existingUser') && !location.href.match(/landing/)) {
+            window.location = '/client/#auth/login'
+        }
+    </script>
+
+    <% if (segment !== undefined) { %>
+        <script type="text/javascript">
+          var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
+          analytics.load("<%- segment %>");
+        </script>
+    <% } %>
+</head>
+
+<body>
+    <a name="top"></a>
+
+    <div class="charts visible-showing-chart">
+        <div id="vohlc" style="height: 500px;"></div>
+    </div>
+
+    <div class="header-background top">
+        <!-- Market prices (BTC/NOK) -->
+        <div class="row-fluid tickers">
+            <div class="span12" style="text-align:center;color:#fff;">
+                <!-- Login for tablet and desktop -->
+                <a class="btn-login hidden-phone" href="/client/#auth/login">Logg inn</a>
+
+                <div style="float:left;margin-top:10px" class="visible-fetched-markets">
+                    <a href="#" data-action="show-chart" class="hidden-showing-chart">Vis graf</a>
+                    <a href="#" data-action="hide-chart" class="visible-showing-chart">Skjul graf</a>
+                </div>
+
+                <select class="ticker-stock"></select>:
+                <span class="ticker-type">Siste:</span>
+                <span class="ticker-type-last"></span>
+                <span class="ticker-type">Høy:</span>
+                <span class="ticker-type-high"></span>
+                <span class="ticker-type">Lav:</span>
+                <span class="ticker-type-low"></span>
+                <span class="ticker-type">Volum (24t):</span>
+                <span class="ticker-type-volume"></span>
+            </div>
+        </div>
+
+        <!-- Logo for phones -->
+        <div class="logo-top visible-phone row" style="padding-top:25px;">
+            <div class="span12" style="text-align:center;">
+                <img src="justcoin.png" alt="Justcoin">
+            </div>
+        </div>
+
+        <!-- Tagline -->
+        <div class="logo-background">
+            <div class="row">
+                <div class="logo offset1 span6 hidden-phone">
+                    <img src="justcoin.png" alt="Justcoin">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to action -->
+    <div class="container" style="margin-bottom:4em;">
+        <div class="row">
+            <div class="span12" style="text-align:center;">
+                <a class="btn btn-large btn-success signup-main" href="/client/#auth/register" style=
+                "padding: 1.5em 2em 1.5em 2em;font-size:1.5em;">Registrer deg nå</a>
+            </div>
+        </div>
+
+        <!-- Logo for phones -->
+        <div class="row visible-phone " style="text-align:center">
+            <span class="span12">
+                <a class="btn login-phone" href="/client/#auth/login">Logg inn</a>
+            </span>
+        </div>
+    </div>
+
+
+    <!-- Selling points -->
+    <div class="container marketing">
+        <div class="row">
+            <!-- Secure -->
+            <div class="span4 text-center">
+                <p style="font-size:8em;color:#333;"><em class="icon-lock icon-large"></em></p>
+                <h2>Trygt</h2>
+
+                <p>Vi bruker oppdaterte sikkerhetssystemer for å unngå misbruk. Vi oppbevarer beholdningen offline.</p>
+            </div>
+
+            <!-- Fair -->
+            <div class="span4 text-center">
+                <p style="font-size:8em;color:#333;"><em class=
+                "icon-bitcoin icon-large"></em></p>
+
+                <h2>Rettferdig</h2>
+
+                <p>0.5% provisjon på alle handler. Ingen skjulte kostnader.</p>
+            </div>
+
+            <!-- Support -->
+            <div class="span4 text-center">
+                <p style="font-size:8em;color:#333;"><em class=
+                "icon-user icon-large"></em></p>
+
+                <h2>Personlig</h2>
+
+                <p>Rask og vennlig support. Alle henvendelser blir håndtert av mennesker.</p>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Easy to use (screenshot) -->
+        <div class="featurette row">
+            <div class="span6">
+                <img src="screenshot.png">
+            </div>
+
+            <div class="span6">
+                <h2 class="featurette-heading">Lett å bruke<span class="muted">, og avansert</span></h2>
+
+                <p class="lead">Velg mellom Ekspress-ordre eller Avansert ordre, ut ifra dine behov. Sett inn eller ta ut norske kroner, eller velg mellom en rekke digitale valutaer.</p>
+
+                <p class="btn-container"><a class="btn btn-large btn-success signup-screenshot" href="/client/#auth/register">Registrer deg nå</a></p>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Bitcoin -->
+        <div class="featurette row">
+            <div class="span6">
+                <h2 class="featurette-heading" style="font-size:3em">Bitcoin<span class="muted">, fremtidens penger</span></h2>
+
+                <p class="lead">Bitcoins blir sendt over internett uten mellomledd. Bitcoin er et raskt og kostnadseffektivt alternativ til tradisjonell valuta. Bruken av Bitcoin vokser raskt verden over.</p>
+
+                <p class="btn-container">
+                    <a class="btn btn-large btn-success signup-bitcoin" href="/client/#auth/register">
+                        Registrer nå
+                    </a>
+                </p>
+            </div>
+
+            <div class="span6">
+                <iframe class="pull-right" frameborder="0" style="max-width: 560px; width: 100%; height: 315px;" src="//www.youtube.com/embed/Um63OQz3bjo"></iframe>
+            </div>
+        </div>
+        <hr class="featurette-divider">
+
+        <!-- Ripple -->
+        <div class="featurette row">
+            <div class="span6">
+                <h2 class="featurette-heading">Ripple <span class=
+                "muted">gateway</span></h2>
+
+                <p class="lead">Justcoin er stolte over å være en Ripple Gateway og medlem av XRPGA.</p>
+
+                <p class="btn-container"><a class="btn btn-large btn-success signup-ripple" href="/client/#auth/register">Registrer deg nå</a></p>
+            </div>
+
+            <div class="span6">
+                <iframe class="pull-right" frameborder="0" style="max-width: 560px; width: 100%; height: 315px;" src="//www.youtube.com/embed/M16ZatXbmLg"></iframe>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Litecoin -->
+        <div class="featurette row">
+            <div class="span4 text-left">
+                <img src="litecoin.png" style="max-width:250px">
+            </div>
+
+            <div class="span8">
+                <h2 class="featurette-heading">Litecoin<span class="muted">,
+                the silver to bitcoin's gold</span></h2>
+
+                <p class="lead">Hos Justcoin kan du kjøpe og selge Litecoin. Litecoin er mindre utbredt enn Bitcoin, men er i ferd med å få godt fotfeste.</p>
+
+                <p class="btn-container"><a class="btn btn-large btn-success signup-litecoin"
+                href="/client/#auth/register">Registrer nå</a></p>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- About us -->
+        <div class="row">
+            <!-- Company info -->
+            <div class="span4 text-center">
+                <p style="font-size:8em;color:#333;"><em class=
+                "icon-suitcase icon-large"></em></p>
+
+                <h2>Justcoin</h2>
+
+                <p>Justcoin er et norsk aksjeselskap (AS) som ble stiftet i 2013. Justcoin har kontorer i Oslo.</p>
+            </div>
+
+            <!-- Open source -->
+            <div class="span4 text-center">
+                <p style="font-size:8em;color:#333;"><em class=
+                "icon-github icon-large"></em></p>
+
+                <h2>Åpen kildekode</h2>
+
+                <p>Justcoin er basert på vårt egenutviklede prosjekt Snow, som hvem som helst kan bruke til å opprette en exchange for digital valuta. Åpen kildekode fører til fritt innsyn for brukere og bedre sikkerhet.</p>
+
+                <p class="btn-container"><a class="btn btn-large btn-success signup-about"
+                href="/client/#auth/register">Registrer deg nå</a></p>
+            </div>
+
+            <!-- Who we are -->
+            <div class="span4 text-center">
+                <p style="font-size:8em;color:#333;"><em class=
+                "icon-group icon-large"></em></p>
+
+                <h2>Hvem vi er</h2>
+
+                <p>Justcoin har to fulltidsansatte. Klaus Bugge Lund er partner og daglig leder og har ansvaret for administrative oppgaver og ikke-teknisk support. Andreas Brekken er partner, seniorutvikler og har ansvaret for utvikling av Justcoin samt teknisk support.</p>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <footer>
+            <p class="pull-right"><a href="#top">Tilbake til toppen</a></p>
+
+            <p>© 2013 Justcoin · <a class="privacy" href="/client/#privacy">Personvern</a> ·
+            <a class="terms" href="/client/#terms">Bruksvilkår</a> · <a class="support" href="mailto:support@justcoin.com">Support</a></p>
+        </footer>
+    </div>
+
+    <script>
+        <% include build/vendor.js %>
+        <% include landing.js %>
+    </script>
+</body>
+</html>

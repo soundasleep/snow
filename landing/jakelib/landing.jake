@@ -9,6 +9,7 @@ task('dist', [
     base + '/vendor.min.js',
     base + '/styles.min.css',
     base + '/index.html',
+    base + '/index.no.html',
     base + '/litecoin.png',
     base + '/screenshot.png',
     base + '/norway.jpg',
@@ -36,6 +37,17 @@ file(base + '/index.html', function() {
     var ejs = require('ejs')
     ejs.render(cat('index.ejs'), {
         filename: 'index.ejs',
+        segment: process.env.SEGMENT,
+        timestamp: +new Date(),
+        bucket: process.env.BUCKET
+    })
+    .to(this.name)
+})
+
+file(base + '/index.no.html', function() {
+    var ejs = require('ejs')
+    ejs.render(cat('index.no.ejs'), {
+        filename: 'index.no.ejs',
         segment: process.env.SEGMENT,
         timestamp: +new Date(),
         bucket: process.env.BUCKET
