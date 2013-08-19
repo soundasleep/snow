@@ -3,10 +3,17 @@ var template = require('./index.html')
 , _ = require('lodash')
 
 module.exports = function(tab, mode, type) {
-    var $el = $('<div class=trade-nav>').html(template())
+    var $el = $('<div class=trade-nav>').html(template({
+        market: tab,
+        mode: mode == 'limit' ? 'advanced' : 'instant',
+        type: type == 'ask' ? 'sell' : 'buy'
+    }))
     , controller = {
         $el: $el
     }
+
+    $el.find('.order-modes .instant').toggleClass('active', mode == 'market')
+    $el.find('.order-modes .advanced').toggleClass('active', mode == 'limit')
 
     function marketsFetched(markets) {
         markets = _.sortBy(markets, function(x) {

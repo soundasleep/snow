@@ -1,5 +1,10 @@
-<div class="account-nav area-nav col-lg-3">
+<div class="trade-nav area-nav col-lg-3">
     <div class="jc-sidebar">
+        <div class="order-modes">
+            <a class="instant" href="#trade/<%= market %>/instant/<%= type %>"><%- i18n('trade.nav.instant') %></a> /
+            <a class="advanced" href="#trade/<%= market %>/advanced/<%= type %>"><%- i18n('trade.nav.advanced') %></a>
+        </div>
+
         <ul class="nav jc-sidenav">
             <li class="orders">
                 <a href="#trade/orders">

@@ -333,8 +333,6 @@
     "account.nav.vouchers": "Vouchers",
     "account.nav.apikeys": "API keys",
 
-    "trade.market.market order.intro": "You'll be matched with the best price on the market. If you'd like to place an order with a specific price, use the <a href=\"%s\">advanced order form</a>.",
-    "trade.market.limit order.intro": "Unlike an <a href=\"%s\">instant order</a>, limit orders remain listed until filled or cancelled.",
     "trade.nav.orders": "Orders",
 
     "deposit.nav.bank": "Bank",
@@ -454,5 +452,7 @@
     "account.transactions.types.Unknown": "Unknown",
     "account.transactions.heading": "Transactions",
     "paging.newer": "Newer",
-    "paging.older": "Older"
+    "paging.older": "Older",
+    "trade.nav.instant": "Instant",
+    "trade.nav.advanced": "Advanced"
 }
