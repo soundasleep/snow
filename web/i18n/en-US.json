@@ -343,6 +343,9 @@
     "trade.nav.market.buy": "Buy",
     "trade.nav.market.sell": "Sell",
 
+    "settings.twofactor.otp.error.wrong": "Wrong code",
+    "settings.twofactor.otp.error.invalid": "Code should be 6 digits",
+    "settings.twofactor.otp.error.locked out": "Try again in 30 seconds",
     "auth.login.otp.error.wrong": "Wrong code",
     "auth.login.otp.error.invalid": "Code should be 6 digits",
     "auth.login.otp.error.locked out": "Try again in 30 seconds",
