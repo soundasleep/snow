@@ -4,14 +4,14 @@
         <div class="col-lg-9">
             <h1><%- i18n('account.vouchers.heading') %></h1>
 
-            <p>
-                <a href="#withdraw/voucher"><%- i18n('account.vouchers.create') %></a>
-                <a href="#deposit/voucher"><%- i18n('account.vouchers.redeem') %></a>
-            </p>
+            <div class="btn-group btn-group-justified btn-default">
+                <a href="#withdraw/voucher" class="btn jc-btn"><%- i18n('account.vouchers.create') %></a>
+                <a href="#deposit/voucher" class="btn jc-btn"><%- i18n('account.vouchers.redeem') %></a>
+            </div>
 
             <p class="visible-empty"><%- i18n('account.vouchers.empty') %></p>
 
-            <table class="vouchers-table table table-striped table-bordered hidden-empty">
+            <table class="vouchers-table table hidden-empty">
                 <thead>
                     <tr>
                         <th><%- i18n('account.vouchers.headers.code') %></th>
