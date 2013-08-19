@@ -18,6 +18,10 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user()) return
         master(require('./activity')(), 'account')
     })
+    .add(/^account\/transactions(?:\/(\d+))?$/, function(skip) {
+        if (!authorize.user()) return
+        master(require('./transactions')(+skip || 0), 'account')
+    })
     .add(/^account\/bankaccounts$/, function() {
         if (!authorize.user(3)) return
         master(require('./bankaccounts')(), 'account')
