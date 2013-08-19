@@ -33,18 +33,22 @@ module.exports = function() {
     $disableForm.on('submit', function(e) {
         e.preventDefault()
 
+        if (!$disableForm.validate(true)) return
+
         api.call('v1/twofactor/remove', {
             otp: $disableForm.field('otp').val()
         })
         .fail(errors.alertFromXhr)
         .done(function() {
             api.user.twoFactor = false
-            $el.toggleClass('has-two-factor')
+            router.reload()
         })
     })
 
     $enableForm.on('submit', function(e) {
         e.preventDefault()
+
+        if (!$enableForm.validate(true)) return
 
         api.call('v1/twofactor/enable', {
             key: $enableForm.field('secret').val(),
@@ -53,9 +57,11 @@ module.exports = function() {
         .fail(errors.alertFromXhr)
         .done(function() {
             api.user.twoFactor = true
-            $el.toggleClass('has-two-factor')
+            router.reload()
         })
     })
+
+    $el.focusSoon()
 
     return controller
 }
