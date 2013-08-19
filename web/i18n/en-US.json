@@ -432,6 +432,7 @@
     "account.vouchers.redeem": "Redeem a voucher",
     "account.vouchers.empty": "You have no unredeemed vouchers.",
     "account.vouchers.headers.code": "Code",
+    "account.vouchers.headers.amount": "Amount",
     "settings.nav.two factor": "Two-Factor",
     "deposit.voucher.heading": "Redeem voucher",
     "deposit.voucher.code": "Code",

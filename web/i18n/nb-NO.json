@@ -411,6 +411,7 @@
     "account.vouchers.redeem": "Bruk gavekort",
     "account.vouchers.empty": "Du har ingen ubrukte gavekort.",
     "account.vouchers.headers.code": "Kode",
+    "account.vouchers.headers.amount": "Verdi",
     "settings.nav.two factor": "Fysisk Autentisering",
     "deposit.voucher.heading": "Bruk gavekort",
     "deposit.voucher.code": "Kode",
