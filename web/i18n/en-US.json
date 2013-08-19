@@ -73,6 +73,8 @@
     "activities.ChangePassword": "You changed your password",
     "activities.Credit": "Credited %s from a deposit",
     "activities.VerifyBankAccount": "The bank account was %s verified",
+    "activities.EnableTwoFactor": "You enabled two-factor authentication",
+    "activities.RemoveTwoFactor": "You disabled two-factor authentication",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",

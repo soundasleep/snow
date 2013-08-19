@@ -44,6 +44,8 @@
     "register.create button": "Registrer meg nå",
     "register.create button.creating": "Oppretter konto...",
     "register.existing user login": "Allerede registrert? Logg inn",
+    "activities.EnableTwoFactor": "Skrudde på fysisk autentisering",
+    "activities.RemoveTwoFactor": "Skrudde av fysisk autentisering",
 
     "withdraw": "Ta ut",
     "deposit": "Sett inn",
