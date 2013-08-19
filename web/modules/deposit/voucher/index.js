@@ -76,7 +76,14 @@ module.exports = function(code) {
             .enabled(true)
             $submit.loading(false)
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'VoucherNotFound') {
+                alertify.alert('Voucher not found or already used')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function(body) {
             if (body) {
                 $el.addClass('is-redeemed')
