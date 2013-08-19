@@ -2,7 +2,7 @@ module.exports = function(app) {
     var routes = ['balances', 'markets', 'orders', 'ripple', 'intercom',
     'currencies', 'activities', 'users', 'withdraws',
     'keys', 'email', 'resetPassword', 'spend', 'bankaccounts',
-    'language', 'vouchers', 'send', 'tfa']
+    'language', 'vouchers', 'send', 'tfa', 'transactions']
 
     routes.forEach(function(name) {
         require('./' + name)(app)

@@ -420,5 +420,18 @@
     "deposit.voucher.cancelled.intro": "Gavekortet er slettet og pengene returnert til kontoen din.",
     "auth.verifyphone.phone number in use": "En annen bruker har allerede godkjent dette telefonnummeret.<br>Hver person har bare lov til å registrere seg én gang.<br>Kontakt support om du har registrert deg flere ganger.",
     "auth.verifyemail.locked out": "Du prøvde å bekrefte eposten din for ikke lenge siden og må vente før du kan forsøke igjen.",
-    "invalid": "Ugyldig"
+    "invalid": "Ugyldig",
+    "depositbank.sepaFee": "Avgift",
+    "account.nav.transactions": "Transaksjoner",
+    "account.transactions.types.WithdrawFee": "Avgift for uttak",
+    "account.transactions.types.Withdraw": "Uttak",
+    "account.transactions.types.MatchFee": "Kurtasje",
+    "account.transactions.types.Match": "Handel",
+    "account.transactions.types.Transfer": "Mellom brukere",
+    "account.transactions.types.Voucher": "Innløst gavekort",
+    "account.transactions.types.Unknown": "Ukjent",
+    "account.transactions.types.Credit": "Innskudd",
+    "account.transactions.heading": "Transaksjoner",
+    "paging.newer": "Nyere",
+    "paging.older": "Eldre"
 }

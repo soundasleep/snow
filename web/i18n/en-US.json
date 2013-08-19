@@ -441,5 +441,18 @@
     "deposit.voucher.cancelled.intro": "Your voucher has been cancelled and the funds returned to your account.",
     "auth.verifyphone.phone number in use": "Another user has already verified that phone number.<br> Each person may only have one user account.<br> Contact support if you've registered multiple times.",
     "auth.verifyemail.locked out": "You tried to verify your email not long ago and need to wait before making another attempt.",
-    "invalid": "Invalid"
+    "invalid": "Invalid",
+    "depositbank.sepaFee": "Fee",
+    "account.nav.transactions": "Transactions",
+    "account.transactions.types.WithdrawFee": "Withdraw fee",
+    "account.transactions.types.Withdraw": "Withdraw",
+    "account.transactions.types.MatchFee": "Trade fee",
+    "account.transactions.types.Match": "Trade",
+    "account.transactions.types.Transfer": "User transfer",
+    "account.transactions.types.Credit": "Deposit",
+    "account.transactions.types.Voucher": "Voucher",
+    "account.transactions.types.Unknown": "Unknown",
+    "account.transactions.heading": "Transactions",
+    "paging.newer": "Newer",
+    "paging.older": "Older"
 }
