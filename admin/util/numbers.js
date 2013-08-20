@@ -95,6 +95,9 @@ numbers.parse = function(s) {
 
     s = s.replace(new RegExp(' ', 'g'), '')
 
+    // Allow comma as decimal separator
+    s = s.replace(new RegExp(',', 'g'), '.')
+
     var allowed = [
         '0-9',
         '\\' + '.',
