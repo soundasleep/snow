@@ -138,7 +138,7 @@
     "login.errors.email.badFormat": "Ser ikke gyldig ut.",
 
     "depositbank.heading": "Innskudd med bankoverføring",
-    "depositbank.intro": "Send med detaljene under",
+    "depositbank.intro": "Send med detaljene under.",
     "depositbank.account": "Kontonummer",
     "depositbank.messageToRecipient": "Melding til mottaker",
     "depositbank.minimumAmount": "Minste beløp",
@@ -439,5 +439,6 @@
     "paging.newer": "Nyere",
     "paging.older": "Eldre",
     "auth.register.agree.lead": "Jeg har forstått",
-    "auth.register.agree.link": "bruksvilkårene"
+    "auth.register.agree.link": "bruksvilkårene",
+    "depositbank.norway-warning": "Kontoen du sender fra <b>må</b> stå i ditt navn, <b>%s</b>. Andre betalinger blir returnert."
 }
