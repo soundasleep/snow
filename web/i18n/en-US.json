@@ -164,7 +164,8 @@
     "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>",
 
     "depositbank.heading": "Deposit using bank transfer",
-    "depositbank.intro": "To deposit with bank transfer, send using the details below",
+    "depositbank.intro": "To deposit with bank transfer, send using the details below.",
+    "depositbank.norway-warning": "The account you send from <b>must</b> be in your name, <b>%s</b>. Other payments will be returned.",
     "depositbank.account": "Account number",
     "depositbank.messageToRecipient": "Message to recipient",
     "depositbank.minimumAmount": "Minimum amount",
