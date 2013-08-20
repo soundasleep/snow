@@ -345,6 +345,7 @@
 
     "trade.nav.market.buy": "Buy",
     "trade.nav.market.sell": "Sell",
+    "trade.nav.market.stats": "Stats",
 
     "settings.twofactor.otp.error.wrong": "Wrong code",
     "settings.twofactor.otp.error.invalid": "Code should be 6 digits",
@@ -425,7 +426,6 @@
     "withdraw.bitcoin.summary.status": "Status",
     "withdraw.bitcoin.summary.status.success": "Success",
     "withdraw.bitcoin.summary.status.cancelled": "Cancelled",
-    "trade.nav.market.sell": "Sell",
     "trade.orders.header.matched": "Matched",
     "trade.orders.header.remaining": "Remaining",
     "trade.orders.header.cancelled": "Canceled",
@@ -463,5 +463,17 @@
     "trade.nav.instant": "Instant",
     "trade.nav.advanced": "Advanced",
     "auth.register.agree.lead": "I agree to the",
-    "auth.register.agree.link": "Terms"
+    "auth.register.agree.link": "Terms",
+    "trade.stats.accu.buyers": "Buyers (%s)",
+    "trade.stats.accu.sellers": "Sellers (%s)",
+    "trade.stats.accu.title": "%s/%s Order book (accumulative)",
+    "trade.stats.accu.yAxis": "Volume (%s)",
+    "trade.stats.accu.xAxis": "Price (%s/%s)",
+    "trade.stats.price history.yAxis": "Price (%s/%s)",
+    "trade.stats.price history.xAxis": "Date",
+    "trade.stats.price history.title": "Price History",
+    "trade.stats.vohlc.title": "Candlestick",
+    "trade.stats.vohlc.yAxis.price": "Price (%s/%s)",
+    "trade.stats.vohlc.yAxis.volume": "Volume (%s)",
+    "trade.stats.vohlc.xAxis": "Date"
 }
