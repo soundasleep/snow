@@ -460,5 +460,7 @@
     "paging.newer": "Newer",
     "paging.older": "Older",
     "trade.nav.instant": "Instant",
-    "trade.nav.advanced": "Advanced"
+    "trade.nav.advanced": "Advanced",
+    "auth.register.agree.lead": "I agree to the",
+    "auth.register.agree.link": "Terms"
 }

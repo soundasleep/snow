@@ -437,5 +437,7 @@
     "account.transactions.types.Credit": "Innskudd",
     "account.transactions.heading": "Transaksjoner",
     "paging.newer": "Nyere",
-    "paging.older": "Eldre"
+    "paging.older": "Eldre",
+    "auth.register.agree.lead": "Jeg har forstått",
+    "auth.register.agree.link": "bruksvilkårene"
 }
