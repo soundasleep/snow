@@ -17,7 +17,8 @@ var vendor = [
     'vendor/sjcl.js',
     'components/alertify/alertify.min.js',
     'vendor/bootstrap/js/bootstrap.min.js',
-    'components/bootstrap-notify/js/bootstrap-notify.js'
+    'components/bootstrap-notify/js/bootstrap-notify.js',
+    'vendor/highstock.js'
 ]
 
 task('dist', [

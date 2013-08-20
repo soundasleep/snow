@@ -19,12 +19,17 @@ module.exports = function(router, master, authorize) {
     {
         if (!authorize.user(2)) return
 
-        $.cookie('tradeMode', mode, { expires: 10 * 356 * 7 })
-        $.cookie('tradeMarket', market, { expires: 10 * 356 * 7 })
-        $.cookie('tradeType', type, { expires: 10 * 356 * 7 })
+        mode && $.cookie('tradeMode', mode, { expires: 10 * 356 * 7 })
+        market && $.cookie('tradeMarket', market, { expires: 10 * 356 * 7 })
+        type && $.cookie('tradeType', type, { expires: 10 * 356 * 7 })
 
         mode = mode == 'instant' ? 'market' : 'limit'
         type = type == 'buy' ? 'bid' : 'ask'
         master(require('./market')(market, mode, type), 'trade')
+    })
+    .add(/^trade\/([A-Z]{6})\/stats$/,
+        function(market)
+    {
+        master(require('./stats')(market), 'trade')
     })
 }

@@ -325,6 +325,7 @@
     "auth.login.forgot password": "Jeg har glemt passordet mitt",
     "trade.nav.market.buy": "Kjøp",
     "trade.nav.market.sell": "Selg",
+    "trade.nav.market.stats": "Stats",
     "auth.login.otp.error.wrong": "Feil kode",
     "auth.login.otp.error.invalid": "Koden skal være 6 tall",
     "auth.login.otp.error.locked out": "Prøv igjen om 30 sekunder",
