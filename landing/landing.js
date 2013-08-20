@@ -36,6 +36,10 @@ function updateChart(market) {
                 selected: 1
             },
 
+            "navigator": {
+                enabled: false
+            },
+
             title: {
                 text: 'Justcoin ' + market.substr(0, 3) + '/' + market.substr(3)
             },
@@ -47,17 +51,16 @@ function updateChart(market) {
 
             yAxis: [{
                 title: {
-                    text: 'OHLC'
+                    text: 'Price'
                 },
-                height: 100,
-                lineWidth: 2
+                height: 300,
+                lineWidth: 2,
+                opposite: true
             }, {
                 title: {
                     text: 'Volume'
                 },
-                top: 200,
-                height: 100,
-                offset: 0,
+                height: 300,
                 lineWidth: 2
             }],
 
@@ -67,15 +70,18 @@ function updateChart(market) {
                 data: ohlc,
                 dataGrouping: {
                     units: groupingUnits
-                }
+                },
+                color: '#F13A2F',
+                upColor: '#7EB3B5'
             }, {
-                type: 'column',
+                type: 'line',
                 name: 'Volume',
                 data: volume,
                 yAxis: 1,
                 dataGrouping: {
                     units: groupingUnits
-                }
+                },
+                color: '#07415B'
             }]
         });
     })
