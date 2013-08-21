@@ -143,7 +143,7 @@ exports.redeem = function(app, user, voucher, cb) {
     ], function(err, res) {
         if (err) {
             if (err.message.match(/not found/)) {
-                var err = new Error('Voucher not found')
+                err = new Error('Voucher not found')
                 err.name = 'VoucherNotFound'
                 return cb(err)
             }
