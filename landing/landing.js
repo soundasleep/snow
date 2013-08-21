@@ -36,7 +36,7 @@ function updateChart(market) {
                 selected: 1
             },
 
-            "navigator": {
+            'navigator': {
                 enabled: false
             },
 
