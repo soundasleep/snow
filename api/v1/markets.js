@@ -10,6 +10,8 @@ exports.index = function(req, res, next) {
         return req.app.cache.formatOrderPrice(m, p)
     }
 
+    res.setHeader('Cache-Control', 'public, max-age=10')
+
     var query = 'SELECT * FROM market_summary_view'
     req.app.conn.read.query(query, function(err, dr) {
         if (err) return next(err)
@@ -41,6 +43,8 @@ exports.depth = function(req, res, next) {
         values: [req.params.id]
     }, function(err, dr) {
         if (err) return next(err)
+
+        res.setHeader('Cache-Control', 'public, max-age=10')
 
         res.send({
             bids: dr.rows.filter(function(row) {
@@ -75,6 +79,7 @@ exports.vohlc = function(req, res, next) {
     }, function(err, dr) {
         if (err) return next(err)
 
+        res.setHeader('Cache-Control', 'public, max-age=30')
         res.send(dr.rows.map(function(row) {
             return {
                 date: row.date,
