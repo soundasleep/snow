@@ -115,7 +115,8 @@ module.exports = function(market) {
     })
 
     var vohlc = api.call('v1/markets/' + market + '/vohlc')
-    .then(vohlcToPrices).done(function(prices) {
+
+    vohlc.then(vohlcToPrices).done(function(prices) {
         var options = _.clone(require('./price-history.json'), true)
         options.series[0].data = prices
         options.title.text = i18n('trade.stats.price history.title', base, quote)
