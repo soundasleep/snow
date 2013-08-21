@@ -1,5 +1,15 @@
-<div class="account-nav area-nav col-lg-3">
+<div class="trade-nav area-nav col-lg-3">
     <div class="jc-sidebar">
+        <div class="order-modes">
+            <% if (type == 'stats') { %>
+                <a class="disabled" disabled="disabled" style="pointer-events:none;color:#333" href="#"><%- i18n('trade.nav.instant') %></a> /
+                <a class="disabled" style="pointer-events:none;color:#333" href="#"><%- i18n('trade.nav.advanced') %></a>
+            <% } else { %>
+                <a class="instant" href="#trade/<%= market %>/instant/<%= type %>"><%- i18n('trade.nav.instant') %></a> /
+                <a class="advanced" href="#trade/<%= market %>/advanced/<%= type %>"><%- i18n('trade.nav.advanced') %></a>
+            <% } %>
+        </div>
+
         <ul class="nav jc-sidenav">
             <li class="orders">
                 <a href="#trade/orders">

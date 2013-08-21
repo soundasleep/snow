@@ -1,7 +1,7 @@
 var template = require('./index.html')
 
 module.exports = function(market) {
-    var $el = $('<div class="market-order">').html(template({
+    var $el = $('<div class="limit-order">').html(template({
         base: market.substr(0, 3),
         quote: market.substr(3, 3),
         market: market

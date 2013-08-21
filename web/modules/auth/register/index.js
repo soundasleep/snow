@@ -140,7 +140,11 @@ module.exports = function(after) {
         validatePassword()
         validateRepeat()
 
-        var fields = [$email, $password, $repeat]
+        var $terms = $el.find('.terms').toggleClass('has-error',
+            !$el.field('terms').prop('checked'))
+        $terms.toggleClass('is-valid', !$terms.hasClass('has-error'))
+
+        var fields = [$email, $password, $repeat, $terms]
         , invalid
 
         _.some(fields, function($e) {

@@ -56,8 +56,10 @@ $.fn.fadeAway = function(delay) {
 $.fn.focusSoon = function() {
     var that = this
     setTimeout(function() {
-        $(that).focus()
-    }, 500)
+        $(that)
+        .add('input:visible:not([disabled])')
+        .focus()
+    }, 250)
 }
 
 $.fn.field = function(name, value) {

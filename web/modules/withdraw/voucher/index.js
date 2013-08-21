@@ -115,16 +115,9 @@ module.exports = function() {
             $submit.loading(false)
         })
         .fail(errors.alertFromXhr)
-        .done(function(voucher) {
-            var formatted = [
-                voucher.substr(0, 4),
-                voucher.substr(4, 4),
-                voucher.substr(8, 4)
-            ].join('-')
-
-            alert('Voucher created: ' + formatted)
-            $form.field('amount').val('').focus()
+        .done(function() {
             api.balances()
+            router.go('account/vouchers')
         })
     })
 

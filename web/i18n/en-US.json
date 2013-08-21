@@ -73,6 +73,8 @@
     "activities.ChangePassword": "You changed your password",
     "activities.Credit": "Credited %s from a deposit",
     "activities.VerifyBankAccount": "The bank account was %s verified",
+    "activities.EnableTwoFactor": "You enabled two-factor authentication",
+    "activities.RemoveTwoFactor": "You disabled two-factor authentication",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",
@@ -162,7 +164,8 @@
     "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>",
 
     "depositbank.heading": "Deposit using bank transfer",
-    "depositbank.intro": "To deposit with bank transfer, send using the details below",
+    "depositbank.intro": "To deposit with bank transfer, send using the details below.",
+    "depositbank.norway-warning": "The account you send from <b>must</b> be in your name, <b>%s</b>. Other payments will be returned.",
     "depositbank.account": "Account number",
     "depositbank.messageToRecipient": "Message to recipient",
     "depositbank.minimumAmount": "Minimum amount",
@@ -333,8 +336,6 @@
     "account.nav.vouchers": "Vouchers",
     "account.nav.apikeys": "API keys",
 
-    "trade.market.market order.intro": "You'll be matched with the best price on the market. If you'd like to place an order with a specific price, use the <a href=\"%s\">advanced order form</a>.",
-    "trade.market.limit order.intro": "Unlike an <a href=\"%s\">instant order</a>, limit orders remain listed until filled or cancelled.",
     "trade.nav.orders": "Orders",
 
     "deposit.nav.bank": "Bank",
@@ -344,7 +345,11 @@
 
     "trade.nav.market.buy": "Buy",
     "trade.nav.market.sell": "Sell",
+    "trade.nav.market.stats": "Stats",
 
+    "settings.twofactor.otp.error.wrong": "Wrong code",
+    "settings.twofactor.otp.error.invalid": "Code should be 6 digits",
+    "settings.twofactor.otp.error.locked out": "Try again in 30 seconds",
     "auth.login.otp.error.wrong": "Wrong code",
     "auth.login.otp.error.invalid": "Code should be 6 digits",
     "auth.login.otp.error.locked out": "Try again in 30 seconds",
@@ -421,7 +426,6 @@
     "withdraw.bitcoin.summary.status": "Status",
     "withdraw.bitcoin.summary.status.success": "Success",
     "withdraw.bitcoin.summary.status.cancelled": "Cancelled",
-    "trade.nav.market.sell": "Sell",
     "trade.orders.header.matched": "Matched",
     "trade.orders.header.remaining": "Remaining",
     "trade.orders.header.cancelled": "Canceled",
@@ -431,6 +435,7 @@
     "account.vouchers.redeem": "Redeem a voucher",
     "account.vouchers.empty": "You have no unredeemed vouchers.",
     "account.vouchers.headers.code": "Code",
+    "account.vouchers.headers.amount": "Amount",
     "settings.nav.two factor": "Two-Factor",
     "deposit.voucher.heading": "Redeem voucher",
     "deposit.voucher.code": "Code",
@@ -454,5 +459,21 @@
     "account.transactions.types.Unknown": "Unknown",
     "account.transactions.heading": "Transactions",
     "paging.newer": "Newer",
-    "paging.older": "Older"
+    "paging.older": "Older",
+    "trade.nav.instant": "Instant",
+    "trade.nav.advanced": "Advanced",
+    "auth.register.agree.lead": "I agree to the",
+    "auth.register.agree.link": "Terms",
+    "trade.stats.accu.buyers": "Buyers (%s)",
+    "trade.stats.accu.sellers": "Sellers (%s)",
+    "trade.stats.accu.title": "%s/%s Order book (accumulative)",
+    "trade.stats.accu.yAxis": "Volume (%s)",
+    "trade.stats.accu.xAxis": "Price (%s/%s)",
+    "trade.stats.price history.yAxis": "Price (%s/%s)",
+    "trade.stats.price history.xAxis": "Date",
+    "trade.stats.price history.title": "Price History",
+    "trade.stats.vohlc.title": "Candlestick",
+    "trade.stats.vohlc.yAxis.price": "Price (%s/%s)",
+    "trade.stats.vohlc.yAxis.volume": "Volume (%s)",
+    "trade.stats.vohlc.xAxis": "Date"
 }

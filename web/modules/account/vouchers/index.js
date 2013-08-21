@@ -33,7 +33,15 @@ module.exports = function() {
         .always(function() {
             $button.loading(false)
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'VoucherNotFound') {
+                alertify.alert('The voucher does not exist or ' +
+                    'has already been redeemed')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function() {
             $item.fadeAway()
             api.balances()

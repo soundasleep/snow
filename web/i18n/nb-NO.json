@@ -44,6 +44,8 @@
     "register.create button": "Registrer meg nå",
     "register.create button.creating": "Oppretter konto...",
     "register.existing user login": "Allerede registrert? Logg inn",
+    "activities.EnableTwoFactor": "Skrudde på fysisk autentisering",
+    "activities.RemoveTwoFactor": "Skrudde av fysisk autentisering",
 
     "withdraw": "Ta ut",
     "deposit": "Sett inn",
@@ -136,7 +138,7 @@
     "login.errors.email.badFormat": "Ser ikke gyldig ut.",
 
     "depositbank.heading": "Innskudd med bankoverføring",
-    "depositbank.intro": "Send med detaljene under",
+    "depositbank.intro": "Send med detaljene under.",
     "depositbank.account": "Kontonummer",
     "depositbank.messageToRecipient": "Melding til mottaker",
     "depositbank.minimumAmount": "Minste beløp",
@@ -303,8 +305,6 @@
     "account.nav.bankaccounts": "Bankkontoer",
     "account.nav.vouchers": "Gavekort",
     "account.nav.apikeys": "API-nøkler",
-    "trade.market.market order.intro": "Du vil bli matchet med den beste prisen på markedet. Hvis du vil be om en spesifikk pris, bruk <a href=\"%s\">avansert ordre</a>.",
-    "trade.market.limit order.intro": "I motsetning til en <a href=\"%s\">hurtig-ordre</a>, blir limit-ordre på markedet til de er gjennomført eller kansellert.",
     "trade.nav.orders": "Ordre",
     "deposit.nav.bank": "Bank",
     "deposit.nav.voucher": "Gavekort",
@@ -325,9 +325,13 @@
     "auth.login.forgot password": "Jeg har glemt passordet mitt",
     "trade.nav.market.buy": "Kjøp",
     "trade.nav.market.sell": "Selg",
+    "trade.nav.market.stats": "Stats",
     "auth.login.otp.error.wrong": "Feil kode",
     "auth.login.otp.error.invalid": "Koden skal være 6 tall",
     "auth.login.otp.error.locked out": "Prøv igjen om 30 sekunder",
+    "settings.twofactor.otp.error.wrong": "Feil kode",
+    "settings.twofactor.otp.error.invalid": "Koden skal være 6 tall",
+    "settings.twofactor.otp.error.locked out": "Prøv igjen om 30 sekunder",
     "withdraw.voucher.heading": "Lag gavekort",
     "withdraw.voucher.intro": "Et gavekort kan avbrytes når som helst fra <a href=\"#account/vouchers\">gavekort-siden</a>.",
     "withdraw.voucher.currency": "Valuta",
@@ -410,6 +414,7 @@
     "account.vouchers.redeem": "Bruk gavekort",
     "account.vouchers.empty": "Du har ingen ubrukte gavekort.",
     "account.vouchers.headers.code": "Kode",
+    "account.vouchers.headers.amount": "Verdi",
     "settings.nav.two factor": "Fysisk Autentisering",
     "deposit.voucher.heading": "Bruk gavekort",
     "deposit.voucher.code": "Kode",
@@ -433,5 +438,8 @@
     "account.transactions.types.Credit": "Innskudd",
     "account.transactions.heading": "Transaksjoner",
     "paging.newer": "Nyere",
-    "paging.older": "Eldre"
+    "paging.older": "Eldre",
+    "auth.register.agree.lead": "Jeg har forstått",
+    "auth.register.agree.link": "bruksvilkårene",
+    "depositbank.norway-warning": "Kontoen du sender fra <b>må</b> stå i ditt navn, <b>%s</b>. Andre betalinger blir returnert."
 }

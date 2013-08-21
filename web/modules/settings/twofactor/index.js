@@ -33,29 +33,61 @@ module.exports = function() {
     $disableForm.on('submit', function(e) {
         e.preventDefault()
 
+        if (!$disableForm.validate(true)) return
+
         api.call('v1/twofactor/remove', {
             otp: $disableForm.field('otp').val()
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'WrongOtp') {
+                $disableForm.find('.otp').addClass('is-wrong has-error')
+                return
+            }
+
+            if (err.name == 'BlockedOtp') {
+                $disableForm.find('.otp').addClass('is-locked-out has-error')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function() {
             api.user.twoFactor = false
-            $el.toggleClass('has-two-factor')
+            router.reload()
         })
     })
 
     $enableForm.on('submit', function(e) {
         e.preventDefault()
 
+        $enableForm.find('.otp').removeClass('is-locked-out is-wrong')
+
+        if (!$enableForm.validate(true)) return
+
         api.call('v1/twofactor/enable', {
             key: $enableForm.field('secret').val(),
             otp: $enableForm.field('otp').val()
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'WrongOtp') {
+                $enableForm.find('.otp').addClass('is-wrong has-error')
+                return
+            }
+
+            if (err.name == 'BlockedOtp') {
+                $enableForm.find('.otp').addClass('is-locked-out has-error')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function() {
             api.user.twoFactor = true
-            $el.toggleClass('has-two-factor')
+            router.reload()
         })
     })
+
+    $el.focusSoon()
 
     return controller
 }

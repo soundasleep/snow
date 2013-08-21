@@ -33,6 +33,18 @@ module.exports = function() {
             $button.html('Email me').loading(false)
             $email.find('input').enabled(false)
 
+            if (err.name == 'NoVerifiedEmail') {
+                alertify.alert('Sorry, but your user has no verified email ' +
+                    'and cannot reset password. Contact support@justcoin.com')
+                return
+            }
+
+            if (err.name == 'NoVerifiedPhone') {
+                alertify.alert('Sorry, but your user has no verified phone ' +
+                    'and cannot reset password. Contact support@justcoin.com')
+                return
+            }
+
             if (err.name == 'UserNotFound') {
                 alertify.alert('Sorry, but the user ' + email + ' was not found.')
                 return

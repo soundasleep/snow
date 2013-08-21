@@ -127,5 +127,13 @@ module.exports = function(activity) {
         return i18n('activities.IdentitySet')
     }
 
+    if (activity.type == 'EnableTwoFactor') {
+        return i18n('activities.EnableTwoFactor')
+    }
+
+    if (activity.type == 'RemoveTwoFactor') {
+        return i18n('activities.RemoveTwoFactor')
+    }
+
     return JSON.stringify(activity)
 }
