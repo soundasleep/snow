@@ -2,7 +2,7 @@ var withdraws = require('../../shared/withdraws')
 , header = require('../header')
 
 module.exports = function(userId) {
-    var opts = { userId: userId }
+    var opts = { user_id: userId }
     , controller = withdraws(opts)
 
     // Insert header
