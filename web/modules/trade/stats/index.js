@@ -2,7 +2,7 @@ var template = require('./index.html')
 , _ = require('lodash')
 , nav = require('../nav')
 
-function depthToAccumulative(depth) {
+function depthToAccumulative(depth, min, max) {
     function toHash(pairs) {
         return _.reduce(pairs, function(p, c) {
             p[c[0]] = c[1]
@@ -19,7 +19,7 @@ function depthToAccumulative(depth) {
     .sort(function(a, b) { return a - b })
 
     prices = _.filter(prices, function(x) {
-        return x >= 100
+        return (!min || x >= min) && (!max || x <= max)
     })
 
     var series = {
@@ -94,7 +94,13 @@ module.exports = function(market) {
 
     var depth = api.call('v1/markets/' + market + '/depth')
 
-    depth.then(depthToAccumulative).done(function(accu) {
+    depth.then(function(depth) {
+        if (market == 'BTCNOK') {
+            return depthToAccumulative(depth, 100, 0)
+        }
+
+        return depthToAccumulative(depth)
+    }).done(function(accu) {
         var options = _.clone(require('./book-accu.json'), true)
         options.series[0].data = accu.bids
         options.series[1].data = accu.asks
