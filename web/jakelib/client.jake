@@ -12,12 +12,12 @@ var head = [
 ]
 
 var vendor = [
-    'components/jquery/jquery.min.js',
+    'bower_components/jquery/jquery.min.js',
     'vendor/jquery.cookie.js',
     'vendor/sjcl.js',
-    'components/alertify/alertify.min.js',
+    'bower_components/alertify/alertify.min.js',
     'vendor/bootstrap/js/bootstrap.min.js',
-    'components/bootstrap-notify/js/bootstrap-notify.js',
+    'bower_components/bootstrap-notify/js/bootstrap-notify.js',
     'vendor/highstock.js'
 ]
 
@@ -87,10 +87,10 @@ file(base + '/index.css', function() {
 })
 
 file(base + '/styles.css', [
-    'components/alertify/themes/alertify.core.css',
-    'components/alertify/themes/alertify.bootstrap.css',
+    'bower_components/alertify/themes/alertify.core.css',
+    'bower_components/alertify/themes/alertify.bootstrap.css',
     'vendor/bootstrap/css/bootstrap.min.css',
-    'components/bootstrap-notify/css/bootstrap-notify.css',
+    'bower_components/bootstrap-notify/css/bootstrap-notify.css',
     'build/index.css'
 ], common.concatFiles)
 
