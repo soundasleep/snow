@@ -83,7 +83,7 @@ file(base + '/index.min.html', function() {
 })
 
 file(base + '/index.css', function() {
-    common.exec('stylus assets/index.styl -o ' + base)
+    common.exec('node node_modules/stylus/bin/stylus assets/index.styl -o ' + base)
 })
 
 file(base + '/styles.css', [
@@ -95,6 +95,6 @@ file(base + '/styles.css', [
 ], common.concatFiles)
 
 file(base + '/entry.js', ['build'].concat(vendor), function() {
-    var bundle = common.exec('browserify -d -t ./node_modules/browserify-ejs ./index.js')
+    var bundle = common.exec('node node_modules/browserify/bin/cmd.js -d -t ./node_modules/browserify-ejs ./index.js')
     bundle.to(this.name)
 })
