@@ -30,7 +30,7 @@ var vendor = [
 file(base + '/vendor.js', vendor, common.concatFiles)
 
 file(base + '/index.css', function() {
-    common.exec('stylus index.styl -o build')
+    common.exec('node node_modules/stylus/bin/stylus index.styl -o build')
 })
 
 file(base + '/index.html', function() {

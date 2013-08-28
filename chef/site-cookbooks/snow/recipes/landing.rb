@@ -1,0 +1,50 @@
+include_recipe "nginx"
+
+['git', 'make', 'g++'].each do |pkg|
+  package pkg do
+  end
+end
+
+# Nginx configuration
+template '/etc/nginx/sites-available/snow-landing' do
+  source "landing/nginx.conf.erb"
+  owner "root"
+  group "root"
+  notifies :reload, "service[nginx]"
+end
+
+# include_recipe 'deploy_wrapper'
+bag = data_bag_item("snow", "main")
+env_bag = bag[node.chef_environment]
+
+ssh_known_hosts_entry 'github.com'
+
+deploy_wrapper 'landing' do
+    ssh_wrapper_dir '/home/ubuntu/landing-ssh-wrapper'
+    ssh_key_dir '/home/ubuntu/.ssh'
+    ssh_key_data bag["github_private_key"]
+    owner "ubuntu"
+    group "ubuntu"
+    sloppy true
+end
+
+# Deployment config
+deploy_revision node[:snow][:landing][:app_directory] do
+    user "ubuntu"
+    group "ubuntu"
+    repo node[:snow][:repo]
+    revision "feature/chef"
+    ssh_wrapper "/home/ubuntu/landing-ssh-wrapper/landing_deploy_wrapper.sh"
+    action :deploy
+    restart "cd #{node[:snow][:landing][:app_directory]}/current/landing ; npm install ; node_modules/jake/bin/cli.js"
+    keep_releases 5
+    symlinks({})
+    symlink_before_migrate({})
+    create_dirs_before_symlink([])
+    purge_before_symlink([])
+end
+
+# Enable site
+nginx_site 'snow-landing' do
+  action :enable
+end
