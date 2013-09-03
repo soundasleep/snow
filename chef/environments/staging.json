@@ -8,8 +8,8 @@
   "default_attributes": {
     "snow": {
       "bitcoind": {
-        "aws_device": "xvdf",
-        "os_device": "sdf"
+        "aws_device": "sdf",
+        "os_device": "xvdf"
       }
     }
   }
