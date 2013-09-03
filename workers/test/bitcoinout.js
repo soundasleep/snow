@@ -8,10 +8,17 @@ console.log(BitcoinOut.formatRequestsToSendMany([
     },
     {
         amount: 1,
-        address: '1abcdefgh'
+        address: '1abcdefgh',
+        scale: 8
+    },
+    {
+        amount: 5000,
+        address: '1zzz',
+        scale: 8
     },
     {
         amount: 123456789,
-        address: '1testing'
+        address: '1testing',
+        scale: 8
     }
 ]))
