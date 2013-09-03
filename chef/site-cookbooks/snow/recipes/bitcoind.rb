@@ -14,20 +14,26 @@ directory "/btc" do
     recursive true
 end
 
-# Disk is attached to /dev/sdf but shows up
-# in ubuntu as /dev/xvdf
-aws_ebs_volume "/dev/sdf" do
+aws_ebs_volume "/dev/#{node[:snow][:bitcoind][:aws_device]}" do
     aws_access_key aws['aws_access_key_id']
     aws_secret_access_key aws['aws_secret_access_key']
     volume_id node[:snow][:bitcoind][:volume_id]
-    device "/dev/sdf"
+    device "/dev/#{node[:snow][:bitcoind][:aws_device]}"
     action :attach
 end
 
 mount "/btc" do
     fstype "xfs"
-    device "/dev/xvdf"
+    device "/dev/#{node[:snow][:bitcoind][:os_device]}"
     action [:mount, :enable]
+end
+
+
+directory "/btc" do
+    owner "ubuntu"
+    group "ubuntu"
+    mode 0775
+    recursive true
 end
 
 apt_repository "bitcoin" do

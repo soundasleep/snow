@@ -4,7 +4,7 @@ var fs = require('fs')
 
 exports.compressCss = function() {
     var inputFn = this.name.replace(/min\.css$/, 'css')
-    exports.exec('node node_modules/clean-css/bin/cleancss ' + inputFn).to(this.name)
+    exports.exec('node node_modules/cleanc-ss/bin/cleancss ' + inputFn).to(this.name)
 }
 
 exports.compressJs = function() {
