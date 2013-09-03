@@ -10,6 +10,7 @@ window.i18n = require('./i18n')
 window.numbers = require('./util/numbers')
 window.notify = require('./util/notify')()
 window.formatters = require('./util/formatters')
+window.moment = require('moment')
 
 $app.append(window.notify.$el)
 
