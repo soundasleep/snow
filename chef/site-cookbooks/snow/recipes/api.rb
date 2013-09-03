@@ -79,5 +79,5 @@ template "#{node[:snow][:api][:app_directory]}/shared/config/api.json" do
     notifies :restart, resources(:service => "snow-api")
 end
 
-monit_monitrc "snow-api" do
-end
+# monit_monitrc "snow-api" do
+# end

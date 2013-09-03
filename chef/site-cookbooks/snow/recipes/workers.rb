@@ -19,7 +19,7 @@ end
 services = %w(bitcoinin bitcoinout bitcoinaddress litecoinin litecoinout litecoinaddress ripplein rippleout)
 
 services.each do |service|
-  template "/etc/init/#{service}-bitcoinin.conf" do
+  template "/etc/init/snow-#{service}.conf" do
     source "workers/upstart/#{service}.conf.erb"
     owner "root"
     group "root"
@@ -38,7 +38,7 @@ services.each do |service|
 end
 
 execute "npm_install" do
-  command "npm install --no-bin-link"
+  command "npm install"
   user "ubuntu"
   group "ubuntu"
   cwd "#{node[:snow][:workers][:app_directory]}/current/workers"

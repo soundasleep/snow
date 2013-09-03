@@ -8,7 +8,8 @@
     "ltc_user": "username",
     "ltc_port": 9332,
     "ltc_pass": "password",
-    "ltc_minconf": 6,
+    "ltc_minconf": <%= node[:snow][:workers][:litecoinin][:min_conf] %>,
+    "btc_minconf": <%= node[:snow][:workers][:bitcoinin][:min_conf] %>,
     <% unless node[:raven][:uri].nil? %>
     "raven": "<%= node[:raven][:uri] %>",
     <% end %>
