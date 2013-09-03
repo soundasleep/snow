@@ -108,7 +108,7 @@ BitcoinOut.prototype.sendBatch = function(requests, cb) {
     debug('will send %d transactions', requests.length)
     debug(util.inspect(requests))
 
-    var cmd = this.formatRequestsToSendMany(requests)
+    var cmd = exports.formatRequestsToSendMany(requests)
 
     debug('formatted requests:')
     debug(util.inspect(cmd))
