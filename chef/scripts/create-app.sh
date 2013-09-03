@@ -24,5 +24,3 @@ knife ec2 server create \
     --node-name app \
     --tags VPC=$VPC
 set +x
-
-#source $DIR/update.sh admin
