@@ -38,7 +38,7 @@ services.each do |service|
 end
 
 execute "npm_install" do
-  command "npm install"
+  command "npm install --no-bin-link"
   user "ubuntu"
   group "ubuntu"
   cwd "#{node[:snow][:workers][:app_directory]}/current/workers"
@@ -52,8 +52,7 @@ deploy_revision node[:snow][:workers][:app_directory] do
     repo node[:snow][:repo]
     ssh_wrapper "/home/ubuntu/workers-ssh-wrapper/workers_deploy_wrapper.sh"
     action :deploy
-    branch 'master'
-    #restart 'sudo initctl restart snow-bitcoinin || sudo initctl start snow-bitcoinin'
+    branch node[:snow][:branch]
     notifies :run, "execute[npm_install]"
     notifies :restart, "service[snow-bitcoinin]"
     notifies :restart, "service[snow-bitcoinout]"
@@ -98,12 +97,4 @@ template "#{node[:snow][:workers][:app_directory]}/shared/config/workers.json" d
         :bitcoind_ip => bitcoind_ip || '127.0.0.1'
     })
     notifies :restart, resources(:service => "snow-bitcoinin")
-end
-
-# Start services
-services.each do |service|
-  service "snow-#{service}" do
-    provider Chef::Provider::Service::Upstart
-    action :start
-  end
 end

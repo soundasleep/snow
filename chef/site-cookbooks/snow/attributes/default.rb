@@ -16,3 +16,5 @@ default['snow']['landing']['app_directory'] = "/home/ubuntu/snow-landing"
 default['snow']['landing']['port'] = 8050
 
 default['snow']['workers']['app_directory'] = "/home/ubuntu/snow-workers"
+
+default['snow']['branch'] = 'master'

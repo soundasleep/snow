@@ -10,7 +10,8 @@
       "bitcoind": {
         "aws_device": "sdf",
         "os_device": "xvdf"
-      }
+      },
+      "branch": "develop"
     }
   }
 }

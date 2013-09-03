@@ -6,7 +6,7 @@ end
 
 if File.exists? "/usr/bin/litecoind"
   swap do
-    mb 0
+    mb 1000
   end
 else
   git "/tmp/litecoin" do

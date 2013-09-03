@@ -40,10 +40,10 @@ deploy_revision node[:snow][:frontend][:app_directory] do
     user "ubuntu"
     group "ubuntu"
     repo node[:snow][:repo]
-    revision "feature/chef"
+    branch node[:snow][:branch]
     ssh_wrapper "/home/ubuntu/frontend-ssh-wrapper/frontend_deploy_wrapper.sh"
     action :deploy
-    restart "cd #{node[:snow][:frontend][:app_directory]}/current/web ; npm install ; node_modules/bower/bin/bower install ; SEGMENT=#{env_bag['segment']['api_key']} node_modules/jake/bin/cli.js"
+    restart "cd #{node[:snow][:frontend][:app_directory]}/current/web ; npm install --no-bin-link ; node node_modules/bower/bin/bower install ; SEGMENT=#{env_bag['segment']['api_key']} node node_modules/jake/bin/cli.js"
     keep_releases 5
     symlinks({})
     symlink_before_migrate({})
