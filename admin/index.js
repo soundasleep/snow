@@ -7,6 +7,7 @@ window.router = require('./util/router')
 window.api = require('./api')
 window.errors = require('./errors')
 window.numbers = require('./util/numbers')
+window.moment = require('moment')
 
 debug('shared components inited')
 
