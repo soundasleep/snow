@@ -5,7 +5,7 @@ var debug = require('debug')('snow:bitcoinout')
 , prefix = '[snow:bitcoinout]'
 , out = require('./out')
 
-var BitcoinOut = module.exports = function(currency, bitcoinEndpoint, dbClient) {
+var BitcoinOut = module.exports = exports = function(currency, bitcoinEndpoint, dbClient) {
     var Bitcoin = require('bitcoin').Client
     this.bitcoin = new Bitcoin(bitcoinEndpoint)
     this.client = dbClient
@@ -94,10 +94,10 @@ BitcoinOut.prototype.executeBatch = function(requests, cb) {
 }
 
 // converts requests into a command to sendMany
-BitcoinOut.prototype.formatRequestsToSendMany = function(requests) {
+exports.formatRequestsToSendMany = function(requests) {
     return requests.reduce(function(r, i) {
         var amount = num(i.amount, i.scale).toString()
-        r[i.address] = +num(r[i.address] || 0).add(amount)
+        r[i.address] = +(num(+(r[i.address] || 0)).add(amount))
         return r
     }, {})
 }
@@ -108,7 +108,7 @@ BitcoinOut.prototype.sendBatch = function(requests, cb) {
     debug('will send %d transactions', requests.length)
     debug(util.inspect(requests))
 
-    var cmd = this.formatRequestsToSendMany(requests)
+    var cmd = exports.formatRequestsToSendMany(requests)
 
     debug('formatted requests:')
     debug(util.inspect(cmd))
