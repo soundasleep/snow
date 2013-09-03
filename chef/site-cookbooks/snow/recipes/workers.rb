@@ -16,67 +16,21 @@ deploy_wrapper 'workers' do
     sloppy true
 end
 
-template "/etc/init/snow-bitcoinin.conf" do
-  source "workers/upstart/bitcoinin.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
+services = %w(bitcoinin bitcoinout bitcoinaddress litecoinin litecoinout litecoinaddress ripplein rippleout)
 
-template "/etc/init/snow-bitcoinout.conf" do
-  source "workers/upstart/bitcoinout.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
+services.each do |service|
+  template "/etc/init/#{service}-bitcoinin.conf" do
+    source "workers/upstart/#{service}.conf.erb"
+    owner "root"
+    group "root"
+    mode 00644
+    notifies :restart, "service[snow-#{service}]"
+  end
 end
-
-template "/etc/init/snow-bitcoinaddress.conf" do
-  source "workers/upstart/bitcoinaddress.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-litecoinin.conf" do
-  source "workers/upstart/litecoinin.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-litecoinout.conf" do
-  source "workers/upstart/litecoinout.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-litecoinaddress.conf" do
-  source "workers/upstart/litecoinaddress.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-ripplein.conf" do
-  source "workers/upstart/ripplein.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-rippleout.conf" do
-  source "workers/upstart/rippleout.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-services = %w(snow-bitcoinin snow-bitcoinout snow-bitcoinaddress snow-litecoinin snow-litecoinout snow-litecoinaddress snow-ripplein snow-rippleout)
 
 # Create services
 services.each do |service|
-  service service do
+  service "snow-#{service}" do
     provider Chef::Provider::Service::Upstart
     supports :start => true, :stop => true, :restart => true
     action :enable
@@ -148,7 +102,8 @@ end
 
 # Start services
 services.each do |service|
-  service service do
+  service "snow-#{service}" do
+    provider Chef::Provider::Service::Upstart
     action :start
   end
 end
