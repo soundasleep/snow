@@ -96,7 +96,7 @@ BitcoinOut.prototype.executeBatch = function(requests, cb) {
 // converts requests into a command to sendMany
 BitcoinOut.prototype.formatRequestsToSendMany = function(requests) {
     return requests.reduce(function(r, i) {
-        var amount = num(i.amount, i.scale).toString()
+        var amount = num(i.amount, i.scale)
         r[i.address] = +num(r[i.address] || 0).add(amount)
         return r
     }, {})
