@@ -13,10 +13,10 @@ exports.withdraw = function(currencyId, req, res, next) {
         return
     }
 
-    if (num(req.body.amount).lt('0.00005')) {
+    if (num(req.body.amount).lt('0.0001')) {
         return res.send(400, {
             name: 'AmountTooSmall',
-            message: 'Minimum amount 0.00005'
+            message: 'Minimum amount 0.0001'
         })
     }
 
