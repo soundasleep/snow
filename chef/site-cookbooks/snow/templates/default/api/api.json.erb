@@ -18,8 +18,8 @@
     <% unless @tropo.nil? %>
     "tropo_voice_token": "<%= @tropo['voice_token'] %>",
     <% end %>
-    <% unless node[:raven][:secret].nil? %>
-    "raven": "<%= node[:raven][:secret] %>",
+    <% unless node[:raven][:uri].nil? %>
+    "raven": "<%= node[:raven][:uri] %>",
     <% end %>
     "smtp": <%= @smtp.to_json %>,
     "email_from": "<%= @email_from %>"
