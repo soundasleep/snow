@@ -10,7 +10,6 @@ cat ~/.ssh/known_hosts | grep -vE '^10.0.' | tee ~/.ssh/known_hosts
 set -x
 knife ec2 server create \
     -V \
-    --run-list 'role[pgs],role[pgs]' \
     --environment $1 \
     --image $AMI \
     --region $REGION \
