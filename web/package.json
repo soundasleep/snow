@@ -7,7 +7,7 @@
     "bower": "~1.2.4",
     "browserify": "~2.29.0",
     "browserify-ejs": "0.0.2",
-    "num": "~0.2.1",
+    "num": "abrkn/node-num",
     "lodash": "~1.3.1",
     "moment": "~2.1.0",
     "thirty-two": "0.0.1",

@@ -33,7 +33,7 @@ define :swap, :enable => true do
       end
 
       bash 'make swapfile' do
-        code '/var/swapfile'
+        code 'mkswap /var/swapfile'
       end
 
       mount '/dev/null' do

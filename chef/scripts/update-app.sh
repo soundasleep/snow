@@ -1,5 +1,6 @@
 #!/bin/sh
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export KNIFE_ENV=$1
 source $DIR/settings.sh
 
 knife role from file roles/api.rb
@@ -16,4 +17,4 @@ knife ssh \
     -x ubuntu \
     -a ec2.local_ipv4 \
     -i $SSH_KEY \
-    "sudo chef-client --override-runlist \"role[api],role[frontend],role[admin],role[landing],role[reverse],role[workers]\""
+    "sudo chef-client --log_level debug --override-runlist \"role[api],role[frontend],role[admin],role[landing],role[reverse],role[workers]\""

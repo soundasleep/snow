@@ -5,7 +5,6 @@ include_recipe 'deploy_wrapper'
 
 bag = data_bag_item("snow", "main")
 env_bag = bag[node.chef_environment]
-node['monit']['alert_email'] = env_bag['monit']['alert_email']
 
 ssh_known_hosts_entry 'github.com'
 
@@ -39,8 +38,8 @@ deploy_revision node[:snow][:api][:app_directory] do
     repo node[:snow][:repo]
     ssh_wrapper "/home/ubuntu/api-ssh-wrapper/api_deploy_wrapper.sh"
     action :deploy
-    branch 'master'
-    restart 'sudo initctl restart snow-api || sudo initctl start snow-api'
+    branch node[:snow][:branch]
+    notifies :restart, "service[snow-api]"
     keep_releases 10
     symlinks({
          "config/api.json" => "api/config/#{node.chef_environment}.json"
@@ -51,6 +50,11 @@ deploy_revision node[:snow][:api][:app_directory] do
 end
 
 # Application config
+directory "#{node[:snow][:api][:app_directory]}/shared" do
+  owner "ubuntu"
+  group "ubuntu"
+end
+
 directory "#{node[:snow][:api][:app_directory]}/shared/config" do
   owner "ubuntu"
   group "ubuntu"

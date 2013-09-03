@@ -74,7 +74,7 @@ BitcoinIn.prototype.processOutput = function(txid, o, cb) {
     if (!o.scriptPubKey.addresses) return cb()
     if (o.scriptPubKey.addresses.length !== 1) return cb()
     var address = o.scriptPubKey.addresses[0]
-    , satoshi = +num(o.value).mul(1e8)
+    , satoshi = +num(o.value.toFixed(8)).mul(1e8)
     this.db.query({
         text: [
             'SELECT btc_credit($1, $2, $3) tid',

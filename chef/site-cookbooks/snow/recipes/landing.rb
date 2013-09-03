@@ -33,10 +33,10 @@ deploy_revision node[:snow][:landing][:app_directory] do
     user "ubuntu"
     group "ubuntu"
     repo node[:snow][:repo]
-    revision "feature/chef"
+    branch node[:snow][:branch]
     ssh_wrapper "/home/ubuntu/landing-ssh-wrapper/landing_deploy_wrapper.sh"
     action :deploy
-    restart "cd #{node[:snow][:landing][:app_directory]}/current/landing ; npm install ; node_modules/jake/bin/cli.js"
+    restart "cd #{node[:snow][:landing][:app_directory]}/current/landing ; npm install --no-bin-link ; node node_modules/jake/bin/cli.js"
     keep_releases 5
     symlinks({})
     symlink_before_migrate({})
