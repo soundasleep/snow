@@ -24,8 +24,16 @@ end
 
 mount "/btc" do
     fstype "xfs"
-    device "/dev/node[:snow][:bitcoind][:os_device]"
+    device "/dev/#{node[:snow][:bitcoind][:os_device]}"
     action [:mount, :enable]
+end
+
+
+directory "/btc" do
+    owner "ubuntu"
+    group "ubuntu"
+    mode 0775
+    recursive true
 end
 
 apt_repository "bitcoin" do
