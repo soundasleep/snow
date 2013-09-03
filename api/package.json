@@ -5,7 +5,7 @@
   "dependencies": {
     "pg": "~1.1.0",
     "express": "~3.2.1",
-    "num": "0.2.0",
+    "num": "abrkn/node-num",
     "q": "0.9.0",
     "raven": "~0.5.1",
     "konfu": "~1.1.3",
