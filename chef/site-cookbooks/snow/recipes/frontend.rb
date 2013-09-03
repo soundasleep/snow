@@ -5,16 +5,18 @@ include_recipe "nginx"
   end
 end
 
-# Nginx configuration
+admin_ip = search(:node, 'role:admin').first ? search(:node, 'role:admin').first[:ipaddress] : nil
 api_ip = search(:node, 'role:api').first ? search(:node, 'role:api').first[:ipaddress] : nil
 
-template '/etc/nginx/sites-available/snow-admin' do
-  source "admin/nginx.conf.erb"
+# Nginx configuration
+template '/etc/nginx/sites-available/snow-frontend' do
+  source "frontend/nginx.conf.erb"
   owner "root"
   group "root"
   notifies :reload, "service[nginx]"
   variables({
-    :api_ip => api_ip || '127.0.0.1'
+    :api_ip => api_ip || '127.0.0.1',
+    :admin_ip => admin_ip || '127.0.0.1'
   })
 end
 
@@ -24,8 +26,8 @@ env_bag = bag[node.chef_environment]
 
 ssh_known_hosts_entry 'github.com'
 
-deploy_wrapper 'admin' do
-    ssh_wrapper_dir '/home/ubuntu/admin-ssh-wrapper'
+deploy_wrapper 'frontend' do
+    ssh_wrapper_dir '/home/ubuntu/frontend-ssh-wrapper'
     ssh_key_dir '/home/ubuntu/.ssh'
     ssh_key_data bag["github_private_key"]
     owner "ubuntu"
@@ -34,33 +36,34 @@ deploy_wrapper 'admin' do
 end
 
 # Deployment config
-deploy_revision node[:snow][:admin][:app_directory] do
+deploy_revision node[:snow][:frontend][:app_directory] do
     user "ubuntu"
     group "ubuntu"
     repo node[:snow][:repo]
     branch node[:snow][:branch]
-    ssh_wrapper "/home/ubuntu/admin-ssh-wrapper/admin_deploy_wrapper.sh"
+    ssh_wrapper "/home/ubuntu/frontend-ssh-wrapper/frontend_deploy_wrapper.sh"
     action :deploy
-    before_restart do
-      bash "npm install" do
-        user "ubuntu"
-        group "ubuntu"
-        cwd "#{release_path}/admin"
-        code %{
-          npm install
-          node node_modules/bower/bin/bower install
-          node node_modules/jake/bin/cli.js
-        }
-      end
-    end
     keep_releases 5
     symlinks({})
     symlink_before_migrate({})
     create_dirs_before_symlink([])
     purge_before_symlink([])
+    before_restart do
+      bash "npm install" do
+        user "ubuntu"
+        group "ubuntu"
+        cwd "#{release_path}/web"
+        code %{
+          export SEGMENT=#{env_bag['segment']['api_key']}
+          npm install
+          node node_modules/bin/bower install
+          node node_modules/jake/bin/cli.js
+        }
+      end
+    end
 end
 
 # Enable site
-nginx_site 'snow-admin' do
+nginx_site 'snow-frontend' do
   action :enable
 end

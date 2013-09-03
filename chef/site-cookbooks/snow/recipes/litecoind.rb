@@ -4,11 +4,7 @@
     end
 end
 
-if File.exists? "/usr/bin/litecoind"
-  swap do
-    size 0
-  end
-else
+unless File.exists? "/usr/bin/litecoind"
   git "/tmp/litecoin" do
     repository "git://github.com/litecoin-project/litecoin.git"
     reference "4be9f4d40ea4bd40cf1c99649f1d613a28bb33e1"
@@ -19,8 +15,10 @@ else
   memory_total_mb = node['memory']['total'][0..-3].to_i / 1024 +
     node['memory']['swap']['total'][0..-3].to_i / 1024
 
+  Chef::Log.warn "Memory total #{memory_total_mb}"
+
   swap do
-    size 2048
+    mb 2048
     only_if memory_total_mb < 2000
   end
 
@@ -67,6 +65,13 @@ mount "/ltc" do
   fstype "xfs"
   device "/dev/xvdf"
   action [:mount, :enable]
+end
+
+# Ensure rights
+directory "/ltc" do
+  owner "ubuntu"
+  group "ubuntu"
+  mode 0775
 end
 
 template "/etc/init/litecoind.conf" do

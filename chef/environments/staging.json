@@ -8,8 +8,24 @@
   "default_attributes": {
     "snow": {
       "bitcoind": {
-        "aws_device": "xvdf",
-        "os_device": "sdf"
+        "aws_device": "sdf",
+        "os_device": "xvdf"
+      },
+      "branch": "develop",
+      "workers": {
+        "bitcoinin": {
+          "min_conf": 1
+        },
+        "litecoinin": {
+          "min_conf": 1
+        }
+      }
+    }
+  },
+  "override_attributes": {
+    "monit": {
+      "mail": {
+        "from": "monit@staging.justcoin.com"
       }
     }
   }

@@ -16,79 +16,25 @@ deploy_wrapper 'workers' do
     sloppy true
 end
 
-template "/etc/init/snow-bitcoinin.conf" do
-  source "workers/upstart/bitcoinin.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
+services = %w(bitcoinin bitcoinout bitcoinaddress litecoinin litecoinout litecoinaddress ripplein rippleout)
 
-template "/etc/init/snow-bitcoinout.conf" do
-  source "workers/upstart/bitcoinout.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
+services.each do |service|
+  template "/etc/init/snow-#{service}.conf" do
+    source "workers/upstart/#{service}.conf.erb"
+    owner "root"
+    group "root"
+    mode 00644
+    notifies :restart, "service[snow-#{service}]"
+  end
 end
-
-template "/etc/init/snow-bitcoinaddress.conf" do
-  source "workers/upstart/bitcoinaddress.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-litecoinin.conf" do
-  source "workers/upstart/litecoinin.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-litecoinout.conf" do
-  source "workers/upstart/litecoinout.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-litecoinaddress.conf" do
-  source "workers/upstart/litecoinaddress.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-ripplein.conf" do
-  source "workers/upstart/ripplein.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-template "/etc/init/snow-rippleout.conf" do
-  source "workers/upstart/rippleout.conf.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
-
-services = %w(snow-bitcoinin snow-bitcoinout snow-bitcoinaddress snow-litecoinin snow-litecoinout snow-litecoinaddress snow-ripplein snow-rippleout)
 
 # Create services
 services.each do |service|
-  service service do
+  service "snow-#{service}" do
     provider Chef::Provider::Service::Upstart
     supports :start => true, :stop => true, :restart => true
     action :enable
   end
-end
-
-execute "npm_install" do
-  command "npm install"
-  user "ubuntu"
-  group "ubuntu"
-  cwd "#{node[:snow][:workers][:app_directory]}/current/workers"
-  action :nothing
 end
 
 # Deployment config
@@ -98,9 +44,17 @@ deploy_revision node[:snow][:workers][:app_directory] do
     repo node[:snow][:repo]
     ssh_wrapper "/home/ubuntu/workers-ssh-wrapper/workers_deploy_wrapper.sh"
     action :deploy
-    branch 'master'
-    #restart 'sudo initctl restart snow-bitcoinin || sudo initctl start snow-bitcoinin'
-    notifies :run, "execute[npm_install]"
+    branch node[:snow][:branch]
+    before_restart do
+      bash "npm install" do
+        user "ubuntu"
+        group "ubuntu"
+        cwd "#{release_path}/workers"
+        code %{
+          npm install
+        }
+      end
+    end
     notifies :restart, "service[snow-bitcoinin]"
     notifies :restart, "service[snow-bitcoinout]"
     notifies :restart, "service[snow-bitcoinaddress]"
@@ -146,9 +100,5 @@ template "#{node[:snow][:workers][:app_directory]}/shared/config/workers.json" d
     notifies :restart, resources(:service => "snow-bitcoinin")
 end
 
-# Start services
-services.each do |service|
-  service service do
-    action :start
-  end
+monit_monitrc "snow-workers" do
 end

@@ -1,4 +1,5 @@
 var util = require('util')
+, num = require('num')
 
 module.exports = exports = function(app, currencyId) {
     app.post('/v1/' + currencyId + '/out', app.auth.withdraw(2),
@@ -10,6 +11,13 @@ module.exports = exports = function(app, currencyId) {
 exports.withdraw = function(currencyId, req, res, next) {
     if (!req.app.validate(req.body, 'v1/' + currencyId.toLowerCase() + '_out', res)) {
         return
+    }
+
+    if (num(req.body.amount).lt('0.0001')) {
+        return res.send(400, {
+            name: 'AmountTooSmall',
+            message: 'Minimum amount 0.0001'
+        })
     }
 
     console.log('processing withdraw request of %d %s from user #%s to %s',

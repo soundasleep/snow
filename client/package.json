@@ -6,7 +6,7 @@
     "request": "~2.12.0",
     "async": "~0.1.22",
     "lodash": "~1.2.1",
-    "num": "~0.2.0",
+    "num": "abrkn/node-num",
     "debug": "~0.7.0",
     "optimist": "~0.4.0",
     "cli-table": "~0.2.0"

@@ -1,5 +1,6 @@
 #!/bin/sh
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export KNIFE_ENV=$1
 source $DIR/settings.sh
 
 knife role from file roles/api.rb

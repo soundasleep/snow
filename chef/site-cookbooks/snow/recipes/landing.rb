@@ -6,16 +6,11 @@ include_recipe "nginx"
 end
 
 # Nginx configuration
-api_ip = search(:node, 'role:api').first ? search(:node, 'role:api').first[:ipaddress] : nil
-
-template '/etc/nginx/sites-available/snow-admin' do
-  source "admin/nginx.conf.erb"
+template '/etc/nginx/sites-available/snow-landing' do
+  source "landing/nginx.conf.erb"
   owner "root"
   group "root"
   notifies :reload, "service[nginx]"
-  variables({
-    :api_ip => api_ip || '127.0.0.1'
-  })
 end
 
 # include_recipe 'deploy_wrapper'
@@ -24,8 +19,8 @@ env_bag = bag[node.chef_environment]
 
 ssh_known_hosts_entry 'github.com'
 
-deploy_wrapper 'admin' do
-    ssh_wrapper_dir '/home/ubuntu/admin-ssh-wrapper'
+deploy_wrapper 'landing' do
+    ssh_wrapper_dir '/home/ubuntu/landing-ssh-wrapper'
     ssh_key_dir '/home/ubuntu/.ssh'
     ssh_key_data bag["github_private_key"]
     owner "ubuntu"
@@ -34,21 +29,20 @@ deploy_wrapper 'admin' do
 end
 
 # Deployment config
-deploy_revision node[:snow][:admin][:app_directory] do
+deploy_revision node[:snow][:landing][:app_directory] do
     user "ubuntu"
     group "ubuntu"
     repo node[:snow][:repo]
     branch node[:snow][:branch]
-    ssh_wrapper "/home/ubuntu/admin-ssh-wrapper/admin_deploy_wrapper.sh"
+    ssh_wrapper "/home/ubuntu/landing-ssh-wrapper/landing_deploy_wrapper.sh"
     action :deploy
     before_restart do
       bash "npm install" do
         user "ubuntu"
         group "ubuntu"
-        cwd "#{release_path}/admin"
+        cwd "#{release_path}/landing"
         code %{
           npm install
-          node node_modules/bower/bin/bower install
           node node_modules/jake/bin/cli.js
         }
       end
@@ -61,6 +55,6 @@ deploy_revision node[:snow][:admin][:app_directory] do
 end
 
 # Enable site
-nginx_site 'snow-admin' do
+nginx_site 'snow-landing' do
   action :enable
 end

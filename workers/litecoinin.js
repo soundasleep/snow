@@ -100,7 +100,7 @@ exports.processTx = function(txid, cb) {
         var detail = tx.details[0]
         if (detail.category !== 'receive') return cb()
         var address = detail.address
-        , satoshis = +num(detail.amount).mul(1e8)
+        , satoshis = +num(detail.amount.toFixed(8)).mul(1e8)
         exports.credit(txid, address, satoshis, cb)
     })
 }

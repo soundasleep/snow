@@ -38,3 +38,7 @@ cookbook 'ssh_known_hosts',
 cookbook 'nginx',
   :git => 'https://github.com/opscode-cookbooks/nginx.git',
   :ref => 'd7a41ce15b30f91df95195b213d95bb9b3a6c4c3'
+
+cookbook 'postfix',
+  :git => 'https://github.com/opscode-cookbooks/postfix.git',
+  :ref => '4832ed74640cc36dd1618c8d39ea9a154ea6d5f5'
