@@ -44,6 +44,16 @@ deploy_revision node[:snow][:api][:app_directory] do
     symlinks({
          "config/api.json" => "api/config/#{node.chef_environment}.json"
     })
+    before_restart do
+      bash "npm install" do
+        user "ubuntu"
+        group "ubuntu"
+        cwd "#{release_path}/api"
+        code %{
+          npm install
+        }
+      end
+    end
     symlink_before_migrate({})
     create_dirs_before_symlink(['api', 'api/config'])
     purge_before_symlink([])

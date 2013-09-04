@@ -8,7 +8,6 @@ env HOME=/home/ubuntu
 
 script
     echo $$ > /var/run/snow-api.pid
-    sudo -Eu ubuntu npm install
     sudo -Eu ubuntu node index.js
 end script
 

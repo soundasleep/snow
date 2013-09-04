@@ -37,14 +37,6 @@ services.each do |service|
   end
 end
 
-execute "npm_install" do
-  command "npm install"
-  user "ubuntu"
-  group "ubuntu"
-  cwd "#{node[:snow][:workers][:app_directory]}/current/workers"
-  action :nothing
-end
-
 # Deployment config
 deploy_revision node[:snow][:workers][:app_directory] do
     user "ubuntu"
@@ -53,7 +45,16 @@ deploy_revision node[:snow][:workers][:app_directory] do
     ssh_wrapper "/home/ubuntu/workers-ssh-wrapper/workers_deploy_wrapper.sh"
     action :deploy
     branch node[:snow][:branch]
-    notifies :run, "execute[npm_install]"
+    before_restart do
+      bash "npm install" do
+        user "ubuntu"
+        group "ubuntu"
+        cwd "#{release_path}/workers"
+        code %{
+          npm install
+        }
+      end
+    end
     notifies :restart, "service[snow-bitcoinin]"
     notifies :restart, "service[snow-bitcoinout]"
     notifies :restart, "service[snow-bitcoinaddress]"
