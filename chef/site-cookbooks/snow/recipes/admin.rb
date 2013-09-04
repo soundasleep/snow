@@ -41,7 +41,18 @@ deploy_revision node[:snow][:admin][:app_directory] do
     branch node[:snow][:branch]
     ssh_wrapper "/home/ubuntu/admin-ssh-wrapper/admin_deploy_wrapper.sh"
     action :deploy
-    restart "cd #{node[:snow][:admin][:app_directory]}/current/admin ; npm install --npm-bin-link ; node node_modules/bower/bin/bower install ; node node_modules/jake/bin/cli.js"
+    before_restart do
+      bash "npm install" do
+        user "ubuntu"
+        group "ubuntu"
+        cwd "#{release_path}/admin"
+        code %{
+          npm install
+          node node_modules/bower/bin/bower install
+          node node_modules/jake/bin/cli.js
+        }
+      end
+    end
     keep_releases 5
     symlinks({})
     symlink_before_migrate({})

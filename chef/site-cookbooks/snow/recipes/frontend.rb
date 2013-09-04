@@ -43,12 +43,24 @@ deploy_revision node[:snow][:frontend][:app_directory] do
     branch node[:snow][:branch]
     ssh_wrapper "/home/ubuntu/frontend-ssh-wrapper/frontend_deploy_wrapper.sh"
     action :deploy
-    restart "cd #{node[:snow][:frontend][:app_directory]}/current/web ; npm install --no-bin-link ; node node_modules/bower/bin/bower install ; SEGMENT=#{env_bag['segment']['api_key']} node node_modules/jake/bin/cli.js"
     keep_releases 5
     symlinks({})
     symlink_before_migrate({})
     create_dirs_before_symlink([])
     purge_before_symlink([])
+    before_restart do
+      bash "npm install" do
+        user "ubuntu"
+        group "ubuntu"
+        cwd "#{release_path}/web"
+        code %{
+          export SEGMENT=#{env_bag['segment']['api_key']}
+          npm install
+          node node_modules/bin/bower install
+          node node_modules/jake/bin/cli.js
+        }
+      end
+    end
 end
 
 # Enable site
