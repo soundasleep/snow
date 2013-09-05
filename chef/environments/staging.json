@@ -21,5 +21,12 @@
         }
       }
     }
+  },
+  "override_attributes": {
+    "monit": {
+      "mail": {
+        "from": "monit@staging.justcoin.com"
+      }
+    }
   }
 }

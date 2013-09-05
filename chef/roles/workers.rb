@@ -6,5 +6,14 @@ run_list(
   "recipe[nodejs]",
   "recipe[logrotate]",
   "recipe[postgresql::client]",
+  "recipe[postfix]",
   "recipe[snow::workers]"
+)
+
+override_attributes(
+  :monit => {
+    :mail => {
+        :from => "monit@justcoin.com"
+    }
+  }
 )
