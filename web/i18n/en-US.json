@@ -306,7 +306,7 @@
 
     "auth.cip.heading": "Account level 4 required",
     "auth.cip.intro": "We'll now verify your name and address. Email one proof of identity and one proof of address to the email address below",
-    "auth.cip.requirements": "<li>Valid passport, driver license, or national identification card</li><li>Utility bill (water, electricity, house phone) or tax statement issued to your registered address within the last three months.</li><li>Both must be color scans/photos with nothing blanked out and all four corners visible</li>",
+    "auth.cip.requirements": "<li>Valid passport, driver license, or national identification card</li><li>Utility bill (water, electricity, house phone) or tax statement issued to your registered address within the last three months.</li><li>Both must be color scans/photos with nothing blanked out and all four corners visible</li><li>Documents must be written with the Latin alphabet</li>",
     "auth.cip.no retain": "We will delete the pictures immediately after reviewing them.",
     "auth.cip.continue": "I've emailed both the documents",
     "auth.cip.return": "Return to my account",
