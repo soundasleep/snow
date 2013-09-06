@@ -165,7 +165,7 @@
 
     "depositbank.heading": "Deposit using bank transfer",
     "depositbank.intro": "To deposit with bank transfer, send using the details below.",
-    "depositbank.norway-warning": "The account you send from <b>must</b> be in your name, <b>%s</b>. Other payments will be returned.",
+    "depositbank.norway-warning": "The account you send from <b>must</b> be in your name, <b>%s</b>, and the address <b>%s</b>. Other payments will be returned.",
     "depositbank.account": "Account number",
     "depositbank.messageToRecipient": "Message to recipient",
     "depositbank.minimumAmount": "Minimum amount",
