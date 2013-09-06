@@ -7,9 +7,9 @@ chdir <%= node[:snow][:workers][:app_directory] %>/current/workers
 
 script
     echo $$ > /var/run/$NAME.pid
-    sudo -Eu ubuntu /usr/bin/nodejs bin/litecoinaddress >> /var/log/$NAME.log
+    sudo -Eu ubuntu node bin/litecoinaddress >> /var/log/$NAME.log 2>&1
 end script
 
 post-stop script
-    rm -f /var/run/$NAME.pid
+   rm -f /var/run/$NAME.pid
 end script

@@ -4,11 +4,7 @@
     end
 end
 
-if File.exists? "/usr/bin/litecoind"
-  swap do
-    mb 1000
-  end
-else
+unless File.exists? "/usr/bin/litecoind"
   git "/tmp/litecoin" do
     repository "git://github.com/litecoin-project/litecoin.git"
     reference "4be9f4d40ea4bd40cf1c99649f1d613a28bb33e1"
