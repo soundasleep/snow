@@ -7,16 +7,16 @@ directory(base + '/img')
 directory(base + '/img/flags')
 
 var head = [
-    'vendor/raven.min.js',
-    'vendor/modernizr.js'
+    'bower_components/raven-js/dist/1.0.8/raven.min.js',
+    'bower_components/modernizr/modernizr.js'
 ]
 
 var vendor = [
     'bower_components/jquery/jquery.min.js',
-    'vendor/jquery.cookie.js',
-    'vendor/sjcl.js',
+    'bower_components/jquery.cookie/jquery.cookie.js',
+    'bower_components/sjcl/sjcl.js',
     'bower_components/alertify/alertify.min.js',
-    'vendor/bootstrap/js/bootstrap.min.js',
+    'bower_components/bootstrap/js/bootstrap.min.js',
     'bower_components/bootstrap-notify/js/bootstrap-notify.js'
 ]
 
@@ -75,8 +75,8 @@ file(base + '/index.css', function() {
 file(base + '/styles.css', [
     'bower_components/alertify/themes/alertify.core.css',
     'bower_components/alertify/themes/alertify.bootstrap.css',
-    'vendor/bootstrap/css/bootstrap.min.css',
-    'vendor/bootstrap/css/bootstrap-responsive.min.css',
+    'bower_components/bootstrap/css/bootstrap.min.css',
+    'bower_components/bootstrap/css/bootstrap-responsive.min.css',
     'bower_components/bootstrap-notify/css/bootstrap-notify.css',
     'build/index.css'
 ], common.concatFiles)
