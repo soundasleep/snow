@@ -48,6 +48,7 @@ module.exports = function(userId) {
 
         $el.find('.created span').html(moment(u.created_at).format('Do MMMM YYYY'))
         $el.find('.suspended span').html(u.suspended ? 'Yes' : 'No')
+        $el.find('.two-factor span').html(u.two_factor ? 'Yes' : 'No')
         $el.find('.poi span').html(u.poi_approved_at ? 'Yes' : 'No')
         $el.find('.poa span').html(u.poa_approved_at ? 'Yes' : 'No')
         $el.find('.suspended .field').prop('checked', u.suspended)
@@ -65,6 +66,7 @@ module.exports = function(userId) {
         $el.find('.suspended').toggleClass('warning', u.suspended)
         $el.find('.poi').toggleClass('success', !!u.poi_approved_at)
         $el.find('.poa').toggleClass('success', !!u.poa_approved_at)
+        $el.find('.two-factor').toggleClass('success', !!u.two_factor)
 
         $el.toggleClass('has-verified-email', !!u.email_verified_at)
 
