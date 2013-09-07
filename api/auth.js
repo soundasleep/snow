@@ -119,7 +119,7 @@ exports.user = function(req, res, next) {
         return checkRow(cached)
     }
 
-    debug('cache miss for api key %s', req.query.key)
+    debug('cache miss for api key %s', req.query.key.substr(0, 4))
 
     exports.fetchUserFromKey(req.app, req.query.key, function(err, row) {
         if (err) return next(err)
