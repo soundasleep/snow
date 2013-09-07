@@ -186,5 +186,5 @@ exports.auth = function(req, res) {
 }
 
 exports.grant = function(req) {
-    req.app.auth.tfa[req.key] = +new Date() + 1000 * 60 * 30
+    req.app.auth.extendTfa(req.key)
 }
