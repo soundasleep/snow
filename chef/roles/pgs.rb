@@ -1,12 +1,6 @@
 name "pgs"
 
 run_list(
-  "recipe[snow::common]",
-  "recipe[snow::aptupdate]",
-  "recipe[snow::crontp]",
-  "recipe[postgresql::server]",
-  "recipe[postgresql::contrib]",
-  "recipe[aws]",
   "recipe[snow::pgs]"
 )
 

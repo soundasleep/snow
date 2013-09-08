@@ -20,3 +20,5 @@ default['snow']['workers']['bitcoinin']['min_conf'] = 6
 default['snow']['workers']['litecoinin']['min_conf'] = 6
 
 default['snow']['branch'] = 'master'
+
+node.set["monit"]["default_monitrc_configs"] = ["ssh"]

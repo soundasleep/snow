@@ -2,7 +2,7 @@ define :swap, :enable => true do
   current_mb = node['memory']['swap']['total'][0..-3].to_i / 1024
   desired_mb = params[:mb].to_i
 
-  unless current_mb == desired_mb
+  unless current_mb >= desired_mb - 1 && current_mb <= desired_mb + 1
     if current_mb > 0
       bash 'disable swap' do
         code 'swapoff -a'

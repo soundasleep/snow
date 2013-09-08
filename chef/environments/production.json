@@ -14,5 +14,8 @@
     }
   },
   "override_attributes": {
+    "hostname": {
+      "set_fqdn": "*.staging.justcoin.com"
+    }
   }
 }

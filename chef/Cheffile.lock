@@ -12,6 +12,13 @@ SITE
     yum (2.3.0)
 
 GIT
+  remote: https://github.com/customink-webops/hostsfile.git
+  ref: 63769c54580942551281db9c1dcf996b5ce95730
+  sha: 63769c54580942551281db9c1dcf996b5ce95730
+  specs:
+    hostsfile (2.0.0)
+
+GIT
   remote: https://github.com/opscode-cookbooks/aws.git
   ref: v0.101.4
   sha: 78e9e6201779fa72cefad1cb9a70a33795328cd3
@@ -53,13 +60,6 @@ GIT
       partial_search (>= 0.0.0)
 
 GIT
-  remote: https://github.com/phlipper/chef-monit.git
-  ref: d78262e52e75bd8254bdc33612d14b4e9dd34c8a
-  sha: d78262e52e75bd8254bdc33612d14b4e9dd34c8a
-  specs:
-    monit (1.3.3)
-
-GIT
   remote: https://github.com/phlipper/chef-nodejs.git
   ref: 1.7.0
   sha: 72c52b39622e7a31afe9a13ec61b756c3a25e968
@@ -67,10 +67,23 @@ GIT
     nodejs (1.7.0)
       apt (>= 1.4.4)
 
+GIT
+  remote: https://github.com/timurbatyrshin/chef-cookbook-hostname
+  ref: f7fc6fb81d637e18371060167a0b39c2ff2155af
+  sha: f7fc6fb81d637e18371060167a0b39c2ff2155af
+  specs:
+    hostname (0.1.0)
+      hostsfile (>= 0.0.0)
+
 PATH
   remote: ../../chef-deploy_wrapper
   specs:
     deploy_wrapper (0.1.0)
+
+PATH
+  remote: ../../chef-monit
+  specs:
+    monit (1.3.3)
 
 PATH
   remote: ../../chef-postgresql
@@ -82,6 +95,8 @@ PATH
 DEPENDENCIES
   aws (>= 0)
   deploy_wrapper (>= 0)
+  hostname (>= 0)
+  hostsfile (>= 0)
   logrotate (>= 0)
   monit (>= 0)
   nginx (>= 0)

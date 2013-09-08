@@ -1,3 +1,4 @@
+include_recipe "snow::common"
 include_recipe "nginx"
 include_recipe "aws"
 
