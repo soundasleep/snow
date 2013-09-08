@@ -1,3 +1,8 @@
+include_recipe "snow::common"
+include_recipe "postgresql::server"
+include_recipe "postgresql::contrib"
+include_recipe "aws"
+
 master_ip = search(:node, 'role:pgm').first[:ipaddress]
 
 # Delete and re-create the data directory

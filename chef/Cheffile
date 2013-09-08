@@ -4,10 +4,14 @@
 
 site 'http://community.opscode.com/api/v1'
 
+cookbook 'hostname',
+  :git => 'https://github.com/timurbatyrshin/chef-cookbook-hostname',
+  :ref => 'f7fc6fb81d637e18371060167a0b39c2ff2155af'
 
 cookbook 'monit',
-  :git => 'https://github.com/phlipper/chef-monit.git',
-  :ref => 'd78262e52e75bd8254bdc33612d14b4e9dd34c8a'
+    :path => '../../chef-monit'
+  # :git => 'https://github.com/phlipper/chef-monit.git',
+  # :ref => 'd78262e52e75bd8254bdc33612d14b4e9dd34c8a'
 
 cookbook 'aws',
     :git => 'https://github.com/opscode-cookbooks/aws.git',
@@ -42,3 +46,7 @@ cookbook 'nginx',
 cookbook 'postfix',
   :git => 'https://github.com/opscode-cookbooks/postfix.git',
   :ref => '4832ed74640cc36dd1618c8d39ea9a154ea6d5f5'
+
+cookbook 'hostsfile',
+  :git => 'https://github.com/customink-webops/hostsfile.git',
+  :ref => '63769c54580942551281db9c1dcf996b5ce95730'

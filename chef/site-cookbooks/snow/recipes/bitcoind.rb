@@ -1,3 +1,5 @@
+include_recipe "snow::common"
+
 ["build-essential", "libssl-dev", "libboost-all-dev"].each do |pkg|
     package pkg do
         action :install

@@ -1,3 +1,5 @@
+include_recipe "snow::common"
+
 %w(build-essential libssl-dev libboost-all-dev git libdb5.1-dev libdb5.1++-dev libminiupnpc-dev).each do |pkg|
     package pkg do
         action :install
