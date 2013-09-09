@@ -476,5 +476,9 @@
     "trade.stats.vohlc.yAxis.price": "Price (%s/%s)",
     "trade.stats.vohlc.yAxis.volume": "Volume (%s)",
     "trade.stats.vohlc.xAxis": "Date",
-    "account.funds.deposit now": "Deposit"
+    "account.funds.deposit now": "Deposit",
+    "markets.market.limitorder.ask.confirm": "Sell %s for %s per?",
+    "markets.market.limitorder.bid.confirm": "Buy %s for %s per?",
+    "markets.market.marketorder.ask.confirm": "Sell %s at best available price? You'll receive approx %s.",
+    "markets.market.marketorder.bid.confirm": "Buy %s for %s at market price? You'll receive approx %s."
 }

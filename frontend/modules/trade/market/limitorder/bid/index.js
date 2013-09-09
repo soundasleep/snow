@@ -192,30 +192,39 @@ module.exports = function(market) {
             return
         }
 
-        $button.loading(true, i18n('markets.market.limitorder.bid.submitting'))
-        $form.addClass('is-loading')
+        var confirmText = i18n('markets.market.limitorder.bid.confirm',
+            numbers.format($el.field('amount').parseNumber(), { currency: base }),
+            numbers.format($el.field('price').parseNumber(), { currency: quote }))
 
-        api.call('v1/orders', {
-            market: market,
-            type: 'bid',
-            amount: $el.field('amount').parseNumber(),
-            price: $el.field('price').parseNumber()
-        })
-        .always(function() {
-            $button.loading(false)
-            $form.removeClass('is-loading')
-        })
-        .fail(function(err) {
-            errors.alertFromXhr(err)
-        })
-        .done(function() {
-            $el.field('amount', '')
-            .field('price', '')
-            $el.find('.available').addClass('flash')
-            $form.field('amount').focus()
+        alertify.confirm(confirmText, function(ok) {
+            if (!ok) return
 
-            api.depth(market)
-            api.balances()
+
+            $button.loading(true, i18n('markets.market.limitorder.bid.submitting'))
+            $form.addClass('is-loading')
+
+            api.call('v1/orders', {
+                market: market,
+                type: 'bid',
+                amount: $el.field('amount').parseNumber(),
+                price: $el.field('price').parseNumber()
+            })
+            .always(function() {
+                $button.loading(false)
+                $form.removeClass('is-loading')
+            })
+            .fail(function(err) {
+                errors.alertFromXhr(err)
+            })
+            .done(function() {
+                $el.field('amount', '')
+                .field('price', '')
+                $el.find('.available').addClass('flash')
+                $form.field('amount').focus()
+
+                api.depth(market)
+                api.balances()
+            })
         })
     })
 

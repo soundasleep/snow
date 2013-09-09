@@ -442,5 +442,11 @@
     "auth.register.agree.lead": "Jeg har forstått",
     "auth.register.agree.link": "bruksvilkårene",
     "depositbank.norway-warning": "Kontoen du sender fra <b>må</b> stå i ditt navn, <b>%s</b> og adressen <b>%s</b>. Andre betalinger blir returnert.",
-    "account.funds.deposit now": "Sett inn"
+    "account.funds.deposit now": "Sett inn",
+    "markets.market.limitorder.ask.confirm": "Selg %s for %s per?",
+    "markets.market.limitorder.bid.confirm": "Kjøp %s for %s per?",
+    "markets.market.marketorder.ask.confirm": "Sell %s at best available price? You'll receive approx %s.",
+    "markets.market.marketorder.bid.confirm": "Spend %s at best available price? You'll receive approx %s.",
+    "markets.market.marketorder.ask.confirm": "Selg %s for markedspris? Du mottar omtrent %s.",
+    "markets.market.marketorder.bid.confirm": "Kjøp %s for %s til markedspris? Du mottar omtrent %s."
 }

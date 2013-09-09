@@ -2,6 +2,7 @@ var num = require('num')
 , _ = require('lodash')
 , template = require('./index.html')
 , debug = require('../../../../../util/debug')('trade')
+, format = require('util').format
 
 module.exports = function(market) {
     var $el = $('<div class="ask">').html(template({
@@ -12,6 +13,7 @@ module.exports = function(market) {
         $el: $el
     }
     , base = market.substr(0, 3)
+    , quote = market.substr(3)
     , depth
     , $amount = $el.find('.amount')
     , $price = $el.find('.price')
@@ -191,30 +193,38 @@ module.exports = function(market) {
             return
         }
 
-        $button.loading(true, i18n('markets.market.limitorder.ask.submitting'))
-        $form.addClass('is-loading')
+        var confirmText = i18n('markets.market.limitorder.ask.confirm',
+            numbers.format($el.field('amount').parseNumber(), { currency: base }),
+            numbers.format($el.field('price').parseNumber(), { currency: quote }))
 
-        api.call('v1/orders', {
-            market: market,
-            type: 'ask',
-            amount: $el.field('amount').parseNumber(),
-            price: $el.field('price').parseNumber()
-        })
-        .always(function() {
-            $button.loading(false)
-            $form.removeClass('is-loading')
-        })
-        .fail(function(err) {
-            errors.alertFromXhr(err)
-        })
-        .done(function() {
-            $el.field('amount', '')
-            .field('price', '')
-            $el.find('.available').flash()
-            $form.field('amount').focus()
+        alertify.confirm(confirmText, function(ok) {
+            if (!ok) return
 
-            api.depth(market)
-            api.balances()
+            $button.loading(true, i18n('markets.market.limitorder.ask.submitting'))
+            $form.addClass('is-loading')
+
+            api.call('v1/orders', {
+                market: market,
+                type: 'ask',
+                amount: $el.field('amount').parseNumber(),
+                price: $el.field('price').parseNumber()
+            })
+            .always(function() {
+                $button.loading(false)
+                $form.removeClass('is-loading')
+            })
+            .fail(function(err) {
+                errors.alertFromXhr(err)
+            })
+            .done(function() {
+                $el.field('amount', '')
+                .field('price', '')
+                $el.find('.available').flash()
+                $form.field('amount').focus()
+
+                api.depth(market)
+                api.balances()
+            })
         })
     })
 

@@ -19,6 +19,7 @@ module.exports = function(market) {
     , basePrecision = _.find(api.currencies.value, { id: base }).scale
     , volumePrecision = basePrecision - pricePrecision
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
+    , receive
 
     function updateQuote() {
         $sell.removeClass('is-too-deep')
@@ -37,8 +38,9 @@ module.exports = function(market) {
             return
         }
 
-        var receive = num(0)
-        , remaining = num(sell)
+        receive = num(0)
+
+        var remaining = num(sell)
 
         var filled = _.some(depth.bids, function(level) {
             debug('%s remaining', remaining.toString())
@@ -187,30 +189,39 @@ module.exports = function(market) {
             return
         }
 
-        $button.loading(true, i18n('markets.market.marketorder.ask.placing order'))
-        $form.addClass('is-loading')
+        var confirmText = i18n(
+            'markets.market.marketorder.ask.confirm',
+            numbers($el.field('sell').parseNumber(), { currency: base }),
+            numbers(receive, { currency: quote }))
 
-        api.call('v1/orders', {
-            market: market,
-            type: 'ask',
-            amount: $el.field('sell').parseNumber(),
-            price: null
-        })
-        .always(function() {
-            $button.loading(false)
-            $form.removeClass('is-loading')
-        })
-        .fail(function(err) {
-            errors.alertFromXhr(err)
-        })
-        .done(function() {
-            $el.field('amount', '')
-            .field('price', '')
-            $el.find('.available').flash()
-            $form.field('amount').focus()
+        alertify.confirm(confirmText, function(ok) {
+            if (!ok) return
 
-            api.depth(market)
-            api.balances()
+            $button.loading(true, i18n('markets.market.marketorder.ask.placing order'))
+            $form.addClass('is-loading')
+
+            api.call('v1/orders', {
+                market: market,
+                type: 'ask',
+                amount: $el.field('sell').parseNumber(),
+                price: null
+            })
+            .always(function() {
+                $button.loading(false)
+                $form.removeClass('is-loading')
+            })
+            .fail(function(err) {
+                errors.alertFromXhr(err)
+            })
+            .done(function() {
+                $el.field('sell', '')
+                .field('price', '')
+                $el.find('.available').flash()
+                $form.field('sell').focus()
+
+                api.depth(market)
+                api.balances()
+            })
         })
     })
 
@@ -231,6 +242,8 @@ module.exports = function(market) {
     api.balances.current && balancesUpdated()
     api.on('balances', balancesUpdated)
     api.on('depth:' + market, onDepth)
+
+    $el.field('sell').focusSoon()
 
     return controller
 }

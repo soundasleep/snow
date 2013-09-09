@@ -11,10 +11,12 @@ module.exports = function(market) {
     , controller = {
         $el: $el
     }
+    , base = market.substr(0, 3)
     , quote = market.substr(3, 3)
     , depth
     , $spend = $el.find('.spend')
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
+    , receive
 
     function updateQuote() {
         $el.removeClass('is-too-deep')
@@ -34,8 +36,8 @@ module.exports = function(market) {
             return
         }
 
-        var receive = num(0)
-        , remaining = num(spend)
+        receive = num(0)
+        var remaining = num(spend)
 
         var filled = _.some(depth.asks, function(level) {
             var price = num(level[0])
@@ -182,28 +184,37 @@ module.exports = function(market) {
             return
         }
 
-        $button.loading(true, i18n('markets.market.marketorder.bid.placing order'))
-        $form.addClass('is-loading')
+        var confirmText = i18n(
+            'markets.market.marketorder.bid.confirm',
+            base,
+            numbers($el.field('spend').parseNumber(), { currency: quote }),
+            numbers(receive, { currency: base }))
 
-        api.call('v1/spend', {
-            market: market,
-            amount: $el.field('spend').parseNumber()
-        })
-        .always(function() {
-            $button.loading(false)
-            $form.removeClass('is-loading')
-        })
-        .fail(function(err) {
-            errors.alertFromXhr(err)
-        })
-        .done(function() {
-            $el.field('spend', '')
-            .field('price', '')
-            $el.find('.available').flash()
-            $form.field('spend').focus()
+        alertify.confirm(confirmText, function(ok) {
+            if (!ok) return
 
-            api.depth(market)
-            api.balances()
+            $button.loading(true, i18n('markets.market.marketorder.bid.placing order'))
+            $form.addClass('is-loading')
+
+            api.call('v1/spend', {
+                market: market,
+                amount: $el.field('spend').parseNumber()
+            })
+            .always(function() {
+                $button.loading(false)
+                $form.removeClass('is-loading')
+            })
+            .fail(function(err) {
+                errors.alertFromXhr(err)
+            })
+            .done(function() {
+                $el.field('spend', '')
+                $el.find('.available').flash()
+                $form.field('spend').focus()
+
+                api.depth(market)
+                api.balances()
+            })
         })
     })
 
