@@ -3,6 +3,7 @@ var _ = require('lodash')
 , sjcl = require('./vendor/sjcl')
 , emitter = require('./helpers/emitter')
 , api = module.exports = emitter()
+, callingCodes = require('./assets/callingcodes.json')
 , debug = require('./helpers/debug')('snow:api')
 
 function keyFromCredentials(email, password) {
@@ -91,6 +92,13 @@ api.loginWithKey = function(key) {
 
         api.key = key
         api.user = user
+
+        api.user.countryFriendly = function() {
+            if (!user.country) return null
+            var item = _.find(callingCodes, { code: user.country })
+            return item ? item.name : 'Unknown'
+        }
+
         api.trigger('user', user)
 
         $app.addClass('is-logged-in')
