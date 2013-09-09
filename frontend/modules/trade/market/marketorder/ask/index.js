@@ -234,7 +234,11 @@ module.exports = function(market) {
             return
         }
 
-        $el.field('sell').val(numbers.format(item.available))
+        // Set precision to the maximum allowed
+        var avail = num(item.available)
+        avail.set_precision(pricePrecision)
+
+        $el.field('sell').val(numbers.format(avail))
         $el.field('sell').trigger('change')
     })
 
