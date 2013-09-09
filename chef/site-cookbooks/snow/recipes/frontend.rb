@@ -54,7 +54,7 @@ deploy_revision node[:snow][:frontend][:app_directory] do
       bash "npm install" do
         user "ubuntu"
         group "ubuntu"
-        cwd "#{release_path}/web"
+        cwd "#{release_path}/frontend"
         code %{
           export SEGMENT=#{env_bag['segment']['api_key']}
           npm install

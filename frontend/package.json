@@ -1,5 +1,5 @@
 {
-  "name": "snow-web",
+  "name": "snow-frontend",
   "description": "web interface",
   "version": "0.0.76",
   "dependencies": {

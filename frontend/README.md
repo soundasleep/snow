@@ -1,2 +1,2 @@
-snow web
+snow frontend
 =====
