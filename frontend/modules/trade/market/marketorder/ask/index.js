@@ -34,7 +34,7 @@ module.exports = function(market) {
 
         if (!depth.bids.length) {
             $sell.addClass('has-error')
-            $el.addClass('is-too-deep')
+            .addClass('is-too-deep')
             return
         }
 
@@ -70,7 +70,7 @@ module.exports = function(market) {
             }
         })
 
-        $el.toggleClass('is-too-deep', !filled)
+        $sell.toggleClass('is-too-deep', !filled)
 
         if (!filled) {
             $sell.addClass('has-error')
@@ -107,6 +107,12 @@ module.exports = function(market) {
     }
 
     function validateSell(emptyIsError) {
+        updateQuote()
+
+        if ($sell.hasClass('is-too-deep')) {
+            return
+        }
+
         $sell
         .removeClass('has-insufficient-funds')
         .removeClass('is-precision-too-high')
