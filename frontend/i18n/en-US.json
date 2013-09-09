@@ -137,7 +137,7 @@
     "withdrawripple.button": "Withdraw to Ripple",
 
     "verifyphone.heading": "Verify phone",
-    "verifyphone.intro": "To make your account more secure, a robot will now call you and read a four digit code. Don't worry, we're paying for the call.",
+    "verifyphone.intro": "To make your account more secure, a robot will now call you and read a four digit code. Don't worry, we're paying for the call. Make sure you have reception before you continue!",
     "verifyphone.call me": "Call me now",
     "verifyphone.verify code": "Verify code",
 
