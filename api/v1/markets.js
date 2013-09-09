@@ -7,7 +7,7 @@ module.exports = exports = function(app) {
 exports.index = function(req, res, next) {
     function formatPriceOrNull(p, m) {
         if (p === null) return null
-        return req.app.cache.formatOrderPrice(m, p)
+        return req.app.cache.formatOrderPrice(p, m)
     }
 
     var query = 'SELECT * FROM market_summary_view'
