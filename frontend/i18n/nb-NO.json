@@ -292,7 +292,7 @@
     "withdraw.bank.empty": "Du har ikke lagt til noen bankkonto.",
     "withdraw.bank.empty.link": "Legg til bankkonto",
     "auth.cip.heading": "Sikkerhetsnivå 4 kreves",
-    "auth.cip.intro": "Vi vil nå bekrefte navnet og adresse din. Send en epost med legitimasjon og et bevis på adressen din til adressen nedenfor",
+    "auth.cip.intro": "Vi vil nå bekrefte navnet og adressen din. Send en epost med legitimasjon og et bevis på adressen din til adressen nedenfor",
     "auth.cip.requirements": "<li>Pass, førerkort, eller nasjonalt identitetskort</li><li>Regning (vann, strøm, fasttelefon) eller skatteoppgave</li><li>Begge må være foto eller skann i farger, uredigert og med alle fire hjørner synlige</li>",
     "auth.cip.no retain": "Vi sletter bildene med en gang vi har sett over dem.",
     "auth.cip.continue": "Jeg har sendt begge dokumentene",
