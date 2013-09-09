@@ -58,7 +58,7 @@ deploy_revision node[:snow][:frontend][:app_directory] do
         code %{
           export SEGMENT=#{env_bag['segment']['api_key']}
           npm install
-          node node_modules/bin/bower install
+          node node_modules/bower/bin/bower install
           node node_modules/jake/bin/cli.js
         }
       end
