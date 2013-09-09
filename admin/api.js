@@ -1,7 +1,7 @@
 /* global -api */
 var _ = require('lodash')
-, sjcl = require('./vendor/sjcl')
-, emitter = require('./util/emitter')
+, sjcl = require('./bower_components/sjcl/sjcl.js')
+, emitter = require('./helpers/emitter')
 , api = module.exports = emitter()
 
 function keyFromCredentials(email, password) {

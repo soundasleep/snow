@@ -119,7 +119,7 @@ exports.user = function(req, res, next) {
         return checkRow(cached)
     }
 
-    debug('cache miss for api key %s', req.query.key)
+    debug('cache miss for api key %s', req.query.key.substr(0, 4))
 
     exports.fetchUserFromKey(req.app, req.query.key, function(err, row) {
         if (err) return next(err)
@@ -143,6 +143,11 @@ var mappings = {
     any: null
 }
 
+exports.extendTfa = function(key) {
+    debug('extending tfa for key %s', key.substr(0, 4))
+    exports.tfa[key] = +new Date() + 1000 * 60 * 45
+}
+
 exports.permission = function(type, level, req, res, next) {
     debug('requiring permission %s of level %d', type, level)
 
@@ -154,6 +159,7 @@ exports.permission = function(type, level, req, res, next) {
 
             if (!expires || expires < +new Date()) {
                 if (expires) {
+                    debug('invalidating expired api key %s for user %s', req.key, req.user)
                     delete exports.tfa[req.key]
                 }
 
@@ -162,6 +168,8 @@ exports.permission = function(type, level, req, res, next) {
                     message: 'The user has two factor enabled'
                 })
             }
+
+            exports.extendTfa(req.key)
         }
 
         if (type == 'any') return next()

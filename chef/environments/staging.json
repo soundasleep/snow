@@ -23,6 +23,7 @@
     }
   },
   "override_attributes": {
+    "set_fqdn": "*.internal.staging.justcoin.com",
     "monit": {
       "mail": {
         "from": "monit@staging.justcoin.com"

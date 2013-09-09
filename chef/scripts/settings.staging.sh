@@ -41,4 +41,7 @@ export BITCOIND_SECURITY_GROUP=sg-f7816998
 export LITECOIND_INSTANCE_TYPE=t1.micro
 export LITECOIND_SECURITY_GROUP=sg-f6816999
 
+export RIPPLED_INSTANCE_TYPE=t1.micro
+export RIPPLED_SECURITY_GROUP=sg-fa6d8595
+
 export CHEF_SERVER_URL=https://chef.internal.staging.justcoin.com

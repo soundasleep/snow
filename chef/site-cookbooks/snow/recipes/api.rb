@@ -1,3 +1,7 @@
+include_recipe "snow::common"
+include_recipe "nodejs"
+include_recipe "postgresql::client"
+
 package 'git' do
 end
 

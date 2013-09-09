@@ -1,3 +1,7 @@
+include_recipe "snow::common"
+include_recipe "nodejs"
+include_recipe "postgresql::client"
+
 package 'git' do
 end
 
@@ -87,6 +91,7 @@ pgm_ip = search(:node, 'role:pgm').first ? search(:node, 'role:pgm').first[:ipad
 pgs_ip = search(:node, 'role:pgs').first ? search(:node, 'role:pgs').first[:ipaddress] : nil
 bitcoind_ip = search(:node, 'role:bitcoind').first ? search(:node, 'role:bitcoind').first[:ipaddress] : nil
 litecoind_ip = search(:node, 'role:litecoind').first ? search(:node, 'role:litecoind').first[:ipaddress] : nil
+rippled_ip = search(:node, 'role:rippled').first ? search(:node, 'role:rippled').first[:ipaddress] : nil
 
 template "#{node[:snow][:workers][:app_directory]}/shared/config/workers.json" do
     source 'workers/config.json.erb'
@@ -95,6 +100,7 @@ template "#{node[:snow][:workers][:app_directory]}/shared/config/workers.json" d
         :pgs_conn => "postgres://postgres@#{pgs_ip || '127.0.0.1'}/snow",
         :ripple => env_bag['ripple'],
         :litecoind_ip => litecoind_ip || '127.0.0.1',
+        :rippled_ip => rippled_ip || '127.0.0.1',
         :bitcoind_ip => bitcoind_ip || '127.0.0.1'
     })
     notifies :restart, resources(:service => "snow-bitcoinin")

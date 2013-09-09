@@ -13,7 +13,7 @@ function exited(name, code, output) {
 
 task('dev', function() {
     // Static web server
-    pushd('web')
+    pushd('frontend')
     var staticWeb = exec('jake host', { async: true }, exited.bind(this, 'staticWeb'))
     popd()
 

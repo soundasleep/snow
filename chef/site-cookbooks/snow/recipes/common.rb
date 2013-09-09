@@ -1,3 +1,10 @@
+include_recipe "hostname"
+include_recipe "snow::crontp"
+include_recipe "snow::aptupdate"
+include_recipe "logrotate"
+include_recipe "postfix"
+include_recipe "monit"
+
 bag = data_bag_item("snow", "main")
 env_bag = bag[node.chef_environment]
 
