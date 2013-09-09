@@ -1,6 +1,6 @@
 /* global -i18n */
 var util = require('util')
-, debug = require('../util/debug')('i18n')
+, debug = require('../helpers/debug')('i18n')
 , _ = require('lodash')
 , dicts = {
     'en-US': require('./en-US.json'),

@@ -1,7 +1,7 @@
 var num = require('num')
 , _ = require('lodash')
 , template = require('./index.html')
-, debug = require('../../../../../util/debug')('trade')
+, debug = require('../../../../../helpers/debug')('trade')
 
 module.exports = function(market) {
     var $el = $('<div class="bid">').html(template({

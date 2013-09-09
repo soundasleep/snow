@@ -1,4 +1,4 @@
-var debug = require('../../../util/debug')('verifyemail')
+var debug = require('../../../helpers/debug')('verifyemail')
 , template = require('./index.html')
 
 module.exports = function(after) {

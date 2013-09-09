@@ -32,7 +32,7 @@ module.exports = function() {
             var duration = new Date() > moment(item.created) ?
                 moment(item.created).fromNow() : moment().fromNow()
 
-            item.text = require('../../../util/activity')(item)
+            item.text = require('../../../helpers/activity')(item)
             item.ago = duration
 
             return itemTemplate(item)

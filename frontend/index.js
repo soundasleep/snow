@@ -1,15 +1,15 @@
-var debug = require('./util/debug')('snow:entry')
+var debug = require('./helpers/debug')('snow:entry')
 
 debug('initializing shared components')
 
 window.$app = $('body')
-window.router = require('./util/router')
+window.router = require('./helpers/router')
 window.api = require('./api')
 window.errors = require('./errors')
 window.i18n = require('./i18n')
-window.numbers = require('./util/numbers')
-window.notify = require('./util/notify')()
-window.formatters = require('./util/formatters')
+window.numbers = require('./helpers/numbers')
+window.notify = require('./helpers/notify')()
+window.formatters = require('./helpers/formatters')
 window.moment = require('moment')
 
 $app.append(window.notify.$el)

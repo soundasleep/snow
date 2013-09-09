@@ -1,9 +1,9 @@
 /* global -api */
 var _ = require('lodash')
 , sjcl = require('./vendor/sjcl')
-, emitter = require('./util/emitter')
+, emitter = require('./helpers/emitter')
 , api = module.exports = emitter()
-, debug = require('./util/debug')('snow:api')
+, debug = require('./helpers/debug')('snow:api')
 
 function keyFromCredentials(email, password) {
     var concat = email.toLowerCase() + password

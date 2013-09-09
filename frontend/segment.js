@@ -1,4 +1,4 @@
-var debug = require('./util/debug')('segment')
+var debug = require('./helpers/debug')('segment')
 
 function attach(user) {
     api.off('user', attach)

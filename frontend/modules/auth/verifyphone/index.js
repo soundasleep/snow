@@ -1,6 +1,6 @@
 var util = require('util')
 , _ = require('lodash')
-, debug = require('../../../util/debug')('verifyemail')
+, debug = require('../../../helpers/debug')('verifyemail')
 , template = require('./index.html')
 
 module.exports = function(after) {

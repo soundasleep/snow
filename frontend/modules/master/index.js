@@ -1,4 +1,4 @@
-var debug = require('../../util/debug')('snow:master')
+var debug = require('../../helpers/debug')('snow:master')
 , page
 , template = require('./index.html')
 , area

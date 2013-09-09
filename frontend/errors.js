@@ -1,5 +1,5 @@
 /* global Raven, alertify */
-var debug = require('./util/debug')('errors')
+var debug = require('./helpers/debug')('errors')
 , format = require('util').format
 
 exports.bodyFromXhr = function(xhr) {

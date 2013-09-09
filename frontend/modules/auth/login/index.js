@@ -1,7 +1,7 @@
 require('../../../vendor/shake')
 
 var _ = require('lodash')
-, debug = require('../../../util/debug')('login')
+, debug = require('../../../helpers/debug')('login')
 , template = require('./index.html')
 
 module.exports = function(after) {

@@ -1,4 +1,4 @@
-var debug = require('./util/debug')('authorize')
+var debug = require('./helpers/debug')('authorize')
 
 exports.user = function(level, register) {
     if (level === true) {
