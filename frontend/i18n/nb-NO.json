@@ -441,5 +441,6 @@
     "paging.older": "Eldre",
     "auth.register.agree.lead": "Jeg har forstått",
     "auth.register.agree.link": "bruksvilkårene",
-    "depositbank.norway-warning": "Kontoen du sender fra <b>må</b> stå i ditt navn, <b>%s</b> og adressen <b>%s</b>. Andre betalinger blir returnert."
+    "depositbank.norway-warning": "Kontoen du sender fra <b>må</b> stå i ditt navn, <b>%s</b> og adressen <b>%s</b>. Andre betalinger blir returnert.",
+    "account.funds.deposit now": "Sett inn"
 }

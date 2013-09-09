@@ -94,6 +94,7 @@ api.loginWithKey = function(key) {
         api.trigger('user', user)
 
         $app.addClass('is-logged-in')
+        .addClass('is-user-country-' + (api.user.country || 'unknown'))
     })
 }
 

@@ -62,6 +62,8 @@ module.exports = function(after) {
 
             api.user.securityLevel = 3
 
+            $app.addClass('is-user-country-' + api.user.country)
+
             router.after(after)
         })
         .always(function() {

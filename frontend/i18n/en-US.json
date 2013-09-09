@@ -475,5 +475,6 @@
     "trade.stats.vohlc.title": "Candlestick",
     "trade.stats.vohlc.yAxis.price": "Price (%s/%s)",
     "trade.stats.vohlc.yAxis.volume": "Volume (%s)",
-    "trade.stats.vohlc.xAxis": "Date"
+    "trade.stats.vohlc.xAxis": "Date",
+    "account.funds.deposit now": "Deposit"
 }

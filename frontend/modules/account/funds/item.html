@@ -1,5 +1,17 @@
 <tr class="item" data-id="<%= currency %>">
-    <td class="currency"><%- currency %></td>
+    <td class="currency" style="vertical-align:middle">
+        <%- currency %>
+
+        <span class="text-align:right">
+        <% if (currency == 'NOK') { %>
+            <button class="visible-user-country-NO btn btn-success" style="margin-left:2em"><%- i18n('account.funds.deposit now') %></button>
+        <% } %>
+
+        <% if (currency == 'EUR') { %>
+            <button class="hidden-user-country-NO btn btn-success" style="margin-left:2em"><%- i18n('account.funds.deposit now') %></button>
+        <% } %>
+        </span>
+    </td>
     <td class="amount"><%- numbers.format(balance, { trim: false, maxPrecision: 3 }) %></td>
     <td class="amount hidden-sm"><%- numbers.format(hold, { trim: false, maxPrecision: 3 }) %></td>
     <td class="amount"><%- numbers.format(available, { trim: false, maxPrecision: 3 }) %></td>
