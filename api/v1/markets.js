@@ -5,7 +5,7 @@ module.exports = exports = function(app) {
 }
 
 exports.index = function(req, res, next) {
-    function formatPriceOrNull(m, p) {
+    function formatPriceOrNull(p, m) {
         if (p === null) return null
         return req.app.cache.formatOrderPrice(m, p)
     }
