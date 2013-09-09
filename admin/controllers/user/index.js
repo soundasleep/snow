@@ -1,6 +1,6 @@
 var header = require('./header')
 , template = require('./template.html')
-, model = require('../../util/model')
+, model = require('../../helpers/model')
 , _ = require('lodash')
 , moment = require('moment')
 
