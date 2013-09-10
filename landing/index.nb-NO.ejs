@@ -28,6 +28,10 @@
           analytics.load("<%- segment %>");
         </script>
     <% } %>
+
+    <style>
+        <% include build/styles.min.css %>
+    </style>
 </head>
 
 <body>
@@ -256,8 +260,8 @@
     </div>
 
     <script>
-        <% include build/vendor.js %>
-        <% include landing.js %>
+        <% include build/vendor.min.js %>
+        <% include build/landing.min.js %>
     </script>
 </body>
 </html>

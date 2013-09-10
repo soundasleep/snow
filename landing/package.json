@@ -7,6 +7,15 @@
     "stylus": "~0.37.0",
     "clean-css": "~1.0.12",
     "shelljs": "~0.2.1",
-    "ejs": "~0.8.4"
+    "ejs": "~0.8.4",
+    "grunt-ejs": "~0.1.0",
+    "konfu": "~1.1.4",
+    "grunt-img": "~0.1.7",
+    "grunt": "~0.4.1",
+    "grunt-browserify": "~1.2.4",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-stylus": "~0.8.0",
+    "grunt-ejs-render": "~0.1.1",
+    "grunt-bower-task": "~0.3.2"
   }
 }
