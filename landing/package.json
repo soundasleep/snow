@@ -12,6 +12,7 @@
     "grunt-bower-task": "~0.3.2",
     "grunt-cli": "~0.1.9",
     "grunt": "~0.4.1",
-    "stylus": "~0.37.0"
+    "stylus": "~0.37.0",
+    "bower": "~1.2.6"
   }
 }
