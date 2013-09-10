@@ -49,9 +49,8 @@ module.exports = function(grunt) {
     })
 
     grunt.loadNpmTasks('grunt-img')
-    grunt.loadNpmTasks('grunt-bower-task')
     grunt.loadNpmTasks('grunt-contrib-uglify')
     grunt.loadNpmTasks('grunt-contrib-stylus')
     grunt.loadNpmTasks('grunt-ejs')
-    grunt.registerTask('default', ['bower', 'uglify', 'stylus', 'ejs', 'img'])
+    grunt.registerTask('default', ['uglify', 'stylus', 'ejs', 'img'])
 }
