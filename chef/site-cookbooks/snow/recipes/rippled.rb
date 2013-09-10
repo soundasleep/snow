@@ -57,7 +57,7 @@ deploy_revision "/home/ubuntu/rippled" do
        "rippled.cfg" => "rippled/rippled.cfg"
   })
 
-  before_restart do
+  before_symlink do
     bash "make" do
       user "ubuntu"
       group "ubuntu"

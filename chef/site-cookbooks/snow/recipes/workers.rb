@@ -49,7 +49,7 @@ deploy_revision node[:snow][:workers][:app_directory] do
     ssh_wrapper "/home/ubuntu/workers-ssh-wrapper/workers_deploy_wrapper.sh"
     action :deploy
     branch node[:snow][:branch]
-    before_restart do
+    before_symlink do
       bash "npm install" do
         user "ubuntu"
         group "ubuntu"
