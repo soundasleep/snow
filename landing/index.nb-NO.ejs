@@ -6,7 +6,11 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Buy and trade Bitcoin the easy way" name="description">
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link href="styles.min.css" rel="stylesheet">
+
+    <style>
+        <% include build/styles.min.css %>
+    </style>
+
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link rel="apple-touch-icon" href="/touchicon.png">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-ipad-retina.png">
@@ -28,10 +32,6 @@
           analytics.load("<%- segment %>");
         </script>
     <% } %>
-
-    <style>
-        <% include build/styles.min.css %>
-    </style>
 </head>
 
 <body>
