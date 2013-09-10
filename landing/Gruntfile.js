@@ -4,7 +4,9 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         bower: {
-            install: {}
+            options: {
+                targetDir: './bower_components'
+            }
         },
         uglify: {
             options: {
