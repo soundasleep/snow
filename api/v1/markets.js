@@ -5,9 +5,14 @@ module.exports = exports = function(app) {
 }
 
 exports.index = function(req, res, next) {
-    function formatPriceOrNull(m, p) {
+    function formatPriceOrNull(p, m) {
         if (p === null) return null
-        return req.app.cache.formatOrderPrice(m, p)
+        return req.app.cache.formatOrderPrice(p, m)
+    }
+
+    function formatVolumeOrNull(v, m) {
+        if (v === null) return null
+        return req.app.cache.formatOrderVolume(v, m)
     }
 
     var query = 'SELECT * FROM market_summary_view'
@@ -22,7 +27,7 @@ exports.index = function(req, res, next) {
                 low: formatPriceOrNull(row.low, m),
                 bid: formatPriceOrNull(row.bid, m),
                 ask: formatPriceOrNull(row.ask, m),
-                volume: req.app.cache.formatOrderVolume(row.volume, m),
+                volume: formatVolumeOrNull(row.volume, m),
                 scale: req.app.cache[m]
             }
         }))
