@@ -40,17 +40,23 @@ module.exports = function(grunt) {
                 dest: 'public/index.no.html'
             }
         },
-        img: {
+        copy: {
             all: {
-                src: ['assets/*.png', 'assets/*.jpg'],
-                dest: 'public'
+                files: [
+                    {
+                        expand: true,
+                        src: ['assets/*'],
+                        dest: 'public/',
+                        flatten: true
+                    }
+                ]
             }
         }
     })
 
-    grunt.loadNpmTasks('grunt-img')
+    grunt.loadNpmTasks('grunt-contrib-copy')
     grunt.loadNpmTasks('grunt-contrib-uglify')
     grunt.loadNpmTasks('grunt-contrib-stylus')
     grunt.loadNpmTasks('grunt-ejs')
-    grunt.registerTask('default', ['uglify', 'stylus', 'ejs', 'img'])
+    grunt.registerTask('default', ['uglify', 'stylus', 'ejs', 'copy'])
 }
