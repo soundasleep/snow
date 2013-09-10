@@ -124,7 +124,7 @@ function formatOrderRow(cache, row) {
         id: row.order_id,
         market: row.market,
         type: row.type,
-        price: cache.formatOrderPrice(row.price, row.market),
+        price: row.price ? cache.formatOrderPrice(row.price, row.market) : null,
         amount: cache.formatOrderVolume(row.original, row.market),
         remaining: cache.formatOrderVolume(row.volume, row.market),
         matched: cache.formatOrderVolume(row.matched, row.market),
