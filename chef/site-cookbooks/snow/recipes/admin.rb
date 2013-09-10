@@ -44,7 +44,7 @@ deploy_revision node[:snow][:admin][:app_directory] do
     branch node[:snow][:branch]
     ssh_wrapper "/home/ubuntu/admin-ssh-wrapper/admin_deploy_wrapper.sh"
     action :deploy
-    before_restart do
+    before_symlink do
       bash "npm install" do
         user "ubuntu"
         group "ubuntu"
