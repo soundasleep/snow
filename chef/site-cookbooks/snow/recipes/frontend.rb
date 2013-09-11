@@ -56,10 +56,11 @@ deploy_revision node[:snow][:frontend][:app_directory] do
         group "ubuntu"
         cwd "#{release_path}/frontend"
         code %{
+          export PATH=node_modules/.bin:$PATH
           export SEGMENT=#{env_bag['segment']['api_key']}
           npm install
           node node_modules/bower/bin/bower install
-          node node_modules/jake/bin/cli.js
+          make dist
         }
       end
     end
