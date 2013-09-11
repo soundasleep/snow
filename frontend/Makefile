@@ -85,10 +85,10 @@ dist/app.js:
 	@browserify ./index.js --transform ./node_modules/browserify-ejs --outfile $@
 
 dist/head.js: $(HEAD)
-	cat $^
+	cat $^ > $@
 
 dist/vendor.js: $(VENDOR)
-	cat $^
+	cat $^ > $@
 
 tmp/styles.css: $(VENDOR_CSS) tmp-directory
 	@(cat $(VENDOR_CSS); stylus < index.styl) > $@
