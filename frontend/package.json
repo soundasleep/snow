@@ -3,7 +3,6 @@
   "description": "web interface",
   "version": "0.0.76",
   "dependencies": {
-    "jake": "~0.6.11",
     "bower": "~1.2.4",
     "browserify": "~2.29.0",
     "browserify-ejs": "0.0.2",
