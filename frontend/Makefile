@@ -12,14 +12,12 @@ VENDOR = \
 	vendor/sjcl.js \
 	bower_components/alertify/alertify.min.js \
 	vendor/bootstrap/js/bootstrap.min.js \
-	bower_components/bootstrap-notify/js/bootstrap-notify.js \
 	vendor/highstock.js
 
 VENDOR_CSS = \
 	bower_components/alertify/themes/alertify.core.css \
 	bower_components/alertify/themes/alertify.bootstrap.css \
-	vendor/bootstrap/css/bootstrap.min.css \
-	bower_components/bootstrap-notify/css/bootstrap-notify.css
+	vendor/bootstrap/css/bootstrap.min.css
 
 CLEAN:
 	rm -rf dist public
@@ -88,7 +86,7 @@ dist/head.js: $(HEAD)
 	cat $^ > $@
 
 dist/vendor.js: $(VENDOR)
-	cat $^ > $@
+	uglifyjs $^ --compress > $@ 2>/dev/null
 
 tmp/styles.css: $(VENDOR_CSS) tmp-directory
 	@(cat $(VENDOR_CSS); stylus < index.styl) > $@
