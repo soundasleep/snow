@@ -74,7 +74,7 @@ dist/head.js: $(HEAD)
 	cat $^ | uglifyjs $^ --output $@ --compress --mangle
 
 dist/vendor.js: $(VENDOR)
-	cat $^ | uglifyjs $^ --output $@ --compress --mangle
+	cat $^ | uglifyjs $^ --output $@ --compress
 
 tmp/styles.css: $(VENDOR_CSS) tmp-directory
 	@(cat $(VENDOR_CSS); stylus < index.styl) > $@
