@@ -5,3 +5,6 @@ build/
 config.dev.json
 bower_components/
 /*.ps1
+/tmp/
+/dist/
+/public/
