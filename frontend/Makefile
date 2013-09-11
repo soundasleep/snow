@@ -24,6 +24,18 @@ VENDOR_CSS = \
 CLEAN:
 	rm -rf dist public
 
+tmp-directory:
+	@mkdir -p tmp
+
+public: \
+	public-directory \
+	public/app.js \
+	public/styles.css \
+	public/vendor.js \
+	public/head.js \
+	public/index.html \
+	public/img
+
 public/img:
 	echo $@
 	mkdir -p $@
@@ -31,9 +43,6 @@ public/img:
 
 public-directory:
 	@mkdir -p public
-
-tmp-directory:
-	@mkdir -p tmp
 
 public/app.js:
 	@browserify ./index.js --debug --transform ./node_modules/browserify-ejs --outfile $@
@@ -67,14 +76,19 @@ dist/img:
 dist-directory:
 	@mkdir -p dist
 
+dist/img:
+	echo $@
+	mkdir -p $@
+	cp -fr assets/img/* dist/img
+
 dist/app.js:
 	@browserify ./index.js --transform ./node_modules/browserify-ejs --outfile $@
 
 dist/head.js: $(HEAD)
-	cat $^ | uglifyjs $^ --output $@ --compress --mangle
+	cat $^
 
 dist/vendor.js: $(VENDOR)
-	cat $^ | uglifyjs $^ --output $@ --compress
+	cat $^
 
 tmp/styles.css: $(VENDOR_CSS) tmp-directory
 	@(cat $(VENDOR_CSS); stylus < index.styl) > $@
@@ -84,5 +98,3 @@ dist/styles.css: tmp/styles.css
 
 dist/index.html:
 	node compile-ejs.js > $@
-
-.PHONY: public dist
