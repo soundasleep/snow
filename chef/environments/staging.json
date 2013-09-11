@@ -11,7 +11,7 @@
         "aws_device": "sdf",
         "os_device": "xvdf"
       },
-      "branch": "feature/grunt",
+      "branch": "develop",
       "workers": {
         "bitcoinin": {
           "min_conf": 1
