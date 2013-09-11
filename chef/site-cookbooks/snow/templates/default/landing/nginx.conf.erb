@@ -1,7 +1,7 @@
 server {
     listen <%= node[:snow][:landing][:port] %>;
     server_name <%= node[:snow][:landing][:domain] %>;
-    root /home/ubuntu/snow-landing/current/landing/build/;
+    root /home/ubuntu/snow-landing/current/landing/public/;
     access_log /var/log/snow-landing-access.log;
     error_log /var/log/snow-landing-error.log;
 

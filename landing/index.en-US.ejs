@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Justcoin</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Buy and trade Bitcoin the easy way" name="description">
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link href="styles.min.css" rel="stylesheet">
+
+    <style>
+        <% include build/styles.min.css %>
+    </style>
+
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link rel="apple-touch-icon" href="/touchicon.png">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-ipad-retina.png">
@@ -42,21 +46,21 @@
         <div class="row-fluid tickers">
             <div class="span12" style="text-align:center;color:#fff;">
                 <!-- Login for tablet and desktop -->
-                <a class="btn-login hidden-phone" href="/client/#auth/login">Logg inn</a>
+                <a class="btn-login hidden-phone" href="/client/#login">Login</a>
 
                 <div style="float:left;margin-top:10px" class="visible-fetched-markets">
-                    <a href="#" data-action="show-chart" class="hidden-showing-chart">Vis graf</a>
-                    <a href="#" data-action="hide-chart" class="visible-showing-chart">Skjul graf</a>
+                    <a href="#" data-action="show-chart" class="hidden-showing-chart">Show chart</a>
+                    <a href="#" data-action="hide-chart" class="visible-showing-chart">Hide chart</a>
                 </div>
 
                 <select class="ticker-stock"></select>:
-                <span class="ticker-type">Siste:</span>
+                <span class="ticker-type">Last:</span>
                 <span class="ticker-type-last"></span>
-                <span class="ticker-type">Høy:</span>
+                <span class="ticker-type">High:</span>
                 <span class="ticker-type-high"></span>
-                <span class="ticker-type">Lav:</span>
+                <span class="ticker-type">Low:</span>
                 <span class="ticker-type-low"></span>
-                <span class="ticker-type">Volum (24t):</span>
+                <span class="ticker-type">Volume (24h):</span>
                 <span class="ticker-type-volume"></span>
             </div>
         </div>
@@ -83,18 +87,17 @@
         <div class="row">
             <div class="span12" style="text-align:center;">
                 <a class="btn btn-large btn-success signup-main" href="/client/#auth/register" style=
-                "padding: 1.5em 2em 1.5em 2em;font-size:1.5em;">Registrer deg nå</a>
+                "padding: 1.5em 2em 1.5em 2em;font-size:1.5em;">Sign up now</a>
             </div>
         </div>
 
         <!-- Logo for phones -->
         <div class="row visible-phone " style="text-align:center">
             <span class="span12">
-                <a class="btn login-phone" href="/client/#auth/login">Logg inn</a>
+                <a class="btn login-phone" href="/client/#login">Login</a>
             </span>
         </div>
     </div>
-
 
     <!-- Selling points -->
     <div class="container marketing">
@@ -102,9 +105,10 @@
             <!-- Secure -->
             <div class="span4 text-center">
                 <p style="font-size:8em;color:#333;"><em class="icon-lock icon-large"></em></p>
-                <h2>Trygt</h2>
+                <h2>Secure</h2>
 
-                <p>Vi bruker oppdaterte sikkerhetssystemer for å unngå misbruk. Vi oppbevarer beholdningen offline.</p>
+                <p>We use up to date security systems to prevent abuse. Funds
+                are stored offline.</p>
             </div>
 
             <!-- Fair -->
@@ -112,9 +116,9 @@
                 <p style="font-size:8em;color:#333;"><em class=
                 "icon-bitcoin icon-large"></em></p>
 
-                <h2>Rettferdig</h2>
+                <h2>Fair</h2>
 
-                <p>0.5% provisjon på alle handler. Ingen skjulte kostnader.</p>
+                <p>Flat rate of 0.5% for all trades. No hidden fees.</p>
             </div>
 
             <!-- Support -->
@@ -122,9 +126,10 @@
                 <p style="font-size:8em;color:#333;"><em class=
                 "icon-user icon-large"></em></p>
 
-                <h2>Personlig</h2>
+                <h2>Human</h2>
 
-                <p>Rask og vennlig support. Alle henvendelser blir håndtert av mennesker.</p>
+                <p>Fast and friendly support. All problems are dealt with by
+                humans.</p>
             </div>
         </div>
 
@@ -137,11 +142,15 @@
             </div>
 
             <div class="span6">
-                <h2 class="featurette-heading">Lett å bruke<span class="muted">, og avansert</span></h2>
+                <h2 class="featurette-heading">Easy to use<span class="muted">, and
+                powerful</span></h2>
 
-                <p class="lead">Velg mellom Ekspress-ordre eller Avansert ordre, ut ifra dine behov. Sett inn eller ta ut norske kroner, eller velg mellom en rekke digitale valutaer.</p>
+                <p class="lead">Choose between the easy-to-use instant order or the
+                advanced order, whichever suits your needs. Deposit and withdraw
+                funds easily in several digital currencies in addition to Norwegian
+                crowns.</p>
 
-                <p class="btn-container"><a class="btn btn-large btn-success signup-screenshot" href="/client/#auth/register">Registrer deg nå</a></p>
+                <p class="btn-container"><a class="btn btn-large btn-success signup-screenshot" href="/client/#auth/register">Sign up now</a></p>
             </div>
         </div>
 
@@ -150,13 +159,16 @@
         <!-- Bitcoin -->
         <div class="featurette row">
             <div class="span6">
-                <h2 class="featurette-heading" style="font-size:3em">Bitcoin<span class="muted">, fremtidens penger</span></h2>
+                <h2 class="featurette-heading" style="font-size:3em">Bitcoin,
+                <span class="muted">the future of money</span></h2>
 
-                <p class="lead">Bitcoins blir sendt over internett uten mellomledd. Bitcoin er et raskt og kostnadseffektivt alternativ til tradisjonell valuta. Bruken av Bitcoin vokser raskt verden over.</p>
+                <p class="lead">Bitcoins are sent over the Internet with no
+                middlemen. Bitcoin is expanding rapidly worldwide, being a fast and
+                cheap alternative to traditional currencies.</p>
 
                 <p class="btn-container">
                     <a class="btn btn-large btn-success signup-bitcoin" href="/client/#auth/register">
-                        Registrer nå
+                        Sign up now
                     </a>
                 </p>
             </div>
@@ -173,9 +185,10 @@
                 <h2 class="featurette-heading">Ripple <span class=
                 "muted">gateway</span></h2>
 
-                <p class="lead">Justcoin er stolte over å være en Ripple Gateway og medlem av XRPGA.</p>
+                <p class="lead">Justcoin is proud to be an official Ripple gateway,
+                member of the XRPGA.</p>
 
-                <p class="btn-container"><a class="btn btn-large btn-success signup-ripple" href="/client/#auth/register">Registrer deg nå</a></p>
+                <p class="btn-container"><a class="btn btn-large btn-success signup-ripple" href="/client/#auth/register">Sign up now</a></p>
             </div>
 
             <div class="span6">
@@ -195,10 +208,12 @@
                 <h2 class="featurette-heading">Litecoin<span class="muted">,
                 the silver to bitcoin's gold</span></h2>
 
-                <p class="lead">Hos Justcoin kan du kjøpe og selge Litecoin. Litecoin er mindre utbredt enn Bitcoin, men er i ferd med å få godt fotfeste.</p>
+                <p class="lead">Justcoin lets you buy and sell Litecoin.
+                Litecoin is trading at less than Bitcoin, but gaining traction
+                in the market.</p>
 
                 <p class="btn-container"><a class="btn btn-large btn-success signup-litecoin"
-                href="/client/#auth/register">Registrer nå</a></p>
+                href="/client/#auth/register">Sign up now</a></p>
             </div>
         </div>
 
@@ -213,7 +228,8 @@
 
                 <h2>Justcoin</h2>
 
-                <p>Justcoin er et norsk aksjeselskap (AS) som ble stiftet i 2013. Justcoin har kontorer i Oslo.</p>
+                <p>Justcoin is a Norwegian company registered in 2013 with its
+                offices located in Oslo, the capital of Norway.</p>
             </div>
 
             <!-- Open source -->
@@ -221,12 +237,15 @@
                 <p style="font-size:8em;color:#333;"><em class=
                 "icon-github icon-large"></em></p>
 
-                <h2>Åpen kildekode</h2>
+                <h2>Open-source <span class="muted">exchange</span></h2>
 
-                <p>Justcoin er basert på vårt egenutviklede prosjekt Snow, som hvem som helst kan bruke til å opprette en exchange for digital valuta. Åpen kildekode fører til fritt innsyn for brukere og bedre sikkerhet.</p>
+                <p>We have released our backend as the open-source project
+                Snow, which anyone can use to create their own digital currency
+                exchange. Open-source means more transparency and better
+                security.</p>
 
                 <p class="btn-container"><a class="btn btn-large btn-success signup-about"
-                href="/client/#auth/register">Registrer deg nå</a></p>
+                href="/client/#auth/register">Sign up now</a></p>
             </div>
 
             <!-- Who we are -->
@@ -234,30 +253,32 @@
                 <p style="font-size:8em;color:#333;"><em class=
                 "icon-group icon-large"></em></p>
 
-                <h2>Hvem vi er</h2>
+                <h2>Who we are</h2>
 
-                <p>Justcoin har to fulltidsansatte. Klaus Bugge Lund er partner og daglig leder og har ansvaret for administrative oppgaver og ikke-teknisk support. Andreas Brekken er partner, seniorutvikler og har ansvaret for utvikling av Justcoin samt teknisk support.</p>
+                <p>Justcoin has two full time employees. Klaus Bugge Lund is
+                the CEO and takes care of non-technical support and government
+                compliance. Andreas Brekken is CTO and is in charge of
+                development and tech support.</p>
             </div>
         </div>
 
         <hr class="featurette-divider">
 
         <footer>
-            <p class="pull-right"><a href="#top">Tilbake til toppen</a></p>
+            <p class="pull-right"><a href="#top">Back to top</a></p>
 
             <p>
-                © 2013 Justcoin ·
-                <a class="about-us" href="/client/#about/company">Om Oss</a> ·
-                <a class="privacy" href="/client/#about/privacy">Personvern</a> ·
-                <a class="terms" href="/client/#about/terms">Bruksvilkår</a> ·
+                © 2013 Justcoin · <a class="about-us" href="/client/#about/company">About Us</a> ·
+                <a class="privacy" href="/client/#about/privacy">Privacy</a> ·
+                <a class="terms" href="/client/#about/terms">Terms</a> ·
                 <a class="support" href="mailto:support@justcoin.com">Support</a>
             </p>
         </footer>
     </div>
 
     <script>
-        <% include build/vendor.js %>
-        <% include landing.js %>
+        <% include build/vendor.min.js %>
+        <% include build/landing.min.js %>
     </script>
 </body>
 </html>
