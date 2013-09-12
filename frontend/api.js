@@ -113,7 +113,7 @@ api.logout = function() {
         $.removeCookie('apiKey')
     }
 
-    if (api.user.twoFactor) {
+    if (api.user && api.user.twoFactor) {
         d = api.call('v1/twoFactor/logout', {})
         .always(finish)
     } else {
