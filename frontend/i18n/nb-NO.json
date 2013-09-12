@@ -448,5 +448,6 @@
     "markets.market.marketorder.ask.confirm": "Sell %s at best available price? You'll receive approx %s.",
     "markets.market.marketorder.bid.confirm": "Spend %s at best available price? You'll receive approx %s.",
     "markets.market.marketorder.ask.confirm": "Selg %s for markedspris? Du mottar omtrent %s.",
-    "markets.market.marketorder.bid.confirm": "Kjøp %s for %s til markedspris? Du mottar omtrent %s."
+    "markets.market.marketorder.bid.confirm": "Kjøp %s for %s til markedspris? Du mottar omtrent %s.",
+    "markets.market.marketorder.bid.spend.too small": "Under minimum"
 }

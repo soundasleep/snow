@@ -74,9 +74,13 @@ module.exports = function(market) {
             return
         }
 
-        // Subtract fee
-        receive = receive.mul('0.995')
+        if (+receive === 0) {
+            debug('Would receive zero')
+            $spend.addClass('has-error is-too-small')
+            return
+        }
 
+        // Subtract fee
         var actualSpend = spend.sub(remaining)
         , effectivePrice = actualSpend.div(receive)
 
@@ -110,6 +114,7 @@ module.exports = function(market) {
         $spend
         .removeClass('has-insufficient-funds')
         .removeClass('is-precision-too-high')
+        .removeClass('is-too-small')
 
         var val = $el.field('spend').val()
         , valid

@@ -205,6 +205,7 @@
     "markets.market.marketorder.bid.spend.insufficient funds": "Insufficient funds",
     "markets.market.marketorder.bid.spend.too many decimals": "Too many decimals",
     "markets.market.marketorder.bid.spend.more than for sale": "More than for sale",
+    "markets.market.marketorder.bid.spend.too small": "Below minimum",
     "markets.market.marketorder.bid.summary.you spend": "You spend",
     "markets.market.marketorder.bid.summary.price per": "Price per",
     "markets.market.marketorder.bid.summary.you receive": "You receive approx",
