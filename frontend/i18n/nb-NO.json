@@ -235,7 +235,7 @@
     "markets.market.depth.heading": "Priser på markedet",
     "markets.market.depth.columns.bid volume": "Kjøpere",
     "markets.market.depth.columns.price": "Pris",
-    "markets.market.depth.columns.ask volume": "Selger",
+    "markets.market.depth.columns.ask volume": "Selgere",
     "activities.FillOrder.bid": "Du kjøpte %s for %s (%s per)",
     "activities.FillOrder.ask": "Du solgte %s for %s (%s per)",
     "activities.WithdrawComplete": "Uttak av %s fullført",
