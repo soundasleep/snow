@@ -354,7 +354,7 @@
     "auth.login.otp.error.wrong": "Wrong code",
     "auth.login.otp.error.invalid": "Code should be 6 digits",
     "auth.login.otp.error.locked out": "Try again in 30 seconds",
-    "withdraw.voucher.heading": "Create voucher",
+    "withdraw.voucher.heading": "Create Justcoin voucher",
     "withdraw.voucher.intro": "A voucher is like a gift card. You can cancel the voucher at any time from the <a href=\"#account/vouchers\">vouchers page</a>.",
     "withdraw.voucher.currency": "Currency",
     "withdraw.voucher.amount": "Amount",
