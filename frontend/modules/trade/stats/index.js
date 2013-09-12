@@ -2,12 +2,25 @@ var template = require('./index.html')
 , _ = require('lodash')
 , nav = require('../nav')
 
-function depthToAccumulative(depth, min, max) {
+function depthToAccumulative(depth) {
     function toHash(pairs) {
         return _.reduce(pairs, function(p, c) {
             p[c[0]] = c[1]
             return p
         }, {})
+    }
+
+    if (depth.bids.length && depth.asks.length) {
+        var center = (parseFloat(depth.bids[0][0]) + parseFloat(depth.asks[0][0])) / 2
+        , maxSpread = 0.25
+
+        depth.bids = depth.bids.filter(function(x) {
+            return x[0] >= center * (1 - maxSpread)
+        })
+
+        depth.asks = depth.asks.filter(function(x) {
+            return x[0] <= center * (1 + maxSpread)
+        })
     }
 
     var hash = {
@@ -17,10 +30,6 @@ function depthToAccumulative(depth, min, max) {
     prices = _.pluck(depth.bids, 0)
     .concat(_.pluck(depth.asks, 0))
     .sort(function(a, b) { return a - b })
-
-    prices = _.filter(prices, function(x) {
-        return (!min || x >= min) && (!max || x <= max)
-    })
 
     var series = {
         bids: _.map(prices, function(p) {
@@ -94,13 +103,8 @@ module.exports = function(market) {
 
     var depth = api.call('v1/markets/' + market + '/depth')
 
-    depth.then(function(depth) {
-        if (market == 'BTCNOK') {
-            return depthToAccumulative(depth, 100, 0)
-        }
-
-        return depthToAccumulative(depth)
-    }).done(function(accu) {
+    depth.then(depthToAccumulative)
+    .done(function(accu) {
         var options = _.clone(require('./book-accu.json'), true)
         options.series[0].data = accu.bids
         options.series[1].data = accu.asks
