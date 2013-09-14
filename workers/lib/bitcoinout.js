@@ -5,7 +5,9 @@ var debug = require('debug')('snow:bitcoinout')
 , prefix = '[snow:bitcoinout]'
 , out = require('./out')
 
-var BitcoinOut = module.exports = exports = function(currency, bitcoinEndpoint, dbClient) {
+var BitcoinOut = module.exports = exports = function(currency,
+    bitcoinEndpoint, dbClient)
+{
     var Bitcoin = require('bitcoin').Client
     this.bitcoin = new Bitcoin(bitcoinEndpoint)
     this.client = dbClient
