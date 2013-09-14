@@ -4,11 +4,13 @@ var _ = require('lodash')
 , emitter = require('./helpers/emitter')
 , api = module.exports = emitter()
 
-function keyFromCredentials(email, password) {
-    var concat = email.toLowerCase() + password
-    , bits = sjcl.hash.sha256.hash(concat)
-    , hex = sjcl.codec.hex.fromBits(bits)
-    return hex
+function sha256(s) {
+    var bits = sjcl.hash.sha256.hash(s)
+    return sjcl.codec.hex.fromBits(bits)
+}
+
+function keyFromCredentials(sid, email, password) {
+    return sha256(sid + sha256(email + password))
 }
 
 function formatQuerystring(qs) {
@@ -33,10 +35,6 @@ api.call = function(method, data, options) {
     options = options || {}
     options.qs = options.qs || {}
     options.qs.ts = +new Date()
-
-    if (options.key || api.key) {
-        options.qs.key = options.key || api.key
-    }
 
     if (options.type) settings.type = options.type
     else if (data) settings.type = 'POST'
@@ -71,30 +69,29 @@ api.call = function(method, data, options) {
     })
 }
 
-api.loginWithKey = function(key) {
-    return api.call('v1/whoami', null, { key: key })
-    .then(function(user) {
-        $.cookie('apiKey', key)
-        $.cookie('existingUser', true, { path: '/', expires: 365 * 10 })
-
-        api.key = key
+api.whoami = function() {
+    return api.call('v1/whoami').done(function(user) {
         api.user = user
         api.trigger('user', user)
-
         $app.addClass('is-logged-in')
+    })
+    .fail(function(err) {
+        if (err.name == 'OtpRequired') {
+            router.go('login')
+        }
     })
 }
 
 api.login = function(email, password, otp) {
-    var key = keyFromCredentials(email, password)
-    return api.call('v1/twoFactor/auth', {
-        otp: otp
-    }, {
-        qs: {
-            key: key
-        }
-    }).then(function() {
-        return api.loginWithKey(key)
+    return api.call('security/session', { email: email })
+    .then(function(res) {
+        var key = keyFromCredentials(res.id, email, password)
+        $.cookie('session', key)
+
+        return api.call('v1/twoFactor/auth', {
+            otp: otp
+        })
+        .then(api.whoami)
     })
 }
 
@@ -120,4 +117,10 @@ api.bootstrap = function() {
     ).done(function() {
         $app.removeClass('is-loading')
     })
+}
+
+api.logout = function() {
+    $.removeCookie('session')
+    api.user = null
+    require('./authorize').admin()
 }

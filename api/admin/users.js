@@ -2,18 +2,18 @@ var _ = require('lodash')
 , format = require('util').format
 
 module.exports = exports = function(app) {
-    app.get('/admin/users', app.auth.admin, exports.users)
-    app.get('/admin/users/:id', app.auth.admin, exports.user)
-    app.patch('/admin/users/:id', app.auth.admin, exports.patch)
+    app.get('/admin/users', app.security.demand.admin, exports.users)
+    app.get('/admin/users/:id', app.security.demand.admin, exports.user)
+    app.patch('/admin/users/:id', app.security.demand.admin, exports.patch)
     app.get('/admin/users/:user/bankAccounts',
-        app.auth.admin, exports.bankAccounts)
-    app.get('/admin/users/:user/activity', app.auth.admin, exports.activity)
-    app.post('/admin/users/:user/sendVerificationEmail', app.auth.admin,
+        app.security.demand.admin, exports.bankAccounts)
+    app.get('/admin/users/:user/activity', app.security.demand.admin, exports.activity)
+    app.post('/admin/users/:user/sendVerificationEmail', app.security.demand.admin,
         exports.sendVerificationEmail)
-    app.post('/admin/users/:user/bankAccounts', app.auth.admin,
+    app.post('/admin/users/:user/bankAccounts', app.security.demand.admin,
         exports.addBankAccount)
-    app.get('/admin/users/:user/accounts', app.auth.admin, exports.accounts)
-    app.del('/admin/users/:user/bankAccounts/:id', app.auth.admin,
+    app.get('/admin/users/:user/accounts', app.security.demand.admin, exports.accounts)
+    app.del('/admin/users/:user/bankAccounts/:id', app.security.demand.admin,
         exports.removeBankAccount)
 }
 
@@ -126,15 +126,15 @@ exports.patch = function(req, res, next) {
         if (err) return next(err)
 
         if (!dr.rowCount) {
-            return next(new Error('User ' + req.user + ' not found'))
+            return next(new Error('User ' + req.params.id + ' not found'))
         }
 
-        req.app.activity(req.user, 'AdminEditUser', {
+        req.app.activity(req.user.id, 'AdminEditUser', {
             user_id: req.params.id,
             edits: req.body
         })
 
-        req.app.auth.invalidate(req.app, +req.params.id)
+        req.app.security.invalidate(req.app, +req.params.id)
 
         res.send(204)
     })

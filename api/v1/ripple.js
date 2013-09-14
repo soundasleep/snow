@@ -1,5 +1,5 @@
 module.exports = exports = function(app) {
-    app.post('/v1/ripple/out', app.auth.withdraw(2), exports.withdraw)
+    app.post('/v1/ripple/out', app.security.demand.withdraw(2), exports.withdraw)
     app.get('/v1/ripple/address', exports.address)
     app.get('/ripple/federation', exports.federation)
     app.get('/v1/ripple/trust/:account', exports.trust)
@@ -87,7 +87,7 @@ exports.withdraw = function(req, res, next) {
     req.app.conn.write.query({
         text: queryText,
         values: [
-            req.user,
+            req.user.id,
             req.body.currency,
             req.body.address,
             req.app.cache.parseCurrency(req.body.amount, req.body.currency)
@@ -111,7 +111,7 @@ exports.withdraw = function(req, res, next) {
             return next(err)
         }
 
-        req.app.activity(req.user, 'RippleWithdraw', {
+        req.app.activity(req.user.id, 'RippleWithdraw', {
             address: req.body.address,
             amount: req.body.amount,
             currency: req.body.currency

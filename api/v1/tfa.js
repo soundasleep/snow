@@ -1,19 +1,15 @@
-var speakeasy = require('speakeasy')
-, assert = require('assert')
-, usedOtp = []
-, debug = require('debug')('tfa')
+var debug = require('debug')('snow:tfa')
 
 module.exports = exports = function(app) {
-    app.post('/v1/twoFactor/enable', app.auth.primary, exports.enable)
-    app.post('/v1/twoFactor/remove', app.auth.primary, exports.remove)
-    app.post('/v1/twoFactor/auth', app.auth.primary, exports.auth)
-    app.post('/v1/twoFactor/logout', app.auth.primary, exports.logout)
+    app.post('/v1/twoFactor/enable', app.security.demand.primary, exports.enable)
+    app.post('/v1/twoFactor/remove', app.security.demand.primary, exports.remove)
+    app.post('/v1/twoFactor/auth', app.security.demand.primary, exports.auth)
 }
 
 exports.remove = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/twofactor_remove', res)) return
 
-    var twoFactor = req.apiKey.twoFactor
+    var twoFactor = req.user.tfaSecret
 
     if (!twoFactor) {
         return res.send(401, {
@@ -24,7 +20,7 @@ exports.remove = function(req, res, next) {
 
     debug('two factor key(secret) %s', twoFactor)
 
-    var correct = exports.consume(twoFactor, req.body.otp)
+    var correct = req.app.security.tfa.consume(twoFactor, req.body.otp)
 
     if (correct === null) {
         return res.send(403, {
@@ -46,7 +42,7 @@ exports.remove = function(req, res, next) {
             'SET two_factor = NULL',
             'WHERE user_id = $1 AND two_factor IS NOT NULL'
         ].join('\n'),
-        values: [req.user]
+        values: [req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
 
@@ -57,8 +53,8 @@ exports.remove = function(req, res, next) {
             })
         }
 
-        req.app.activity(req.user, 'RemoveTwoFactor', {})
-        req.app.auth.invalidate(req.app, req.user)
+        req.app.activity(req.user.id, 'RemoveTwoFactor', {})
+        req.app.security.invalidate(req.app, req.user.id)
 
         res.send(204)
     })
@@ -71,7 +67,7 @@ exports.enable = function(req, res, next) {
 
     debug('two factor key(secret) %s', twoFactor)
 
-    var correct = exports.consume(twoFactor, req.body.otp)
+    var correct = req.app.security.tfa.consume(twoFactor, req.body.otp)
 
     if (correct === null) {
         return res.send(403, {
@@ -93,7 +89,7 @@ exports.enable = function(req, res, next) {
             'SET two_factor = $2',
             'WHERE user_id = $1 AND two_factor IS NULL'
         ].join('\n'),
-        values: [req.user, req.body.key]
+        values: [req.user.id, req.body.key]
     }, function(err, dr) {
         if (err) return next(err)
 
@@ -104,56 +100,19 @@ exports.enable = function(req, res, next) {
             })
         }
 
-        req.app.auth.invalidate(req.app, req.user)
-        exports.grant(req)
-        req.app.activity(req.user, 'EnableTwoFactor', {})
+        req.app.security.invalidate(req.app, req.user.id)
+        req.user.tfaSecret = twoFactor
+        req.user.tfaPassed = true
+        req.app.activity(req.user.id, 'EnableTwoFactor', {})
 
         res.send(204)
     })
 }
 
-exports.logout = function(req, res) {
-    if (!req.app.auth.tfa[req.key]) {
-        return res.send(400, {
-            name: 'NotTwoFactorAuthed',
-            message: 'The API key is not two factor authenticated'
-        })
-    }
-
-    delete req.app.auth.tfa[req.key]
-    return res.send(204)
-}
-
-/**
- * Consume a one-time password
- * @param  {string} twoFactor   The two-factor key/secret
- * @param  {string} guess       User supplied otp
- * @return {boolean}            Null if the user is locked out,
- *                              else whether the guess was corrected
- */
-exports.consume = function(key, guess) {
-    var answer = speakeasy.time({ key: key, encoding: 'base32' })
-    assert(answer)
-
-    if (~usedOtp.indexOf(key + answer)) {
-        return null
-    }
-
-    usedOtp.push(key + answer)
-
-    if (usedOtp.length > 10000) {
-        usedOtp.shift()
-    }
-
-    debug('expected otp %s, received %s', answer, guess)
-
-    return guess == answer
-}
-
 exports.auth = function(req, res) {
     if (!req.app.validate(req.body, 'v1/twofactor_auth', res)) return
 
-    var twoFactor = req.apiKey.twoFactor
+    var twoFactor = req.user.tfaSecret
 
     if (!twoFactor) {
         return res.send(401, {
@@ -164,7 +123,7 @@ exports.auth = function(req, res) {
 
     debug('two factor key(secret) %s', twoFactor)
 
-    var correct = exports.consume(twoFactor, req.body.otp)
+    var correct = req.app.security.tfa.consume(twoFactor, req.body.otp)
 
     if (correct === null) {
         return res.send(403, {
@@ -180,11 +139,11 @@ exports.auth = function(req, res) {
         })
     }
 
-    exports.grant(req)
+    debug('otp is correct, setting tfaPassed on the user')
+
+    req.user.tfaPassed = true
+
+    debug('%j', req.user)
 
     res.send(204)
-}
-
-exports.grant = function(req) {
-    req.app.auth.extendTfa(req.key)
 }

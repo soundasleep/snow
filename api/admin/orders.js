@@ -1,5 +1,5 @@
 module.exports = exports = function(app) {
-    app.get('/admin/orders', app.auth.admin, function(req, res, next) {
+    app.get('/admin/orders', app.security.demand.admin, function(req, res, next) {
         exports.query(req.app, req.query, function(err, items) {
             if (err) return next(err)
             res.send(items)

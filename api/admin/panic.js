@@ -1,5 +1,5 @@
 module.exports = exports = function(app) {
-    app.post('/admin/panic', app.auth.admin, exports.panic)
+    app.post('/admin/panic', app.security.demand.admin, exports.panic)
 }
 
 exports.panic = function(req, res, next) {

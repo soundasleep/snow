@@ -1,8 +1,8 @@
 module.exports = exports = function(app) {
-    app.del('/v1/orders/:id', app.auth.trade, exports.cancel)
-    app.post('/v1/orders', app.auth.trade(2), exports.create)
-    app.get('/v1/orders', app.auth.any, exports.index)
-    app.get('/v1/orders/history', app.auth.any, exports.history)
+    app.del('/v1/orders/:id', app.security.demand.trade, exports.cancel)
+    app.post('/v1/orders', app.security.demand.trade(2), exports.create)
+    app.get('/v1/orders', app.security.demand.any, exports.index)
+    app.get('/v1/orders/history', app.security.demand.any, exports.history)
 }
 
 exports.create = function(req, res, next) {
@@ -31,7 +31,7 @@ exports.create = function(req, res, next) {
                 'WHERE base_currency_id || quote_currency_id = $2'
             ].join('\n'),
             values: [
-                req.user,
+                req.user.id,
                 req.body.market,
                 req.body.type == 'bid' ? 0 : 1,
                 price,
@@ -48,7 +48,7 @@ exports.create = function(req, res, next) {
                 'RETURNING order_id oid'
             ].join('\n'),
             values: [
-                req.user,
+                req.user.id,
                 req.body.market,
                 req.body.type,
                 price,
@@ -106,7 +106,7 @@ exports.create = function(req, res, next) {
             })
         }
 
-        req.app.activity(req.user, 'CreateOrder', {
+        req.app.activity(req.user.id, 'CreateOrder', {
             market: req.body.market,
             type: req.body.type,
             price: req.body.price,
@@ -143,7 +143,7 @@ exports.index = function(req, res, next) {
             'WHERE user_id = $1 AND volume > 0',
             'ORDER BY order_id DESC'
         ].join('\n'),
-        values: [req.user]
+        values: [req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
         res.send(dr.rows.map(formatOrderRow.bind(this, req.app.cache)))
@@ -161,7 +161,7 @@ exports.history = function(req, res, next) {
             'ORDER BY order_id DESC',
             'LIMIT 100'
         ].join('\n'),
-        values: [req.user]
+        values: [req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
         res.send(dr.rows.map(function(row) {
@@ -186,11 +186,11 @@ exports.cancel = function(req, res, next) {
             '   order_id = $1 AND',
             '   user_id = $2 AND volume > 0'
         ].join('\n'),
-        values: [+req.params.id, req.user]
+        values: [+req.params.id, req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
         if (!dr.rowCount) return res.send(404)
         res.send(204)
-        req.app.activity(req.user, 'CancelOrder', { id: +req.params.id })
+        req.app.activity(req.user.id, 'CancelOrder', { id: +req.params.id })
     })
 }

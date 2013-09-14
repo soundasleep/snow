@@ -1,7 +1,7 @@
 var crypto = require('crypto')
 
 module.exports = exports = function(app) {
-    app.get('/v1/intercom', app.auth.primary, exports.intercom)
+    app.get('/v1/intercom', app.security.demand.primary, exports.intercom)
 }
 
 exports.hash = function(app, userId) {
@@ -11,13 +11,6 @@ exports.hash = function(app, userId) {
 }
 
 exports.intercom = function(req, res, next) {
-    if (!req.apiKey.primary) {
-        return res.send(401, {
-            name: 'MissingApiKeyPermission',
-            message: 'Must be primary api key'
-        })
-    }
-
     req.app.conn.read.query({
         text: [
             'SELECT user_id, email_lower,',
@@ -25,7 +18,7 @@ exports.intercom = function(req, res, next) {
             'FROM "user"',
             'WHERE user_id = $1'
         ].join('\n'),
-        values: [req.user]
+        values: [req.user.id]
     }, function(err, dres) {
         if (err) return next(err)
         var row = dres.rows[0]
