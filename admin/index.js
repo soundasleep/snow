@@ -20,24 +20,15 @@ api.on('user', function(user) {
 })
 
 api.bootstrap().done(function() {
-    var apiKey = $.cookie('apiKey')
-
     var master = require('./controllers/master')
     master.render()
 
-    if (apiKey) {
+    if ($.cookie('session')) {
         debug('using cached credentials')
-        api.loginWithKey(apiKey)
-        .done(router.now)
+        api.whoami().done(router.now)
     } else {
         debug('no cached credentials')
 
-        if ($.cookie('existingUser')) {
-            debug('routing to login (existing user cookie)')
-            require('./authorize').admin()
-        } else {
-            debug('routing')
-            router.now()
-        }
+        require('./authorize').admin()
     }
 })

@@ -8,7 +8,7 @@ describe('admin', function() {
     describe('ltc', function() {
         describe('height', function() {
             it('succeeds', function(done) {
-                var impersonate = mock.impersonate(app, dummy.id(), { admin: true })
+                var impersonate = mock.impersonate(app, dummy.id(), { admin: true, primary: true })
                 , res = {
                     height: dummy.number(1, 1e6)
                 }

@@ -1,7 +1,7 @@
 var crypto = require('crypto')
 
 module.exports = exports = function(app) {
-    app.post('/v1/email/verify/send', app.auth.primary, exports.verifySend)
+    app.post('/v1/email/verify/send', app.security.demand.primary, exports.verifySend)
     app.get('/v1/email/verify/:code', exports.verify)
 }
 
@@ -23,7 +23,7 @@ exports.sendVerificationEmail = function(app, userId, cb) {
 }
 
 exports.verifySend = function(req, res, next) {
-    exports.sendVerificationEmail(req.app, req.user, function(err) {
+    exports.sendVerificationEmail(req.app, req.user.id, function(err) {
         if (err) {
             if (err.message == 'E-mail already verified') {
                 return res.send(400, {
@@ -73,7 +73,7 @@ exports.verify = function(req, res, next) {
             return next(err)
         }
 
-        req.app.auth.invalidate(req.app, uid)
+        req.app.security.invalidate(req.app, uid)
         res.redirect(req.app.config.website_url)
     })
 }

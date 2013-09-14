@@ -1,7 +1,7 @@
 var transactions = require('../transactions')
 
 module.exports = exports = function(app) {
-    app.post('/admin/transactions', app.auth.admin, exports.index)
+    app.post('/admin/transactions', app.security.demand.admin, exports.index)
 }
 
 exports.index = function(req, res, next) {

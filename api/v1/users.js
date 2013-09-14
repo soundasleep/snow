@@ -3,17 +3,17 @@ var _ = require('lodash')
 , debug = require('debug')('snow:users')
 
 module.exports = exports = function(app) {
-    app.get('/v1/whoami', app.auth.any, exports.whoami)
+    app.get('/v1/whoami', app.security.demand.any, exports.whoami)
     app.post('/v1/users', exports.create)
-    app.post('/v1/users/identity', app.auth.primary(2), exports.identity)
-    app.post('/v1/users/verify/call', app.auth.primary(1), exports.startPhoneVerify)
-    app.post('/v1/users/verify', app.auth.primary(1), exports.verifyPhone)
-    app.patch('/v1/users/current', app.auth.primary, exports.patch)
+    app.post('/v1/users/identity', app.security.demand.primary(2), exports.identity)
+    app.post('/v1/users/verify/call', app.security.demand.primary(1), exports.startPhoneVerify)
+    app.post('/v1/users/verify', app.security.demand.primary(1), exports.verifyPhone)
+    app.patch('/v1/users/current', app.security.demand.primary, exports.patch)
 }
 
 exports.patch = function(req, res, next) {
     var updates = {}
-    , values = [req.user]
+    , values = [req.user.id]
 
     if (req.body.language !== undefined) {
         updates['language'] = req.body.language
@@ -41,9 +41,9 @@ exports.patch = function(req, res, next) {
     }, function(err, dr) {
         if (err) return next(err)
         if (!dr.rowCount) {
-            return next(new Error('User ' + req.user + ' not found'))
+            return next(new Error('User ' + req.user.id + ' not found'))
         }
-        req.app.auth.invalidate(req.app, req.user)
+        req.app.security.invalidate(req.app, req.user.id)
         res.send(204)
     })
 }
@@ -71,7 +71,7 @@ exports.whoami = function(req, res, next) {
             'FROM user_view',
             'WHERE user_id = $1'
         ].join('\n'),
-		values: [req.user]
+		values: [req.user.id]
 	}, function(err, dres) {
 		if (err) return next(err)
 		if (!dres.rows.length) return res.send(404)
@@ -142,7 +142,7 @@ exports.create = function(req, res, next) {
                 })
             }
 
-            req.app.auth.invalidate(req.app, req.body.key)
+            req.app.security.invalidate(req.app, req.body.key)
 
             next(err)
         })
@@ -166,7 +166,7 @@ exports.identity = function(req, res, next) {
             '   user_id = $1 AND',
             '   first_name IS NULL'
         ].join('\n'),
-        values: [req.user, req.body.firstName, req.body.lastName, req.body.address,
+        values: [req.user.id, req.body.firstName, req.body.lastName, req.body.address,
             req.body.country, req.body.city, req.body.postalArea]
     }
 
@@ -182,9 +182,9 @@ exports.identity = function(req, res, next) {
             })
         }
 
-        req.app.auth.invalidate(req.app, req.user)
+        req.app.security.invalidate(req.app, req.user.id)
 
-        req.app.activity(req.user, 'IdentitySet', {})
+        req.app.activity(req.user.id, 'IdentitySet', {})
 
         return res.send(204)
     })
@@ -193,7 +193,7 @@ exports.identity = function(req, res, next) {
 exports.verifyPhone = function(req, res, next) {
     req.app.conn.write.query({
         text: 'SELECT verify_phone($1, $2) success',
-        values: [req.user, req.body.code]
+        values: [req.user.id, req.body.code]
     }, function(err, dr) {
         if (err) {
             if (err.message == 'User already has a verified phone number.') {
@@ -214,7 +214,7 @@ exports.verifyPhone = function(req, res, next) {
             })
         }
 
-        req.app.auth.invalidate(req.app, req.user)
+        req.app.security.invalidate(req.app, req.user.id)
 
         res.send(204)
     })
@@ -227,7 +227,7 @@ exports.startPhoneVerify = function(req, res, next) {
 
     req.app.conn.write.query({
         text: 'SELECT create_phone_number_verify_code($2, $1) code',
-        values: [req.user, req.body.number]
+        values: [req.user.id, req.body.number]
     }, function(err, dr) {
         if (err) {
             if ((/^User is locked out/i).exec(err.message)) {
