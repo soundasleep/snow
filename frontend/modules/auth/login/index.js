@@ -110,7 +110,7 @@ module.exports = function(after) {
             debug('login success')
             router.after(after)
         }).fail(function(err) {
-            if (err !== null && err.name == 'UnknownApiKey') {
+            if (err !== null && err.name == 'SessionNotFound') {
                 $email
                 .addClass('has-error')
                 .find('.help-block')

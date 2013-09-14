@@ -11,6 +11,7 @@ window.numbers = require('./helpers/numbers')
 window.notify = require('./helpers/notify')()
 window.formatters = require('./helpers/formatters')
 window.moment = require('moment')
+window.autologout = require('./helpers/autologout')()
 
 $app.append(window.notify.$el)
 
@@ -52,26 +53,20 @@ $app.on('click', 'a[href="#set-language"]', function(e) {
 })
 
 api.bootstrap().done(function() {
-    var apiKey = $.cookie('apiKey')
-
     var master = require('./modules/master')
     master.render()
 
-    if (apiKey) {
-        debug('using cached credentials')
-        api.loginWithKey(apiKey)
-        .fail(function(err) {
-            if (err.name == 'OtpRequired') {
-                $.removeCookie('apiKey')
-                window.location = '/'
-                return
-            }
-
-            errors.alertFromXhr(err)
+    if ($.cookie('session')) {
+        debug('using existing session')
+        api.loginWithKey()
+        .fail(function() {
+            $.removeCookie('session')
+            debug('failed to reuse existing session')
+            router.now()
         })
         .done(router.now)
     } else {
-        debug('no cached credentials')
+        debug('no existing session')
 
         if ($.cookie('existingUser')) {
             debug('routing to login (existing user cookie)')

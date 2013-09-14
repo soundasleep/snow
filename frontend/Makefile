@@ -20,12 +20,13 @@ VENDOR_CSS = \
 	vendor/bootstrap/css/bootstrap.min.css
 
 CLEAN:
-	rm -rf dist public
+	@rm -rf dist public
 
 tmp-directory:
 	@mkdir -p tmp
 
 public: \
+	clean \
 	public-directory \
 	public/app.js \
 	public/styles.css \
@@ -67,32 +68,30 @@ dist: \
 	dist/img
 
 dist/img:
-	echo $@
-	mkdir -p $@
-	cp -fr assets/img/* dist/img
+	@mkdir -p $@
+	@cp -fr assets/img/* dist/img
 
 dist-directory:
 	@mkdir -p dist
 
 dist/img:
-	echo $@
-	mkdir -p $@
-	cp -fr assets/img/* dist/img
+	@mkdir -p $@
+	@cp -fr assets/img/* dist/img
 
 dist/app.js:
 	@browserify ./index.js --transform ./node_modules/browserify-ejs --outfile $@
 
 dist/head.js: $(HEAD)
-	cat $^ > $@
+	@cat $^ > $@
 
 dist/vendor.js: $(VENDOR)
-	uglifyjs $^ --compress > $@ 2>/dev/null
+	@uglifyjs $^ --compress > $@ 2>/dev/null
 
 tmp/styles.css: $(VENDOR_CSS) tmp-directory
 	@(cat $(VENDOR_CSS); stylus < index.styl) > $@
 
 dist/styles.css: tmp/styles.css
-	cleancss tmp/styles.css --output $@
+	@cleancss tmp/styles.css --output $@
 
 dist/index.html:
-	node compile-ejs.js > $@
+	@node compile-ejs.js > $@
