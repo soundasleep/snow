@@ -1,6 +1,7 @@
 /* global cat, cp */
 require('shelljs/global')
 var fs = require('fs')
+, format = require('util').format
 
 exports.compressCss = function() {
     var inputFn = this.name.replace(/min\.css$/, 'css')
@@ -9,7 +10,9 @@ exports.compressCss = function() {
 
 exports.compressJs = function() {
     var inputFn = this.name.replace(/min\.js$/, 'js')
-    exports.exec('node node_modules/uglifyjs ' + inputFn + ' --compress warnings=false --mangle')
+    exports.exec(format(
+        'node node_modules/uglifyjs %s --compress warnings=false --mangle',
+        inputFn))
     .to(this.name)
 }
 
