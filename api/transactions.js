@@ -21,7 +21,7 @@ exports.format = function(app, row) {
         timestamp: row.created_at_epoch,
         type: row.type,
         amount: app.cache.formatCurrency(row.amount, row.currency_id),
-        amountBtc: app.cache.formatCurrency(row.amount_btc, 'BTC'),
+        amountBtc: row.amount_btc ? app.cache.formatCurrency(row.amount_btc, 'BTC') : null,
         currency: row.currency_id,
         details: row.details,
         creditUserId: row.credit_user_id,
