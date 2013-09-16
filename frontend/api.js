@@ -140,9 +140,10 @@ api.twoFactor = function(email, password, otp) {
 }
 
 api.register = function(email, password) {
+    var key = sha256(email.toLowerCase() + password)
     return api.call('v1/users', {
         email: email,
-        key: keyFromCredentials(email, password)
+        key: key
     })
     .then(function() {
         return api.login(email, password)
