@@ -1,4 +1,8 @@
 {
+    "authorize.otp.prompt": "Two-factor code required:",
+    "authorize.otp.invalid format": "Invalid format, six numbers expected. ",
+    "api.call.wrong otp": "Wrong one-time password. ",
+    "api.call.blocked otp": "Please try in 30 seconds. ",
     "shared.modals.prompt.ok": "OK",
     "shared.modals.prompt.cancel": "Cancel",
     "numbers.thousandSeparator": " ",
