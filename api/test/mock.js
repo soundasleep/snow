@@ -1,7 +1,9 @@
 var _ = require('lodash')
+, assert = require('assert')
 , debug = require('debug')('snow:test')
 
 module.exports = exports = function(target, name, fake) {
+    assert(target, 'target is null')
     var real = target[name]
     , wrapper = function() {
         wrapper.invokes++
@@ -32,12 +34,12 @@ exports.once = function(target, name, fake) {
 exports.impersonate = function(app, uid, permissions, key) {
     debug('impersonating as user %s with permissions %j', uid, permissions)
 
-    return exports(app.auth, 'user', function(req, res, next) {
-        req.user = uid
-        req.key = key || null
-        req.apiKey = permissions || {}
-        req.apiKey.level = req.apiKey.level || 0
-        next()
+    return exports(app.security.demand, 'lookup', function(req, res, cb) {
+        cb(null, _.extend({
+            id: uid,
+            level: permissions ? permissions.level || 0 : 0,
+            key: key || null
+        }, _.pick(permissions, 'canTrade', 'canDeposit', 'canWithdraw', 'admin', 'primary')))
     })
 }
 

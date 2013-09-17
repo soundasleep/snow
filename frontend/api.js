@@ -6,11 +6,13 @@ var _ = require('lodash')
 , callingCodes = require('./assets/callingcodes.json')
 , debug = require('./helpers/debug')('snow:api')
 
-function keyFromCredentials(email, password) {
-    var concat = email.toLowerCase() + password
-    , bits = sjcl.hash.sha256.hash(concat)
-    , hex = sjcl.codec.hex.fromBits(bits)
-    return hex
+function sha256(s) {
+    var bits = sjcl.hash.sha256.hash(s)
+    return sjcl.codec.hex.fromBits(bits)
+}
+
+function keyFromCredentials(sid, email, password) {
+    return sha256(sid + sha256(email + password))
 }
 
 function formatQuerystring(qs) {
@@ -34,11 +36,6 @@ api.call = function(method, data, options) {
 
     options = options || {}
     options.qs = options.qs || {}
-    options.qs.ts = +new Date()
-
-    if (options.key || api.key) {
-        options.qs.key = options.key || api.key
-    }
 
     if (options.type) settings.type = options.type
     else if (data) settings.type = 'POST'
@@ -71,26 +68,29 @@ api.call = function(method, data, options) {
 
         return error
     }).fail(function(err) {
-        if (err.name == 'OtpRequired' || err.name == 'UnknownApiKey') {
+        if (~['OtpRequired', 'UnknownApiKey', 'SessionNotFound'].indexOf(err.name)) {
             if (!options.authorizing && api.user) {
                 debug('invalidating "session" because of %s', err.name)
-                api.user = null
+                api.logout()
                 require('./authorize').demand(0)
                 return
             }
-
-            return err
         }
+
+        return err
     })
 }
 
 api.loginWithKey = function(key) {
-    return api.call('v1/whoami', null, { key: key, authorizing: true })
+    if (key) {
+        debug('logging in with key %s', key)
+        $.cookie('session', key, { path: '/' })
+    }
+
+    return api.call('v1/whoami', null, { authorizing: true })
     .then(function(user) {
-        $.cookie('apiKey', key)
         $.cookie('existingUser', true, { path: '/', expires: 365 * 10 })
 
-        api.key = key
         api.user = user
 
         api.user.countryFriendly = function() {
@@ -107,44 +107,43 @@ api.loginWithKey = function(key) {
 }
 
 api.logout = function() {
-    var d
+    debug('logging out')
 
-    function finish() {
-        $.removeCookie('apiKey')
+    api.user = null
+
+    if ($.cookie('session')) {
+        return api.call('security/session', null, { type: 'DELETE' })
+        .always(function() {
+            $.removeCookie('session')
+        })
     }
 
-    if (api.user.twoFactor) {
-        d = api.call('v1/twoFactor/logout', {})
-        .always(finish)
-    } else {
-        d = $.Deferred()
-        d.resolve()
-    }
-
-    return d.always(finish)
+    return $.Deferred().resolve()
 }
 
 api.login = function(email, password) {
-    var key = keyFromCredentials(email, password)
-    return api.loginWithKey(key)
+    debug('creating session for %s', email)
+    return api.call('security/session', { email: email })
+    .then(function(res) {
+        debug('retrieved session id: %s', res.id)
+        var key = keyFromCredentials(res.id, email, password)
+        return api.loginWithKey(key)
+    })
 }
 
 api.twoFactor = function(email, password, otp) {
     return api.call('v1/twoFactor/auth', {
         otp: otp
-    }, {
-        qs: {
-            key: keyFromCredentials(email, password)
-        }
     }).then(function() {
-        return api.login(email, password)
+        return api.loginWithKey()
     })
 }
 
 api.register = function(email, password) {
+    var key = sha256(email.toLowerCase() + password)
     return api.call('v1/users', {
         email: email,
-        key: keyFromCredentials(email, password)
+        key: key
     })
     .then(function() {
         return api.login(email, password)
@@ -186,7 +185,7 @@ api.sendToUser = function(email, amount, currency, allowNewUser) {
 }
 
 api.resetPasswordEnd = function(email, phoneCode, newPassword) {
-    var key = keyFromCredentials(email, newPassword)
+    var key = sha256(email.toLowerCase() + newPassword)
     , body = { email: email, code: phoneCode, key: key }
 
     return api.call('v1/resetPassword/end', body, { type: 'POST' })

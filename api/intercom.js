@@ -12,10 +12,11 @@ exports.createUser = function(user) {
             email: user.email,
             created_at: +new Date() / 1e3
         }
-    }, function(err, res, data) {
-        if (err) console.error(err)
-        console.log(res.statusCode)
-        console.log(data)
+    }, function(err) {
+        if (err) {
+            console.error('Failed to create user: %s', err.message)
+            console.error(err)
+        }
     })
 }
 
@@ -44,7 +45,10 @@ exports.setIdentity = function(id, user) {
             postalArea: user.postalArea
         }
     }, function(err) {
-        if (err) console.error(err)
+        if (err) {
+            console.error('Failed to set user identity verified: %s', err.message)
+            console.error(err)
+        }
     })
 }
 
@@ -54,6 +58,9 @@ exports.setUserPhoneVerified = function(id, number) {
             phone: number
         }
     }, function(err) {
-        if (err) console.error(err)
+        if (err) {
+            console.error('Failed to set user phone verified: %s', err.message)
+            console.error(err)
+        }
     })
 }

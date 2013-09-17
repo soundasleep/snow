@@ -2,12 +2,12 @@ var transactions = require('../transactions')
 , _ = require('lodash')
 
 module.exports = exports = function(app) {
-    app.post('/v1/transactions', app.auth.any, exports.index)
+    app.post('/v1/transactions', app.security.demand.any, exports.index)
 }
 
 exports.index = function(req, res, next) {
     var query = {
-        userId: req.user,
+        userId: req.user.id,
         sort: {
             timestamp: 'desc'
         },
@@ -26,7 +26,7 @@ exports.index = function(req, res, next) {
             limit: sr.limit,
             transactions: sr.transactions.map(function(tran) {
                 return _.extend({
-                    amount: tran.creditUserId == req.user ? tran.amount : '-' + tran.amount
+                    amount: tran.creditUserId == req.user.id ? tran.amount : '-' + tran.amount
                 }, _.pick(tran, 'id', 'type', 'timestamp', 'date', 'currency'))
             })
         })

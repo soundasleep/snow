@@ -3,7 +3,6 @@
   "description": "web interface",
   "version": "0.0.76",
   "dependencies": {
-    "jake": "~0.6.11",
     "bower": "~1.2.4",
     "browserify": "~2.29.0",
     "browserify-ejs": "0.0.2",
@@ -14,10 +13,11 @@
     "stylus": "~0.37.0",
     "nib": "~1.0.1",
     "uglifyjs": "~2.3.6",
-    "clean-css": "~1.0.12",
+    "clean-css": "~1.1.1",
     "shelljs": "~0.2.1",
     "debug": "~0.7.2",
-    "ejs": "~0.8.4"
+    "ejs": "~0.8.4",
+    "uglify-js": "~2.4.0"
   },
   "engines": {
     "node": ">=0.10",

@@ -1,8 +1,8 @@
 var _ = require('lodash')
 
 module.exports = exports = function(app) {
-    app.get('/v1/bankAccounts', app.auth.primary, exports.index)
-    app.post('/v1/bankAccounts', app.auth.primary(3), exports.add)
+    app.get('/v1/bankAccounts', app.security.demand.primary, exports.index)
+    app.post('/v1/bankAccounts', app.security.demand.primary(3), exports.add)
 }
 
 exports.index = function(req, res, next) {
@@ -10,7 +10,7 @@ exports.index = function(req, res, next) {
         text: [
             'SELECT * FROM bank_account WHERE user_id = $1'
         ].join('\n'),
-        values: [req.user]
+        values: [req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
         res.send(200, dr.rows.map(function(row) {
@@ -34,15 +34,13 @@ exports.add = function(req, res, next) {
             'VALUES ($1, $2, $3, $4, $5)'
         ].join('\n'),
         values: [
-            req.user,
+            req.user.id,
             req.body.accountNumber,
             req.body.iban,
             req.body.swiftbic,
             req.body.routingNumber
         ]
     }
-
-    console.log(q)
 
     req.app.conn.write.query(q, function(err) {
         if (err) return next(err)

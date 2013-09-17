@@ -2,9 +2,9 @@ var util = require('util')
 , num = require('num')
 
 module.exports = exports = function(app, currencyId) {
-    app.post('/v1/' + currencyId + '/out', app.auth.withdraw(2),
+    app.post('/v1/' + currencyId + '/out', app.security.demand.withdraw(2),
         exports.withdraw.bind(exports, currencyId))
-    app.get('/v1/' + currencyId + '/address', app.auth.deposit,
+    app.get('/v1/' + currencyId + '/address', app.security.demand.deposit,
         exports.address.bind(exports, currencyId))
 }
 
@@ -21,7 +21,7 @@ exports.withdraw = function(currencyId, req, res, next) {
     }
 
     console.log('processing withdraw request of %d %s from user #%s to %s',
-        req.body.amount, currencyId, req.user, req.body.address)
+        req.body.amount, currencyId, req.user.id, req.body.address)
 
     var queryText = util.format(
         'SELECT %s_withdraw($1, $2, $3) rid',
@@ -30,7 +30,7 @@ exports.withdraw = function(currencyId, req, res, next) {
     req.app.conn.write.query({
         text: queryText,
         values: [
-            req.user,
+            req.user.id,
             req.body.address,
             req.app.cache.parseCurrency(req.body.amount, currencyId)
         ]
@@ -46,7 +46,7 @@ exports.withdraw = function(currencyId, req, res, next) {
             return next(err)
         }
 
-        req.app.activity(req.user, currencyId + 'Withdraw', {
+        req.app.activity(req.user.id, currencyId + 'Withdraw', {
             address: req.body.address,
             amount: req.body.amount
         })
@@ -64,7 +64,7 @@ exports.address = function(currencyId, req, res, next) {
 
     req.app.conn.read.query({
         text: queryText,
-        values: [req.user, currencyId]
+        values: [req.user.id, currencyId]
     }, function(err, dr) {
         if (err) return next(err)
         var address = dr.rows.length ? dr.rows[0].address : null

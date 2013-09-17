@@ -1,10 +1,10 @@
 var crypto = require('crypto')
 
 module.exports = exports = function(app) {
-    app.post('/v1/keys/replace', app.auth.primary, exports.replace)
-    app.post('/v1/keys', app.auth.primary, exports.create)
-    app.get('/v1/keys', app.auth.primary, exports.index)
-    app.del('/v1/keys/:id', app.auth.primary, exports.remove)
+    //app.post('/v1/keys/replace', app.security.demand.primary, exports.replace)
+    app.post('/v1/keys', app.security.demand.primary, exports.create)
+    app.get('/v1/keys', app.security.demand.primary, exports.index)
+    app.del('/v1/keys/:id', app.security.demand.primary, exports.remove)
 }
 
 exports.replace = function(req, res, next) {
@@ -12,12 +12,12 @@ exports.replace = function(req, res, next) {
 
     req.app.conn.write.query({
         text: 'SELECT replace_api_key($1, $2)',
-        values: [req.key, req.body.key]
+        values: [req.user.key, req.body.key]
     }, function(err) {
         if (err) return next(err)
-        req.app.activity(req.user, 'ChangePassword', {})
+        req.app.activity(req.user.id, 'ChangePassword', {})
         res.send(204)
-        req.app.auth.invalidate(req.app, req.user)
+        req.app.security.invalidate(req.app, req.user.id)
     })
 }
 
@@ -28,7 +28,7 @@ exports.remove = function(req, res, next) {
             'FROM api_key',
             'WHERE api_key_id = $2 AND user_id = $1 AND "primary" = FALSE'
         ].join('\n'),
-        values: [req.user, req.params.id]
+        values: [req.user.id, req.params.id]
     }, function(err, dr) {
         if (err) return next(err)
 
@@ -39,7 +39,7 @@ exports.remove = function(req, res, next) {
             })
         }
 
-        req.app.auth.invalidate(req.app, req.params.id)
+        req.app.security.invalidate(req.app, req.params.id)
 
         res.send(204)
     })
@@ -52,7 +52,7 @@ exports.index = function(req, res, next) {
             'FROM api_key',
             'WHERE user_id = $1 AND "primary" = FALSE'
         ].join('\n'),
-        values: [req.user]
+        values: [req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
         res.send(dr.rows.map(function(row) {
@@ -84,14 +84,14 @@ exports.create = function(req, res, next) {
         ].join('\n'),
         values: [
             key,
-            req.user,
+            req.user.id,
             req.body.canTrade,
             req.body.canDeposit,
             req.body.canWithdraw
         ]
     }, function(err) {
         if (err) return next(err)
-        req.app.auth.invalidate(req.app, key)
+        req.app.security.invalidate(req.app, key)
         res.send(201, { id: key })
     })
 }

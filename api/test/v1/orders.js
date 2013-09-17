@@ -21,7 +21,7 @@ describe('orders', function() {
                             type: 'ask',
                             market: 'BTCXRP',
                             price: 123.456e3,
-                            remaining: 0e5,
+                            volume: 0e5,
                             original: 10e5,
                             matched: 10e5,
                             cancelled: 0

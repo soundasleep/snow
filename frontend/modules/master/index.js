@@ -9,7 +9,8 @@ var debug = require('../../helpers/debug')('snow:master')
 
 var master = module.exports = function(val, name) {
     if (!$area) {
-        throw new Error('master called before render')
+        debug('master called before render')
+        return val
     }
 
     if (val !== undefined) {

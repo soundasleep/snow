@@ -50,16 +50,17 @@ deploy_revision node[:snow][:frontend][:app_directory] do
     symlink_before_migrate({})
     create_dirs_before_symlink([])
     purge_before_symlink([])
-    before_restart do
+    before_symlink do
       bash "npm install" do
         user "ubuntu"
         group "ubuntu"
         cwd "#{release_path}/frontend"
         code %{
+          export PATH=node_modules/.bin:$PATH
           export SEGMENT=#{env_bag['segment']['api_key']}
           npm install
           node node_modules/bower/bin/bower install
-          node node_modules/jake/bin/cli.js
+          make dist
         }
       end
     end

@@ -2,7 +2,7 @@ include_recipe "snow::common"
 include_recipe "nodejs"
 include_recipe "nginx"
 
-['git', 'make', 'g++'].each do |pkg|
+['git', 'make', 'g++', 'optipng', 'libjpeg-progs'].each do |pkg|
   package pkg do
   end
 end
@@ -38,15 +38,17 @@ deploy_revision node[:snow][:landing][:app_directory] do
     branch node[:snow][:branch]
     ssh_wrapper "/home/ubuntu/landing-ssh-wrapper/landing_deploy_wrapper.sh"
     action :deploy
-    before_restart do
+    before_symlink do
       bash "npm install" do
         user "ubuntu"
         group "ubuntu"
         cwd "#{release_path}/landing"
-        code %{
-          npm install
-          node node_modules/jake/bin/cli.js
-        }
+        code <<-EOH
+        PATH=$PATH:./node_modules/.bin
+        npm install
+        bower install
+        grunt
+        EOH
       end
     end
     keep_releases 5

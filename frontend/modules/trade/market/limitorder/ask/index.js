@@ -2,7 +2,6 @@ var num = require('num')
 , _ = require('lodash')
 , template = require('./index.html')
 , debug = require('../../../../../helpers/debug')('trade')
-, format = require('util').format
 
 module.exports = function(market) {
     var $el = $('<div class="ask">').html(template({

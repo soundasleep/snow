@@ -2,11 +2,11 @@ var withdraws = require('../withdraws')
 , _ = require('lodash')
 
 module.exports = exports = function(app) {
-    app.del('/v1/withdraws/:id', app.auth.withdraw, exports.cancel)
-    app.post('/v1/withdraws/bank', app.auth.withdraw(4), exports.withdrawBank)
+    app.del('/v1/withdraws/:id', app.security.demand.withdraw, exports.cancel)
+    app.post('/v1/withdraws/bank', app.security.demand.withdraw(4), exports.withdrawBank)
 
-    app.get('/v1/withdraws', app.auth.any, function(req, res, next) {
-        withdraws.query(req.app, { user_id: req.user }, function(err, items) {
+    app.get('/v1/withdraws', app.security.demand.any, function(req, res, next) {
+        withdraws.query(req.app, { user_id: req.user.id }, function(err, items) {
             if (err) return next(err)
             res.send(items.map(function(item) {
                 return _.omit(item, 'user')
@@ -17,13 +17,6 @@ module.exports = exports = function(app) {
 
 exports.withdrawBank = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/withdraw_bank', res)) return
-
-    if (!req.apiKey.canWithdraw) {
-        return res.send(401, {
-            name: 'MissingApiKeyPermission',
-            message: 'Must have withdraw permission'
-        })
-    }
 
     if (!req.app.cache.fiat[req.body.currency]) {
         return res.send(400, {
@@ -39,7 +32,7 @@ exports.withdrawBank = function(req, res, next) {
             'WHERE bank_account_id = $2 AND user_id = $1'
         ].join('\n'),
         values: [
-            req.user,
+            req.user.id,
             +req.body.bankAccount,
             req.body.currency,
             req.app.cache.parseCurrency(req.body.amount, req.body.currency)
@@ -67,13 +60,6 @@ exports.withdrawBank = function(req, res, next) {
 }
 
 exports.cancel = function(req, res, next) {
-    if (!req.apiKey.canWithdraw) {
-        return res.send(401, {
-            name: 'MissingApiKeyPermission',
-            message: 'Must have withdraw permission'
-        })
-    }
-
     req.app.conn.write.query({
         text: [
             'SELECT cancel_withdraw_request($1, null) request_id',
@@ -83,7 +69,7 @@ exports.cancel = function(req, res, next) {
             '   wr.state = \'requested\' AND',
             '   a.user_id = $2'
         ].join('\n'),
-        values: [+req.params.id, req.user]
+        values: [+req.params.id, req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
 
@@ -95,7 +81,7 @@ exports.cancel = function(req, res, next) {
             })
         }
 
-        req.app.activity(req.user, 'CancelWithdrawRequest', { id: +req.params.id })
+        req.app.activity(req.user.id, 'CancelWithdrawRequest', { id: +req.params.id })
 
         res.send(204)
     })

@@ -14,6 +14,11 @@ module.exports = function() {
         })
     })
 
+    $el.on('click', '[data-action="sign-out"]', function(e) {
+        e.preventDefault()
+        api.logout()
+    })
+
     controller.destroy = function() {
     }
 

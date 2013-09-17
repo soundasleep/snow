@@ -235,7 +235,7 @@
     "markets.market.depth.heading": "Priser på markedet",
     "markets.market.depth.columns.bid volume": "Kjøpere",
     "markets.market.depth.columns.price": "Pris",
-    "markets.market.depth.columns.ask volume": "Selger",
+    "markets.market.depth.columns.ask volume": "Selgere",
     "activities.FillOrder.bid": "Du kjøpte %s for %s (%s per)",
     "activities.FillOrder.ask": "Du solgte %s for %s (%s per)",
     "activities.WithdrawComplete": "Uttak av %s fullført",
@@ -332,8 +332,8 @@
     "settings.twofactor.otp.error.wrong": "Feil kode",
     "settings.twofactor.otp.error.invalid": "Koden skal være 6 tall",
     "settings.twofactor.otp.error.locked out": "Prøv igjen om 30 sekunder",
-    "withdraw.voucher.heading": "Lag gavekort",
-    "withdraw.voucher.intro": "Et gavekort kan avbrytes når som helst fra <a href=\"#account/vouchers\">gavekort-siden</a>.",
+    "withdraw.voucher.heading": "Lag Justcoin-gavekort",
+    "withdraw.voucher.intro": "Et Justcoin-gavekort kan avbrytes når som helst fra <a href=\"#account/vouchers\">gavekort-siden</a>.",
     "withdraw.voucher.currency": "Valuta",
     "withdraw.voucher.amount": "Beløp",
     "withdraw.voucher.of": "av",
@@ -448,5 +448,6 @@
     "markets.market.marketorder.ask.confirm": "Sell %s at best available price? You'll receive approx %s.",
     "markets.market.marketorder.bid.confirm": "Spend %s at best available price? You'll receive approx %s.",
     "markets.market.marketorder.ask.confirm": "Selg %s for markedspris? Du mottar omtrent %s.",
-    "markets.market.marketorder.bid.confirm": "Kjøp %s for %s til markedspris? Du mottar omtrent %s."
+    "markets.market.marketorder.bid.confirm": "Kjøp %s for %s til markedspris? Du mottar omtrent %s.",
+    "markets.market.marketorder.bid.spend.too small": "Under minimum"
 }
