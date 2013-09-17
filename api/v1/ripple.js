@@ -1,5 +1,6 @@
 module.exports = exports = function(app) {
-    app.post('/v1/ripple/out', app.security.demand.withdraw(2), exports.withdraw)
+    var demand = app.security.demand
+    app.post('/v1/ripple/out', demand.otp(demand.withdraw(2), true), exports.withdraw)
     app.get('/v1/ripple/address', exports.address)
     app.get('/ripple/federation', exports.federation)
     app.get('/v1/ripple/trust/:account', exports.trust)
