@@ -84,7 +84,7 @@ api.call = function(method, data, options) {
 api.loginWithKey = function(key) {
     if (key) {
         debug('logging in with key %s', key)
-        $.cookie('session', key)
+        $.cookie('session', key, { path: '/' })
     }
 
     return api.call('v1/whoami', null, { authorizing: true })
@@ -140,9 +140,10 @@ api.twoFactor = function(email, password, otp) {
 }
 
 api.register = function(email, password) {
+    var key = sha256(email.toLowerCase() + password)
     return api.call('v1/users', {
         email: email,
-        key: keyFromCredentials(email, password)
+        key: key
     })
     .then(function() {
         return api.login(email, password)
