@@ -2,7 +2,9 @@ var crypto = require('crypto')
 , async = require('async')
 
 module.exports = exports = function(app) {
-    app.post('/v1/vouchers', app.security.demand.withdraw(2), function(req, res, next) {
+    app.post('/v1/vouchers', app.security.demand.otp(app.security.demand.withdraw(2), true),
+        function(req, res, next)
+    {
         if (!req.app.validate(req.body, 'v1/voucher_create', res)) return
 
         exports.create(
