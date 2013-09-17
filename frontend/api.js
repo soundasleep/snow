@@ -5,6 +5,7 @@ var _ = require('lodash')
 , api = module.exports = emitter()
 , callingCodes = require('./assets/callingcodes.json')
 , debug = require('./helpers/debug')('snow:api')
+, authorize = require('./authorize')
 
 function sha256(s) {
     var bits = sjcl.hash.sha256.hash(s)
@@ -30,11 +31,43 @@ function formatQuerystring(qs) {
 }
 
 api.call = function(method, data, options) {
+    function retryWithOtp(msgPrefix) {
+        debug('OtpRequired received, retrying')
+
+        return authorize.otp(msgPrefix)
+        .then(function(otp) {
+            if (otp === null) {
+                debug('authorize.otp returned null. user has cancelled')
+
+                var err = new Error('Two-factor authentication cancelled')
+                err.name = 'TwoFactorCancelled'
+                return $.Deferred().reject(err)
+            }
+
+            debug('retrying request with otp %s', otp)
+
+            return api.call(method, _.extend({ otp: otp }, data), options)
+            .then(null, function(err) {
+                if (err.name == 'WrongOtp') {
+                    debug('Wrong OTP supplied. Can try again.')
+                    return retryWithOtp(i18n('api.call.wrong otp'))
+                }
+
+                if (err.name == 'BlockedOtp') {
+                    debug('OTP is blocked. Can try again.')
+                    return retryWithOtp(i18n('api.call.blocked otp'))
+                }
+
+                return err
+            })
+        })
+    }
+
     var settings = {
         url: '/api/' + method
     }
 
-    options = options || {}
+    options || (options = {})
     options.qs = options.qs || {}
 
     if (options.type) settings.type = options.type
@@ -67,8 +100,15 @@ api.call = function(method, data, options) {
         }
 
         return error
-    }).fail(function(err) {
-        if (~['OtpRequired', 'UnknownApiKey', 'SessionNotFound'].indexOf(err.name)) {
+    }).then(null, function(err) {
+        debug('Error from XHR (generic handler running): %s', err.name || 'Unnamed')
+
+        if (err.name == 'OtpRequired' && !options.authorizing) {
+            debug('%s error received and not authorizing. can retry with otp', err.name)
+            return retryWithOtp()
+        }
+
+        if (~['SessionNotFound'].indexOf(err.name)) {
             if (!options.authorizing && api.user) {
                 debug('invalidating "session" because of %s', err.name)
                 api.logout()

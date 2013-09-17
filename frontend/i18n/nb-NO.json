@@ -1,4 +1,10 @@
 {
+    "authorize.otp.prompt": "Fysisk autentisering kreves",
+    "authorize.otp.invalid format": "Feil format. Koden er seks tall. ",
+    "api.call.wrong otp": "Feil engangspassord. ",
+    "api.call.blocked otp": "Prøv igjen om 30 sekunder. ",
+    "shared.modals.prompt.ok": "OK",
+    "shared.modals.prompt.cancel": "Avbryt",
     "numbers.thousandSeparator": " ",
     "numbers.decimalSeparator": ",",
 

@@ -2,10 +2,11 @@ var util = require('util')
 , num = require('num')
 
 module.exports = exports = function(app, currencyId) {
-    app.post('/v1/' + currencyId + '/out', app.security.demand.withdraw(2),
+    var prefix = '/v1/' + currencyId
+
+    app.post(prefix + '/out', app.security.demand.otp(app.security.demand.withdraw(2), true),
         exports.withdraw.bind(exports, currencyId))
-    app.get('/v1/' + currencyId + '/address', app.security.demand.deposit,
-        exports.address.bind(exports, currencyId))
+    app.get(prefix + '/address', app.security.demand.deposit, exports.address.bind(exports, currencyId))
 }
 
 exports.withdraw = function(currencyId, req, res, next) {
