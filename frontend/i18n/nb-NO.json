@@ -1,4 +1,6 @@
 {
+    "shared.modals.prompt.ok": "OK",
+    "shared.modals.prompt.cancel": "Avbryt",
     "numbers.thousandSeparator": " ",
     "numbers.decimalSeparator": ",",
 
