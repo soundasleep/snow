@@ -5,6 +5,10 @@
         <div class="col-lg-9">
             <h1><%- i18n('account.funds.heading') %></h1>
 
+            <div class="alert alert-danger lead hidden-two-factor-enabled">
+                <%- i18n('account.funds.two factor warning') %>
+            </div>
+
             <table class="balances table table-striped">
                 <thead>
                     <th class="currency"></th>

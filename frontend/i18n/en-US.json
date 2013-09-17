@@ -1,4 +1,5 @@
 {
+    "account.funds.two factor warning": "Please <a href=\"#settings/twofactor\">enable two-factor authentication</a> for your account. <a href=\"#settings/twofactor\">Why?</a>",
     "authorize.otp.prompt": "Two-factor code required:",
     "authorize.otp.invalid format": "Invalid format, six numbers expected. ",
     "api.call.wrong otp": "Wrong one-time password. ",
