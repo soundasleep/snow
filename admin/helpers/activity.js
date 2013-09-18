@@ -11,15 +11,24 @@ function formatFillOrder(details) {
     , type = details.type || details.side
 
     var totalFormatted = numbers.format(details.total, { currency: quote })
-    , priceFormatted = numbers.format(price, { currency: quote })
 
-    if (type == 'bid') {
-        return format('You bought %s for %s (%s per)', amountFormatted,
+    if (price) {
+        var priceFormatted = numbers.format(price, { currency: quote })
+
+        if (type == 'bid') {
+            return format('Bought %s for %s (%s per)', amountFormatted,
+                totalFormatted, priceFormatted)
+        }
+
+        return format('Sold %s for %s (%s per)', amountFormatted,
             totalFormatted, priceFormatted)
     }
 
-    return format('You sold %s for %s (%s per)', amountFormatted,
-        totalFormatted, priceFormatted)
+    if (type == 'bid') {
+        return format('Bought %s for %s', amountFormatted, totalFormatted)
+    }
+
+    return format('Sold %s for %s (%s per)', amountFormatted, totalFormatted)
 }
 
 function formatCreateOrder(details) {
