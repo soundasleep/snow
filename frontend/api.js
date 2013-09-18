@@ -259,6 +259,8 @@ api.depth = function(id) {
         api.depth[id] = depth
         api.trigger('depth', { market: id, depth: depth })
         api.trigger('depth:'+ id, depth)
+
+        return depth
     })
 }
 
