@@ -68,7 +68,7 @@ exports.verify = function(req, res, next) {
             return
         }
 
-        req.app.security.invalidate(req.app, uid)
+        req.app.security.invalidate(uid)
         res.redirect(req.app.config.website_url)
     })
 }
