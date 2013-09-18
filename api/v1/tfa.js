@@ -54,7 +54,7 @@ exports.remove = function(req, res, next) {
         }
 
         req.app.activity(req.user.id, 'RemoveTwoFactor', {})
-        req.app.security.invalidate(req.app, req.user.id)
+        req.app.security.invalidate(req.user.id)
 
         res.send(204)
     })
@@ -100,7 +100,7 @@ exports.enable = function(req, res, next) {
             })
         }
 
-        req.app.security.invalidate(req.app, req.user.id)
+        req.app.security.invalidate(req.user.id)
         req.user.tfaSecret = twoFactor
         req.user.tfaPassed = true
         req.app.activity(req.user.id, 'EnableTwoFactor', {})

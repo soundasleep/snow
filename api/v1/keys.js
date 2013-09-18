@@ -17,7 +17,7 @@ exports.replace = function(req, res, next) {
         if (err) return next(err)
         req.app.activity(req.user.id, 'ChangePassword', {})
         res.send(204)
-        req.app.security.invalidate(req.app, req.user.id)
+        req.app.security.invalidate(req.user.id)
     })
 }
 
@@ -39,7 +39,7 @@ exports.remove = function(req, res, next) {
             })
         }
 
-        req.app.security.invalidate(req.app, req.params.id)
+        req.app.security.invalidate(req.params.id)
 
         res.send(204)
     })
@@ -91,7 +91,7 @@ exports.create = function(req, res, next) {
         ]
     }, function(err) {
         if (err) return next(err)
-        req.app.security.invalidate(req.app, key)
+        req.app.security.invalidate(key)
         res.send(201, { id: key })
     })
 }
