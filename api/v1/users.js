@@ -43,7 +43,7 @@ exports.patch = function(req, res, next) {
         if (!dr.rowCount) {
             return next(new Error('User ' + req.user.id + ' not found'))
         }
-        req.app.security.invalidate(req.app, req.user.id)
+        req.app.security.invalidate(req.user.id)
         res.send(204)
     })
 }
@@ -142,7 +142,7 @@ exports.create = function(req, res, next) {
                 })
             }
 
-            req.app.security.invalidate(req.app, req.body.key)
+            req.app.security.invalidate(req.body.key)
 
             next(err)
         })
@@ -214,7 +214,7 @@ exports.verifyPhone = function(req, res, next) {
             })
         }
 
-        req.app.security.invalidate(req.app, req.user.id)
+        req.app.security.invalidate(req.user.id)
 
         res.send(204)
     })

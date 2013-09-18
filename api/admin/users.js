@@ -134,7 +134,7 @@ exports.patch = function(req, res, next) {
             edits: req.body
         })
 
-        req.app.security.invalidate(req.app, +req.params.id)
+        req.app.security.invalidate(+req.params.id)
 
         res.send(204)
     })
