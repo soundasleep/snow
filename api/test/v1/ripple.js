@@ -60,7 +60,8 @@ describe('ripple', function() {
                 id: dummy.number(1, 1e6)
             }
             , userId = dummy.number(1, 1e6)
-            , impersonate = mock.impersonate(app, { id: userId, securityLevel: 2}, null, { canWithdraw: true })
+            , impersonate = mock.impersonate(app, { id: userId, securityLevel: 2}, null,
+                { canWithdraw: true })
 
             mock.once(app.conn.write, 'query', function(q, cb) {
                 expect(q.text).to.match(/ripple_withdraw\(/)
