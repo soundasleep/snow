@@ -13,7 +13,7 @@ function sha256(s) {
 }
 
 function keyFromCredentials(sid, email, password) {
-    return sha256(sid + sha256(email + password))
+    return sha256(sid + sha256(email.toLowerCase() + password))
 }
 
 function formatQuerystring(qs) {
