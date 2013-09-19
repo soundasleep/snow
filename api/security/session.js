@@ -1,5 +1,4 @@
-var _ = require('lodash')
-, debug = require('debug')('snow:security:session')
+var debug = require('debug')('snow:security:session')
 , crypto = require('crypto')
 , inspect = require('util').inspect
 , assert = require('assert')
