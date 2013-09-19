@@ -18,29 +18,43 @@ types.forEach(function(type) {
     }
 })
 
-exports.demand = function(session, type, level, req, res, next) {
+exports.handler = function() {
+    return exports.demand.apply(this, arguments)
+}
+
+exports.demand = function(type, level, req, res, next) {
+    if (!req.user) {
+        debug('user is not set, demand has failed')
+        return res.send(401, {
+            name: 'NotAuthenticated',
+            message: 'Both API key and session cookie missing'
+        })
+    }
+
     debug('demanding type %s and level %s', type, level)
 
-    if (session.suspended) {
+    assert((req.apikey && !req.session) || (!req.apikey && req.session))
+    assert.equal(typeof req.user, 'object')
+
+    if (req.user.suspended) {
         return res.send(401, {
             name: 'UserSuspended',
             message: 'The user is suspended. Contact support'
         })
     }
 
-    if (session.primary && session.tfaSecret && !session.tfaPassed &&
+    if (req.session && req.user.tfaSecret && !req.session.tfaPassed &&
         req.path != '/v1/twoFactor/auth')
     {
         debug('session is primary, user has 2fa enabled, but 2fa is not passed')
-        debug(req.path)
         return res.send(401, {
             name: 'OtpRequired',
             message: 'Two-factor authentication is required for this account'
         })
     }
 
-    if ((type == 'primary' || type == 'admin') && !session.primary) {
-        debug('required type is primary, but session %j', session)
+    if ((type == 'primary' || type == 'admin') && !req.session) {
+        debug('required type is primary, but request uses api key')
 
         return res.send(401, {
             name: 'SessionRequired',
@@ -48,8 +62,10 @@ exports.demand = function(session, type, level, req, res, next) {
         })
     }
 
-    if (session.level < level) {
-        debug('security level %d is lower than required %d', session.level, level)
+    assert.equal(typeof req.user.securityLevel, 'number')
+
+    if (req.user.securityLevel < level) {
+        debug('security level %d is lower than required %d', req.user.securityLevel, level)
 
         return res.send(401, {
             name: 'SecurityLevelTooLow',
@@ -57,9 +73,15 @@ exports.demand = function(session, type, level, req, res, next) {
         })
     }
 
-    if (!~['any', 'primary'].indexOf(type)) {
+    if (type == 'admin' && !req.user.admin) {
+        return res.send(401, {
+            name: 'UserNotAdmin',
+            message: 'User is not admin'
+        })
+    }
+
+    if (req.apikey && !~['any', 'primary'].indexOf(type)) {
         var mapping = {
-            admin: 'admin',
             trade: 'canTrade',
             withdraw: 'canWithdraw',
             deposit: 'canDeposit'
@@ -67,9 +89,9 @@ exports.demand = function(session, type, level, req, res, next) {
 
         assert(mapping, 'mapping not found for type ' + type)
 
-        debug('session %j is missing required permission %s (%s)', session, type, mapping)
+        debug('apikey %j is missing required permission %s (%s)', req.apikey, type, mapping)
 
-        if (!session[mapping]) {
+        if (!req.apikey[mapping]) {
             return res.send(401, {
                 name: 'PermissionRequired',
                 message: format('The API key does not have the %s permission', type)
@@ -77,59 +99,17 @@ exports.demand = function(session, type, level, req, res, next) {
         }
     }
 
-    debug('session has %ds left', Math.round((session.expires - new Date()) / 1e3))
+    if (!req.session) return next()
 
-    if (session.primary) {
-        debug('extending session...')
-        exports.app.security.session.extend(req.cookies.session, function(err) {
-            if (err) {
-                console.error('Failed to extend session:')
-                console.error(err)
-            }
-            debug('session extended')
-        })
-    }
-
-    next()
-}
-
-exports.lookup = function(req, res, cb) {
-    if (req.cookies.session) {
-        debug('looking up session %s', req.cookies.session.substr(0, 10))
-        return exports.app.security.session.lookup(req.cookies.session, cb)
-    }
-
-    if (!req.query.key) {
-        return res.send(401, {
-            name: 'NotAuthenticated',
-            message: 'Both API key and session cookie missing'
-        })
-    }
-
-    exports.app.security.keys.lookup(req.query.key, cb)
-}
-
-exports.handler = function(type, level, req, res, next) {
-    exports.lookup(req, res, function(err, session) {
+    debug('session has %ds left', Math.round((req.session.expires - new Date()) / 1e3))
+    debug('extending session...')
+    exports.app.security.session.extend(req.cookies.session, function(err) {
         if (err) {
-            return next(err)
+            console.error('Failed to extend session:')
+            console.error(err)
         }
-
-        if (!session) {
-            return res.send(401, {
-                name: 'SessionNotFound',
-                message: 'Session not found'
-            })
-        }
-
-        exports.demand(session, type, level, req, res, function(err) {
-            if (err) return next(err)
-
-            debug('attaching user #%d to request (from session)', session.id)
-            req.user = session
-
-            next()
-        })
+        debug('session extended')
+        next()
     })
 }
 

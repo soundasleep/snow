@@ -3,7 +3,7 @@ var debug = require('debug')('snow:tfa')
 module.exports = exports = function(app) {
     app.post('/v1/twoFactor/enable', app.security.demand.primary, exports.enable)
     app.post('/v1/twoFactor/remove', app.security.demand.primary, exports.remove)
-    app.post('/v1/twoFactor/auth', app.security.demand.otp(app.security.demand.primary), exports.auth)
+    app.post('/v1/twoFactor/auth', app.security.demand.primary, exports.auth)
 }
 
 exports.remove = function(req, res, next) {
@@ -54,6 +54,7 @@ exports.remove = function(req, res, next) {
         }
 
         req.app.activity(req.user.id, 'RemoveTwoFactor', {})
+        req.session.tfaPassed = false
         req.app.security.invalidate(req.user.id)
 
         res.send(204)
@@ -101,8 +102,7 @@ exports.enable = function(req, res, next) {
         }
 
         req.app.security.invalidate(req.user.id)
-        req.user.tfaSecret = twoFactor
-        req.user.tfaPassed = true
+        req.session.tfaPassed = true
         req.app.activity(req.user.id, 'EnableTwoFactor', {})
 
         res.send(204)
@@ -110,6 +110,38 @@ exports.enable = function(req, res, next) {
 }
 
 exports.auth = function(req, res) {
-    // The actual authentication is done by the demand.otp call
+    if (!req.app.validate(req.body, 'v1/twofactor_auth', res)) return
+
+    var twoFactor = req.user.tfaSecret
+
+    if (!twoFactor) {
+        return res.send(401, {
+            name: 'TwoFactorNotEnabled',
+            message: 'Two-factor is not enabled for the user'
+        })
+    }
+
+    debug('two factor key(secret) %s', twoFactor)
+
+    var correct = req.app.security.tfa.consume(twoFactor, req.body.otp)
+
+    if (correct === null) {
+        return res.send(403, {
+            name: 'BlockedOtp',
+            message: 'Time-based one-time password has been consumed. Try again in 30 seconds'
+        })
+    }
+
+    if (!correct) {
+        return res.send(403, {
+            name: 'WrongOtp',
+            message: 'Wrong one-time password'
+        })
+    }
+
+    debug('otp is correct, setting tfaPassed on the session')
+
+    req.session.tfaPassed = true
+
     res.send(204)
 }

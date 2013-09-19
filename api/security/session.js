@@ -2,34 +2,43 @@ var _ = require('lodash')
 , debug = require('debug')('snow:security:session')
 , crypto = require('crypto')
 , inspect = require('util').inspect
+, assert = require('assert')
 
 module.exports = exports = function(app) {
-    app.post('/security/session', exports.create)
-    app.del('/security/session', exports.remove)
-
     exports.app = app
     exports.sessions = {}
-
+    app.use(exports.handler)
     return exports
 }
 
 exports.sessionTimeout = 15 * 60e3
 
-exports.randomSha256 = function() {
-    var hash = crypto.createHash('sha256')
-    hash.update(crypto.randomBytes(8))
-    return hash.digest('hex')
-}
+// Extract and validate session, if present
+exports.handler = function(req, res, next) {
+    if (!req.cookies.session) return next()
 
-exports.getSessionKey = function(sid, key) {
-    var hash = crypto.createHash('sha256')
-    hash.update(sid)
-    hash.update(key)
-    return hash.digest('hex')
+    exports.lookup(req.cookies.session, function(err, session) {
+        if (err) return next(err)
+        if (!session) {
+            return res.send(401, {
+                name: 'SessionNotFound',
+                message: 'The specified session could not be found'
+            })
+        }
+        req.session = session
+
+        exports.app.security.users.fromUserId(session.userId, function(err, user) {
+            if (err) return next(err)
+            assert(user)
+            req.user = user
+            debug('session %s attached (user #%d)', session.id.substr(0, 4), user.id)
+            next()
+        })
+    })
 }
 
 function pretty(id) {
-    return id.substr(0, 10)
+    return id.substr(0, 4)
 }
 
 exports.extend = function(id, cb) {
@@ -42,33 +51,13 @@ exports.extend = function(id, cb) {
     })
 }
 
-exports.create = function(req, res, next) {
-    req.app.security.users.fromEmail(req.body.email, function(err, user) {
-        if (err) return next(err)
-
-        var sessionId = exports.randomSha256()
-
-        if (user) {
-            var key = exports.getSessionKey(sessionId, user.key)
-
-            exports.sessions[key] = _.extend({
-                expires: +new Date() + exports.sessionTimeout,
-                nonce: 0
-            }, user)
-
-            debug('created session %s with key %s', pretty(sessionId), pretty(key))
-        } else {
-            debug('created fake session %s', pretty(sessionId))
-        }
-
-        return res.send(201, {
-            id: sessionId
-        })
-    })
-}
-
 // Note: Async for consistency
 exports.lookup = function(id, cb) {
+    debug('looking for session key %s in %s', id.substr(0, 4),
+        Object.keys(exports.sessions).map(function(x) {
+            return x.substr(0, 4)
+        }).join())
+
     var session = exports.sessions[id]
 
     if (!session) return cb()
@@ -84,27 +73,54 @@ exports.lookup = function(id, cb) {
     cb(null, session)
 }
 
-exports.remove = function(req, res, next) {
-    var sessionId = req.cookies.session
+exports.create = function(email, cb) {
+    exports.app.security.users.fromEmail(email, function(err, user) {
+        if (err) return cb(err)
 
-    if (!sessionId) {
-        return res.send(400, {
-            name: 'NoSession',
-            message: 'No session cookie was passed'
-        })
-    }
+        var sessionId = exports.randomSha256()
 
-    exports.lookup(sessionId, function(err, session) {
-        if (err) return next(err)
-        if (!session) {
-            return res.send(404, {
-                name: 'SessionNotFound',
-                message: 'The specified session was not found'
-            })
+        if (user) {
+            var key = exports.getSessionKey(sessionId, user.primaryKey)
+
+            exports.sessions[key] = {
+                id: sessionId,
+                expires: +new Date() + exports.app.security.session.sessionTimeout,
+                nonce: 0,
+                userId: user.id
+            }
+
+            debug('created session %s with key %s', sessionId.substr(0, 4),
+                key.substr(0, 4))
+        } else {
+            debug('created fake session %s', sessionId.substr(0, 4))
         }
-        delete exports.sessions[sessionId];
 
-        debug('session %s removed', pretty(sessionId))
-        res.send(204)
+        cb(null, sessionId)
+    })
+}
+
+exports.getSessionKey = function(sid, key) {
+    var hash = crypto.createHash('sha256')
+    hash.update(sid)
+    hash.update(key)
+    var res = hash.digest('hex')
+    debug('created skey %s from sid %s + ukey %s',
+        pretty(res), pretty(sid), pretty(key))
+    return res
+}
+
+exports.randomSha256 = function() {
+    var hash = crypto.createHash('sha256')
+    hash.update(crypto.randomBytes(8))
+    return hash.digest('hex')
+}
+
+exports.remove = function(skey, cb) {
+    exports.lookup(skey, function(err, session) {
+        if (err) return cb(err)
+        if (!session) return cb(new Error('Session not found'))
+        delete exports.app.security.session.sessions[skey];
+        debug('session with key %s removed', skey)
+        cb()
     })
 }

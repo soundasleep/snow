@@ -1,72 +1,63 @@
-module.exports = exports = function(app) {
-    exports.app = app
-    return exports
-}
-
 function formatRow(row) {
     return {
         id: row.user_id,
         admin: row.admin,
-        primary: row.primary,
         canTrade: row.can_trade,
         canDeposit: row.can_deposit,
         canWithdraw: row.can_withdraw,
         suspended: row.suspended,
         tfaSecret: row.two_factor,
-        tfaPassed: false,
-        level: row.security_level,
-        key: row.api_key_id
+        securityLevel: row.security_level,
+        primaryKey: row.primary_api_key_id
     }
 }
 
-exports.fromEmail = function(email, cb) {
+module.exports = exports = function(app) {
+    exports.app = app
+    exports.cache = {}
+    return exports
+}
+
+var userQuery = [
+    'SELECT',
+    '   a.user_id,',
+    '   u.admin,',
+    '   u.security_level,',
+    '   u.two_factor,',
+    '   u.suspended,',
+    '   a.can_withdraw,',
+    '   a.can_deposit,',
+    '   pa.api_key_id primary_api_key_id,',
+    '   a.can_trade',
+    'FROM api_key a',
+    'INNER JOIN user_view u ON u.user_id = a.user_id',
+    'INNER JOIN api_key pa ON pa.user_id = u.user_id AND pa.primary = TRUE'
+].join('\n')
+
+exports.query = function(condition, value, cb) {
     exports.app.conn.read.query({
         text: [
-            'SELECT',
-            '   a.user_id,',
-            '   a.api_key_id,',
-            '   u.admin,',
-            '   u.security_level,',
-            '   u.two_factor,',
-            '   u.suspended,',
-            '   a.primary,',
-            '   a.can_withdraw,',
-            '   a.can_deposit,',
-            '   a.can_trade',
-            'FROM api_key a',
-            'INNER JOIN user_view u ON u.user_id = a.user_id',
-            'WHERE u.email_lower = $1 AND a.primary = TRUE'
+            userQuery,
+            condition
         ].join('\n'),
-        values: [email.toLowerCase()]
+        values: [value]
     }, function(err, dr) {
         if (err) return cb(err)
         if (!dr.rowCount) return cb()
-        cb(null, formatRow(dr.rows[0]))
+        var user = formatRow(dr.rows[0])
+        exports.cache[user.id] = user
+        cb(null, user)
     })
 }
 
-exports.fromKey = function(key, cb) {
-    exports.app.conn.read.query({
-        text: [
-            'SELECT',
-            '   a.user_id,',
-            '   a.api_key_id,',
-            '   u.admin,',
-            '   u.security_level,',
-            '   u.two_factor,',
-            '   u.suspended,',
-            '   a.primary,',
-            '   a.can_withdraw,',
-            '   a.can_deposit,',
-            '   a.can_trade',
-            'FROM api_key a',
-            'INNER JOIN user_view u ON u.user_id = a.user_id',
-            'WHERE a.api_key_id = $1 AND a.primary = FALSE'
-        ].join('\n'),
-        values: [key]
-    }, function(err, dr) {
-        if (err) return cb(err)
-        if (!dr.rowCount) return cb()
-        cb(null, formatRow(dr.rows[0]))
-    })
+exports.fromUserId = function(id, cb) {
+    exports.query('WHERE u.user_id = $1 AND a.primary = TRUE', id, cb)
+}
+
+exports.fromEmail = function(email, cb) {
+    exports.query('WHERE u.email_lower = $1 AND a.primary = TRUE', email, cb)
+}
+
+exports.fromApiKey = function(key, cb) {
+    exports.query('WHERE a.api_key_id = $1 AND a.primary = FALSE', key, cb)
 }
