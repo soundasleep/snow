@@ -101,6 +101,8 @@ module.exports = function(after) {
     })
 
     function login() {
+        $.removeCookie('session', { path: '/' })
+
         return api.login($email.find('input').val(), $password.find('input').val())
         .always(function() {
             $submit.prop('disabled', false)

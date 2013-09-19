@@ -91,7 +91,6 @@ exports.create = function(req, res, next) {
         ]
     }, function(err) {
         if (err) return next(err)
-        req.app.security.invalidate(key)
         res.send(201, { id: key })
     })
 }
