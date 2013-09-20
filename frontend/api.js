@@ -7,13 +7,21 @@ var _ = require('lodash')
 , debug = require('./helpers/debug')('snow:api')
 , authorize = require('./authorize')
 
+function shortSha(s) {
+    return s.substr(0, 4)
+}
+
 function sha256(s) {
     var bits = sjcl.hash.sha256.hash(s)
     return sjcl.codec.hex.fromBits(bits)
 }
 
 function keyFromCredentials(sid, email, password) {
-    return sha256(sid + sha256(email + password))
+    var ukey = sha256(email.toLowerCase() + password)
+    var skey = sha256(sid + ukey)
+    debug('created skey %s from sid %s and ukey %s', shortSha(skey),
+        shortSha(sid), shortSha(ukey))
+    return skey
 }
 
 function formatQuerystring(qs) {
@@ -108,7 +116,14 @@ api.call = function(method, data, options) {
             return retryWithOtp()
         }
 
-        if (~['SessionNotFound'].indexOf(err.name)) {
+        return err
+    }).fail(function(err) {
+        if (err.name == 'SessionNotFound') {
+            $.removeCookie('session', { path: '/' })
+            debug('Removed session cookie after "SessionNotFound" error')
+        }
+
+        if (~['OtpRequired', 'NotAuthenticated', 'SessionNotFound'].indexOf(err.name)) {
             if (!options.authorizing && api.user) {
                 debug('invalidating "session" because of %s', err.name)
                 api.logout()
@@ -174,7 +189,7 @@ api.login = function(email, password) {
 api.twoFactor = function(email, password, otp) {
     return api.call('v1/twoFactor/auth', {
         otp: otp
-    }).then(function() {
+    }, { authorizing: true }).then(function() {
         return api.loginWithKey()
     })
 }

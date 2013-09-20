@@ -57,7 +57,7 @@ $.fn.focusSoon = function() {
     var that = this
     setTimeout(function() {
         $(that)
-        .add('input:visible:not([disabled])')
+        .add('input:visible:not([disabled]):first')
         .focus()
     }, 250)
 }

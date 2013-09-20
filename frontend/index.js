@@ -52,7 +52,13 @@ $app.on('click', 'a[href="#set-language"]', function(e) {
     i18n.set($(this).attr('data-language'))
 })
 
-api.bootstrap().done(function() {
+api.bootstrap()
+.fail(function(err) {
+    debug('reloading window after alert (bootstrap failed)')
+    errors.alertFromXhr(err)
+    window.location.reload()
+})
+.done(function() {
     var master = require('./modules/master')
     master.render()
 
