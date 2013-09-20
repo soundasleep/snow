@@ -189,7 +189,7 @@ api.login = function(email, password) {
 api.twoFactor = function(email, password, otp) {
     return api.call('v1/twoFactor/auth', {
         otp: otp
-    }).then(function() {
+    }, { authorizing: true }).then(function() {
         return api.loginWithKey()
     })
 }
