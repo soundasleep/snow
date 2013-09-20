@@ -149,6 +149,14 @@ module.exports = function(after) {
                 return
             }
 
+            // Backend has restarted/client has timed out
+            if (err.name == 'SessionNotFound') {
+                // Re-use the locked out error so the user has some feedback
+                $otp.addClass('is-locked-out has-error')
+                $otp.field().val('').focus()
+                return
+            }
+
             errors.alertFromXhr(err)
         })
         .done(function() {
