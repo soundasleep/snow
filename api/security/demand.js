@@ -118,7 +118,7 @@ exports.otp = function(inner, optional) {
         inner(req, res, function() {
             assert(req.user)
 
-            if (!req.user.primary) {
+            if (!req.session) {
                 debug('OTP check skipped for non-primary key (API)')
                 return next()
             }
