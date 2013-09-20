@@ -54,6 +54,7 @@ exports.remove = function(req, res, next) {
         }
 
         req.app.activity(req.user.id, 'RemoveTwoFactor', {})
+        req.session.tfaPassed = false
         req.app.security.invalidate(req.user.id)
 
         res.send(204)
@@ -101,8 +102,7 @@ exports.enable = function(req, res, next) {
         }
 
         req.app.security.invalidate(req.user.id)
-        req.user.tfaSecret = twoFactor
-        req.user.tfaPassed = true
+        req.session.tfaPassed = true
         req.app.activity(req.user.id, 'EnableTwoFactor', {})
 
         res.send(204)
@@ -139,11 +139,9 @@ exports.auth = function(req, res) {
         })
     }
 
-    debug('otp is correct, setting tfaPassed on the user')
+    debug('otp is correct, setting tfaPassed on the session')
 
-    req.user.tfaPassed = true
-
-    debug('%j', req.user)
+    req.session.tfaPassed = true
 
     res.send(204)
 }

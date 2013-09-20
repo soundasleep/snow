@@ -101,6 +101,8 @@ module.exports = function(after) {
     })
 
     function login() {
+        $.removeCookie('session', { path: '/' })
+
         return api.login($email.find('input').val(), $password.find('input').val())
         .always(function() {
             $submit.prop('disabled', false)
@@ -144,6 +146,14 @@ module.exports = function(after) {
             if (err.name == 'BlockedOtp') {
                 $otp.addClass('is-locked-out has-error')
                 $otp.field().focus()
+                return
+            }
+
+            // Backend has restarted/client has timed out
+            if (err.name == 'SessionNotFound') {
+                // Re-use the locked out error so the user has some feedback
+                $otp.addClass('is-locked-out has-error')
+                $otp.field().val('').focus()
                 return
             }
 
