@@ -1,6 +1,6 @@
 {
     "account.funds.two factor warning": "Vennligst <a href=\"#settings/twofactor\">skru på fysisk autentisering</a> for kontoen din. <a href=\"#settings/twofactor\">Hvorfor?</a>",
-    "authorize.otp.prompt": "Fysisk autentisering kreves",
+    "authorize.otp.prompt": "Engangspassord kreves (6 tall)",
     "authorize.otp.invalid format": "Feil format. Koden er seks tall. ",
     "api.call.wrong otp": "Feil engangspassord. ",
     "api.call.blocked otp": "Prøv igjen om 30 sekunder. ",
