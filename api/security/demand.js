@@ -112,3 +112,58 @@ exports.demand = function(type, level, req, res, next) {
         next()
     })
 }
+
+exports.otp = function(inner, optional) {
+    return function(req, res, next) {
+        inner(req, res, function() {
+            assert(req.user)
+
+            if (!req.session) {
+                debug('OTP check skipped for non-primary key (API)')
+                return next()
+            }
+
+            if (!req.user.tfaSecret) {
+                if (optional) {
+                    debug('Optional OTP check skipped')
+                    return next()
+                }
+
+                return res.send(401, {
+                    name: 'OtpRequired',
+                    messge: 'One-time password is required for this request, ' +
+                        'but the user does not have OTP required.'
+                })
+            }
+
+            if (!req.body.otp) {
+                return res.send(401, {
+                    name: 'OtpRequired',
+                    message: 'One-time password required for this request'
+                })
+            }
+
+            var correct = exports.app.security.tfa.consume(req.user.tfaSecret, req.body.otp)
+
+            if (correct === null) {
+                return res.send(403, {
+                    name: 'BlockedOtp',
+                    message: 'Time-based one-time password has been consumed. Try again in 30 seconds'
+                })
+            }
+
+            if (!correct) {
+                return res.send(403, {
+                    name: 'WrongOtp',
+                    message: 'Wrong one-time password'
+                })
+            }
+
+            debug('otp is correct, setting tfaPassed on the user')
+
+            req.session.tfaPassed = true
+
+            next()
+        })
+    }
+}

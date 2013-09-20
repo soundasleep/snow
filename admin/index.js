@@ -19,7 +19,8 @@ api.on('user', function(user) {
     $app.toggleClass('is-admin', user && user.admin)
 })
 
-api.bootstrap().done(function() {
+api.bootstrap()
+.done(function() {
     var master = require('./controllers/master')
     master.render()
 
@@ -31,4 +32,9 @@ api.bootstrap().done(function() {
 
         require('./authorize').admin()
     }
+})
+.fail(function(err) {
+    debug('reloading window after alert (bootstrap failed)')
+    errors.alertFromXhr(err)
+    window.location.reload()
 })

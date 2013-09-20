@@ -7,9 +7,9 @@ module.exports = function() {
     , controller = {
         $el: $el
     }
-    , currencies = _.filter(_.pluck(api.currencies.value, 'id'), function(id) {
-        return id !== 'NOK'
-    })
+    , currencies = _.pluck(_.filter(api.currencies.value, function(x) {
+        return !x.fiat
+    }), 'id')
     , amount = require('../../shared/amount-input')({
         fixedCurrency: false,
         currency: 'BTC',

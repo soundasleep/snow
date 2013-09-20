@@ -1,4 +1,5 @@
 var debug = require('./helpers/debug')('authorize')
+, jcPrompt = require('./modules/shared/modals/prompt')
 
 exports.user = function(level, register) {
     if (level === true) {
@@ -7,6 +8,23 @@ exports.user = function(level, register) {
     }
 
     return exports.demand(level || 0)
+}
+
+exports.otp = function(prefix) {
+    function popup(prefix) {
+        return jcPrompt((prefix || '') + i18n('authorize.otp.prompt'))
+        .then(function(otp) {
+            if (!otp) return null
+
+            if (!otp.match(/^[0-9]{6}$/)) {
+                return popup(i18n('authorize.otp.invalid format'))
+            }
+
+            return otp
+        })
+    }
+
+    return popup(prefix)
 }
 
 exports.demand = function(level, register) {

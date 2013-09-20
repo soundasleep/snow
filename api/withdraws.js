@@ -24,7 +24,8 @@ exports.format = function(app, row) {
         id: row.request_id,
         destination:  destination,
         created: row.created_at,
-        user: row.user_id
+        user: row.user_id,
+        completed: row.completed_at
     }, _.pick(row, 'completed', 'method', 'state', 'error'))
 }
 

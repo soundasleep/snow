@@ -23,5 +23,7 @@ module.exports = function() {
 
     $el.find('.account-nav').replaceWith(nav('funds').$el)
 
+    $el.toggleClass('has-two-factor-enabled', !!api.user.twoFactor)
+
     return controller
 }

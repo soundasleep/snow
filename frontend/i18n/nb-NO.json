@@ -1,4 +1,11 @@
 {
+    "account.funds.two factor warning": "Vennligst <a href=\"#settings/twofactor\">skru på fysisk autentisering</a> for kontoen din. <a href=\"#settings/twofactor\">Hvorfor?</a>",
+    "authorize.otp.prompt": "Engangspassord kreves (6 tall)",
+    "authorize.otp.invalid format": "Feil format. Koden er seks tall. ",
+    "api.call.wrong otp": "Feil engangspassord. ",
+    "api.call.blocked otp": "Prøv igjen om 30 sekunder. ",
+    "shared.modals.prompt.ok": "OK",
+    "shared.modals.prompt.cancel": "Avbryt",
     "numbers.thousandSeparator": " ",
     "numbers.decimalSeparator": ",",
 
@@ -271,8 +278,7 @@
     "account.bankaccounts.add.submit": "Legg til bankkonto",
     "account.bankaccounts.heading": "Bankkontoer",
     "account.bankaccounts.empty": "Du har ikke lagt til noen bankkontoer ennå.",
-    "account.bankaccounts.add norway button": "Legg til bankkonto",
-    "account.bankaccounts.add other button": "Legg til norsk bankkonto",
+    "account.bankaccounts.add button": "Legg til bankkonto",
     "account.bankaccounts.headers.account-number": "Kontonummer",
     "account.bankaccounts.headers.status": "Status",
     "account.bankaccounts.add.close": "Lukk",

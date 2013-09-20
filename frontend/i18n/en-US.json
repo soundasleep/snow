@@ -1,4 +1,11 @@
 {
+    "account.funds.two factor warning": "Please <a href=\"#settings/twofactor\">enable two-factor authentication</a> for your account. <a href=\"#settings/twofactor\">Why?</a>",
+    "authorize.otp.prompt": "Two-factor code required:",
+    "authorize.otp.invalid format": "Invalid format, six numbers expected. ",
+    "api.call.wrong otp": "Wrong one-time password. ",
+    "api.call.blocked otp": "Please try in 30 seconds. ",
+    "shared.modals.prompt.ok": "OK",
+    "shared.modals.prompt.cancel": "Cancel",
     "numbers.thousandSeparator": " ",
     "numbers.decimalSeparator": ".",
 
@@ -277,8 +284,7 @@
     "account.bankaccounts.add.submit": "Add bank account",
     "account.bankaccounts.heading": "Bank accounts",
     "account.bankaccounts.empty": "You have not added any bank accounts yet.",
-    "account.bankaccounts.add norway button": "Add bank account",
-    "account.bankaccounts.add other button": "Add Norwegian bank account",
+    "account.bankaccounts.add button": "Add bank account",
     "account.bankaccounts.headers.account-number": "Account #",
     "account.bankaccounts.headers.status": "Status",
     "account.bankaccounts.add.close": "Close",

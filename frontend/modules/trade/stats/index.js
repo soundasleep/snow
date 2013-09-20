@@ -99,7 +99,9 @@ module.exports = function(market) {
         $el: $el
     }
 
-    $el.find('.trade-nav').replaceWith(nav(market, null, 'stats').$el)
+    var navMode = $.cookie('tradeMode') == 'advanced' ? 'limit' : 'market'
+    $el.find('.trade-nav')
+    .replaceWith(nav(market, navMode, 'stats').$el)
 
     var depth = api.call('v1/markets/' + market + '/depth')
 
