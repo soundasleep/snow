@@ -81,7 +81,7 @@ api.call = function(method, data, options) {
             debug('Removed session cookie after "SessionNotFound" error')
         }
 
-        if (~['OtpRequired', 'UnknownApiKey', 'SessionNotFound'].indexOf(err.name)) {
+        if (~['OtpRequired', 'NotAuthenticated', 'SessionNotFound'].indexOf(err.name)) {
             if (!options.authorizing && api.user) {
                 debug('invalidating "session" because of %s', err.name)
                 api.logout()
