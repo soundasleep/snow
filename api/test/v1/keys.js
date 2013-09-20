@@ -10,7 +10,7 @@ describe('keys', function() {
     describe('index', function() {
         it('returns keys', function(done) {
             var uid = dummy.number(1, 1e6)
-            , impersonate = mock.impersonate(app, uid, { primary: true })
+            , impersonate = mock.impersonate(app, uid)
             , res = [{
                 id: 'A',
                 canTrade: false,
@@ -50,7 +50,7 @@ describe('keys', function() {
         it('removes the key', function(done) {
             var uid = dummy.number(1, 1e6)
             , kid = dummy.hex(64)
-            , impersonate = mock.impersonate(app, uid, { primary: true })
+            , impersonate = mock.impersonate(app, uid)
 
             mock.once(app.conn.write, 'query', function(query, cb) {
                 expect(query.text).to.match(/^DELETE/)
@@ -82,7 +82,7 @@ describe('keys', function() {
             , res = {
                 id: dummy.hex(64)
             }
-            , impersonate = mock.impersonate(app, uid, { primary: true })
+            , impersonate = mock.impersonate(app, uid)
 
             mock.once(keys, 'generateApiKey', function() {
                 return res.kid

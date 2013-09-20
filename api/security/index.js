@@ -1,3 +1,6 @@
+var debug = require('debug')('snow:security')
+, assert = require('assert')
+
 module.exports = function(app) {
     exports.session = require('./session')(app)
     exports.users = require('./users')(app)
@@ -8,21 +11,20 @@ module.exports = function(app) {
 }
 
 exports.invalidate = function(what) {
+    debug('invalidating %s', what)
+
     if (typeof what == 'number') {
-        Object.keys(exports.session.sessions, function(sid) {
-            if (exports.session.sessions[sid].id == what) {
-                exports.invalidate(sid)
-            }
-        })
-
-        Object.keys(exports.keys.cache, function(key) {
-            if (exports.keys.cache[key].id == what) {
-                exports.invalidate(key)
-            }
-        })
-
+        debug('deleting cached user %s (%s)', what,
+            ~exports.users.cache[what] ? 'hit' : 'miss')
+        delete exports.users.cache[what]
         return
     }
+
+    assert.equal(typeof what, 'string')
+
+    debug('%s is a session? %s. key? %s', what.substr(0, 10),
+        !!exports.session.sessions[what],
+        !!exports.keys.cache[what]);
 
     delete exports.session.sessions[what];
     delete exports.keys.cache[what];
