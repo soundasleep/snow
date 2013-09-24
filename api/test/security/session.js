@@ -84,7 +84,8 @@ describe('security', function() {
                         user_id: 123,
                         admin: false,
                         two_factor: 'tfa',
-                        suspended: false
+                        suspended: false,
+                        primary_api_key_id: 'upk'
                     }))
                 })
 
@@ -104,10 +105,8 @@ describe('security', function() {
                 .end(function(err) {
                     if (err) return done(err)
                     var session = app.security.session.sessions['key']
-                    expect(session.id).to.be(123)
-                    expect(session.admin).to.be(false)
-                    expect(session.tfaSecret).to.be('tfa')
-                    expect(session.suspended).to.be(false)
+                    expect(session.id).to.be('sha')
+                    expect(session.userId).to.be(123)
                     done()
                 })
             })
@@ -117,7 +116,12 @@ describe('security', function() {
             it('removes the session', function(done) {
                 mock.once(app.security.session, 'lookup', function(id, cb) {
                     expect(id).to.be('foo')
-                    cb(null, { test: true })
+                    cb(null, { id: 'session', userId: 500 })
+                })
+
+                mock.once(app.security.users, 'fromUserId', function(id, cb) {
+                    expect(id).to.be(500)
+                    cb(null, { id: 600 })
                 })
 
                 request(app)

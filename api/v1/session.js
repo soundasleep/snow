@@ -5,9 +5,9 @@ module.exports = exports = function(app) {
 }
 
 exports.create = function(req, res, next) {
-    exports.app.security.session.create(req.body.email, function(err, sid) {
+    var email = req.body.email.toLowerCase()
+    exports.app.security.session.create(email, function(err, sid) {
         if (err) return next(err)
-
         res.send(201, {
             id: sid
         })
