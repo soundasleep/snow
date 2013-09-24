@@ -8,7 +8,7 @@
             <div class="hidden-two-factor">
                 <p class="lead"><%- i18n('settings.twofactor.disabled.lead') %></p>
 
-                <img src="https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=otpauth://totp/<%= location.hostname %>:<%= api.user.email %>%3Fsecret=<%= secret %>%26issuer=Justcoin" />
+                <img src="https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=otpauth://totp/<%= location.hostname %>:<%- encodeURIComponent(api.user.email) %>%3Fsecret=<%= secret %>%26issuer=Justcoin" />
 
                 <form name="enable">
                     <div class="row">
