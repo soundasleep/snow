@@ -26,6 +26,13 @@ GIT
     aws (0.101.4)
 
 GIT
+  remote: https://github.com/opscode-cookbooks/cron.git
+  ref: 6f669a60e203bf4cbec62bdcdb5e247dfe7c5e32
+  sha: 6f669a60e203bf4cbec62bdcdb5e247dfe7c5e32
+  specs:
+    cron (1.2.7)
+
+GIT
   remote: https://github.com/opscode-cookbooks/logrotate.git
   ref: 1.2.2
   sha: a3abb15076a9386b39bac30f1231be9b1af2c49c
@@ -94,6 +101,7 @@ PATH
 
 DEPENDENCIES
   aws (>= 0)
+  cron (>= 0)
   deploy_wrapper (>= 0)
   hostname (>= 0)
   hostsfile (>= 0)

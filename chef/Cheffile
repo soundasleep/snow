@@ -8,6 +8,10 @@ cookbook 'hostname',
   :git => 'https://github.com/timurbatyrshin/chef-cookbook-hostname',
   :ref => 'f7fc6fb81d637e18371060167a0b39c2ff2155af'
 
+cookbook 'cron',
+  :git => 'https://github.com/opscode-cookbooks/cron.git',
+  :ref => '6f669a60e203bf4cbec62bdcdb5e247dfe7c5e32'
+
 cookbook 'monit',
     :path => '../../chef-monit'
   # :git => 'https://github.com/phlipper/chef-monit.git',
