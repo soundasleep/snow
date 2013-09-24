@@ -43,7 +43,7 @@ deploy_revision node[:snow][:frontend][:app_directory] do
     branch node[:snow][:branch]
     ssh_wrapper "/home/ubuntu/frontend-ssh-wrapper/frontend_deploy_wrapper.sh"
     action :deploy
-    keep_releases 5
+    keep_releases 0
     symlinks({})
     symlink_before_migrate({})
     create_dirs_before_symlink([])
