@@ -3,219 +3,196 @@ var num = require('num')
 , template = require('./index.html')
 , debug = require('../../../../../helpers/debug')('trade')
 
-module.exports = function(market) {
-    var $el = $('<div class="bid">').html(template({
-        base: market.substr(0, 3),
-        quote: market.substr(3, 3)
+module.exports = exports = function(market) {
+    var base = market.substr(0, 3)
+    , quote = market.substr(3, 3)
+    , $el = $('<div class="bid">').html(template({
+        base: base,
+        quote: quote
     }))
     , controller = {
         $el: $el
     }
-    , base = market.substr(0, 3)
-    , quote = market.substr(3, 3)
+    , $form = $el.find('form')
+    , $amount = $el.find('.amount')
+    , $submit = $form.find('button[type="submit"]')
     , depth
-    , $spend = $el.find('.spend')
+    , feeRatio = 0.005
+    , basePrecision = _.find(api.currencies.value, { id: base }).scale
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
-    , receive
 
-    function updateQuote() {
-        $el.removeClass('is-too-deep')
+    function available() {
+        return api.balances.current ?
+            _.find(api.balances.current, { currency: quote }).available :
+            null
+    }
 
+    function receiveFromAmount(desired) {
         if (!depth) return
-        var spend = $el.field('spend').parseNumber()
-        if (spend === null) return
 
-        spend = num(spend)
-        spend.set_precision(quotePrecision)
+        var asks = depth.asks
+        , give = num(0)
+        , receive = num(0)
+        , remaining = num(desired)
 
-        if (spend.lte(0)) return
+        give.set_precision(quotePrecision)
+        receive.set_precision(basePrecision)
+        remaining.set_precision(quotePrecision)
 
-        if (!depth.asks.length) {
-            $spend.addClass('has-error')
-            $el.addClass('is-too-deep')
-            return
-        }
+        var filled
 
-        receive = num(0)
-        var remaining = num(spend)
+        _.some(asks, function(level) {
+            debug('start loop, remaining %s', remaining)
 
-        var filled = _.some(depth.asks, function(level) {
-            var price = num(level[0])
-            , volume = num(level[1])
-            , theirTotal = price.mul(volume)
-            , filled = theirTotal.gte(remaining)
-            , take = filled ? remaining.div(price) : volume
+            level = {
+                price: num(level[0]),
+                volume: num(level[1]),
+                total: num(level[0]).mul(level[1])
+            }
 
-            take.set_precision(volume.get_precision())
+            debug('going through level %s @ %s (%s)',
+                level.price, level.volume, level.total)
+
+            filled = level.total.gte(remaining)
+
+            debug('filled? %s', filled)
+
+            debug('%s / %s = %s', remaining, level.price, remaining.div(level.price))
+
+            var take = filled ? remaining.div(level.price) : level.volume
+            take.set_precision(level.volume.get_precision())
 
             if (take.eq(0)) {
+                debug('would take zero from the level. this implies filled before')
+                filled = true
                 return true
             }
 
-            var ourTotal = take.mul(price)
-
-            debug('Taking %s @ %s (of %s); Total %s',
-                take.toString(), price.toString(), volume.toString(),
-                ourTotal.toString())
-
             receive = receive.add(take)
-            remaining = remaining.sub(ourTotal)
+
+            debug('will take %s from the level', take)
+
+            var total = level.price.mul(take)
+
+            debug('our total %s', total)
+
+            remaining = remaining.sub(total)
+
+            debug('remaining after take %s', remaining)
 
             if (filled) {
+                debug('level has filled remainder of order')
                 return true
             }
         })
 
-        $el.toggleClass('is-too-deep', !filled)
-
-        if (!filled) {
-            debug('Would not be filled')
-            $spend.addClass('has-error')
-            return
-        }
-
-        if (+receive === 0) {
-            debug('Would receive zero')
-            $spend.addClass('has-error is-too-small')
-            return
-        }
-
-        // Subtract fee
-        var actualSpend = spend.sub(remaining)
-        , effectivePrice = actualSpend.div(receive)
-
-        debug('Effective price: %s / %s = %s', actualSpend.toString(),
-            receive.toString(), effectivePrice.toString())
-
-        $el.find('.actual-spend').html(
-            numbers.format(actualSpend.toString()))
-
-        $el.find('.receive-quote').html(
-            numbers.format(receive.toString()))
-
-        $el.find('.receive-price').html(
-            numbers.format(effectivePrice.toString()))
+        if (filled) return receive.toString()
     }
 
-    function balancesUpdated() {
-        var balances = api.balances.current
-        , item = _.find(balances, { currency: quote })
+    function validateAmount(submitting) {
+        $amount.removeClasses(/^(is|has)/)
 
-        $el.find('.available')
-        .html(numbers.format(item.available,
-            { maxPrecision: 2, currency: item.currency }))
-        .attr('title', numbers.format(item.available, { currency: item.currency }))
+        var amount = $amount.field().val()
+        , validator = $.Deferred()
+        .fail(function(code) {
+            $amount.addClass('has-error ' + code)
+        })
 
-        // The user's ability to cover the order may have changed
-        validateSpend()
-    }
+        // Allow empty unless submitting
+        if (!amount.length && !submitting) return validator.resolve()
 
-    function validateSpend(emptyIsError) {
-        $spend
-        .removeClass('has-insufficient-funds')
-        .removeClass('is-precision-too-high')
-        .removeClass('is-too-small')
+        // Validate format
+        amount = numbers.parse(amount)
 
-        var val = $el.field('spend').val()
-        , valid
+        if (!amount || amount <= 0) return validator.reject('is-invalid')
 
-        if (!val.length) {
-            valid = !emptyIsError
-            $spend.toggleClass('has-error', !valid)
-            return valid
+        try {
+            amount = num(amount)
+        } catch (e) {
+            return validator.reject('is-invalid')
         }
 
-        var spend = numbers.parse(val)
+        // Check for available funds
+        if (amount.gt(available())) return validator.reject('has-insufficient-funds')
 
-        if (spend === null) {
-            valid = false
-        } else {
-            var precision = num(spend).get_precision()
-            , maxPrecision = quotePrecision
+        var precision = amount.get_precision()
 
-            if (precision > maxPrecision) {
-                valid = false
-                $spend.addClass('is-precision-too-high')
-            } else {
-                var item = _.find(api.balances.current, { currency: quote })
+        if (precision > quotePrecision) return validator.reject('is-precision-too-high')
 
-                if (!item) {
-                    debug('User does not have a %s balance', quote)
-                    return
-                }
+        amount.set_precision(quotePrecision)
 
-                var available = item.available
+        var receive = receiveFromAmount(amount)
 
-                if (num(spend).gt(available)) {
-                    valid = false
-                    $spend.addClass('has-insufficient-funds')
-                } else {
-                    valid = true
-                }
+        if (!receive) return validator.reject('is-too-deep')
+
+        return validator.resolve(amount.toString())
+    }
+
+    function validate(submitting) {
+        return validateAmount(submitting)
+        .fail(function() {
+            if (submitting) {
+                $form.find('.has-error:first').field().focus()
+                $submit.shake()
             }
-        }
-
-        $spend.toggleClass('has-error', !valid)
-
-        return valid
+        })
+        .done(function(amount) {
+            amount && summarize()
+        })
     }
 
-    function onDepth(res) {
-        depth = res
-        updateQuote()
+    function confirm(text) {
+        var deferred = $.Deferred()
+
+        alertify.confirm(text, function(ok) {
+            deferred.resolve(ok)
+        })
+
+        return deferred
     }
 
-    controller.destroy = function() {
-        api.off('balances', balancesUpdated)
-        api.off('depth:' + market, onDepth)
-    }
-
-    // Update market order spend (bid)
-    $el.field('spend').on('change keyup', function() {
-        // Order matters. Validate clears error, bid quote may add error.
-        validateSpend()
-        updateQuote()
-    })
-
-    $el.on('submit', 'form', function(e) {
+    $form.on('submit', function(e) {
         e.preventDefault()
 
-        var $button = $el.find('[type="submit"]')
-        , $form = $el.find('form')
+        debug('validating before submit')
 
-        if (!validateSpend(true)) {
-            $form.field('spend').focus()
-            $button.shake()
-            return
-        }
+        validate(true)
+        .done(function() {
+            $amount.field().focus()
 
-        var confirmText = i18n(
-            'markets.market.marketorder.bid.confirm',
-            base,
-            numbers($el.field('spend').parseNumber(), { currency: quote }),
-            numbers(receive, { currency: base }))
+            api.depth(market)
+            api.balances()
 
-        alertify.confirm(confirmText, function(ok) {
+            var receive = receiveFromAmount($amount.field().val())
+
+            var confirmText = i18n(
+                'markets.market.marketorder.bid.confirm',
+                base,
+                numbers($amount.field().parseNumber(), { currency: quote }),
+                numbers(receive, { currency: base }))
+
+            return confirm(confirmText)
+        })
+        .done(function(ok) {
             if (!ok) return
 
-            $button.loading(true, i18n('markets.market.marketorder.bid.placing order'))
+            $submit.loading(true, i18n('markets.market.marketorder.bid.placing order'))
             $form.addClass('is-loading')
 
             api.call('v1/spend', {
                 market: market,
-                amount: $el.field('spend').parseNumber()
+                amount: $amount.field().parseNumber()
             })
             .always(function() {
-                $button.loading(false)
+                $submit.loading(false)
                 $form.removeClass('is-loading')
             })
             .fail(function(err) {
                 errors.alertFromXhr(err)
             })
             .done(function() {
-                $el.field('spend', '')
+                $amount.field().focus().val('')
                 $el.find('.available').flash()
-                $form.field('spend').focus()
 
                 api.depth(market)
                 api.balances()
@@ -223,17 +200,41 @@ module.exports = function(market) {
         })
     })
 
-    $el.on('click', '[data-action="spend-all"]', function(e) {
-        e.preventDefault()
-        $el.field('spend').val(numbers.format(
-            _.find(api.balances.current, { currency: quote }).available))
-        $el.field('spend').trigger('change')
+    function summarize() {
+        var $summary = $el.find('.order-summary')
+        , amount = $amount.field().val()
+        , receiveAmount = receiveFromAmount(amount)
+
+        var price = num(amount)
+        .set_precision(quotePrecision)
+        .div(receiveAmount)
+        .set_precision(3)
+
+        var fee = num(receiveAmount)
+        .mul(feeRatio)
+        .set_precision(quotePrecision)
+
+        var receiveAfterFee = num(receiveAmount)
+        .mul(num('1.000').sub(fee))
+
+        $summary.find('.receive-price').html(price.toString())
+        $summary.find('.fee').html(fee.toString())
+        $summary.find('.receive-quote').html(receiveAfterFee.toString())
+    }
+
+    api.on('balances', function() {
+        validate()
     })
 
-    // Subscribe to balance updates
-    api.balances.current && balancesUpdated()
-    api.on('balances', balancesUpdated)
-    api.on('depth:' + market, onDepth)
+    api.on('depth:' + market, function(x) {
+        depth = x
+        debug('re-validating on depth update...')
+        validate()
+    })
+
+    $amount.field().on('keyup change', function() {
+        validate()
+    })
 
     return controller
 }

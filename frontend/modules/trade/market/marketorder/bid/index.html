@@ -7,7 +7,7 @@
         </p>
 
         <form>
-            <div class="form-group spend">
+            <div class="form-group amount">
                 <label>
                     <%= quote %> <%- i18n('markets.market.marketorder.bid.spend.label') %>
                     (<a href="#" data-action="spend-all">
@@ -16,7 +16,7 @@
                 </label>
 
                 <div class="input-group">
-                    <input type="text" name="spend" class="form-control" />
+                    <input type="text" name="amount" class="form-control" value="" />
                     <span class="input-group-addon"><%= quote %></span>
                 </div>
 
@@ -39,22 +39,22 @@
             <table class="order-summary table">
                 <tr>
                     <th>
-                        <%- i18n('markets.market.marketorder.bid.summary.you spend') %>
+                        <%- i18n('markets.market.marketorder.bid.summary.price per') %>
+                        <%= base %>
                     </th>
                     <td>
-                        <span class="hidden-too-deep">
-                            <span class="actual-spend"></span> <%= quote %>
+                        <span>
+                            <span class="receive-price"></span> <%= quote %>
                         </span>
                     </td>
                 </tr>
                 <tr>
                     <th>
-                        <%- i18n('markets.market.marketorder.bid.summary.price per') %>
-                        <%= base %>
+                        <%- i18n('markets.market.marketorder.bid.summary.fee') %>
                     </th>
                     <td>
-                        <span class="hidden-too-deep">
-                            <span class="receive-price"></span> <%= quote %>
+                        <span>
+                            <span class="fee"></span> <%= quote %>
                         </span>
                     </td>
                 </tr>
@@ -63,14 +63,14 @@
                         <%- i18n('markets.market.marketorder.bid.summary.you receive') %>
                     </th>
                     <td>
-                        <span class="hidden-too-deep">
+                        <span>
                             <span class="receive-quote"></span> <%= base %>
                         </span>
                     </td>
                 </tr>
             </table>
 
-            <div class="form-group">
+            <div>
                 <button type="submit" class="btn btn-primary btn-large" style="width:100%">
                     <%- i18n('markets.market.marketorder.bid.buy button') %>
                 </button>
