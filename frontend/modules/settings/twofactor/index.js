@@ -83,7 +83,8 @@ module.exports = function() {
         })
         .done(function() {
             api.user.twoFactor = true
-            router.reload()
+            alertify.log(i18n('settings.twofactor.enabled alert'))
+            router.go('')
         })
     })
 
