@@ -101,8 +101,13 @@ exports.demand = function(type, level, req, res, next) {
 
     if (!req.session) return next()
 
+    exports.extendRequestSession(req, res, next)
+}
+
+exports.extendRequestSession = function(req, res, next) {
     debug('session has %ds left', Math.round((req.session.expires - new Date()) / 1e3))
     debug('extending session...')
+
     exports.app.security.session.extend(req.cookies.session, function(err) {
         if (err) {
             console.error('Failed to extend session:')

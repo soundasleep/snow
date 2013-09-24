@@ -3,7 +3,7 @@ var assert = require('assert')
 
 module.exports = exports = function(app) {
     exports.app = app
-    app.use(exports.keyHandler)
+    app.use(exports.handler)
     return exports
 }
 
@@ -13,17 +13,17 @@ exports.lookup = function(key, cb) {
     var item = exports.cache[key]
 
     if (item === undefined) {
-        return exports.app.security.users.fromKey(key, function(err, user) {
+        return exports.app.security.users.fromApiKey(key, function(err, item) {
             if (err) return cb(err)
-            exports.cache[key] = user
-            exports.lookup(key, cb)
+            exports.cache[key] = item
+            cb(null, item)
         })
     }
 
     cb(null, item)
 }
 
-exports.keyHandler = function(req, res, next) {
+exports.handler = function(req, res, next) {
     if (!req.query.key) return next()
     exports.lookup(req.query.key, function(err, key) {
         if (err) return next(err)
@@ -33,8 +33,10 @@ exports.keyHandler = function(req, res, next) {
                 message: 'API key not found'
             })
         }
+
         req.apikey = key
-        exports.app.users.lookup(key.userId, function(err, user) {
+
+        exports.app.security.users.fromUserId(key.userId, function(err, user) {
             if (err) return next(err)
             assert(user)
             req.user = user
