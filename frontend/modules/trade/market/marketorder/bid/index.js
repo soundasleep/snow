@@ -2,6 +2,7 @@ var num = require('num')
 , _ = require('lodash')
 , template = require('./index.html')
 , debug = require('../../../../../helpers/debug')('trade')
+, estimate = require('./estimate')
 
 module.exports = exports = function(market) {
     var base = market.substr(0, 3)
@@ -18,75 +19,12 @@ module.exports = exports = function(market) {
     , $submit = $form.find('button[type="submit"]')
     , depth
     , feeRatio = 0.005
-    , basePrecision = _.find(api.currencies.value, { id: base }).scale
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
 
     function available() {
         return api.balances.current ?
             _.find(api.balances.current, { currency: quote }).available :
             null
-    }
-
-    function receiveFromAmount(desired) {
-        if (!depth) return
-
-        var asks = depth.asks
-        , give = num(0)
-        , receive = num(0)
-        , remaining = num(desired)
-
-        give.set_precision(quotePrecision)
-        receive.set_precision(basePrecision)
-        remaining.set_precision(quotePrecision)
-
-        var filled
-
-        _.some(asks, function(level) {
-            debug('start loop, remaining %s', remaining)
-
-            level = {
-                price: num(level[0]),
-                volume: num(level[1]),
-                total: num(level[0]).mul(level[1])
-            }
-
-            debug('going through level %s @ %s (%s)',
-                level.price, level.volume, level.total)
-
-            filled = level.total.gte(remaining)
-
-            debug('filled? %s', filled)
-
-            debug('%s / %s = %s', remaining, level.price, remaining.div(level.price))
-
-            var take = filled ? remaining.div(level.price) : level.volume
-            take.set_precision(level.volume.get_precision())
-
-            if (take.eq(0)) {
-                debug('would take zero from the level. this implies filled before')
-                filled = true
-                return true
-            }
-
-            receive = receive.add(take)
-
-            debug('will take %s from the level', take)
-
-            var total = level.price.mul(take)
-
-            debug('our total %s', total)
-
-            remaining = remaining.sub(total)
-
-            debug('remaining after take %s', remaining)
-
-            if (filled) {
-                debug('level has filled remainder of order')
-                return true
-            }
-        })
-
-        if (filled) return receive.toString()
     }
 
     function validateAmount(submitting) {
@@ -116,13 +54,11 @@ module.exports = exports = function(market) {
         if (amount.gt(available())) return validator.reject('has-insufficient-funds')
 
         var precision = amount.get_precision()
-
         if (precision > quotePrecision) return validator.reject('is-precision-too-high')
 
         amount.set_precision(quotePrecision)
 
-        var receive = receiveFromAmount(amount)
-
+        var receive = estimate.receive(market, amount)
         if (!receive) return validator.reject('is-too-deep')
 
         return validator.resolve(amount.toString())
@@ -154,16 +90,12 @@ module.exports = exports = function(market) {
     $form.on('submit', function(e) {
         e.preventDefault()
 
-        debug('validating before submit')
-
         validate(true)
-        .done(function() {
-            $amount.field().focus()
-
+        .then(function() {
             api.depth(market)
             api.balances()
 
-            var receive = receiveFromAmount($amount.field().val())
+            var receive = estimate.receive(market, numbers.parse($amount.field().val()))
 
             var confirmText = i18n(
                 'markets.market.marketorder.bid.confirm',
@@ -202,25 +134,28 @@ module.exports = exports = function(market) {
 
     function summarize() {
         var $summary = $el.find('.order-summary')
-        , amount = $amount.field().val()
-        , receiveAmount = receiveFromAmount(amount)
+        , amount = numbers.parse($amount.field().val())
+        , summary = estimate.summary(market, amount, feeRatio)
 
-        var price = num(amount)
-        .set_precision(quotePrecision)
-        .div(receiveAmount)
-        .set_precision(3)
+        if (!summary) {
+            $summary.find('.receive-price').empty()
+            $summary.find('.fee').empty()
+            $summary.find('.receive-quote').empty('')
+            return
+        }
 
-        var fee = num(receiveAmount)
-        .mul(feeRatio)
-        .set_precision(quotePrecision)
+        console.log(summary)
 
-        var receiveAfterFee = num(receiveAmount)
-        .mul(num('1.000').sub(fee))
-
-        $summary.find('.receive-price').html(price.toString())
-        $summary.find('.fee').html(fee.toString())
-        $summary.find('.receive-quote').html(receiveAfterFee.toString())
+        $summary.find('.receive-price').html(summary.price.toString())
+        $summary.find('.fee').html(summary.fee.toString())
+        $summary.find('.receive-quote').html(summary.receiveAfterFee.toString())
     }
+
+    $el.on('click', '[data-action="spend-all"]', function(e) {
+        e.preventDefault()
+        var avail = _.find(api.balances.current, { currency: quote }).available
+        $form.field('amount').val(numbers.format(avail))
+    })
 
     api.on('balances', function() {
         validate()
