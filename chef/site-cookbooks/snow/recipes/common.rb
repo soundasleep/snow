@@ -24,3 +24,14 @@ node.default['snow']['repo'] = "git@github.com:justcoin/justcoin.git"
 
 node.default['raven']['app'] = env_bag['raven']['app']
 node.default['raven']['uri'] = env_bag['raven']['uri']
+
+logrotate_app "snow" do
+  cookbook "logrotate"
+  path [
+    "/var/log/snow*.log"
+  ]
+  options ["missingok", "copytruncate", "compress", "notifempty"]
+  frequency "daily"
+  rotate 7
+  create "664 root root"
+end
