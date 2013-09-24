@@ -1,7 +1,6 @@
 /* global describe, it */
 var expect = require('expect.js')
 , mock = require('../mock')
-, dummy = require('../dummy')
 , app = require('../..')
 , demand = app.security.demand
 
@@ -169,8 +168,7 @@ describe('demand', function() {
         })
 
         it('checks deposit permission', function(done) {
-            var session = { trade: true, withdraw: true, admin: true, level: 4 }
-            , req = {
+            var req = {
                 user: {
                     securityLevel: 2
                 },

@@ -2,7 +2,6 @@
 var expect = require('expect.js')
 , mock = require('../mock')
 , app = require('../..')
-, request = require('supertest')
 
 describe('security', function() {
     describe('keys', function() {
