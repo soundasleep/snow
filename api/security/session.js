@@ -51,34 +51,37 @@ exports.extend = function(id, cb) {
 }
 
 // Note: Async for consistency
-exports.lookup = function(id, cb) {
-    debug('looking for session key %s in %s', id.substr(0, 4),
+exports.lookup = function(key, cb) {
+    debug('looking for session key %s in %s', key.substr(0, 4),
         Object.keys(exports.sessions).map(function(x) {
             return x.substr(0, 4)
         }).join())
 
-    var session = exports.sessions[id]
+    var session = exports.sessions[key]
 
     if (!session) return cb()
 
     if (session.expires < +new Date()) {
-        debug('session %s expired during lookup', pretty(id))
-        delete exports.sessions[id]
+        debug('session with key %s expired during lookup', pretty(key))
+        delete exports.sessions[key]
         return cb()
     }
 
-    debug('lookup successful for %s: %s', pretty(id), inspect(session))
+    debug('lookup successful for session with key %s: %s', pretty(key), inspect(session))
 
     cb(null, session)
 }
 
 exports.create = function(email, cb) {
+    debug('finding user %s to create session', email)
     exports.app.security.users.fromEmail(email, function(err, user) {
         if (err) return cb(err)
 
         var sessionId = exports.randomSha256()
 
         if (user) {
+            assert(user.primaryKey)
+            debug('creating session key with user pk %s', user.primaryKey)
             var key = exports.getSessionKey(sessionId, user.primaryKey)
 
             exports.sessions[key] = {

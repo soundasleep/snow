@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 function formatRow(row) {
     return {
         id: row.user_id,
@@ -59,5 +61,12 @@ exports.fromEmail = function(email, cb) {
 }
 
 exports.fromApiKey = function(key, cb) {
-    exports.query('WHERE a.api_key_id = $1 AND a.primary = FALSE', key, cb)
+    exports.query('WHERE a.api_key_id = $1 AND a.primary = FALSE', key, function(err, user) {
+        if (err) return cb(err)
+        if (!user) return cb()
+        return cb(null, _.extend({
+            id: key,
+            userId: user.id
+        }, _.pick(user, 'canTrade', 'canDeposit', 'canWithdraw')))
+    })
 }
