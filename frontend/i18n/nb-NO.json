@@ -1,4 +1,5 @@
 {
+    "account.transactions.download csv": "Last ned som CSV",
     "settings.twofactor.enabled alert": "Fysisk autentisering er nå skrudd på.",
     "activities.FillOrder.limit.bid": "Ordre for å kjøpe %s for %s (%s per) gjennomført",
     "activities.FillOrder.limit.ask": "Ordre for å selge %s for %s (%s per) gjennomført",
