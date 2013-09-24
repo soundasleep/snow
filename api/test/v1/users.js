@@ -46,4 +46,34 @@ describe('users', function() {
             })
         })
     })
+
+    describe('identity', function() {
+        it('allows sample Polish address', function(done) {
+            mock.once(app.conn.write, 'query', function(query, cb) {
+                cb(null, mock.rows({}))
+            })
+
+            var impersonate = mock.impersonate(app, {
+                id: 123,
+                securityLevel: 2
+            })
+
+            request(app)
+            .post('/v1/users/identity')
+            .send({
+                firstName: 'Bartosz',
+                lastName: 'Bortnik',
+                address: 'Broniewskiego',
+                city: 'Rzeszow',
+                postalArea: '35-206',
+                country: 'PL'
+            })
+            .expect(204)
+            .end(function(err) {
+                if (err) return done(err)
+                impersonate.restore()
+                done()
+            })
+        })
+    })
 })

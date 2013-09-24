@@ -3,7 +3,7 @@ var template = require('./index.html')
 
 module.exports = function() {
     var $el = $('<div class=auth-norwaydeposit>').html(template(_.extend(api.user, {
-        messageToRecipient: api.user.id * 1234
+        messageToRecipient: api.user.tag
     })))
     , controller = {
         $el: $el

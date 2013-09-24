@@ -20,6 +20,11 @@ module.exports = function(after) {
         .fail(function(err) {
             $send.loading(false)
 
+            if (err.name == 'EmailAlreadyVerified') {
+                router.go('account')
+                return
+            }
+
             if (err.name == 'EmailVerificationLockedOut') {
                 alertify.alert(i18n('auth.verifyemail.locked out'), function() {
                     router.go('account')

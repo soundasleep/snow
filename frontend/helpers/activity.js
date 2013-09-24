@@ -10,16 +10,25 @@ function formatFillOrder(details) {
     , price = details.price
     , type = details.type || details.side
 
-    var totalFormatted = numbers.format(details.total, { currency: quote })
-    , priceFormatted = numbers.format(price, { currency: quote })
+    if (price) {
+        var total = num(price).mul(amount).toString()
+        , totalFormatted = numbers.format(total, { currency: quote })
+        , priceFormatted = numbers.format(price, { currency: quote })
 
-    if (type == 'bid') {
-        return i18n('activities.FillOrder.bid', amountFormatted,
+        if (type == 'bid') {
+            return i18n('activities.FillOrder.limit.bid', amountFormatted,
+                totalFormatted, priceFormatted)
+        }
+
+        return i18n('activities.FillOrder.limit.ask', amountFormatted,
             totalFormatted, priceFormatted)
-    }
+    } else {
+        if (type == 'bid') {
+            return i18n('activities.FillOrder.market.bid', amountFormatted, quote)
+        }
 
-    return i18n('activities.FillOrder.ask', amountFormatted,
-        totalFormatted, priceFormatted)
+        return i18n('activities.FillOrder.market.ask', amountFormatted, quote)
+    }
 }
 
 function formatCreateOrder(details) {

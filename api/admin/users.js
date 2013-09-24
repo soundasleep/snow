@@ -207,6 +207,11 @@ exports.buildQuery = function(params) {
     if (params.user_id || params.all) {
         conditions.push(['user_id', params.user_id || params.all ])
     }
+
+    if (params.tag || params.all) {
+        conditions.push(['tag', params.tag || params.all ])
+    }
+
     if (+(params.user_id || params.all)) {
         conditions.push(['user_id', (params.user_id || params.all) / 1234 ])
     }

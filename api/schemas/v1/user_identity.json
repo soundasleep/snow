@@ -19,8 +19,7 @@
         },
         "postalArea": {
             "type": "string",
-            "required": true,
-            "pattern": "^[\\w\\s]+$"
+            "required": true
         },
         "country": {
             "type": "string",

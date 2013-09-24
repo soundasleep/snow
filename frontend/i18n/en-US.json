@@ -1,5 +1,10 @@
 {
     "markets.market.marketorder.bid.summary.fee": "Fee",
+    "settings.twofactor.enabled alert": "Two-factor authentication is now enabled",
+    "activities.FillOrder.limit.bid": "Order to buy %s for %s (%s per) was completed",
+    "activities.FillOrder.limit.ask": "Order to sell %s for %s (%s per) was completed",
+    "activities.FillOrder.market.bid": "Order to buy %s for %s at market price was completed",
+    "activities.FillOrder.market.ask": "Order to sell %s for %s at market price was completed",
     "account.funds.two factor warning": "Please <a href=\"#settings/twofactor\">enable two-factor authentication</a> for your account. <a href=\"#settings/twofactor\">Why?</a>",
     "authorize.otp.prompt": "Two-factor code required:",
     "authorize.otp.invalid format": "Invalid format, six numbers expected. ",

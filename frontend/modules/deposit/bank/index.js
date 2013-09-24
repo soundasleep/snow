@@ -4,7 +4,7 @@ var nav = require('../nav')
 
 module.exports = function() {
     var $el = $('<div class=deposit-bank>').html(template({
-        messageToRecipient: api.user.id * 1234
+        messageToRecipient: api.user.tag
     }))
     , controller = {
         $el: $el

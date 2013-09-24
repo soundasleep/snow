@@ -24,6 +24,7 @@ module.exports = function(router, master, authorize) {
     })
     .add(/^auth\/verifyphone(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user(1)) return
+        if (api.user.phone) return router.after(after)
         master(require('./verifyphone')(after), 'verifyphone')
     })
     .add(/^auth\/norwaydeposit$/, function() {
