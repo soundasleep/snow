@@ -1,4 +1,8 @@
 {
+    "activities.FillOrder.limit.bid": "Ordre for å kjøpe %s for %s (%s per) gjennomført",
+    "activities.FillOrder.limit.ask": "Ordre for å selge %s for %s (%s per) gjennomført",
+    "activities.FillOrder.market.bid": "Ordre for å kjøpe %s for %s til markedspris gjennomført",
+    "activities.FillOrder.market.ask": "Ordre for å selge %s for %s til markedspris gjennomført",
     "account.funds.two factor warning": "Vennligst <a href=\"#settings/twofactor\">skru på fysisk autentisering</a> for kontoen din. <a href=\"#settings/twofactor\">Hvorfor?</a>",
     "authorize.otp.prompt": "Engangspassord kreves (6 tall)",
     "authorize.otp.invalid format": "Feil format. Koden er seks tall. ",
@@ -243,8 +247,6 @@
     "markets.market.depth.columns.bid volume": "Kjøpere",
     "markets.market.depth.columns.price": "Pris",
     "markets.market.depth.columns.ask volume": "Selgere",
-    "activities.FillOrder.bid": "Du kjøpte %s for %s (%s per)",
-    "activities.FillOrder.ask": "Du solgte %s for %s (%s per)",
     "activities.WithdrawComplete": "Uttak av %s fullført",
     "activities.ChangePassword": "Du endret passord",
     "activities.Credit": "Kreditert %s fra et innskudd",
