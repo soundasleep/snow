@@ -67,6 +67,13 @@ api.call = function(method, data, options) {
 
         return error
     })
+    .fail(function(err) {
+        if (err.name == 'SessionNotFound') {
+            $.removeCookie('session', { path: '/' })
+        }
+
+        return err
+    })
 }
 
 api.whoami = function() {
