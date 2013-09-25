@@ -3,6 +3,7 @@ var num = require('num')
 , template = require('./index.html')
 , debug = require('../../../../../helpers/debug')('trade')
 , estimate = require('./estimate')
+, balanceLabel = require('../../../../shared/balance')
 
 module.exports = exports = function(market) {
     var base = market.substr(0, 3)
@@ -124,7 +125,6 @@ module.exports = exports = function(market) {
             })
             .done(function() {
                 $amount.field().focus().val('')
-                $el.find('.available').flash()
 
                 api.depth(market)
                 api.balances()
@@ -153,8 +153,7 @@ module.exports = exports = function(market) {
 
     $el.on('click', '[data-action="spend-all"]', function(e) {
         e.preventDefault()
-        var avail = _.find(api.balances.current, { currency: quote }).available
-        $form.field('amount').val(numbers.format(avail))
+        $form.field('amount').val(numbers.format(api.balances[quote].available))
     })
 
     api.on('balances', function() {
@@ -170,6 +169,11 @@ module.exports = exports = function(market) {
     $amount.field().on('keyup change', function() {
         validate()
     })
+
+    $el.find('.available').replaceWith(balanceLabel({
+        currency: quote,
+        flash: true
+    }).$el)
 
     return controller
 }
