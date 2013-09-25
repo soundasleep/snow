@@ -66,10 +66,12 @@ exports.query = function(app, query, cb) {
         })
     }
 
-    q.p(_.pick(query, 'type', 'userId', 'currency', 'minAmount',
+    q = q.p(_.pick(query, 'type', 'userId', 'currency', 'minAmount',
         'maxAmount', 'minTimestamp', 'maxTimestamp'))
 
-    q = q.limit(query.limit)
+    if (query.limit) {
+        q = q.limit(query.limit)
+    }
 
     app.conn.read.query(q, function(err, dr) {
         if (err) return cb(err)
@@ -81,10 +83,15 @@ exports.query = function(app, query, cb) {
             })
         }
 
-        cb(null, {
+        var sres = {
             count: dr.rows[0].full_row_count,
-            limit: query.limit,
             transactions: dr.rows.map(exports.format.bind(exports, app))
-        })
+        }
+
+        if (query.limit) {
+            sres.limit = query.limit
+        }
+
+        cb(null, sres)
     })
 }

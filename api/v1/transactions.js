@@ -7,52 +7,48 @@ module.exports = exports = function(app) {
     exports.app = app
 }
 
-exports.query = function(userId, skip, cb) {
+exports.index = function(req, res, next) {
+    var skip = req.body.skip ? +req.body.skip : null
     var query = {
-        userId: userId,
+        userId: req.user.id,
         sort: {
             timestamp: 'desc'
         },
-        limit: 20
-    }
-
-    if (skip) {
-        query.skip = skip
+        limit: 20,
+        skip: skip
     }
 
     transactions.query(exports.app, query, function(err, sr) {
-        if (err) return cb(err)
+        if (err) return next(err)
 
-        cb(null, {
+        res.send({
             count: sr.count,
             limit: sr.limit,
             transactions: sr.transactions.map(function(tran) {
                 return _.extend({
-                    amount: tran.creditUserId == userId ? tran.amount : '-' + tran.amount
+                    amount: tran.creditUserId == req.user.id ? tran.amount : '-' + tran.amount
                 }, _.pick(tran, 'id', 'type', 'timestamp', 'date', 'currency'))
             })
         })
     })
 }
 
-exports.index = function(req, res, next) {
-    var skip = req.body.skip ? +req.body.skip : null
-    exports.query(req.user.id, skip, function(err, qres) {
-        if (err) return next(err)
-        res.send(qres)
-    })
-}
-
 exports.csv = function(req, res, next) {
-    var skip = req.query.skip ? +req.query.skip : null
-    exports.query(req.user.id, skip, function(err, qres) {
+    var query = {
+        userId: req.user.id,
+        sort: {
+            timestamp: 'asc'
+        }
+    }
+
+    transactions.query(exports.app, query, function(err, sr) {
         if (err) return next(err)
 
         var csv = [
             ['id', 'type', 'timestamp', 'date', 'currency', 'amount']
         ]
 
-        csv = csv.concat(qres.transactions.map(function(row) {
+        csv = csv.concat(sr.transactions.map(function(row) {
             return [
                 row.id,
                 row.type,
