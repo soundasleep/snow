@@ -69,6 +69,11 @@ module.exports = function() {
             otp: $enableForm.field('otp').val()
         })
         .fail(function(err) {
+            if (err.name == 'TwoFactorAlreadyEnabled') {
+                api.user.twoFactor = true
+                router.go('')
+            }
+
             if (err.name == 'WrongOtp') {
                 $enableForm.find('.otp').addClass('is-wrong has-error')
                 return
@@ -83,7 +88,8 @@ module.exports = function() {
         })
         .done(function() {
             api.user.twoFactor = true
-            router.reload()
+            alertify.log(i18n('settings.twofactor.enabled alert'))
+            router.go('')
         })
     })
 

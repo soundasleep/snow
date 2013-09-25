@@ -74,6 +74,8 @@ module.exports = function(after) {
             }, 2500)
         })
         .fail(function(err) {
+            if (err.name == 'PhoneAlreadyVerified') return router.after(after)
+
             if (err.name == 'LockedOut') {
                 alertify.alert(
                     'Sorry, but you tried to verify your phone not long ago. ' +

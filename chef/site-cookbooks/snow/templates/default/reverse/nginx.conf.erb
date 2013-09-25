@@ -1,8 +1,13 @@
 server {
     listen <%= node[:snow][:reverse][:https_port] %>;
     server_name <%= node[:snow][:reverse][:server_name] %>;
-    access_log /var/log/snow-reverse-access.log;
-    error_log /var/log/snow-reverse-error.log;
+
+    <% unless node[:snow][:reverse][:access_log].nil? %>
+    access_log <%= node[:snow][:reverse][:access_log] %>;
+    <% end %>
+    <% unless node[:snow][:reverse][:error_log].nil? %>
+    error_log <%= node[:snow][:reverse][:error_log] %>;
+    <% end %>
 
     gzip on;
     gzip_http_version 1.1;

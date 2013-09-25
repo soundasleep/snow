@@ -77,12 +77,7 @@ module.exports = function(opts) {
         e.preventDefault()
         var id = +$(this).closest('.withdraw').attr('data-id')
 
-        console.log('???', id)
-
         var item = _.find(lastItems, { id: id })
-
-        console.log('???', lastItems)
-        console.log('???', item)
 
         var modal = require('./confirm')(item)
 
