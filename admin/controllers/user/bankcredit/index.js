@@ -54,9 +54,7 @@ module.exports = function(userId) {
 
     function renderCurrencies() {
         var $currency = $el.find('[name="currency"]')
-        console.log($currency)
         $currency.html($.map(api.currencies.value, function(currency) {
-            console.log(currency)
             if (!currency.fiat) return
             return format('<option value=%s>%s', currency.id, currency.id)
         }))
