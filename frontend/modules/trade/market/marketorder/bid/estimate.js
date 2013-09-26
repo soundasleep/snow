@@ -15,11 +15,9 @@ exports.receive = function(market, desired) {
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
 
     var asks = depth.asks
-    , give = num(0)
     , receive = num(0)
     , remaining = num(desired)
 
-    give.set_precision(quotePrecision)
     receive.set_precision(basePrecision)
     remaining.set_precision(quotePrecision)
 
@@ -31,9 +29,6 @@ exports.receive = function(market, desired) {
             volume: num(level[1]),
             total: num(level[0]).mul(level[1])
         }
-
-        debug('going through level %s @ %s (%s)',
-            level.price, level.volume, level.total)
 
         filled = level.total.gte(remaining)
 
@@ -50,7 +45,7 @@ exports.receive = function(market, desired) {
 
         receive = receive.add(take)
 
-        debug('will take %s from the level', take)
+        debug('%s at %s', take, level.price)
 
         var total = level.price.mul(take)
 
@@ -65,6 +60,11 @@ exports.receive = function(market, desired) {
             return true
         }
     })
+
+    if (filled) {
+        debug('filled! receive %s, remaining %s',
+            receive.toString(), remaining.toString())
+    }
 
     if (filled) return receive.toString()
 }
@@ -85,16 +85,16 @@ exports.summary = function(market, amount, feeRatio) {
 
     var fee = num(receiveAmount)
     .mul(feeRatio)
-    .set_precision(quotePrecision)
+    .set_precision(basePrecision)
 
-    var receiveAfterFee = num(receiveAmount)
-    .mul(num('1.000').sub(fee))
+    var receiveAfterFee = num(receiveAmount).sub(fee)
     .set_precision(basePrecision)
 
     return {
         receive: receiveAmount,
-        receiveAfterFee: receiveAfterFee,
-        fee: fee,
-        price: price
+        receiveAfterFee: receiveAfterFee.toString(),
+        fee: fee.toString(),
+        feeAsQuote: fee.mul(price),
+        price: price.toString()
     }
 }

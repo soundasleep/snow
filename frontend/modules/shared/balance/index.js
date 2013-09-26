@@ -35,7 +35,7 @@ module.exports = function(opts) {
         }))
 
         if (opts.flash) {
-            if (ctrl.last != value) {
+            if (ctrl.last !== null && ctrl.last != value) {
                 ctrl.$el.flash()
             }
             ctrl.last = value

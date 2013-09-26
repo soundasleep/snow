@@ -1,4 +1,5 @@
 {
+    "trade.market.order placed": "Your order was placed.",
     "markets.market.marketorder.bid.summary.fee": "Fee",
     "settings.twofactor.enabled alert": "Two-factor authentication is now enabled",
     "activities.FillOrder.limit.bid": "Order to buy %s for %s (%s per) was completed",

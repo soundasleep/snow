@@ -1,4 +1,8 @@
 {
+    "trade.market.order placed": "Ordren ble plassert.",
+    "markets.market.marketorder.bid.summary.fee": "Avgift",
+    "trade.nav.instant": "Ekspress",
+    "trade.nav.advanced": "Avansert",
     "settings.twofactor.enabled alert": "Fysisk autentisering er nå skrudd på.",
     "activities.FillOrder.limit.bid": "Ordre for å kjøpe %s for %s (%s per) gjennomført",
     "activities.FillOrder.limit.ask": "Ordre for å selge %s for %s (%s per) gjennomført",
