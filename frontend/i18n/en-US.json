@@ -1,6 +1,7 @@
 {
     "trade.market.order placed": "Your order was placed.",
     "markets.market.marketorder.bid.summary.fee": "Fee",
+    "account.transactions.download csv": "Download as CSV",
     "settings.twofactor.enabled alert": "Two-factor authentication is now enabled",
     "activities.FillOrder.limit.bid": "Order to buy %s for %s (%s per) was completed",
     "activities.FillOrder.limit.ask": "Order to sell %s for %s (%s per) was completed",

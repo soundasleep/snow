@@ -8,6 +8,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export KNIFE_ENV=$1
 source $DIR/settings.sh
 
+knife environment from file $1.json
 knife role from file roles/$2.rb
 
 knife cookbook upload -a
