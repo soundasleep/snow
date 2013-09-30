@@ -103,6 +103,20 @@ exports.whoami = function(req, res, next) {
 	})
 }
 
+exports.beginCreate = function(req, res, next) {
+    if (!req.app.validate(req.body, 'v1/user_begin_create', res)) return
+
+    req.app.conn.write.query({
+        text: 'SELECT begin_create_user($1, $2) user_id',
+        values: [req.body.email, req.body.key]
+    }, function(err, dr) {
+        if (err) {
+            return next(err)
+        }
+
+
+}
+
 exports.create = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/user_create', res)) return
 
@@ -353,3 +367,4 @@ exports.tropo = function(req, res) {
 
     res.send(tropoJSON)
 }
+
