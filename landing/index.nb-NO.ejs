@@ -5,6 +5,7 @@
     <title>Justcoin · Sikker Bitcoin-exchange fra Norge (EUR, NOK)</title>
     <meta name="description" content="Kjøp, selg og bytt Bitcoin til rimelige priser på Justcoin, den sikre Bitcoin-exchangen fra Norge. Lag en Bitcoin-wallet og veksle euro/nok til BTC.">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <style>
         <% include build/styles.min.css %>
@@ -41,16 +42,12 @@
     </div>
 
     <div class="header-background top">
-        <!-- Market prices (BTC/NOK) -->
         <div class="row-fluid tickers">
             <div class="span12" style="text-align:center;color:#fff;">
                 <!-- Login for tablet and desktop -->
-                <a class="btn-login hidden-phone" href="/client/#auth/login">Logg inn</a>
-
-                <div style="float:left;margin-top:10px" class="visible-fetched-markets">
-                    <a href="#" data-action="show-chart" class="hidden-showing-chart">Vis graf</a>
-                    <a href="#" data-action="hide-chart" class="visible-showing-chart">Skjul graf</a>
-                </div>
+                <a href="#" data-action="show-chart" class="hidden-showing-chart">Vis graf</a>
+                <a href="#" data-action="hide-chart" class="visible-showing-chart">Skjul graf</a>
+                <a class="btn-login hidden-phone" href="/client/#login">Logg inn</a>
 
                 <select class="ticker-stock"></select>:
                 <span class="ticker-type">Siste:</span>
@@ -64,20 +61,7 @@
             </div>
         </div>
 
-        <!-- Logo for phones -->
-        <div class="logo-top visible-phone row" style="padding-top:25px;">
-            <div class="span12" style="text-align:center;">
-                <img src="justcoin.png" alt="Justcoin">
-            </div>
-        </div>
-
-        <!-- Tagline -->
-        <div class="logo-background">
-            <div class="row">
-                <div class="logo offset1 span6 hidden-phone">
-                    <img src="justcoin.png" alt="Justcoin">
-                </div>
-            </div>
+        <div class="promotion" style="background:url(promotion-no.jpg)">
         </div>
     </div>
 
@@ -86,18 +70,17 @@
         <div class="row">
             <div class="span12" style="text-align:center;">
                 <a class="btn btn-large btn-success signup-main" href="/client/#auth/register" style=
-                "padding: 1.5em 2em 1.5em 2em;font-size:1.5em;">Registrer deg nå</a>
+                "padding: 1.5em 2em 1.5em 2em;font-size:1.5em;">Registrer nå</a>
             </div>
         </div>
 
         <!-- Logo for phones -->
         <div class="row visible-phone " style="text-align:center">
             <span class="span12">
-                <a class="btn login-phone" href="/client/#auth/login">Logg inn</a>
+                <a class="btn login-phone" href="/client/#login">Logg inn</a>
             </span>
         </div>
     </div>
-
 
     <!-- Selling points -->
     <div class="container marketing">
@@ -105,9 +88,9 @@
             <!-- Secure -->
             <div class="span4 text-center">
                 <p style="font-size:8em;color:#333;"><em class="icon-lock icon-large"></em></p>
-                <h2>Trygt</h2>
+                <h2>Sikkert</h2>
 
-                <p>Vi bruker oppdaterte sikkerhetssystemer for å unngå misbruk. Vi oppbevarer beholdningen offline.</p>
+                <p>Vi bruker pålitelige sikkerhetsprosedyrer for å sikre midler. All kommunikasjon med Justcoin er enkryptert og godkjent. Dine <strong>bitcoins</strong> er lagret i deep cold storage.</p>
             </div>
 
             <!-- Fair -->
@@ -115,9 +98,11 @@
                 <p style="font-size:8em;color:#333;"><em class=
                 "icon-bitcoin icon-large"></em></p>
 
-                <h2>Rettferdig</h2>
+                <h2>Lave avgifter</h2>
 
-                <p>0.5% provisjon på alle handler. Ingen skjulte kostnader.</p>
+                <p>
+                    Det er kun 0.5% avgift ved kjøp og salg av bitcoins. Om du handler mot EUR, er det gratis ut 2013! Ingen skjulte avgifter.
+                </p>
             </div>
 
             <!-- Support -->
@@ -125,9 +110,9 @@
                 <p style="font-size:8em;color:#333;"><em class=
                 "icon-user icon-large"></em></p>
 
-                <h2>Personlig</h2>
+                <h2>Support på norsk</h2>
 
-                <p>Rask og vennlig support. Alle henvendelser blir håndtert av mennesker.</p>
+                <p>Uansett hva det måtte være får du alltid hjelp av et menneske som snakker norsk. Vi er her for deg!</p>
             </div>
         </div>
 
