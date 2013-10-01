@@ -209,6 +209,12 @@ api.balances = function() {
     return api.call('v1/balances')
     .done(function(balances) {
         api.balances.current = balances
+
+        _.each(balances, function(item) {
+            api.balances[item.currency] = item
+            api.trigger('balances:' + item.currency, item)
+        })
+
         api.trigger('balances', balances)
     })
 }
@@ -274,6 +280,8 @@ api.depth = function(id) {
         api.depth[id] = depth
         api.trigger('depth', { market: id, depth: depth })
         api.trigger('depth:'+ id, depth)
+
+        return depth
     })
 }
 
