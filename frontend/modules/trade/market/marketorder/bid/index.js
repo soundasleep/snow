@@ -19,7 +19,7 @@ module.exports = exports = function(market) {
     , $amount = $el.find('.amount')
     , $submit = $form.find('button[type="submit"]')
     , depth
-    , feeRatio = 0.005
+    , feeRatio = market == 'BTCEUR' ? 0 : 0.005
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
     , basePrecision = _.find(api.currencies.value, { id: base }).scale
 
@@ -151,12 +151,19 @@ module.exports = exports = function(market) {
         .html(numbers.format(summary.price, { precision: 3, currency: quote }))
         .attr('title', numbers.format(summary.price, { precision: 3, currency: quote }))
 
-        $summary.find('.fee')
-        .html(numbers.format(summary.feeAsQuote, { precision: 3, currency: quote }))
-        .attr('title', numbers.format(summary.feeAsQuote, {
-            precision: quotePrecision,
-            currency: quote
-        }))
+        if (feeRatio === 0) {
+            $summary.find('.fee')
+            .css('color', 'green')
+            .css('font-weight', 'bold')
+            .html('FREE')
+        } else {
+            $summary.find('.fee')
+            .html(numbers.format(summary.feeAsQuote, { precision: 3, currency: quote }))
+            .attr('title', numbers.format(summary.feeAsQuote, {
+                precision: quotePrecision,
+                currency: quote
+            }))
+        }
 
         $summary.find('.receive-quote')
         .html(numbers(summary.receiveAfterFee, { precision: 3, currency: base }))
