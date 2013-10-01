@@ -19,9 +19,7 @@ module.exports = function(id) {
     function onDepth(depth) {
         // Bids (sorted and capped)
         $depth.find('.bids-depth')
-        .find('tbody').html($.map(depth.bids.sort(function(a, b) {
-            return a.price - b.price
-        }).slice(0, maxLevels), function(level) {
+        .find('tbody').html($.map(depth.bids.slice(0, maxLevels), function(level) {
             return priceTemplate({
                 price: level[0],
                 volume: level[1]
@@ -30,9 +28,7 @@ module.exports = function(id) {
 
         // Asks
         $depth.find('.asks-depth')
-        .find('tbody').html($.map(depth.asks.sort(function(a, b) {
-            return b.price - a.price
-        }).slice(0, maxLevels), function(level) {
+        .find('tbody').html($.map(depth.asks.slice(0, maxLevels), function(level) {
             return priceTemplate({
                 price: level[0],
                 volume: level[1]
