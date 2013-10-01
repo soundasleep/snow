@@ -12,50 +12,6 @@ em.icon-large {
   height 1em
 }
 
-/* CUSTOMIZE THE NAVBAR
--------------------------------------------------- */
-
-/* Special class on .container surrounding .navbar, used for positioning it into place. */
-.navbar-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  margin-top: 20px;
-  margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
-}
-.navbar-wrapper .navbar {
-
-}
-
-/* Remove border and change up box shadow for more contrast */
-.navbar .navbar-inner {
-  border: 0;
-  -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
-     -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
-          box-shadow: 0 2px 10px rgba(0,0,0,.25);
-}
-
-/* Downsize the brand/project name a bit */
-.navbar .brand {
-  padding: 14px 20px 16px; /* Increase vertical padding to match navbar links */
-  font-size: 16px;
-  font-weight: bold;
-  text-shadow: 0 -1px 0 rgba(0,0,0,.5);
-}
-
-/* Navbar links: increase padding for taller navbar */
-.navbar .nav > li > a {
-  padding: 15px 20px;
-}
-
-/* Offset the responsive button for proper vertical alignment */
-.navbar .btn-navbar {
-  margin-top: 10px;
-}
-
-
 /* MARKETING CONTENT
 -------------------------------------------------- */
 
@@ -106,24 +62,6 @@ em.icon-large {
 -------------------------------------------------- */
 
 @media (max-width: 979px) {
-
-  .container.navbar-wrapper {
-    margin-bottom: 0;
-    width: auto;
-  }
-  .navbar-inner {
-    border-radius: 0;
-    margin: -20px 0;
-  }
-
-  .carousel .item {
-    height: 500px;
-  }
-  .carousel img {
-    width: auto;
-    height: 500px;
-  }
-
   .featurette {
     height: auto;
     padding: 0;
@@ -164,29 +102,28 @@ em.icon-large {
 .header-background {
   background: #388eb2 url(norway.jpg);
   background-repeat:no-repeat;
-  height:600px;
+  height:601px;
   background-position:center top;
   margin-bottom: 60px;
+  position relative
 }
 
 .header {
   text-shadow:0 1px 1px rgba(0,0,0,.4);
   color:#fff;
   max-width:680px;
-  //margin-top:122px;
-  //margin-left:100px;
 }
 
 .logo {
-  margin-top 14px
-  margin-bottom 14px
-
 }
 
-.logo-background
-  margin-top 154px;
-  background rgba(54, 25, 25, .5)
-  max-width 550px
+.promotion
+  height 601px
+  width 327px
+  position absolute
+  top 0
+  left 30px
+  margin-left 10px
 
 .btn-login, .btn-login:hover {
   display: block;
@@ -200,6 +137,10 @@ em.icon-large {
 .tickers
   visibility hidden
   text-shadow: 0 0 2px rgba(0,0,0,0.3);
+  position absolute
+  top 0
+  left 0
+  z-index 10000
 
 .ticker-stock {
   border 0
@@ -222,7 +163,7 @@ em.icon-large {
 
   .header-background {
     margin: 0 -20px 40px;
-    height:400px;
+    //height:400px;
   }
 
   .header {

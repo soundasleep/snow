@@ -1,5 +1,4 @@
-<tr class="price">
-    <td class="bid"><%= type == 'bid' ? numbers(volume, { trim: false }) : '' %></td>
+<tr class="level">
     <td class="price"><%= numbers(price, { trim: false }) %></td>
-    <td class="ask"><%= type == 'ask' ? numbers(volume, { trim: false }) : '' %></td>
+    <td class="volume"><%= numbers(volume, { trim: false }) %></td>
 </tr>

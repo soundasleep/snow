@@ -10,7 +10,7 @@
     //        font-size 1.15em
     //
 
-    .amount, .spend
+    .amount
         states insufficient-funds precision-too-high
 
     .market-order, .limit-order
@@ -21,12 +21,19 @@
             states precision-too-high
 
     .market-order
-        .spend
-            states too-deep too-small
+        .bid
+            .amount
+                states insufficient-funds precision-too-high too-deep too-small
 
         .ask
             .sell
                 states too-deep insufficient-funds precision-too-high
+
+    .market-order, .limit-order
+        .bid, .ask
+            .order-summary
+                td
+                    text-align right
 
 //    .ask, .bid
 //        .available-container

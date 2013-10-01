@@ -95,33 +95,44 @@ $.fn.valOrNull = function(val) {
     return $(this).val().trim() || null
 }
 
-$.fn.validate = function(emptyIsError) {
+$.fn.validate = function(submitting) {
     var $this = $(this)
-    , error
+    , valid = true
 
     if (this[0].tagName == 'FORM') {
         var $groups = $this.find('.form-group')
+
         _.each($groups, function(x) {
-            error |= !$(x).validate(emptyIsError)
+            if (!$(x).validate(submitting)) {
+                valid = false
+            }
         })
-        if (error) {
+
+        if (!valid && submitting) {
             $this.find('.has-error .form-control:first').focus()
             $this.find('button[type="submit"]').shake()
         }
-    } else {
-        var check = this[0].check || function() {
-            return !val.match(new RegExp($field.attr('data-regex')))
-        }
-        , $field = $this.field()
-        , val = $field.val()
-        , empty = val.length === 0
-        , invalid = empty ? emptyIsError : check()
-        error = empty ? emptyIsError : invalid
 
-        $this
-        .toggleClass('is-empty', empty)
-        .toggleClass('is-invalid', !empty && invalid)
-        .toggleClass('has-error', error)
+        return valid
     }
-    return !error
+
+    var check = this[0].check || function() {
+        return !val.match(new RegExp($field.attr('data-regex')))
+    }
+    , $field = $this.field()
+
+    var val = $field.val()
+    , empty = val.length === 0
+
+    if (empty) {
+        valid = !submitting
+    } else {
+        valid = !!check(val, submitting)
+        $this.toggleClass('is-invalid', valid)
+    }
+
+    $this.toggleClass('is-empty', empty)
+    .toggleClass('has-error', !valid)
+
+    return valid
 }

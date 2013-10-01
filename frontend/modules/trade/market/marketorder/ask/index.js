@@ -78,7 +78,9 @@ module.exports = function(market) {
         }
 
         // Subtract fee
-        receive = receive.mul('0.995')
+        if (market != 'BTCEUR') {
+            receive = receive.mul('0.995')
+        }
 
         var effectivePrice = receive.div(sell)
         effectivePrice.set_precision(pricePrecision)

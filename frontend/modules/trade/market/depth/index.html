@@ -7,15 +7,47 @@
                         <%- i18n('markets.market.depth.columns.bid volume') %>
                     </th>
                     <th>
-                        <%= i18n('markets.market.depth.columns.price') %>
-                        (<%= id.substr(3) %>)
-                    </th>
-                    <th>
                         <%- i18n('markets.market.depth.columns.ask volume') %>
                     </th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>
+                        <table class="bids-depth table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <%= i18n('markets.market.depth.columns.price') %>
+                                        <small style="font-size:0.65em"><%- id.substr(3) %></small>
+                                    </th>
+                                    <th>
+                                        <%= i18n('amount') %>
+                                        <small style="font-size:0.65em"><%- id.substr(0, 3) %></small>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <table class="asks-depth table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <%= i18n('markets.market.depth.columns.price') %>
+                                        <small style="font-size:0.65em"><%- id.substr(3) %></small>
+                                    </th>
+                                    <th>
+                                        <%= i18n('amount') %>
+                                        <small style="font-size:0.65em"><%- id.substr(0, 3) %></small>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
