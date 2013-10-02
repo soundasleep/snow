@@ -1,4 +1,5 @@
 var template = require('./index.html')
+, validation = require('../../../../helpers/validation')
 
 module.exports = function() {
     var $el = $('<div class=account-bankaccounts-addnorway>')
@@ -7,6 +8,8 @@ module.exports = function() {
         $el: $el
     }
     , $modal = $el.find('.modal')
+    , $form = $el.find('form')
+    , $submit = $form.find('[type="submit"]')
 
     ctrl.destroy = function() {
         $modal.modal('hide')
@@ -22,25 +25,37 @@ module.exports = function() {
         backdrop: 'static'
     })
 
+    var validateAccount = validation.fromRegex(
+        $el.find('.account-number'), /^[0-9]{11}$/)
+    validation.monitorField($el.field('accountNumber'), validateAccount)
+
+    var validate = validation.fromFields({
+        accountNumber: validateAccount
+    })
+
     $el.on('submit', 'form', function(e) {
         e.preventDefault()
 
-        if (!$el.find('form').validate(true)) {
-            return
-        }
-
-        var $btn = $el.find('[type="submit"]')
-        .loading(true)
-
-        api.call('v1/bankAccounts', {
-            accountNumber: $el.field('accountNumber').val()
+        validate(true)
+        .fail(function() {
+            $form.find('.has-error:first').field().focus()
+            $submit.shake()
         })
-        .always(function() {
-            $btn.loading(false)
-        })
-        .fail(errors.alertFromXhr)
-        .done(function() {
-            history.go(-1)
+        .done(function(values) {
+            if (!values.accountNumber) return
+
+            $submit.loading(true)
+
+            api.call('v1/bankAccounts', {
+                accountNumber: values.accountNumber
+            })
+            .always(function() {
+                $submit.loading(false)
+            })
+            .fail(errors.alertFromXhr)
+            .done(function() {
+                history.go(-1)
+            })
         })
     })
 
