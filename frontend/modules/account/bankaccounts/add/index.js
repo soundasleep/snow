@@ -1,12 +1,15 @@
 var template = require('./index.html')
+, validation = require('../../../../helpers/validation')
 
 module.exports = function() {
-    var $el = $('<div class=account-bankaccounts-addnorway>')
+    var $el = $('<div class=account-bankaccounts-add>')
     .html(template())
     , ctrl = {
         $el: $el
     }
     , $modal = $el.find('.modal')
+    , $form = $el.find('form')
+    , $submit = $form.find('[type="submit"]')
 
     ctrl.destroy = function() {
         $modal.modal('hide')
@@ -22,26 +25,41 @@ module.exports = function() {
         backdrop: 'static'
     })
 
+    var validateIban = validation.fromRegex($el.find('.iban'), /^[A-Za-z0-9 ]{1,35}$/)
+    validation.monitorField($el.field('iban'), validateIban)
+
+    var validateSwift = validation.fromRegex($el.find('.swift'), /^[A-Za-z0-9 ]{1,15}$/)
+    validation.monitorField($el.field('swift'), validateSwift)
+
+    var validate = validation.fromFields({
+        iban: validateIban,
+        swift: validateSwift
+    })
+
     $el.on('submit', 'form', function(e) {
         e.preventDefault()
 
-        if (!$el.find('form').validate(true)) {
-            return
-        }
-
-        var $btn = $el.find('[type="submit"]')
-        .loading(true)
-
-        api.call('v1/bankAccounts', {
-            iban: $el.field('iban').val(),
-            swiftbic: $el.field('swiftbic').val()
+        validate(true)
+        .fail(function() {
+            $form.find('.has-error:first').field().focus()
+            $submit.shake()
         })
-        .always(function() {
-            $btn.loading(false)
-        })
-        .fail(errors.alertFromXhr)
-        .done(function() {
-            history.go(-1)
+        .done(function(values) {
+            if (!values.iban || !values.swift) return
+
+            $submit.loading(true)
+
+            return api.call('v1/bankAccounts', {
+                iban: values.iban,
+                swiftbic: values.swift
+            })
+            .always(function() {
+                $submit.loading(false)
+            })
+            .fail(errors.alertFromXhr)
+            .done(function() {
+                history.go(-1)
+            })
         })
     })
 

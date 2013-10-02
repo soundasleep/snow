@@ -1,6 +1,7 @@
 var template = require('./index.html')
 , nav = require('../nav')
 , base32 = require('thirty-two')
+, validation = require('../../../helpers/validation')
 
 function generate_key_ascii(length) {
     var set = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'
@@ -30,66 +31,76 @@ module.exports = function() {
 
     $el.find('.settings-nav').replaceWith(nav('twofactor').$el)
 
+    var validateEnableOtp = validation.fromRegex(
+        $enableForm.find('.otp'),
+        /^[0-9]{6}$/)
+    validation.monitorField($enableForm.field('otp'), validateEnableOtp)
+
+    var validateDisableOtp = validation.fromRegex(
+        $disableForm.find('.otp'),
+        /^[0-9]{6}$/)
+    validation.monitorField($disableForm.field('otp'), validateDisableOtp)
+
     $disableForm.on('submit', function(e) {
         e.preventDefault()
 
-        if (!$disableForm.validate(true)) return
+        validateDisableOtp(true)
+        .done(function(otp) {
+            api.call('v1/twofactor/remove', {
+                otp: otp
+            })
+            .fail(function(err) {
+                if (err.name == 'WrongOtp') {
+                    $disableForm.find('.otp').addClass('is-wrong has-error')
+                    return
+                }
 
-        api.call('v1/twofactor/remove', {
-            otp: $disableForm.field('otp').val()
-        })
-        .fail(function(err) {
-            if (err.name == 'WrongOtp') {
-                $disableForm.find('.otp').addClass('is-wrong has-error')
-                return
-            }
+                if (err.name == 'BlockedOtp') {
+                    $disableForm.find('.otp').addClass('is-locked-out has-error')
+                    return
+                }
 
-            if (err.name == 'BlockedOtp') {
-                $disableForm.find('.otp').addClass('is-locked-out has-error')
-                return
-            }
-
-            errors.alertFromXhr(err)
-        })
-        .done(function() {
-            api.user.twoFactor = false
-            router.reload()
+                errors.alertFromXhr(err)
+            })
+            .done(function() {
+                api.user.twoFactor = false
+                router.reload()
+            })
         })
     })
 
     $enableForm.on('submit', function(e) {
         e.preventDefault()
 
-        $enableForm.find('.otp').removeClass('is-locked-out is-wrong')
+        validateEnableOtp(true)
+        .done(function(otp) {
+            api.call('v1/twofactor/enable', {
+                key: $enableForm.field('secret').val(),
+                otp: otp
+            })
+            .fail(function(err) {
+                if (err.name == 'TwoFactorAlreadyEnabled') {
+                    api.user.twoFactor = true
+                    router.go('')
+                }
 
-        if (!$enableForm.validate(true)) return
+                if (err.name == 'WrongOtp') {
+                    $enableForm.find('.otp').addClass('is-wrong has-error')
+                    return
+                }
 
-        api.call('v1/twofactor/enable', {
-            key: $enableForm.field('secret').val(),
-            otp: $enableForm.field('otp').val()
-        })
-        .fail(function(err) {
-            if (err.name == 'TwoFactorAlreadyEnabled') {
+                if (err.name == 'BlockedOtp') {
+                    $enableForm.find('.otp').addClass('is-locked-out has-error')
+                    return
+                }
+
+                errors.alertFromXhr(err)
+            })
+            .done(function() {
                 api.user.twoFactor = true
+                alertify.log(i18n('settings.twofactor.enabled alert'))
                 router.go('')
-            }
-
-            if (err.name == 'WrongOtp') {
-                $enableForm.find('.otp').addClass('is-wrong has-error')
-                return
-            }
-
-            if (err.name == 'BlockedOtp') {
-                $enableForm.find('.otp').addClass('is-locked-out has-error')
-                return
-            }
-
-            errors.alertFromXhr(err)
-        })
-        .done(function() {
-            api.user.twoFactor = true
-            alertify.log(i18n('settings.twofactor.enabled alert'))
-            router.go('')
+            })
         })
     })
 
