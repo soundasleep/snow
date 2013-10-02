@@ -37,7 +37,7 @@ module.exports = function(market) {
 
     controller.destroy = function() {
         bid.destroy && bid.destroy()
-        ask.destroy()
+        ask.destroy && ask.destroy()
     }
 
     controller.setOrderType = setOrderType

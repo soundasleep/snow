@@ -1,4 +1,5 @@
 {
+    "markets.market.marketorder.ask.summary.fee": "Fee",
     "trade.market.order placed": "Your order was placed.",
     "markets.market.marketorder.bid.summary.fee": "Fee",
     "account.transactions.download csv": "Download as CSV",

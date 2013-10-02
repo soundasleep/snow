@@ -1,4 +1,5 @@
 {
+    "markets.market.marketorder.ask.summary.fee": "Avgift",
     "trade.market.order placed": "Ordren ble plassert.",
     "markets.market.marketorder.bid.summary.fee": "Avgift",
     "trade.nav.instant": "Ekspress",

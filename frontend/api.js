@@ -223,6 +223,12 @@ api.currencies = function() {
     return api.call('v1/currencies')
     .done(function(currencies) {
         api.currencies.value = currencies
+
+        _.each(currencies, function(item) {
+            api.currencies[item.id] = item
+            api.trigger('currencies:' + item.id, item)
+        })
+
         api.trigger('currencies', currencies)
     })
 }
@@ -265,6 +271,12 @@ api.markets = function() {
     return api.call('v1/markets')
     .then(function(markets) {
         api.markets.value = markets
+
+        _.each(markets, function(item) {
+            api.markets[item.id] = item
+            api.trigger('markets:' + item.id, item)
+        })
+
         api.trigger('markets', markets)
     })
 }
