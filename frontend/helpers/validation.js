@@ -43,11 +43,6 @@ exports.monitorField = function($field, validator) {
     $field.on('change', function() {
         validator()
     })
-
-    $field.on('keyup', function(e) {
-        if (~[13, 7, 27].indexOf(e.which)) return
-        validator()
-    })
 }
 
 exports.fromFields = function(fields) {
