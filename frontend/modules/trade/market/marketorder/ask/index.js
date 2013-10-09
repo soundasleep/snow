@@ -1,133 +1,101 @@
+/* global -confirm */
 var num = require('num')
 , template = require('./index.html')
-, debug = require('../../../../../helpers/debug')('trade')
 , estimate = require('./estimate')
 , balanceLabel = require('../../../../shared/balance')
+, validation = require('../../../../../helpers/validation')
+, confirm = require('../../../../shared/modals/confirm')
 
 module.exports = function(market) {
     var base = market.substr(0, 3)
     , quote = market.substr(3, 3)
-    , feeRatio = market == 'BTCEUR' ? 0 : 0.005
+    , feeRatio = api.feeRatio(market)
+    , amountPrec = api.currencies[base].scale - api.markets[market].scale
     , $el = $('<div class="ask">').html(template({
         base: base,
         quote: quote
     }))
-    , depth
     , $form = $el.find('form')
-    , $submit = $form.find('button[type="submit"]')
+    , $submit = $form.find('[type="submit"]')
     , $amount = $el.find('.amount')
     , ctrl = {
         $el: $el
     }
 
-    function validateAmount(submitting) {
-        $amount.removeClasses(/^(is|has)/)
+    // Validation
+    var validateAmount = validation.fromFn($el.find('.amount'), function(d, val) {
+        val = numbers.parse(val)
 
-        var amount = $amount.field().val()
-        , validator = $.Deferred()
-        .fail(function(code) {
-            $amount.addClass('has-error ' + code)
-        })
+        if (!val || val < 0) return d.reject('is-invalid')
 
-        // Allow empty unless submitting
-        if (!amount.length && submitting !== true) return validator.resolve()
-
-        // Validate format
-        amount = numbers.parse(amount)
-
-        if (!amount || amount <= 0) return validator.reject('is-invalid')
-
-        try {
-            amount = num(amount)
-        } catch (e) {
-            return validator.reject('is-invalid')
+        if (num(val).get_precision() > amountPrec) {
+            return d.reject('is-precision-too-high')
         }
 
-        // Check for available funds
-        if (amount.gt(api.balances[quote].available)) {
-            return validator.reject('has-insufficient-funds')
-        }
+        var avail = api.balances[base].available
 
-        if (amount.get_precision() > api.currencies[quote].scale) {
-            return validator.reject('is-precision-too-high')
-        }
+        if (num(val).gt(avail)) return d.reject('has-insufficient-funds')
 
-        amount.set_precision(api.currencies[quote].scale)
+        if (!estimate.receive(market, val)) return d.reject('is-too-deep')
 
-        var receive = estimate.receive(market, amount)
-        if (!receive) return validator.reject('is-too-deep')
+        return d.resolve(val)
+    })
 
-        return validator.resolve(amount.toString())
-    }
+    validation.monitorField($el.field('amount'), validateAmount)
 
-    function validate(submitting) {
-        return validateAmount(submitting)
-        .fail(function() {
-            if (submitting === true) {
-                $form.find('.has-error:first').field().focus()
-                $submit.shake()
-            }
-        })
-        .always(summarize)
-    }
+    var validate = validation.fromFields({
+        amount: validateAmount
+    })
 
-    function confirm(text) {
-        var deferred = $.Deferred()
+    // Update summary whenever a field is changed
+    $form.on('keyup change', '.form-control', summarize)
 
-        alertify.confirm(text, function(ok) {
-            deferred.resolve(ok)
-        })
-
-        return deferred
-    }
-
-    function amount() {
-        return numbers.parse($amount.field().val())
-    }
+    // Available label
+    $el.find('.available').replaceWith(balanceLabel({
+        currency: base,
+        flash: true
+    }).$el)
 
     $form.on('submit', function(e) {
         e.preventDefault()
 
-        validate(true)
-        .then(function() {
-            var receive = estimate.receive(market, amount())
+        $form.addClass('is-loading')
 
+        validate(true)
+        .always(function() {
+            $form.removeClass('is-loading')
+            $amount.field().focus()
+        })
+        .then(function(values) {
             var confirmText = i18n(
-                'markets.market.marketorder.bid.confirm',
-                base,
-                numbers($amount.field().parseNumber(), { currency: quote }),
-                numbers(receive, { currency: base }))
+                'markets.market.marketorder.ask.confirm',
+                numbers(values.amount, { currency: base }))
 
             return confirm(confirmText)
+            .then(function() {
+                return values
+            })
         })
-        .done(function(ok) {
-            if (!ok) return
-
-            $submit.loading(true, i18n('markets.market.marketorder.bid.placing order'))
-            $form.addClass('is-loading')
+        .done(function(values) {
+            $submit.loading(true, i18n('markets.market.marketorder.ask.placing order'))
 
             api.call('v1/orders', {
                 market: market,
                 type: 'ask',
-                amount: $amount.field().parseNumber(),
+                amount: num(values.amount).mul(num('1.0000').sub(feeRatio)).toString(),
                 price: null
             })
             .always(function() {
                 $submit.loading(false)
-                $form.removeClass('is-loading')
             })
-            .fail(function(err) {
-                errors.alertFromXhr(err)
-            })
+            .fail(errors.alertFromXhr)
             .done(function() {
                 api.depth(market)
                 api.balances()
 
                 alertify.log(i18n('trade.market.order placed'))
-                //router.go('trade/orders')
 
-                $amount.field().focus().val('')
-
+                $amount.field().val('')
             })
         })
     })
@@ -150,7 +118,10 @@ module.exports = function(market) {
 
         $summary.find('.receive-price')
         .html(numbers.format(summary.price, { precision: 3, currency: quote }))
-        .attr('title', numbers.format(summary.price, { precision: 3, currency: quote }))
+        .attr('title', numbers.format(summary.price, {
+            precision: api.markets[market].scale,
+            currency: quote
+        }))
 
         if (feeRatio === 0) {
             $summary.find('.fee')
@@ -159,16 +130,16 @@ module.exports = function(market) {
             .html('FREE')
         } else {
             $summary.find('.fee')
-            .html(numbers.format(summary.fee, { precision: 3, currency: quote }))
+            .html(numbers.format(summary.fee, { precision: 4, currency: base }))
             .attr('title', numbers.format(summary.fee, {
-                precision: api.currencies[quote].scale,
-                currency: quote
+                precision: api.currencies[base].scale,
+                currency: base
             }))
         }
 
         $summary.find('.receive-quote')
-        .html(numbers(summary.receiveAfterFee, { precision: 3, currency: quote }))
-        .attr('title', numbers(summary.receiveAfterFee, {
+        .html(numbers.format(summary.receive, { precision: 3, currency: quote }))
+        .attr('title', numbers.format(summary.receive, {
             precision: api.currencies[quote].scale,
             currency: quote
         }))
@@ -176,25 +147,14 @@ module.exports = function(market) {
 
     $el.on('click', '[data-action="sell-all"]', function(e) {
         e.preventDefault()
-        $form.field('amount')
-        .val(numbers.format(api.balances[base].available, {
-            maxPrecision: api.currencies[base].scale - api.markets[market].scale
+        $el.field('amount')
+        .val(numbers(num(api.balances[base].available), {
+            thousands: false,
+            maxPrecision: amountPrec,
+            trim: true
         }))
         .trigger('change')
     })
-
-    function onBalance() {
-        validate()
-    }
-
-    function onDepth(x) {
-        depth = x
-        debug('re-validating on depth update...')
-        validate()
-    }
-
-    api.on('balances:' + quote, onBalance)
-    api.on('depth:' + market, onDepth)
 
     $amount.field().on('keyup change', validate)
 
@@ -203,9 +163,10 @@ module.exports = function(market) {
         flash: true
     }).$el)
 
+    api.on('depth:' + market, summarize)
+
     $el.on('remove', function() {
-        api.off('balances:' + quote, onBalance)
-        api.off('depth:' + market, onDepth)
+        api.off('depth:' + market, summarize)
     })
 
     $amount.field().focusSoon()

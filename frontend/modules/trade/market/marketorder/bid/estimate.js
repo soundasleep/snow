@@ -11,15 +11,15 @@ exports.receive = function(market, desired) {
     var base = market.substr(0, 3)
     , quote = market.substr(3)
     , baseCurrency = _.find(api.currencies.value, { id: base })
-    , basePrecision = baseCurrency.scale
-    , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
+    , basePrec = baseCurrency.scale
+    , quotePrec = _.find(api.currencies.value, { id: quote }).scale
 
     var asks = depth.asks
     , receive = num(0)
     , remaining = num(desired)
 
-    receive.set_precision(basePrecision)
-    remaining.set_precision(quotePrecision)
+    receive.set_precision(basePrec)
+    remaining.set_precision(quotePrec)
 
     var filled
 
@@ -66,35 +66,36 @@ exports.receive = function(market, desired) {
             receive.toString(), remaining.toString())
     }
 
-    if (filled) return receive.toString()
+    if (filled) {
+        return {
+            amount:  receive.toString(),
+            remaining: remaining
+        }
+    }
 }
 
 exports.summary = function(market, amount, feeRatio) {
-    var receiveAmount = exports.receive(market, amount)
-    , base = market.substr(0, 3)
+    var receive = exports.receive(market, amount)
     , quote = market.substr(3)
-    , basePrecision = _.find(api.currencies.value, { id: base }).scale
-    , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
+    , quotePrec = api.currencies[quote].scale
 
-    if (+receiveAmount <= 0) return null
+    if (!receive) return null
 
     var price = num(amount)
-    .set_precision(quotePrecision)
-    .div(receiveAmount)
+    .sub(receive.remaining)
+    .set_precision(quotePrec)
+    .div(receive.amount)
     .set_precision(3)
 
-    var fee = num(receiveAmount)
+    var fee = num(amount)
     .mul(feeRatio)
-    .set_precision(basePrecision)
+    .set_precision(quotePrec)
 
-    var receiveAfterFee = num(receiveAmount).sub(fee)
-    .set_precision(basePrecision)
+    var receiveAfter = exports.receive(market, num(amount).sub(fee)).amount
 
     return {
-        receive: receiveAmount,
-        receiveAfterFee: receiveAfterFee.toString(),
+        receive: receiveAfter.toString(),
         fee: fee.toString(),
-        feeAsQuote: fee.mul(price),
         price: price.toString()
     }
 }

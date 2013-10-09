@@ -11,6 +11,15 @@
         .price
             states precision-too-high
 
+        .bid
+            .total
+                &.is-more-than-available
+                    color red
+
+        .ask
+            .amount
+                states insufficient-funds
+
     .market-order
         .bid
             .amount

@@ -376,3 +376,7 @@ api.activities = function(since) {
 api.bankAccounts = function() {
     return api.call('v1/bankAccounts')
 }
+
+api.feeRatio = function(market) {
+    return market == 'BTCEUR' ? 0 : 0.005
+}

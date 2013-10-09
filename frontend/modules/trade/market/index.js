@@ -35,8 +35,6 @@ module.exports = function(market, mode, type) {
     subModule.setOrderType(type)
 
     controller.destroy = function() {
-        marketOrder.destroy()
-        limitOrder.destroy()
         depth.destroy()
     }
 

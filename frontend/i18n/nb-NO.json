@@ -1,4 +1,11 @@
 {
+    "markets.market.limitorder.bid.summary.subtotal": "Subtotal",
+    "markets.market.limitorder.bid.summary.fee": "Avgift",
+    "markets.market.limitorder.bid.summary.total": "Total",
+    "markets.market.limitorder.ask.summary.fee": "Avgift",
+    "markets.market.limitorder.ask.summary.total": "Total",
+    "shared.modals.query.ok": "Okay",
+    "shared.modals.query.cancel": "Avbryt",
     "markets.market.marketorder.ask.summary.fee": "Avgift",
     "trade.market.order placed": "Ordren ble plassert.",
     "markets.market.marketorder.bid.summary.fee": "Avgift",
@@ -195,8 +202,6 @@
     "orders.column headers.average price": "Faktisk pris",
     "orders.history heading": "Ordrehistorikk",
 
-
-    "markets.market.heading": "Handle %s mot %s",
     "markets.market.instant order": "Ekspress",
     "markets.market.limit order": "Avansert",
     "markets.market.marketorder.buy bitcoin": "Kjøp Bitcoin",
@@ -246,7 +251,6 @@
     "markets.market.limitorder.ask.amount.too many decimals": "For mange desimaler",
     "markets.market.limitorder.ask.price.label": "Pris per",
     "markets.market.limitorder.ask.price.too many decimals": "For mange desimaler",
-    "markets.market.limitorder.ask.summary.order total": "Ordretotal",
     "markets.market.limitorder.ask.submit": "Opprett ordre",
     "markets.market.limitorder.ask.submitting": "Oppretter ordre...",
 
@@ -458,11 +462,10 @@
     "auth.register.agree.link": "bruksvilkårene",
     "depositbank.norway-warning": "Kontoen du sender fra <b>må</b> stå i ditt navn, <b>%s</b> og adressen <b>%s</b>. Andre betalinger blir returnert.",
     "account.funds.deposit now": "Sett inn",
-    "markets.market.limitorder.ask.confirm": "Selg %s for %s per?",
-    "markets.market.limitorder.bid.confirm": "Kjøp %s for %s per?",
+    "markets.market.limitorder.ask.confirm": "Selg %s?",
     "markets.market.marketorder.ask.confirm": "Sell %s at best available price? You'll receive approx %s.",
     "markets.market.marketorder.bid.confirm": "Spend %s at best available price? You'll receive approx %s.",
-    "markets.market.marketorder.ask.confirm": "Selg %s for markedspris? Du mottar omtrent %s.",
-    "markets.market.marketorder.bid.confirm": "Kjøp %s for %s til markedspris? Du mottar omtrent %s.",
+    "markets.market.marketorder.ask.confirm": "Selg %s?",
+    "markets.market.marketorder.bid.confirm": "Kjøp %s med %s?",
     "markets.market.marketorder.bid.spend.too small": "Under minimum"
 }
