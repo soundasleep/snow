@@ -35,11 +35,6 @@ module.exports = function(market) {
         setOrderType(type)
     })
 
-    controller.destroy = function() {
-        bid.destroy && bid.destroy()
-        ask.destroy()
-    }
-
     controller.setOrderType = setOrderType
 
     return controller

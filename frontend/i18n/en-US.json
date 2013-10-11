@@ -1,4 +1,13 @@
 {
+    "markets.market.limitorder.bid.summary.subtotal": "Subtotal",
+    "markets.market.limitorder.bid.summary.fee": "Fee",
+    "markets.market.limitorder.bid.summary.total": "Total",
+    "markets.market.limitorder.ask.summary.fee": "Fee",
+    "markets.market.limitorder.ask.summary.total": "Total",
+    "shared.modals.query.ok": "Okay",
+    "shared.modals.query.cancel": "Cancel",
+    "markets.market.limitorder.bid.confirm": "Create order to buy %s?",
+    "markets.market.marketorder.ask.summary.fee": "Fee",
     "trade.market.order placed": "Your order was placed.",
     "markets.market.marketorder.bid.summary.fee": "Fee",
     "account.transactions.download csv": "Download as CSV",
@@ -208,7 +217,7 @@
     "resetPassword.heading": "Reset your password",
     "resetPassword.intro": "<p>To reset your password, you will need access to the email and phone number you registered with.</p><p>We will first email you a link. After you click the link, go back to this window.</p>",
 
-    "markets.market.heading": "Trade %s for %s",
+    "markets.market.heading": "%s/%s",
     "markets.market.instant order": "Instant order",
     "markets.market.limit order": "Advanced order",
     "markets.market.marketorder.buy bitcoin": "Buy Bitcoin",
@@ -228,12 +237,12 @@
     "markets.market.marketorder.bid.placing order": "Buying Bitcoin...",
 
     "markets.market.marketorder.ask.you have": "You have",
-    "markets.market.marketorder.ask.to sell": "to sell",
+    "markets.market.marketorder.ask.to sell": "to spend",
     "markets.market.marketorder.ask.sell.to sell": "to sell",
     "markets.market.marketorder.ask.sell.all": "all",
     "markets.market.marketorder.ask.sell.insufficient funds": "Insufficient funds",
     "markets.market.marketorder.ask.sell.too many decimals": "Too many decimals",
-    "markets.market.marketorder.ask.sell.more than for sale": "More than for sale",
+    "markets.market.marketorder.ask.sell.more than for sale": "More than being bought",
     "markets.market.marketorder.ask.summary.price per": "Price per",
     "markets.market.marketorder.ask.summary.you receive": "You receive approx",
     "markets.market.marketorder.ask.sell button": "Sell Bitcoin",
@@ -259,7 +268,6 @@
     "markets.market.limitorder.ask.amount.too many decimals": "Too many decimals",
     "markets.market.limitorder.ask.price.label": "Price per",
     "markets.market.limitorder.ask.price.too many decimals": "Too many decimals",
-    "markets.market.limitorder.ask.summary.order total": "Order total",
     "markets.market.limitorder.ask.submit": "Place order",
     "markets.market.limitorder.ask.submitting": "Placing order...",
 
@@ -492,8 +500,7 @@
     "trade.stats.vohlc.yAxis.volume": "Volume (%s)",
     "trade.stats.vohlc.xAxis": "Date",
     "account.funds.deposit now": "Deposit",
-    "markets.market.limitorder.ask.confirm": "Sell %s for %s per?",
-    "markets.market.limitorder.bid.confirm": "Buy %s for %s per?",
-    "markets.market.marketorder.ask.confirm": "Sell %s at best available price? You'll receive approx %s.",
-    "markets.market.marketorder.bid.confirm": "Buy %s for %s at market price? You'll receive approx %s."
+    "markets.market.limitorder.ask.confirm": "Sell %s?",
+    "markets.market.marketorder.ask.confirm": "Sell %s?",
+    "markets.market.marketorder.bid.confirm": "Buy %s with %s?"
 }

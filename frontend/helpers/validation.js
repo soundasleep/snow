@@ -35,6 +35,10 @@ exports.validateRegex = function($group, expr, submitting) {
     }, submitting)
 }
 
+exports.fromFn = function($group, fn) {
+    return _.bind(exports.validateGroup, exports, $group, fn)
+}
+
 exports.fromRegex = function($group, expr) {
     return _.bind(exports.validateRegex, exports, $group, expr)
 }
