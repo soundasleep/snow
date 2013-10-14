@@ -1,4 +1,10 @@
 {
+    "settings.changepassword.password changed": "Passordet ble byttet",
+    "settings.nav.change password": "Bytt passord",
+    "settings.changepassword.heading": "Bytt passord",
+    "settings.changepassword.new password": "Nytt passord",
+    "settings.changepassword.new password repeat": "Gjenta",
+    "settings.changepassword.submit": "Bytt passord",
     "markets.market.limitorder.bid.summary.subtotal": "Subtotal",
     "markets.market.limitorder.bid.summary.fee": "Avgift",
     "markets.market.limitorder.bid.summary.total": "Total",

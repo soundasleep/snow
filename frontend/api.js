@@ -259,8 +259,8 @@ api.resetPasswordEnd = function(email, phoneCode, newPassword) {
 }
 
 api.changePassword = function(newPassword) {
-    var newKey = keyFromCredentials(api.user.email, newPassword)
-    return api.call('v1/keys/replace', { key: newKey })
+    var newKey = sha256(api.user.email.toLowerCase() + newPassword)
+    return api.call('v1/changePassword', { key: newKey })
 }
 
 api.patchUser = function(attrs) {
