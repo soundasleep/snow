@@ -1,4 +1,10 @@
 {
+    "settings.changepassword.password changed": "Your password has been changed",
+    "settings.nav.change password": "Change password",
+    "settings.changepassword.heading": "Change password",
+    "settings.changepassword.new password": "New password",
+    "settings.changepassword.new password repeat": "Repeat",
+    "settings.changepassword.submit": "Change password",
     "markets.market.limitorder.bid.summary.subtotal": "Subtotal",
     "markets.market.limitorder.bid.summary.fee": "Fee",
     "markets.market.limitorder.bid.summary.total": "Total",
