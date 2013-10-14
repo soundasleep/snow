@@ -14,6 +14,7 @@ module.exports = exports = function(app) {
     app.post('/v1/users/verify', app.security.demand.primary(1), exports.verifyPhone)
     app.post('/tropo', exports.tropo)
     app.patch('/v1/users/current', app.security.demand.primary, exports.patch)
+    app.post('/v1/changePassword', app.security.demand.otp(app.security.demand.primary, true), exports.changePassword)
 }
 
 exports.patch = function(req, res, next) {
@@ -352,4 +353,22 @@ exports.tropo = function(req, res) {
     debug('sending tropo response %j', tropoJSON)
 
     res.send(tropoJSON)
+}
+
+exports.changePassword = function(req, res, next) {
+    if (!req.app.validate(req.body, 'v1/users_changepassword', res)) return
+
+    req.app.conn.write.query({
+        text: [
+            'UPDATE api_key',
+            'SET api_key_id = $2',
+            'WHERE user_id = $1 AND "primary" = TRUE'
+        ].join('\n'),
+        values: [req.user.id, req.body.key]
+    }, function(err) {
+        if (err) return next(err)
+        req.app.activity(req.user.id, 'ChangePassword', {})
+        res.send(204)
+        req.app.security.invalidate(req.user.id)
+    })
 }

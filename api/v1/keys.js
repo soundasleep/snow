@@ -1,24 +1,9 @@
 var crypto = require('crypto')
 
 module.exports = exports = function(app) {
-    //app.post('/v1/keys/replace', app.security.demand.primary, exports.replace)
     app.post('/v1/keys', app.security.demand.otp(app.security.demand.primary, true), exports.create)
     app.get('/v1/keys', app.security.demand.primary, exports.index)
     app.del('/v1/keys/:id', app.security.demand.primary, exports.remove)
-}
-
-exports.replace = function(req, res, next) {
-    if (!req.app.validate(req.body, 'v1/keys_replace', res)) return
-
-    req.app.conn.write.query({
-        text: 'SELECT replace_api_key($1, $2)',
-        values: [req.user.key, req.body.key]
-    }, function(err) {
-        if (err) return next(err)
-        req.app.activity(req.user.id, 'ChangePassword', {})
-        res.send(204)
-        req.app.security.invalidate(req.user.id)
-    })
 }
 
 exports.remove = function(req, res, next) {
