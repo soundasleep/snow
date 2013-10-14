@@ -11,7 +11,7 @@ module.exports = function() {
 
     function balancesChanged(balances) {
         var fiats = _.filter(balances, function(x) {
-            return ~['NOK'].indexOf(x.currency)
+            return api.currencies[x.currency].fiat
         })
 
         var digitals = _.filter(balances, function(x) {
@@ -33,7 +33,7 @@ module.exports = function() {
                 numbers.format(item.available, { currency: item.currency }))
         }))
 
-        var fiat = _.find(fiats, { currency: 'NOK' })
+        var fiat = _.find(fiats, { currency: api.user.country == 'NO' ? 'NOK' : 'EUR' })
         , digital = _.find(digitals, { currency: 'BTC' })
 
         $fiat.html(numbers.format(fiat.available, { currency: fiat.currency }))
