@@ -105,6 +105,7 @@
     "activities.VerifyBankAccount": "The bank account was %s verified",
     "activities.EnableTwoFactor": "You enabled two-factor authentication",
     "activities.RemoveTwoFactor": "You disabled two-factor authentication",
+    "activities.KycCompleted": "Account level 4 reached",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",

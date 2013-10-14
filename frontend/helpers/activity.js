@@ -144,5 +144,9 @@ module.exports = function(activity) {
         return i18n('activities.RemoveTwoFactor')
     }
 
+    if (activity.type == 'KycCompleted') {
+        return i18n('activities.KycCompleted')
+    }
+
     return JSON.stringify(activity)
 }
