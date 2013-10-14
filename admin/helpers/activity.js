@@ -10,7 +10,9 @@ function formatFillOrder(details) {
     , price = details.price
     , type = details.type || details.side
 
-    var totalFormatted = numbers.format(details.total, { currency: quote })
+    var totalFormatted = details.total ?
+        numbers.format(details.total, { currency: quote }) :
+        '?'
 
     if (price) {
         var priceFormatted = numbers.format(price, { currency: quote })
