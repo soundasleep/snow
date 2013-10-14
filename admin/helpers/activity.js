@@ -162,5 +162,9 @@ module.exports = function(activity) {
             activity.details.id)
     }
 
+    if (activity.type == 'KycCompleted') {
+        return 'Passed KYC'
+    }
+
     return JSON.stringify(activity)
 }

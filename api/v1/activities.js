@@ -24,7 +24,8 @@ var detailWhitelist = {
     FillOrder: ['market', 'total', 'original', 'type', 'price'],
     WithdrawComplete: ['amount', 'currency', 'method'],
     EnableTwoFactor: [],
-    RemoveTwoFactor: []
+    RemoveTwoFactor: [],
+    KycCompleted: []
 }
 
 exports.index = function(req, res, next) {
