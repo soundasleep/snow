@@ -45,6 +45,8 @@ exports.process = function(row, cb) {
         template = 'credit'
         locals.amount = stripZeroes(details.amount)
         locals.currency = details.currency
+    } else if (row.type == 'KycCompleted') {
+        template = 'kyc-completed'
     } else if (row.type == 'ChangePassword') {
         template = 'change-password'
     } else if (row.type == 'EnableTwoFactor') {

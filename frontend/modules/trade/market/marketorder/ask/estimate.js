@@ -4,7 +4,6 @@ var _ = require('lodash')
 
 exports.receive = function(market, amount) {
     var receive = 0
-    , base = market.substr(0, 3)
     , filled
     if (!api.depth[market].bids) {
         debug('no bids available')
@@ -30,8 +29,7 @@ exports.summary = function(market, amount, feeRatio) {
     // The receive amount is based
     var receive = +exports.receive(market, amount * (1 - feeRatio))
     if (receive <= 0) return null
-    var quote = market.substr(3)
-    , base = market.substr(0, 3)
+    var base = market.substr(0, 3)
     , baseScale = api.currencies[base].scale
     , fee = amount * feeRatio
 
