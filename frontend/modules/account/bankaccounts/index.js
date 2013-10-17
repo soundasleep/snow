@@ -24,7 +24,8 @@ module.exports = function() {
         , itemTemplate = require('./item.html')
         , $items = $.map(accounts, function(a) {
             return $(itemTemplate(_.extend({
-                formatted: formatters.bankAccount(a)
+                formatted: formatters.bankAccount(a),
+                displayName: a.displayName
             }, a)))
         })
 

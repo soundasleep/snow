@@ -10,17 +10,14 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-12 hidden-sepa">
+                <div class="col-lg-12 hidden-allowed">
                     <div class="alert lead">
-                        Sorry, but at this time we only accept
-                        <a href="http://en.wikipedia.org/wiki/Single_Euro_Payments_Area" target="_blank" title="Single Euro Payments Area">SEPA</a>
-                        bank deposits.
-                        Your country, <strong><%- api.user.countryFriendly() %></strong>,
-                        is not a part of the SEPA initiative.
+                        Sorry, but at this time we do not accept bank deposits from your country,
+                        <strong><%- api.user.countryFriendly() %></strong>.
                     </div>
                 </div>
 
-                <div class="col-lg-12 payment-details visible-sepa">
+                <div class="col-lg-12 payment-details visible-allowed">
                     <p class="lead">
                         <%= i18n('depositbank.intro') %>
                         <span class="visible-norway">
@@ -94,7 +91,7 @@
                         </div>
 
                         <div class="col-lg-6 hidden-norway">
-                            25 EUR
+                            25 EUR / USD
                         </div>
                     </div>
 
@@ -104,7 +101,7 @@
                         </div>
 
                         <div class="col-lg-6">
-                            20 NOK (~2.5 EUR)
+                            See <a href="#about/terms">Terms</a>
                         </div>
                     </div>
                 </div>

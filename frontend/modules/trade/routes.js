@@ -3,8 +3,7 @@ var format = require('util').format
 module.exports = function(router, master, authorize) {
     return router
     .add(/^trade$/, function() {
-        var market = $.cookie('tradeMarket') ||
-            (api.user && api.user.country == 'NO' ? 'BTCNOK' : 'BTCEUR')
+        var market = $.cookie('tradeMarket') || api.defaultMarket()
         router.go(format('trade/%s', market), true)
     })
     .add(/^trade\/([A-Z]{6})$/, function(market) {

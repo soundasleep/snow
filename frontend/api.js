@@ -378,5 +378,33 @@ api.bankAccounts = function() {
 }
 
 api.feeRatio = function(market) {
-    return market == 'BTCEUR' ? 0 : 0.005
+    if (market == 'BTCEUR') return 0
+    if (market == 'BTCUSD') return 0
+    return 0.005
+}
+
+api.defaultDigitalCurrency = function() {
+    return 'BTC'
+}
+
+api.defaultMarket = function() {
+    return 'BTC' + api.defaultFiatCurrency()
+}
+
+api.defaultFiatCurrency = function() {
+    if (!api.user) {
+        return 'USD'
+    }
+
+    if (api.user.country == 'NO') {
+        return 'NOK'
+    }
+
+    var sepa = require('./assets/sepa.json')
+
+    if (~sepa.indexOf(api.user.country)) {
+        return 'EUR'
+    }
+
+    return 'USD'
 }

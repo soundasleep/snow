@@ -4,6 +4,7 @@ var format = require('util').format
 , nav = require('../nav')
 , template = require('./index.html')
 , sepa = require('../../../assets/sepa.json')
+, wire = require('../../../assets/wire.json')
 
 module.exports = function(currency) {
     var $el = $('<div class=withdraw-bank>').html(template())
@@ -16,7 +17,7 @@ module.exports = function(currency) {
     , $currency = $form.field('currency')
     , $account = $form.field('account')
 
-    currency || (currency = 'NOK')
+    currency || (currency = api.defaultFiatCurrency())
 
     api.bankAccounts()
     .fail(errors.alertFromXhr)
@@ -26,14 +27,13 @@ module.exports = function(currency) {
         $account.html(_.map(accounts, function(a) {
             return format(
                 '<option class="bank-account" value="%s">%s</option>',
-                a.id, formatters.bankAccount(a))
+                a.id, _.escape(formatters.bankAccount(a)))
         }))
     })
 
     function renderBalances(balances) {
         $currencies.html($.map(balances, function(x) {
-            // TODO: Proper fiat check
-            if (!~['NOK', 'EUR'].indexOf(x.currency)) return ''
+            if (!api.currencies[x.currency].fiat) return
 
             var $li = $(format('<li><a href="#">%s (%s)</a>',
             x.currency, numbers.format(x.available)))
@@ -42,11 +42,7 @@ module.exports = function(currency) {
             return $li.toggleClass('disabled', +x.available === 0)
         }))
 
-        var $first = $currencies.find('li:not(.disabled):first')
-
-        if ($first.length) {
-            $currency.html($first.attr('data-currency'))
-        }
+        $currency.html(currency)
     }
 
     if (api.balances.current) renderBalances(api.balances.current)
@@ -90,7 +86,8 @@ module.exports = function(currency) {
     })
 
     $el.find('.withdraw-nav').replaceWith(nav('bank').$el)
-    $el.toggleClass('is-sepa', !!~sepa.indexOf(api.user.country))
+    var allowed = ~sepa.indexOf(api.user.country) || ~wire.indexOf(api.user.country)
+    $el.toggleClass('is-allowed', !!allowed)
 
     return controller
 }

@@ -5,13 +5,13 @@
         <div class="col-lg-6">
             <h1><%= i18n('withdraw.bank.heading') %></h1>
 
-            <div class="hidden-sepa">
+            <div class="hidden-allowed">
                 <div class="alert lead">
-                    <%- i18n('withdraw.bank.outside sepa') %>
+                    <%- i18n('withdraw.bank.country not allowed') %>
                 </div>
             </div>
 
-            <div class="visible-sepa">
+            <div class="visible-allowed">
                 <div class="visible-empty">
                     <p class="lead">
                         <%- i18n('withdraw.bank.empty') %>
@@ -27,11 +27,7 @@
                 <div class="hidden-empty">
                     <div class="alert alert-info">
                         <p class=""></p>
-                        <% if (api.user.country == 'NO') { %>
-                            <%- i18n('withdraw.bank.nok fee') %>
-                        <% } else { %>
-                            <%- i18n('withdraw.bank.eur fee') %>
-                        <% } %>
+                        <%- i18n('withdraw.bank.fee') %>
                     </div>
 
                     <form class="well">

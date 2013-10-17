@@ -17,7 +17,7 @@ module.exports = function(tab, mode, type) {
 
     function marketsFetched(markets) {
         markets = _.sortBy(markets, function(x) {
-            return (x.id == 'BTCNOK' ? 0 : 1) + x.id
+            return (x.id == api.defaultMarket() ? 0 : 1) + x.id
         })
 
         $el.find('.nav').append($.map(markets, function(market) {
