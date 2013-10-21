@@ -23,6 +23,15 @@ module.exports = function() {
         })
     }
 
+    function refreshWallets() {
+        api.call('admin/balances/wallets')
+        .fail(errors.alertFromXhr)
+        .done(function(res) {
+            $el.find('.btc-balance').html(res.btc)
+            $el.find('.ltc-balance').html(res.ltc)
+        })
+    }
+
     function refreshRecentUsers() {
         var recentCookie = $.cookie('recent-users')
         , recent = recentCookie ? JSON.parse(recentCookie) : []
@@ -39,6 +48,7 @@ module.exports = function() {
     refreshBtcHeight()
     refreshLtcHeight()
     refreshRecentUsers()
+    refreshWallets()
 
     return controller
 }

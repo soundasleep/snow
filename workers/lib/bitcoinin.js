@@ -35,6 +35,13 @@ BitcoinIn.prototype.getDbHeight = function(cb) {
     })
 }
 
+BitcoinIn.prototype.setDbBalance = function(val, cb) {
+    this.db.query({
+        text: 'UPDATE settings SET btc_balance = $1',
+        values: [val]
+    }, cb)
+}
+
 BitcoinIn.prototype.setDbHeight = function(val, cb) {
     this.dbHeight = val
     this.db.query({
@@ -58,7 +65,11 @@ BitcoinIn.prototype.check = function(cb) {
                 that.bitcoin.getBlockHash.bind(that.bitcoin, n),
                 that.bitcoin.getBlock.bind(that.bitcoin),
                 that.processBlock,
-                that.setDbHeight.bind(that, n)
+                that.setDbHeight.bind(that, n),
+                function(dr, cb) {
+                    that.bitcoin.getBalance(cb)
+                },
+                that.setDbBalance
             ], function(err) {
                 if (err) return cb(err)
                 debug('Finished with block #%d', n)
