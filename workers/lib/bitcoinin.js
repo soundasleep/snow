@@ -11,12 +11,13 @@ var BitcoinIn = module.exports = function(ep, db, minConf) {
     , Bitcoin = require('bitcoin').Client
     this.bitcoin = new Bitcoin(ep)
     this.minConf = minConf || 3
-    console.log('bitcoinin minConf %d', this.minConf)
     this.db = db
     async.forever(function(cb) {
         that.check(function(err) {
-            if (err) console.error(err)
-            if (err) that.emit(err)
+            if (err) {
+                console.error(err)
+                that.emit(err)
+            }
             setTimeout(cb, 5e3)
         })
     })
