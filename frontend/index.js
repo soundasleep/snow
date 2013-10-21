@@ -1,5 +1,7 @@
 var debug = require('./helpers/debug')('snow:entry')
 
+require('./helpers/framekiller')()
+
 debug('initializing shared components')
 
 window.$app = $('body')
