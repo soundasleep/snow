@@ -15,7 +15,7 @@
                         Sorry, but at this time we only accept
                         <a href="http://en.wikipedia.org/wiki/Single_Euro_Payments_Area" target="_blank" title="Single Euro Payments Area">SEPA</a>
                         bank deposits.
-                        Your country, <strong><%- api.user.countryFriendly() %></strong>,
+                        Your country, <strong><%= api.user.countryFriendly() %></strong>,
                         is not a part of the SEPA initiative.
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <p class="lead">
                         <%= i18n('depositbank.intro') %>
                         <span class="visible-norway">
-                            <%- i18n('depositbank.norway-warning', api.user.firstName + ' ' + api.user.lastName, api.user.address) %>
+                            <%- i18n('depositbank.norway-warning', formatters.escape(api.user.firstName + ' ' + api.user.lastName), formatters.escape(api.user.address)) %>
                         </span>
                     </p>
 

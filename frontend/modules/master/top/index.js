@@ -47,7 +47,7 @@ module.exports = function() {
     })
 
     api.on('user', function(user) {
-        $el.find('.user-name').html(user.firstName || user.email)
+        $el.find('.user-name').text(user.firstName || user.email)
         api.balances()
     })
 
