@@ -13,3 +13,7 @@ exports.bankAccount = function(x) {
         return format('%s', x.accountNumber)
     }
 }
+
+exports.escape = function(x) {
+    return $('<div>').text(x).html()
+}
