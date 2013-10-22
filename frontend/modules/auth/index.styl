@@ -69,8 +69,18 @@
         top -15px
 
 #area > .auth-verifyphone
-    .code-form
-        display none
+    states texted slow voice
+
+    form
+        states loading
+
+    .phone
+        .number
+            states locked-out
+
+    .verify
+        .code
+            states wrong
 
 #area > .auth-identity
     form

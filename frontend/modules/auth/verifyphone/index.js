@@ -1,133 +1,182 @@
 var util = require('util')
-, _ = require('lodash')
 , debug = require('../../../helpers/debug')('verifyemail')
 , template = require('./index.html')
+, callingcodes = require('../../../assets/callingcodes.json')
+, validation = require('../../../helpers/validation')
 
 module.exports = function(after) {
     var $el = $('<div class=auth-verifyphone>').html(template())
-    , controller = {
+    , ctrl = {
         $el: $el
     }
-    , $callForm = $el.find('form.call')
-    , $codeForm = $el.find('form.code')
-    , $number = $callForm.find('input[name="phone"]')
-    , $country = $callForm.find('select[name="country"]')
-    , $code = $codeForm.find('input[name="code"]')
-    , number
+    , $phoneForm = $el.find('form.phone')
+    , $country = $phoneForm.find('.country')
+    , $number = $phoneForm.find('.number')
+    , $verifyForm = $el.find('form.verify')
+    , $code = $verifyForm.find('.code')
+    , slowTimer
+    , parsedNumber
 
-    // Add countries
-    var countries = require('../../../assets/callingcodes.json')
-    $country.append(_.map(countries, function(country) {
+    // Populate country dropdown
+    $country.field().html($.map(callingcodes, function(item) {
         return util.format('<option value="%s">%s (%s)</option>',
-            country.code, country.name, country.dial_code)
+            item.code, item.name, item.dial_code)
     }))
 
-    // TODO: use user language(s)
+    // Guess user country from his language
     var country = 'US'
     , desired = i18n.desired ? /[a-z]{2}$/i.exec(i18n.desired) : null
+    debug('desired language (from i18n): %s', desired)
 
     if (desired) {
         country = desired[0].toUpperCase()
-        debug('Country from browser language ' + country)
+        debug('country from language: %s', country)
+        $country.field().val(country)
     }
 
-    var options = _.sortBy(_.where(countries, { code: country }), function(x) {
-        return x.name.length
+    var validateNumber = validation.fromRegex($number, /^[0-9-\.,\(\) ]{1,13}$/)
+    validation.monitorField($number.field(), validateNumber)
+
+    var validatePhone = validation.fromFields({
+        number: validateNumber
     })
 
-    var option = options[0]
+    var validateCode = validation.fromRegex($code, /^[0-9]{4}$/)
+    validation.monitorField($number.field(), validateCode)
 
-    if (option) {
-        $country.val(option.code)
+    var validateVerify = validation.fromFields({
+        code: validateCode
+    })
 
-        $number.focusSoon()
-    } else {
-        debug('There is no option that matches the country ' + country)
-
-        $country.focusSoon()
-    }
-
-    $callForm.on('submit', function(e) {
+    // Start verify
+    $phoneForm.on('submit', function(e) {
         e.preventDefault()
 
-        var code = _.find(countries, { code: $country.val() }).dial_code
-        number = $number.val().replace(/[^\d]/g, '')
-
-        if (!number.length) {
-            $number.focus()
-            $number.shake()
-            return
-        }
-
-        number = code + number
-
-        var $callButton = $callForm.find('button')
-        .loading(true, i18n('verifyphone.calling you'))
-
-        $number.add($country).enabled(false)
-
-        api.call('v1/users/verify/call', { number: number })
-        .done(function() {
-            setTimeout(function() {
-                $codeForm.show()
-                $code.focus()
-            }, 2500)
+        validatePhone(true)
+        .fail(function() {
+            $phoneForm.find('[type="submit"]').shake()
+            $number.field().focusSoon()
         })
-        .fail(function(err) {
-            if (err.name == 'PhoneAlreadyVerified') return router.after(after)
+        .done(function(values) {
+            if (values.number === null) return
 
-            if (err.name == 'LockedOut') {
-                alertify.alert(
-                    'Sorry, but you tried to verify your phone not long ago. ' +
-                    'Please try again in a few minutes.',
-                    function() {
-                        window.location.reload()
-                    })
-                return
-            }
+            $phoneForm
+            .addClass('is-loading')
+            .find('fieldset').attr('disabled', '')
 
-            if (err.name == 'PhoneNumberInUse') {
-                alertify.alert(i18n('auth.verifyphone.phone number in use'))
-                $callButton.loading(false)
-                $number.add($country).enabled(true)
-                return
-            }
+            return api.call('v1/users/verify/text', {
+                number: values.number,
+                country: $country.field().val()
+            })
+            .always(function() {
+                $phoneForm
+                .removeClass('is-loading')
+            })
+            .done(function(res) {
+                setTimeout(function() {
+                    $el.addClass('has-texted')
+                    $code.field().focus()
 
-            errors.alertFromXhr(err)
+                    slowTimer = setTimeout(function() {
+                        $el.addClass('is-slow')
+                    }, 10e3)
+
+                    parsedNumber = res.number
+                }, 2e3)
+            })
+            .fail(function(err) {
+                $phoneForm
+                .find('fieldset').attr('disabled', null)
+
+                if (err.name == 'PhoneAlreadyVerified') return router.after(after)
+
+                if (err.name == 'InvalidPhoneNumber') {
+                    $number.addClass('is-invalid has-error')
+                    return
+                }
+
+                if (err.name == 'LockedOut') {
+                    $number.addClass('is-locked-out has-error')
+                    debug('locked out: %s', err.message)
+                    return
+                }
+
+                errors.alertFromXhr(err)
+            })
         })
     })
 
-    $codeForm.on('submit', function(e) {
+    // Submit code
+    $verifyForm.on('submit', function(e) {
         e.preventDefault()
 
-        var code = $code.val()
+        slowTimer && clearTimeout(slowTimer)
+        slowTimer = null
+        $el.removeClass('is-slow')
 
-        if (!/^\d{4}$/.test(code)) {
-            alert('The code should be four digits')
-            $code.focus()
-            $code.shake()
-            return
-        }
-
-        $codeForm.find('button')
-        .enabled(false)
-        .addClass('is-loading')
-        .html(i18n('verifyphone.verifying code'))
-
-        $code.enabled(false)
-
-        api.call('v1/users/verify', { code: code })
-        .done(function() {
-            api.user.phone = number
-            api.user.securityLevel = 2
-            $app.trigger('verifiedphone', { number: number })
-            router.after(after)
+        validateVerify(true)
+        .fail(function() {
+            $verifyForm.find('[type="submit"]').shake()
+            $code.field().focusSoon()
         })
-        .fail(function(xhr) {
-            errors.alertFromXhr(xhr)
-            window.location = '/'
+        .done(function(values) {
+            if (values.code === null) return
+
+            $verifyForm
+            .addClass('is-loading')
+            .find('fieldset').attr('disabled', '')
+
+            return api.call('v1/users/verify', {
+                code: values.code
+            })
+            .always(function() {
+                $verifyForm
+                .removeClass('is-loading')
+            })
+            .done(function() {
+                api.user.phone = parsedNumber
+                api.user.securityLevel = 2
+                $app.trigger('verifiedphone', { number: parsedNumber })
+
+                alertify.log(i18n('auth.verifyphone.success log'))
+
+                router.after(after)
+            })
+            .fail(function(err) {
+                // Code is wrong. There's no retry
+                if (err.name == 'VerificationFailed') {
+                    $code.addClass('is-wrong has-error')
+                    return
+                }
+
+                $verifyForm
+                .find('fieldset').attr('disabled', null)
+
+                errors.alertFromXhr(err)
+            })
         })
     })
 
-    return controller
+    $el.on('remove', function() {
+        slowTimer && clearTimeout(slowTimer)
+    })
+
+    // Fall back to voice
+    $el.on('click', '[data-action="voice"]', function(e) {
+        e.preventDefault()
+
+        $el.removeClass('is-slow')
+
+        api.call('v1/users/verify/call', {})
+        .fail(errors.alertFromXhr)
+        .done(function() {
+            $el.addClass('is-voice')
+            $code.field().focus()
+        })
+
+    })
+
+    $number.field().focusSoon()
+
+    return ctrl
 }

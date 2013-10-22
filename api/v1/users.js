@@ -281,7 +281,7 @@ exports.voiceFallback = function(req, res, next) {
         '<prosody rate=\'-5%\'>',
         'Your code is:' ,
         '</prosody>',
-        '<prosody rate=\'-40%\'>',
+        '<prosody rate=\'-20%\'>',
         item.code.split('').join(', '),
         '.</prosody>'
     ].join('')
