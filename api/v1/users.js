@@ -1,12 +1,13 @@
 var _ = require('lodash')
-, async = require('async')
 , debug = require('debug')('snow:users')
+, libphonenumber = require('libphonenumber')
 
 module.exports = exports = function(app) {
     app.get('/v1/whoami', app.security.demand.any, exports.whoami)
     app.post('/v1/users', exports.create)
     app.post('/v1/users/identity', app.security.demand.primary(2), exports.identity)
-    app.post('/v1/users/verify/call', app.security.demand.primary(1), exports.startPhoneVerify)
+    app.post('/v1/users/verify/text', app.security.demand.primary(1), exports.startPhoneVerify)
+    app.post('/v1/users/verify/call', app.security.demand.primary(1), exports.voiceFallback)
     app.post('/v1/users/verify', app.security.demand.primary(1), exports.verifyPhone)
     app.patch('/v1/users/current', app.security.demand.primary, exports.patch)
     app.post('/v1/changePassword', app.security.demand.otp(app.security.demand.primary, true), exports.changePassword)
@@ -192,6 +193,10 @@ exports.identity = function(req, res, next) {
 }
 
 exports.verifyPhone = function(req, res, next) {
+    // As soon as he attempts to solve, the user may not fall back
+    // to a voice call
+    delete exports.allowedVoiceFallback[req.user.id]
+
     req.app.conn.write.query({
         text: 'SELECT verify_phone($1, $2) success',
         values: [req.user.id, req.body.code]
@@ -204,31 +209,69 @@ exports.verifyPhone = function(req, res, next) {
                 })
             }
 
+            if (err.message == 'User has not started phone verification') {
+                return res.send(400, {
+                    name: 'NotInPhoneVerify',
+                    message: 'The user has not begun phone verification'
+                })
+            }
+
             return next(err)
         }
 
         if (!dr.rows[0].success) {
             return res.send(403, {
                 name: 'VerificationFailed',
-                message: 'Verification failed. The code is wrong or ' +
-                    'you may not verify at this time.'
+                message: 'Verification failed. The code is wrong.'
             })
         }
 
         req.app.security.invalidate(req.user.id)
-
         res.send(204)
     })
+}
+
+exports.allowedVoiceFallback = {}
+
+exports.voiceFallback = function(req, res) {
+    var item = exports.allowedVoiceFallback[req.user.id]
+
+    if (!item) {
+        return res.send(400, {
+            name: 'CallFallbackNotAllowed',
+            message: 'User is not in a situation where he can fallback to voice'
+        })
+    }
+
+    delete exports.allowedVoiceFallback[req.user.id]
+
+    debug('falling back to voice for user %s', req.user.id)
+
+    throw new Error('Callign not implemented')
 }
 
 exports.startPhoneVerify = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/user_verify_call', res)) return
 
-    debug('processing request to start phone verification')
+    debug('processing request to start phone verification %j', req.body)
+
+    var number
+
+    try {
+        number = libphonenumber.e164(req.body.number, req.body.country)
+    } catch (e) {
+        debug('failed to parse %s (%s): %s', req.body.country, req.body.number,
+            e.message || e)
+
+        return res.send(400, {
+            name: 'InvalidPhoneNumber',
+            message: 'The number is not a valid phone number'
+        })
+    }
 
     req.app.conn.write.query({
         text: 'SELECT create_phone_number_verify_code($2, $1) code',
-        values: [req.user.id, req.body.number]
+        values: [req.user.id, number]
     }, function(err, dr) {
         if (err) {
             if ((/^User is locked out/i).exec(err.message)) {
@@ -259,16 +302,14 @@ exports.startPhoneVerify = function(req, res, next) {
 
         debug('correct code is %s', code)
 
-        debug('requesting call to %s', req.body.number)
+        exports.allowedVoiceFallback[req.user.id] = {
+            code: code,
+            number: number
+        }
 
-        async.parallel([
-            function() {
-                // TODO: Implement calling
-            }
-        ], function(err) {
-            if (err) return next(err)
-            res.send(204)
-        })
+        debug('requesting text to %s', number)
+
+        throw new Error('Texting not implemented')
     })
 }
 
