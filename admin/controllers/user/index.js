@@ -42,7 +42,7 @@ module.exports = function(userId) {
 
         _.each(plains, function(v, k) {
             var $row = $el.find('.' + k)
-            $row.find('span').html((u[v] || '').toString().replace(/\n/g, '<br />')),
+            $row.find('span').text((u[v] || '').toString().replace(/\n/g, '<br />')),
             $row.find('.field').val(u[v] || '')
         })
 
