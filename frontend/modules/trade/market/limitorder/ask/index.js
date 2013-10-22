@@ -182,7 +182,7 @@ module.exports = function(market) {
             , summary = getSummary()
             if (!summary) return d.reject()
             if (+summary.total <= 0) return d.reject()
-            if (+summary.total > api.balances[quote].available) return d.reject()
+            if (+summary.total > api.balances[base].available) return d.reject()
             return d.resolve(summary.total)
         }
     })
