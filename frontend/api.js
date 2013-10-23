@@ -169,7 +169,7 @@ api.logout = function() {
     if ($.cookie('session')) {
         return api.call('security/session', null, { type: 'DELETE' })
         .always(function() {
-            $.removeCookie('session')
+            $.removeCookie('session', { path: '/' })
         })
     }
 
