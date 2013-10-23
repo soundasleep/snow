@@ -51,7 +51,7 @@ i18n.resolve = function(lang) {
             }
         })
 
-        if (mapping) {
+        if (mapping && mappings[mapping] !== lang) {
             debug('language %s will be mapped to %s', lang, mappings[mapping])
             lang = mappings[mapping]
         }
@@ -109,7 +109,7 @@ i18n.set = function(lang) {
     lang = i18n.resolve(lang)
 
     if (lang === i18n.lang) {
-        debug('user already has the language %s set', lang)
+        debug('language is already %s', lang)
         return
     }
 
