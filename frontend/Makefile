@@ -19,7 +19,7 @@ VENDOR_CSS = \
 	bower_components/alertify/themes/alertify.bootstrap.css \
 	vendor/bootstrap/css/bootstrap.min.css
 
-CLEAN:
+clean:
 	@rm -rf dist public
 
 tmp-directory:
