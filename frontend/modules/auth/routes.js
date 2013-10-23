@@ -9,13 +9,16 @@ module.exports = function(router, master, authorize) {
         })
     })
     .add(/^(?:auth\/)?register(?:\?after=(.+))?$/, function(after) {
+        if (api.user) return router.after(after)
         master(require('./register')(after), 'register')
     })
     .add(/^(?:auth\/)?login(?:\?after=(.+))?$/, function(after) {
+        if (api.user) return router.after(after)
         master(require('./login')(after), 'login')
     })
     .add(/^(?:auth\/)?identity(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return
+        if (api.user.securityLevel >= 3) return router.after(after)
         master(require('./identity')(after), 'identity')
     })
     .add(/^auth\/verifyemail(?:\?after=(.+))?$/, function(after) {

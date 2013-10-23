@@ -6,3 +6,7 @@ exports.bankAccount = function(x) {
         (x.iban || x.accountNumber) +
         (x.displayName !== null ? ')' : '')
 }
+
+exports.escape = function(x) {
+    return $('<div>').text(x).html()
+}

@@ -17,6 +17,7 @@ server {
     gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript text/x-js;
     gzip_buffers 16 8k;
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+    add_header X-Frame-Options DENY;
 
     location /api {
         rewrite ^/api(/?.*)$ $1 break;
@@ -45,12 +46,21 @@ server {
     }
 }
 
+# Redirect non-https to https (also www.)
 server {
     listen <%= node[:snow][:reverse][:http_port] %>;
-    server_name <%= node[:snow][:reverse][:server_name] %>;
-    return 301 https://$host$request_uri;
+    server_name ~^(www\.)?<%= node[:snow][:reverse][:server_name] %>$;
+    return 301 https://<%= node[:snow][:reverse][:server_name] %>$request_uri;
 }
 
+# Redirect www. prefixed https
+server {
+    listen <%= node[:snow][:reverse][:https_port] %>;
+    server_name www.<%= node[:snow][:reverse][:server_name] %>;
+    return 301 https://<%= node[:snow][:reverse][:server_name] %>$request_uri;
+}
+
+# Proxy api. (legacy)
 server {
     listen <%= node[:snow][:reverse][:https_port] %>;
     server_name api.<%= node[:snow][:reverse][:server_name] %>;

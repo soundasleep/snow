@@ -1,5 +1,7 @@
 var debug = require('./helpers/debug')('snow:entry')
 
+require('./helpers/framekiller')()
+
 debug('initializing shared components')
 
 window.$app = $('body')
@@ -52,13 +54,21 @@ $app.on('click', 'a[href="#set-language"]', function(e) {
     i18n.set($(this).attr('data-language'))
 })
 
+debug('boostrapping...')
+
 api.bootstrap()
 .fail(function(err) {
-    debug('reloading window after alert (bootstrap failed)')
     errors.alertFromXhr(err)
-    window.location.reload()
+
+    debug('reloading window after alert (bootstrap failed) in 10 sec')
+
+    setTimeout(function() {
+        window.location.reload()
+    }, 10e3)
 })
 .done(function() {
+    debug('boostrapping successful')
+
     var master = require('./modules/master')
     master.render()
 

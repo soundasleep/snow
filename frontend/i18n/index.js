@@ -37,6 +37,34 @@ var i18n = module.exports = function(key) {
     return util.format.apply(util, args)
 }
 
+/**
+ * Return the best available match for the specified language,
+ * given a desired language.
+ * @param  {string} lang Desired
+ * @return {string}      Available
+ */
+i18n.resolve = function(lang) {
+    if (lang) {
+        var mapping = _.find(_.keys(mappings), function(m) {
+            if (new RegExp(m, 'i').test(lang)) {
+                return true
+            }
+        })
+
+        if (mapping && mappings[mapping] !== lang) {
+            debug('language %s will be mapped to %s', lang, mappings[mapping])
+            lang = mappings[mapping]
+        }
+    }
+
+    if (!lang || !dicts[lang]) {
+        debug('language %s not available. falling back to %s', lang || '<null>', fallback)
+        lang = fallback
+    }
+
+    return lang
+}
+
 i18n.set = function(lang) {
     debug('setting language to %s', lang || '<null>')
 
@@ -78,22 +106,11 @@ i18n.set = function(lang) {
         .fail(errors.reportFromXhr)
     }
 
-    if (lang) {
-        var mapping = _.find(_.keys(mappings), function(m) {
-            if (new RegExp(m, 'i').test(lang)) {
-                return true
-            }
-        })
+    lang = i18n.resolve(lang)
 
-        if (mapping) {
-            debug('language %s will be mapped to %s', lang, mappings[mapping])
-            lang = mappings[mapping]
-        }
-    }
-
-    if (!lang || !dicts[lang]) {
-        debug('language %s not available. falling back to %s', lang || '<null>', fallback)
-        lang = fallback
+    if (lang === i18n.lang) {
+        debug('language is already %s', lang)
+        return
     }
 
     debug('setting language of moment')

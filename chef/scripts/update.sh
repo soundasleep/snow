@@ -8,8 +8,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export KNIFE_ENV=$1
 source $DIR/settings.sh
 
+echo Updating role $3 of node $2 in $1 environment
+
 knife environment from file $1.json
-knife role from file roles/$2.rb
+knife role from file roles/$3.rb
 
 knife cookbook upload -a
 
@@ -18,4 +20,4 @@ knife ssh \
     -x ubuntu \
     -a ec2.local_ipv4 \
     -i $SSH_KEY \
-    "sudo chef-client --log_level=debug --override-runlist \"role[$2]\""
+    "sudo chef-client --log_level=debug --override-runlist \"role[$3]\""
