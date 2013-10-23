@@ -18,6 +18,7 @@ module.exports = function(router, master, authorize) {
     })
     .add(/^(?:auth\/)?identity(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return
+        if (api.user.securityLevel >= 3) return router.after(after)
         master(require('./identity')(after), 'identity')
     })
     .add(/^auth\/verifyemail(?:\?after=(.+))?$/, function(after) {
