@@ -10,6 +10,8 @@ module.exports = function() {
     , balancesTimer
 
     function balancesChanged(balances) {
+        if (!api.user) return
+
         var fiats = _.filter(balances, function(x) {
             return api.currencies[x.currency].fiat
         })
