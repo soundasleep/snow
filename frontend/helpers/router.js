@@ -27,11 +27,11 @@ router.now = router.reload = function() {
     }
 }
 
-router.after = function(hash) {
+router.after = function(hash, replace) {
     hash || (hash = '')
     hash = hash.replace(/^\#/g, '')
     hash = hash.replace(/^(auth\/)?(login|register|identity)/, '')
-    return router.go(hash)
+    return router.go(hash, replace)
 }
 
 router.go = function(hash, replace) {
