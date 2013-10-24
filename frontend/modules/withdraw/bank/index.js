@@ -1,23 +1,31 @@
 var format = require('util').format
 , _ = require('lodash')
-, num = require('num')
 , nav = require('../nav')
 , template = require('./index.html')
 , sepa = require('../../../assets/sepa.json')
 
 module.exports = function(currency) {
     var $el = $('<div class=withdraw-bank>').html(template())
-    , controller = {
+    , ctrl = {
         $el: $el
     }
-    , $form = controller.$el.find('form')
-    , $amount = $form.field('amount')
-    , $currencies = $form.find('.currencies')
-    , $currency = $form.field('currency')
+    , $form = ctrl.$el.find('form')
     , $account = $form.field('account')
+    , amount = require('../../shared/amount-input')({
+        currency: currency || api.user.country == 'NO' ? 'NOK' : 'EUR',
+        currencies: 'fiat',
+        max: 'available',
+        maxPrecision: 2
+    })
 
-    currency || (currency = 'NOK')
+    // Insert amount control
+    $el.find('.amount-placeholder').append(amount.$el)
 
+    $el.on('remove', function() {
+        amount.$el.trigger('remove')
+    })
+
+    // Enumerate bank accounts
     api.bankAccounts()
     .fail(errors.alertFromXhr)
     .done(function(accounts) {
@@ -30,59 +38,17 @@ module.exports = function(currency) {
         }))
     })
 
-    function renderBalances(balances) {
-        $currencies.html($.map(balances, function(x) {
-            // TODO: Proper fiat check
-            if (!~['NOK', 'EUR'].indexOf(x.currency)) return ''
-
-            var $li = $(format('<li><a href="#">%s (%s)</a>',
-            x.currency, numbers.format(x.available)))
-            .attr('data-currency', x.currency)
-
-            return $li.toggleClass('disabled', +x.available === 0)
-        }))
-
-        var $first = $currencies.find('li:not(.disabled):first')
-
-        if ($first.length) {
-            $currency.html($first.attr('data-currency'))
-        }
-    }
-
-    if (api.balances.current) renderBalances(api.balances.current)
-    else api.once('balances', renderBalances)
-
-    $currencies.on('click', 'li', function(e) {
-        e.preventDefault()
-        var $li = $(this).closest('li')
-        if ($li.hasClass('disabled')) return
-        $currency.html($li.attr('data-currency'))
-    })
-
     $form.on('submit', function(e) {
         e.preventDefault()
 
-        var amount = numbers.parse($amount.val())
-
-        if (num(amount).get_precision() > 2) {
-            alertify.alert('Sorry! Maximum 2 decimals when withdrawing to bank')
-            return
-        }
+        if (!amount.validate(true)) return
 
         api.call('v1/withdraws/bank', {
-            amount: $amount.parseNumber(),
+            amount: amount.value(),
             bankAccount: +$account.val(),
-            currency: $currency.html()
+            currency: amount.currency()
         })
-        .fail(function(err) {
-            if (err.name == 'NoFunds') {
-                alertify.alert('Amount to withdraw cannot be more ' +
-                    'than your available balance')
-                return
-            }
-
-            errors.alertFromXhr(err)
-        })
+        .fail(errors.alertFromXhr)
         .done(function() {
             api.balances()
             router.go('#withdraw/withdraws')
@@ -92,5 +58,5 @@ module.exports = function(currency) {
     $el.find('.withdraw-nav').replaceWith(nav('bank').$el)
     $el.toggleClass('is-sepa', !!~sepa.indexOf(api.user.country))
 
-    return controller
+    return ctrl
 }

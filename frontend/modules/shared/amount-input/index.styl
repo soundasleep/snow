@@ -1,13 +1,12 @@
 .amount-input
-    states invalid empty
-/*
-    .field[name="currency"]
-        max-width 5em
+    states fixed-currency
 
-    .field[name="amount"]
-        width 12.5
+    .amount
+        states too-high invalid too-high-precision too-small
+
+    .currency
+        width 8.5em
 
     &.is-fixed-currency
-        field[name="amount"]
-            width 10em
-*/
+        .currency
+            pointer-events none

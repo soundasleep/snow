@@ -8,8 +8,11 @@ module.exports = function() {
         $el: $el
     }
     , amount = require('../../shared/amount-input')({
-        fixedCurrency: true,
-        currency: 'BTC'
+        currencies: ['BTC'],
+        min: '0.0001',
+        max: function() {
+            return api.balances['BTC'].available
+        }
     })
     , $address = $el.find('.entry .address')
     , $button = $el.find('.entry .submit')
@@ -82,11 +85,11 @@ module.exports = function() {
         validateAddress(true)
         amount.validate(true)
 
-        var $invalid = $el.find('.entry .is-invalid')
+        var $error = $el.find('.has-error')
 
-        if ($invalid.length) {
+        if ($error.length) {
             $button.shake()
-            $invalid.filter(':first').find('.field:visible:first').focus()
+            $error.filter(':first').find('.form-control:visible:first').focus()
             return
         }
 
@@ -104,7 +107,7 @@ module.exports = function() {
 
         $el.find('.review .submit').loading(true, 'Confirming...')
         api.call('v1/btc/out', {
-            amount: $el.field('amount').parseNumber(),
+            amount: amount.value(),
             address: $el.field('address').val()
         })
         .fail(errors.alertFromXhr)
