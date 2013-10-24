@@ -62,6 +62,12 @@ module.exports = function(userId) {
         $el.find('.poa').toggleClass('success', !!u.poa_approved_at)
         $el.find('.two-factor').toggleClass('success', !!u.two_factor)
 
+        if (u.reset_started_at) {
+            $el.find('.password-reset span')
+            .html(moment(u.reset_started_at).format('Do MMMM YYYY, HH:mm'))
+        }
+
+        $el.toggleClass('has-started-password-reset', !!u.reset_started_at)
         $el.toggleClass('has-verified-email', !!u.email_verified_at)
 
         oldUser = u
@@ -174,6 +180,17 @@ module.exports = function(userId) {
         .fail(errors.alertFromXhr)
         .done(function() {
             fetchProfile()
+        })
+    })
+
+    $el.on('click', '[data-action="forgive-password-reset"]', function(e) {
+        e.preventDefault()
+
+        var url = 'admin/users/' + userId + '/forgivePasswordReset'
+        api.call(url, null, { type: 'POST' })
+        .fail(errors.alertFromXhr)
+        .done(function() {
+            window.location.reload()
         })
     })
 

@@ -15,6 +15,26 @@ module.exports = exports = function(app) {
     app.get('/admin/users/:user/accounts', app.security.demand.admin, exports.accounts)
     app.del('/admin/users/:user/bankAccounts/:id', app.security.demand.admin,
         exports.removeBankAccount)
+    app.post('/admin/users/:user/forgivePasswordReset', app.security.demand.admin,
+        exports.forgivePasswordReset)
+}
+
+exports.forgivePasswordReset = function(req, res, next) {
+    req.app.conn.write.query({
+        text: 'UPDATE "user" SET reset_started_at = NULL WHERE user_id = $1',
+        values: [+req.params.user]
+    }, function(err, dr) {
+        if (err) return next(err)
+
+        if (!dr.rowCount) {
+            return res.send(404, {
+                name: 'UserNotFound',
+                message: 'User not found'
+            })
+        }
+
+        res.send(204)
+    })
 }
 
 exports.removeBankAccount = function(req, res, next) {
