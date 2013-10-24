@@ -26,7 +26,7 @@ module.exports = function(market) {
     var validateAmount = validation.fromFn($el.find('.amount'), function(d, val) {
         val = numbers.parse(val)
 
-        if (!val || val < 0) return d.reject('is-invalid')
+        if (!val || val <= 0) return d.reject('is-invalid')
 
         if (num(val).get_precision() > amountPrec) {
             return d.reject('is-precision-too-high')
