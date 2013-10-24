@@ -74,6 +74,6 @@ exports.verify = function(req, res, next) {
         }
 
         req.app.security.invalidate(uid)
-        res.redirect(req.app.config.website_url)
+        res.send('Your e-mail has been verified. You can close this window.')
     })
 }
