@@ -316,7 +316,7 @@
     "account.bankaccounts.add.iban": "IBAN",
     "account.bankaccounts.add.swiftbic": "SWIFT/BIC",
     "auth.norwaydeposit.heading": "Sikkerhetsnivå 4 kreves",
-    "auth.norwaydeposit.intro": "Vi vil nå bekrefte ditt navn og din adresse. Sett inn et valgfritt beløp fra din norske bankkonto, så vil vi bekrfte deg og kreditere din Justcoin-konto.",
+    "auth.norwaydeposit.intro": "Vi vil nå bekrefte ditt navn og din adresse. Sett inn et valgfritt beløp fra din norske bankkonto, så vil vi bekrefte deg og kreditere din Justcoin-konto.",
     "auth.norwaydeposit.continue": "Jeg har overført",
     "auth.norwaydeposit.return": "Tilbake til kontooversikt",
     "auth.norwaydeposit.sender": "Sent fra",
