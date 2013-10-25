@@ -14,7 +14,7 @@ server {
     gzip_buffers 16 8k;
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 
-    if ($http_accept_language ~ /nb/) {
-        rewrite ^/index.no.html(/?.*)$ $1 break;
+    if ($http_accept_language ~ "(no|nb)") {
+        rewrite index.html /index.no.html? break;
     }
 }
