@@ -1,10 +1,10 @@
-var nav = require('../nav')
+var nav = require('../../nav')
 , template = require('./index.html')
-, sepa = require('../../../assets/sepa.json')
-, wire = require('../../../assets/wire.json')
+, sepa = require('../../../../assets/sepa.json')
+, wire = require('../../../../assets/wire.json')
 
 module.exports = function() {
-    var $el = $('<div class=deposit-bank>').html(template({
+    var $el = $('<div class=deposit-bank-EUR>').html(template({
         messageToRecipient: api.user.tag
     }))
     , controller = {

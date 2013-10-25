@@ -30,15 +30,16 @@ exports.add = function(req, res, next) {
 
     var q = {
         text: [
-            'INSERT INTO bank_account (user_id, account_number, iban, swiftbic, routing_number)',
-            'VALUES ($1, $2, $3, $4, $5)'
+            'INSERT INTO bank_account (user_id, account_number, iban, swiftbic, routing_number, display_name)',
+            'VALUES ($1, $2, $3, $4, $5, $6)'
         ].join('\n'),
         values: [
             req.user.id,
             req.body.accountNumber,
             req.body.iban,
             req.body.swiftbic,
-            req.body.routingNumber
+            req.body.routingNumber,
+            req.body.displayName
         ]
     }
 

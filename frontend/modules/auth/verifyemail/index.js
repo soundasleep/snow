@@ -57,5 +57,9 @@ module.exports = function(after) {
         })
     })
 
+    controller.destroy = function() {
+        timer && clearInterval(timer)
+    }
+
     return controller
 }

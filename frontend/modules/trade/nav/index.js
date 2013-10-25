@@ -1,6 +1,5 @@
 var template = require('./index.html')
 , marketTemplate = require('./market.html')
-, _ = require('lodash')
 
 module.exports = function(tab, mode, type) {
     var $el = $('<div class=trade-nav>').html(template({
@@ -16,10 +15,6 @@ module.exports = function(tab, mode, type) {
     $el.find('.order-modes .advanced').toggleClass('active', mode == 'limit')
 
     function marketsFetched(markets) {
-        markets = _.sortBy(markets, function(x) {
-            return (x.id == 'BTCNOK' ? 0 : 1) + x.id
-        })
-
         $el.find('.nav').append($.map(markets, function(market) {
             return marketTemplate({
                 id: market.id,

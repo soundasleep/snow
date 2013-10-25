@@ -22,6 +22,9 @@ exports.validateGroup = function($group, fn, submitting) {
         $group.addClass('has-error ' + code)
     })
 
+    // Invisible inputs are ignored
+    if (!$group.is(':visible')) return deferred.resolve(null)
+
     if (!val.length && submitting !== true) return deferred.resolve(null)
 
     return fn(deferred, val)

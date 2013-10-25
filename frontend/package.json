@@ -22,5 +22,8 @@
   "engines": {
     "node": ">=0.10",
     "npm": "~1.1"
+  },
+  "devDependencies": {
+    "optimist": "~0.6.0"
   }
 }

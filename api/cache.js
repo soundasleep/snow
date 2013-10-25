@@ -17,7 +17,8 @@ var async = require('async')
         'EUR': true,
         'XRP': false,
         'LTC': false,
-        'BTC': false
+        'BTC': false,
+        'USD': true
     }
 }
 
