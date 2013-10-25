@@ -8,8 +8,10 @@ module.exports = function() {
         $el: $el
     }
     , amount = require('../../shared/amount-input')({
-        fixedCurrency: true,
-        currency: 'LTC'
+        currencies: ['LTC'],
+        max: function() {
+            return api.balances['LTC'].available
+        }
     })
     , $address = $el.find('.entry .address')
     , $button = $el.find('.entry .submit')
@@ -104,7 +106,7 @@ module.exports = function() {
 
         $el.find('.review .submit').loading(true, 'Confirming...')
         api.call('v1/ltc/out', {
-            amount: $el.field('amount').parseNumber(),
+            amount: amount.value(),
             address: $el.field('address').val()
         })
         .fail(errors.alertFromXhr)

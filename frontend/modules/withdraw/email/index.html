@@ -4,11 +4,11 @@
 
         <div class="col-lg-8">
             <h1>
-                <%- i18n('heading') %>
+                <%- i18n('withdraw.email.heading') %>
             </h1>
 
             <p class="lead">
-                <%- i18n('intro') %>
+                <%- i18n('withdraw.email.lead') %>
             </p>
 
             <form class="transfer-form">
@@ -17,58 +17,50 @@
 
                 <div class="email form-group">
                     <label for="email">
-                        <%- i18n('transfer.email') %>
+                        <%- i18n('withdraw.email.transfer.email.label') %>
                     </label>
                     <input type="text" name="email" class="field form-control" />
                     <span class="help-block"></span>
                 </div>
 
-                <div class="amount form-group">
-                    <label for="amount">
-                        <%- i18n('transfer.amount') %>
-                    </label>
-                    <div class="form-inline">
-                        <input name="amount" type="text" class="field form-control" />
-                        <select name="currency" class="field form-control">
-                        </select>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
+                <div class="amount-placeholder"></div>
 
                 <div class="actions form-group">
                     <label></label>
                     <button type="submit" class="submit btn btn-success btn-large">
-                        <%- i18n('transfer.submit') %>
+                        <%- i18n('withdraw.email.transfer.submit') %>
                     </button>
                 </div>
             </form>
 
             <form class="send-form form-horizontal">
                 <div>
-                    <h4><span class="email"></span> <%- i18n('send.heading') %></h4>
-                    <%- i18n('send.intro') %>
+                    <h4><span class="email"></span> <%- i18n('withdraw.email.send.heading') %></h4>
+                    <%- i18n('withdraw.email.send.intro') %>
                 </div>
 
                 <div class="actions form-group">
                     <label></label>
                     <button type="submit" class="submit btn btn-danger btn-large">
-                        <%- i18n('send.submit') %>
+                        <%- i18n('withdraw.email.transfer.submit') %>
                     </button>
                 </div>
             </form>
 
             <div class="send-confirmed">
                 <h4>
-                    <%- i18n('confirmed.heading') %>
+                    <%- i18n('withdraw.email.confirmed.heading') %>
                 </h4>
+
                 <p class="confirmation"></p>
+
                 <p>
                     <a href="#withdraw/email">
-                        <%- i18n('confirmed.send another') %>
+                        <%- i18n('withdraw.email.confirmed.send another') %>
                     </a>
-                    <%- i18n('confirmed.or') %>
+                    <%- i18n('withdraw.email.confirmed.or') %>
                     <a href="#">
-                        <%- i18n('confirmed.return to overview') %>
+                        <%- i18n('withdraw.email.confirmed.return to overview') %>
                     </a>
                 </p>
             </div>

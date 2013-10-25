@@ -11,9 +11,11 @@ module.exports = function() {
         return !x.fiat
     }), 'id')
     , amount = require('../../shared/amount-input')({
-        fixedCurrency: false,
-        currency: 'BTC',
-        currencies: currencies
+        currency: 'XRP',
+        currencies: currencies,
+        max: function(currency) {
+            return api.balances[currency].available
+        }
     })
     , $address = $el.find('.entry .address')
     , $button = $el.find('.entry .submit')
@@ -97,7 +99,7 @@ module.exports = function() {
         $el.toggleClass('is-entry is-review')
 
         $el.find('.review .amount, .summary .amount')
-        .html($el.field('amount').val() + ' ' + $el.field('currency').val())
+        .html(numbers(amount.value(), { currency: amount.currency() }))
 
         $el.find('.review .address, .summary .address')
         .html($el.field('address').val())
@@ -108,8 +110,8 @@ module.exports = function() {
 
         $el.find('.review .submit').loading(true, 'Confirming...')
         api.call('v1/ripple/out', {
-            amount: $el.field('amount').parseNumber(),
-            currency: $el.field('currency').val(),
+            amount: amount.value(),
+            currency: amount.currency(),
             address: $el.field('address').val()
         })
         .fail(errors.alertFromXhr)

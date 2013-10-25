@@ -1,98 +1,26 @@
-var _ = require('lodash')
-, template = require('./index.html')
-, format = require('util').format
-, num = require('num')
+var template = require('./index.html')
 , nav = require('../nav')
 
 module.exports = function() {
     var $el = $('<div class="create-voucher is-creating">').html(template())
-    , controller = {
+    , ctrl = {
         $el: $el
     }
     , $form = $el.find('.form')
-    , $amount = $form.find('.amount')
-    , $currency = $form.find('.currency')
     , $submit = $form.find('.submit')
+    , amount = require('../../shared/amount-input')({
+        currencies: 'digital',
+        max: 'available'
+    })
 
-    // Keep up to date on balances
-    var balances
-    , available
-
-    function onBalancesUpdated(b) {
-        b = _.filter(b, function(balance) {
-            return ~['BTC', 'XRP', 'LTC'].indexOf(balance.currency)
-        })
-
-        if (!balances) {
-            $form.field('currency')
-            .html($.map(_.sortBy(b, 'currency'), function(balance) {
-                return format(
-                    '<option value="%s">%s</option>',
-                    balance.currency,
-                    balance.currency)
-            }))
-        }
-
-        balances = b
-        updateAvailable()
-    }
-
-    // Update the user's available in the selected currency
-    function updateAvailable() {
-        if (!balances) return
-        var currency = $form.field('currency').val()
-        if (!currency) return
-        var balance = _.find(balances, { currency: currency })
-        if (!balance) return
-        available = balance.available
-
-        $amount.find('.available').html(numbers(available, null, currency))
-    }
-
-    api.on('balances', onBalancesUpdated)
-    api.balances()
-
-    $form.on('change keyup', '.currency select', updateAvailable)
-
-    // Validation
-    function validateAmount(emptyIsError) {
-        var amount = $form.field('amount').val()
-        $amount.removeClass('has-error is-invalid is-empty')
-
-        if (!amount.length) {
-            $amount.addClass('is-empty')
-            if (emptyIsError === true) $amount.addClass('has-error')
-            return
-        }
-
-        amount = numbers.parse(amount)
-
-        // NaN or <= 0
-        if (+amount <= 0) {
-            $amount.addClass('is-invalid error')
-            return
-        }
-
-        if (_.isUndefined(available)) {
-            throw new Error('available is undefined')
-        }
-
-        if (num(amount).gt(available)) {
-            $amount.addClass('is-invalid error')
-            return
-        }
-
-        return true
-    }
-
-    $amount.on('change keyup', _.bind(validateAmount, this, false))
-    $currency.on('change keyup', _.bind(validateAmount, this, false))
+    // Insert amount control
+    $el.find('.amount-placeholder').replaceWith(amount.$el)
 
     // Submit
     $form.on('submit', function(e) {
         e.preventDefault()
 
-        if (!validateAmount(true)) {
+        if (!amount.validate(true)) {
             $form.field('amount').focus()
             $submit.shake()
             return
@@ -104,10 +32,7 @@ module.exports = function() {
         .add($form.field('currency'))
         .enabled(false)
 
-        var amount = numbers.parse($form.field('amount').val())
-        , currency = $form.field('currency').val()
-
-        api.createVoucher(amount, currency)
+        api.createVoucher(amount.value(), amount.currency())
         .always(function() {
             $form.field('amount')
             .add($form.field('currency'))
@@ -121,13 +46,9 @@ module.exports = function() {
         })
     })
 
-    controller.destroy = function() {
-        api.off('balances', onBalancesUpdated)
-    }
-
-    $form.field('amount').focusSoon()
+    $el.find('.form-control:visible:not(disabled)').focusSoon()
 
     $el.find('.withdraw-nav').replaceWith(nav('voucher').$el)
 
-    return controller
+    return ctrl
 }

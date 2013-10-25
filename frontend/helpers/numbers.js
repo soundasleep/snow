@@ -3,7 +3,7 @@ var Num = require('num')
 , _ = require('lodash')
 
 /* jshint maxcomplexity: 99 */
-var numbers = module.exports = function(n, opts, currency) {
+module.exports = exports = function(n, opts, currency) {
     if (typeof opts == 'number') {
         opts = { precision: opts }
     }
@@ -49,7 +49,7 @@ var numbers = module.exports = function(n, opts, currency) {
     }
 
     if (ts) {
-        s = numbers.addThousands(s, ds, ts)
+        s = exports.addThousands(s, ds, ts)
     }
 
     if (opts.currency) {
@@ -59,22 +59,22 @@ var numbers = module.exports = function(n, opts, currency) {
     return s
 }
 
-numbers.addThousands = function(s, ds, ts) {
+exports.format = exports
+
+exports.addThousands = function(s, ds, ts) {
     var parts = s.split(ds)
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ts)
     return parts.join(ds)
 }
 
-numbers.format = numbers
-
-numbers.formatAmount = function(number, currency) {
+exports.formatAmount = function(number, currency) {
     return this.format(number, {
         currency: currency,
         thousands: true
     })
 }
 
-numbers.formatVolume = function(number, currency) {
+exports.formatVolume = function(number, currency) {
     return this.format(number, {
         currency: currency,
         thousands: true,
@@ -82,14 +82,14 @@ numbers.formatVolume = function(number, currency) {
     })
 }
 
-numbers.formatPrice = function(number) {
+exports.formatPrice = function(number) {
     return this.format(number, {
         thousands: true,
         maxPrecision: 8
     })
 }
 
-numbers.parse = function(s) {
+exports.parse = function(s) {
     // Remove spaces
     s = s.replace(/\s/g, '')
 

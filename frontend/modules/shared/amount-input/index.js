@@ -2,125 +2,227 @@ var template = require('./index.html')
 , _ = require('lodash')
 , num = require('num')
 , debug = require('debug')('snow:amount-input')
+, format = require('util').format
 
 module.exports = function(opts) {
-    opts = _.extend({
-        fixedCurrency: false,
+    opts || (opts = {})
+
+    if (opts.currencies == 'digital') {
+        opts.currencies = _.pluck(_.filter(api.currencies.value, function(x) {
+            return !x.fiat
+        }), 'id')
+    }
+
+    if (opts.currencies == 'fiat') {
+        debug('fiat')
+
+        opts.currencies = _.pluck(_.filter(api.currencies.value, function(x) {
+            return x.fiat
+        }), 'id')
+    }
+
+    if (opts.max == 'available') {
+        opts.max = function(x) {
+            return api.balances[x].available
+        }
+    }
+
+    _.defaults(opts, {
         currency: null,
         currencies: _.pluck(api.currencies.value, 'id'),
-        minExclusive: 0,
-        maxExclusive: null,
-        minInclusive: null,
-        maxInclusive: null,
-        maxPrecision: null,
-        value: ''
-    }, opts)
+        minE: 0,
+        tooHighError: i18n('shared.amount-input.amount.too high'),
+        tooSmallError: i18n('shared.amount-input.amount.too small'),
+        showAvailable: true
+    })
 
     var $el = $('<div class="amount-input">').html(template(opts))
-    , controller = {
+    , ctrl = {
         $el: $el,
         opts: opts
     }
     , $amount = $el.find('.amount')
-    , $amountField = $el.field('amount')
+    , $amountField = $amount.field('amount')
+    , $currency = $el.find('[name="currency"]')
+    , $currencies = $el.find('.currencies')
 
-    $el.toggleClass('is-fixed-currency')
+    function clearErrors() {
+        $amount.removeClass('has-error is-too-high is-invalid has-too-high-precision is-too-small')
+    }
 
-    controller.validate = function(emptyIsError) {
-        var val = $amountField.val()
-        , empty = !val.length
-        $amount.toggleClass('is-empty', empty)
+    ctrl.currency = function(val) {
+        if (val !== undefined) {
+            if (opts.showAvailable && api.balances[val]) {
+                var avail = api.balances[val].available
+                , maxPrecision = num(avail).gte(100) ? 0 : 2
 
-        if (empty) {
-            debug('amount is empty')
-            $amount.toggleClass('has-error is-invalid', !!emptyIsError)
-            return
+                $currency.html(format('%s <small>(%s)</small>', val, numbers(avail, {
+                    maxPrecision: maxPrecision
+                })))
+            } else {
+                $currency.text(val)
+            }
+            $currency.attr('data-currency', val)
+            return ctrl
         }
+        return $currency.attr('data-currency')
+    }
 
-        var valn = $amountField.parseNumber()
+    ctrl.value = function(val) {
+        if (val !== undefined) {
+            $amountField.text(numbers(val))
+            return ctrl
+        }
+        return $amountField.parseNumber()
+    }
 
-        if (valn === null) {
+    ctrl.validate = function() {
+        clearErrors()
+
+        var val = ctrl.value()
+
+        if (val === null) {
+            debug('invalid because value is null')
             $amount.addClass('has-error is-invalid')
             return
         }
 
-        valn = num(valn)
+        debug('in validate, value is %s', val)
 
-        debug('value parsed as %s', valn.toString())
+        var valn = num(val)
+        , currency = ctrl.currency()
 
-        var currency = opts.fixedCurrency ? opts.currency : $el.field('currency').val()
+        if (opts.max !== undefined) {
+            var max = _.isFunction(opts.max) ? opts.max(currency) : opts.max
 
-        var maxPrecision = opts.maxPrecision !== null ?
-            opts.maxPrecision :
-            _.find(api.currencies.value, { id: currency }).scale
+            debug('max is: %s', max)
 
-        if (valn.get_precision() > maxPrecision) {
-            debug('precision %s is higher than max, %s', valn.get_precision(),
-                maxPrecision)
-
-            $amount.addClass('has-error is-invalid')
-            return
+            if (valn.gt(num(max))) {
+                debug('invalid because %s > %s', val, max)
+                $amount.addClass('has-error is-too-high')
+                return
+            }
         }
 
-        if (opts.minInclusive !== null && valn.lt(opts.minInclusive)) {
-            $amount.addClass('has-error is-invalid')
-            debug('lt min inclusive %s', opts.minInclusive)
-            return
+        if (opts.min !== undefined) {
+            var min = _.isFunction(opts.min) ? opts.min(currency) : opts.min
+
+            debug('min is: %s', min)
+
+            if (valn.lt(num(min))) {
+                debug('invalid because %s < %s', val, min)
+                $amount.addClass('has-error is-too-small')
+                return
+            }
         }
 
-        if (opts.maxInclusive !== null && valn.gt(opts.maxInclusive)) {
-            $amount.addClass('has-error is-invalid')
-            debug('gt max inclusive %s', opts.maxInclusive)
-            return
+        if (opts.minE !== undefined) {
+            var minE = _.isFunction(opts.minE) ? opts.minE(currency) : opts.minE
+
+            debug('minE is: %s', minE)
+
+            if (valn.lte(num(minE))) {
+                debug('invalid because %s <= %s', val, minE)
+                $amount.addClass('has-error is-too-small')
+                return
+            }
         }
 
-        if (opts.minExclusive !== null && valn.lte(opts.minExclusive)) {
-            $amount.addClass('has-error is-invalid')
-            debug('lte min exclusive %s', opts.minExclusive)
-            return
+        var maxPrecision = _.result(opts, 'maxPrecision')
+
+        // Default to max precision of the currency
+        if (maxPrecision === undefined) {
+            maxPrecision = api.currencies[currency].scale
         }
 
-        if (opts.maxExclusive !== null && valn.gte(opts.maxExclusive)) {
-            $amount.addClass('has-error is-invalid')
-            debug('gte max exclusive %s', opts.maxExclusive)
-            return
+        debug('max precision %s', maxPrecision === undefined ? 'none' : maxPrecision)
+
+        if (typeof maxPrecision == 'number') {
+            var precision = valn.get_precision()
+
+            if (precision > maxPrecision) {
+                $amount.addClass('has-error has-too-high-precision')
+                .find('.too-high-precision')
+                .html(i18n('shared.amount-input.amount.too high precision', maxPrecision))
+                return
+            }
         }
 
-        var balanceItem = _.find(api.balances.current, { currency: currency})
-        , avail = balanceItem.available
-
-        if (valn.gt(avail)) {
-            $amount.addClass('has-error is-invalid')
-            debug('gt available %s', avail)
-            return
-        }
-
-        $amount.removeClass('has-error is-invalid')
-
+        debug('valid')
         return true
     }
 
-    $amountField.on('keyup change', function(e) {
-        if (e.which == 13) return
-        controller.validate()
+    // Remove errors when the user types
+    $amountField.on('keyup', function(e) {
+        // Unless tab or enter
+        if  (~[7, 13].indexOf(e.which)) return
+
+        clearErrors()
     })
 
-    $el.on('click', '[data-action="all"]', function(e) {
-        e.preventDefault()
-        var currency = opts.fixedCurrency ? opts.currency : $el.field('currency').val()
-        , balanceItem = _.find(api.balances.current, { currency: currency})
-        , avail = balanceItem.available
-        $amountField.val(numbers.format(avail))
-        controller.validate()
-    })
+    // Fixed currency
+    if (!opts.currency && opts.currencies.length == 1) {
+        opts.currency = opts.currencies[0]
+    }
 
-    if (!opts.fixedCurrency) {
-        $el.field('currency').html($.map(opts.currencies, function(id) {
-            return $('<option value="' + id + '">' + id + '</option>')
+    if (!opts.currency) {
+        opts.currency = opts.currencies[0]
+    }
+
+    ctrl.currency(opts.currency)
+
+    // Multiple currencies
+    if (opts.currencies.length > 1) {
+        debug('showing multiple currencies (%s)', opts.currencies.length)
+
+        // Change on click in dropdown
+        $currencies.on('click', 'li', function(e) {
+            e.preventDefault()
+            var $li = $(this).closest('li')
+            , currency = $li.attr('data-currency')
+
+            // Unchanged
+            if (currency == ctrl.currency()) return
+
+            ctrl.currency(currency)
+            clearErrors()
+            $amountField.focus()
+        })
+
+        $currencies.html($.map(opts.currencies, function(x) {
+            return $(format('<li><a href="#">%s</a>', x))
+            .attr('data-currency', x)
         }))
     }
 
-    controller.validate()
+    if (opts.showAvailable) {
+        var renderCurrencies = function() {
+            debug('re-rendering currencies after update')
 
-    return controller
+            $currencies.html($.map(opts.currencies, function(x) {
+                return $(format('<li><a href="#">%s (%s)</a>', x,
+                    numbers(api.balances[x].available)))
+                .attr('data-currency', x)
+            }))
+        }
+
+        api.on('balances', renderCurrencies)
+        api.balances.value && renderCurrencies()
+
+        // TODO: Not working
+        $el.on('remove', function() {
+            api.off('balances', renderCurrencies)
+        })
+    }
+
+    // User might not be logged in yet
+    if (opts.showAvailable && !api.balances.value) {
+        api.once('balances', function() {
+            ctrl.currency(ctrl.currency())
+        })
+    }
+
+    $el.toggleClass('is-fixed-currency', opts.currencies.length == 1)
+
+    return ctrl
 }
