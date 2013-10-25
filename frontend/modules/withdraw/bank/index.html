@@ -5,13 +5,13 @@
         <div class="col-lg-6">
             <h1><%= i18n('withdraw.bank.heading') %></h1>
 
-            <div class="hidden-sepa">
+            <div class="hidden-allowed">
                 <div class="alert lead">
-                    <%- i18n('withdraw.bank.outside sepa') %>
+                    <%- i18n('withdraw.bank.country not allowed') %>
                 </div>
             </div>
 
-            <div class="visible-sepa">
+            <div class="visible-allowed">
                 <div class="visible-empty">
                     <p class="lead">
                         <%- i18n('withdraw.bank.empty') %>
@@ -25,16 +25,14 @@
                 </div>
 
                 <div class="hidden-empty">
-                    <div class="alert alert-info">
-                        <p class=""></p>
-                        <% if (api.user.country == 'NO') { %>
-                            <%- i18n('withdraw.bank.nok fee') %>
-                        <% } else { %>
-                            <%- i18n('withdraw.bank.eur fee') %>
-                        <% } %>
-                    </div>
+                    <form class="panel">
+                        <div class="amount-placeholder"></div>
 
-                    <form class="well">
+                        <div class="alert alert-info">
+                            <p class=""></p>
+                            <%- i18n('withdraw.bank.fee') %>
+                        </div>
+
                         <div class="account form-group">
                             <label for="account">
                                 <%- i18n('withdraw.bank.bank account.label') %>
@@ -48,8 +46,6 @@
 
                             <select name="account" class="form-control"></select>
                         </div>
-
-                        <div class="amount-placeholder"></div>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block"><%- i18n('withdraw.bank.submit') %></button>

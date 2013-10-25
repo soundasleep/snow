@@ -17,7 +17,7 @@ module.exports = function() {
         })
 
         var digitals = _.filter(balances, function(x) {
-            return ~['BTC', 'LTC', 'XRP'].indexOf(x.currency)
+            return !api.currencies[x.currency].fiat
         })
 
         var $fiats = $el.find('.fiat .dropdown-menu li')
@@ -35,8 +35,8 @@ module.exports = function() {
                 numbers.format(item.available, { currency: item.currency }))
         }))
 
-        var fiat = _.find(fiats, { currency: api.user.country == 'NO' ? 'NOK' : 'EUR' })
-        , digital = _.find(digitals, { currency: 'BTC' })
+        var fiat = _.find(fiats, { currency: api.defaultFiatCurrency() })
+        , digital = _.find(digitals, { currency: api.defaultDigitalCurrency() })
 
         $fiat.html(numbers.format(fiat.available, { currency: fiat.currency }))
         $digital.html(numbers.format(digital.available, { currency: digital.currency }))

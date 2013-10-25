@@ -1,5 +1,6 @@
 var template = require('./index.html')
 , validation = require('../../../../helpers/validation')
+, sepa = require('../../../../assets/sepa.json')
 
 module.exports = function() {
     var $el = $('<div class=account-bankaccounts-add>')
@@ -28,15 +29,27 @@ module.exports = function() {
     var validateIban = validation.fromRegex($el.find('.iban'), /^[A-Za-z0-9 ]{1,35}$/)
     validation.monitorField($el.field('iban'), validateIban)
 
+    var validateAccountNumber = validation.fromRegex($el.find('.account-number'), /^[0-9]{1,35}$/)
+    validation.monitorField($el.field('accountNumber'), validateAccountNumber)
+
+    var validateRoutingNumber = validation.fromRegex($el.find('.routing-number'), /^[A-Za-z0-9 ]{0,35}$/)
+    validation.monitorField($el.field('routingNumber'), validateRoutingNumber)
+
     var validateSwift = validation.fromRegex($el.find('.swift'), /^[A-Za-z0-9 ]{1,15}$/)
     validation.monitorField($el.field('swift'), validateSwift)
 
+    var validateName = validation.fromRegex($el.find('.name'), /^.{0,30}$/)
+    validation.monitorField($el.field('name'), validateName)
+
     var validate = validation.fromFields({
         iban: validateIban,
-        swift: validateSwift
+        swift: validateSwift,
+        name: validateName,
+        routingNumber: validateRoutingNumber,
+        accountNumber: validateAccountNumber
     })
 
-    $el.on('submit', 'form', function(e) {
+    $form.on('submit', function(e) {
         e.preventDefault()
 
         validate(true)
@@ -45,13 +58,14 @@ module.exports = function() {
             $submit.shake()
         })
         .done(function(values) {
-            if (!values.iban || !values.swift) return
-
             $submit.loading(true)
 
             return api.call('v1/bankAccounts', {
                 iban: values.iban,
-                swiftbic: values.swift
+                swiftbic: values.swift,
+                displayName: values.name,
+                accountNumber: values.accountNumber,
+                routingNumber: values.routingNumber === '' ? null : values.routingNumber
             })
             .always(function() {
                 $submit.loading(false)
@@ -63,8 +77,21 @@ module.exports = function() {
         })
     })
 
+    var typeGuess = 'international'
 
-    $el.field('iban').focusSoon()
+    if (api.user.country == 'NO') {
+        typeGuess = 'norway'
+    } else if (~sepa.indexOf(api.user.country)) {
+        typeGuess = 'iban'
+    }
+
+    $form.field('type').on('change', function() {
+        $form
+        .removeClass('is-type-norway is-type-iban is-type-international')
+        .addClass('is-type-' + $(this).val())
+    })
+    .val(typeGuess)
+    .trigger('change')
 
     return ctrl
 }

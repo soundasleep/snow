@@ -208,7 +208,11 @@ api.register = function(email, password) {
 api.balances = function() {
     return api.call('v1/balances')
     .done(function(balances) {
-        api.balances.current = balances
+        var sortOrder = _.pluck(api.currencies.value, 'id')
+
+        api.balances.current = balances.sort(function(a, b) {
+            return sortOrder.indexOf(a.currency) - sortOrder.indexOf(b.currency)
+        })
 
         _.each(balances, function(item) {
             api.balances[item.currency] = item
@@ -220,9 +224,13 @@ api.balances = function() {
 }
 
 api.currencies = function() {
+    var sortOrder = ['USD', 'EUR', 'NOK', 'BTC', 'LTC', 'XRP']
+
     return api.call('v1/currencies')
     .done(function(currencies) {
-        api.currencies.value = currencies
+        api.currencies.value = currencies.sort(function(a, b) {
+            return sortOrder.indexOf(a.id) - sortOrder.indexOf(b.id)
+        })
 
         _.each(currencies, function(item) {
             api.currencies[item.id] = item
@@ -270,7 +278,11 @@ api.patchUser = function(attrs) {
 api.markets = function() {
     return api.call('v1/markets')
     .then(function(markets) {
-        api.markets.value = markets
+        var sortOrder = ['BTCUSD', 'BTCEUR', 'BTCNOK', 'BTCLTC', 'BTCXRP']
+
+        api.markets.value = markets.sort(function(a, b) {
+            return sortOrder.indexOf(a.id) - sortOrder.indexOf(b.id)
+        })
 
         _.each(markets, function(item) {
             api.markets[item.id] = item
@@ -378,5 +390,87 @@ api.bankAccounts = function() {
 }
 
 api.feeRatio = function(market) {
-    return market == 'BTCEUR' ? 0 : 0.005
+    if (market == 'BTCEUR') return 0
+    if (market == 'BTCUSD') return 0
+    return 0.005
+}
+
+api.defaultDigitalCurrency = function() {
+    // todo: bal
+    return 'BTC'
+}
+
+api.defaultMarket = function() {
+    return 'BTC' + api.defaultFiatCurrency()
+}
+
+api.defaultFiatCurrency = function() {
+    debug('guessing user default fiat currency')
+
+    if (api.balances.current) {
+        debug('trying to guess on balances')
+
+        var sortedFiats = _.filter(api.balances.current, function(x) {
+            return x.balance > 0 && api.currencies[x.currency].fiat
+        }).sort(function(a, b) {
+            return b.balance - a.balance
+        })
+
+        var fiat = sortedFiats[0]
+
+        if (fiat) {
+            debug('guessing from highest sorted fiat: %s (%s)', fiat.currency, fiat.balance)
+            return fiat.currency
+        } else {
+            debug('no fiat balances to guess from')
+        }
+    }
+
+    var sepa = require('./assets/sepa.json')
+
+    if (!api.user || !api.user.country) {
+        debug('user is not logged in / no country set')
+
+        if (!i18n.desired) {
+            debug('user has no desired language. guessing USD')
+            return 'USD'
+        }
+
+        var countryCodeGuess = i18n.desired.substr(i18n.desired.length - 2, 2)
+
+        debug('country code guess %s (from desired lang %s)', countryCodeGuess || '(none)', i18n.desired)
+
+        if (countryCodeGuess.length != 2) {
+            debug('no country code guess, guessing USD')
+            return 'USD'
+        }
+
+        if (countryCodeGuess == 'NO') {
+            debug('country code guess is NO, guessing NOK')
+            return 'NOK'
+        }
+
+        if (~sepa.indexOf(countryCodeGuess)) {
+            debug('country code guess is in SEPA, guessing EUR')
+            return 'EUR'
+        }
+
+        debug('not sepa, guessing USD')
+
+        return 'USD'
+    }
+
+    if (api.user.country == 'NO') {
+        debug('user country is NO, guessing NOK')
+        return 'NOK'
+    }
+
+    if (~sepa.indexOf(api.user.country)) {
+        debug('user is in sepa, guessing EUR')
+        return 'EUR'
+    }
+
+    debug('user is not in sepa, guessing USD')
+
+    return 'USD'
 }

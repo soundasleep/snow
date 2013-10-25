@@ -3,6 +3,7 @@ var format = require('util').format
 , nav = require('../nav')
 , template = require('./index.html')
 , sepa = require('../../../assets/sepa.json')
+, wire = require('../../../assets/wire.json')
 
 module.exports = function(currency) {
     var $el = $('<div class=withdraw-bank>').html(template())
@@ -12,7 +13,7 @@ module.exports = function(currency) {
     , $form = ctrl.$el.find('form')
     , $account = $form.field('account')
     , amount = require('../../shared/amount-input')({
-        currency: currency || api.user.country == 'NO' ? 'NOK' : 'EUR',
+        currency: currency || (currency = api.defaultFiatCurrency()),
         currencies: 'fiat',
         max: 'available',
         maxPrecision: 2
@@ -34,7 +35,7 @@ module.exports = function(currency) {
         $account.html(_.map(accounts, function(a) {
             return format(
                 '<option class="bank-account" value="%s">%s</option>',
-                a.id, formatters.bankAccount(a))
+                a.id, _.escape(formatters.bankAccount(a)))
         }))
     })
 
@@ -56,7 +57,8 @@ module.exports = function(currency) {
     })
 
     $el.find('.withdraw-nav').replaceWith(nav('bank').$el)
-    $el.toggleClass('is-sepa', !!~sepa.indexOf(api.user.country))
+    var allowed = ~sepa.indexOf(api.user.country) || ~wire.indexOf(api.user.country)
+    $el.toggleClass('is-allowed', !!allowed)
 
     return ctrl
 }

@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="row">
+        <div class="deposit-nav"></div>
+
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1><%= i18n('deposit.bank.EUR.heading') %></h1>
+
+                    <p class="lead visible-allowed">
+                        <%= i18n('deposit.bank.EUR.intro') %>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 hidden-allowed">
+                    <div class="alert lead">
+                        Sorry, but at this time we do not accept bank deposits from your country,
+                        <strong><%= api.user.countryFriendly() %></strong>.
+                    </div>
+                </div>
+
+                <div class="col-lg-12 payment-details visible-allowed">
+                    <div class="panel">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <strong><%= i18n('deposit.bank.EUR.recipient') %></strong>
+                            </div>
+                            <div class="col-lg-6">
+                                Justcoin AS<br />
+                                <small>
+                                Tordenskioldsgate 3<br />
+                                0160 Oslo<br>
+                                Norway</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <strong>IBAN</strong>
+                            </div>
+
+                            <div class="col-lg-6">
+                                NO05 1250 6115 084
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <strong>SWIFT/BIC</strong>
+                            </div>
+
+                            <div class="col-lg-6">
+                                DNBANOKKXXX
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <strong><%= i18n('deposit.bank.EUR.messageToRecipient') %></strong>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <%= messageToRecipient %>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <strong><%= i18n('deposit.bank.EUR.minimumAmount') %></strong>
+                            </div>
+
+                            <div class="col-lg-6">
+                                25 EUR
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <strong><%= i18n('deposit.bank.EUR.our bank') %></strong>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <small>
+                                    DNB BANK ASA<br />
+                                    Dronning Eufemias gate 30<br />
+                                    0191 OSLO<br />
+                                    Norway
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <strong><%= i18n('deposit.bank.EUR.fee') %></strong>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <abbr title="Single Euro Payments Area">SEPA</abbr>: ~2.50 EUR<br />
+                                International: ~7.50 EUR<br />
+                                <small>See <a href="#about/terms" target="_blank">Terms</a></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

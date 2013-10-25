@@ -1,18 +1,20 @@
 <tr class="item" data-id="<%= currency %>">
     <td class="currency" style="vertical-align:middle">
-        <%- currency %>
-
-        <span class="text-align:right">
-        <% if (currency == 'NOK') { %>
-            <a href="#deposit/bank" class="visible-user-country-NO btn btn-success" style="margin-left:2em"><%- i18n('account.funds.deposit now') %></a>
+        <% if (currency == 'USD') { %>
+            <a href="#deposit/bank/USD"><%= currency %></a>
+        <% } else if (currency == 'EUR') { %>
+            <a href="#deposit/bank/EUR"><%= currency %></a>
+        <% } else if (currency == 'NOK') { %>
+            <a href="#deposit/bank/NOK"><%= currency %></a>
+        <% } else if (currency == 'BTC') { %>
+            <a href="#deposit/bitcoin"><%= currency %></a>
+        <% } else if (currency == 'LTC') { %>
+            <a href="#deposit/litecoin"><%= currency %></a>
+        <% } else { %>
+            <%= currency %>
         <% } %>
-
-        <% if (currency == 'EUR') { %>
-            <a href="#deposit/bank" class="hidden-user-country-NO btn btn-success" style="margin-left:2em"><%- i18n('account.funds.deposit now') %></a>
-        <% } %>
-        </span>
     </td>
-    <td class="amount"><%- numbers.format(balance, { trim: false, maxPrecision: 3 }) %></td>
-    <td class="amount hidden-sm"><%- numbers.format(hold, { trim: false, maxPrecision: 3 }) %></td>
-    <td class="amount"><%- numbers.format(available, { trim: false, maxPrecision: 3 }) %></td>
+    <td class="amount"><%= numbers.format(balance, { trim: false, maxPrecision: 3 }) %></td>
+    <td class="amount hidden-sm"><%= numbers.format(hold, { trim: false, maxPrecision: 3 }) %></td>
+    <td class="amount"><%= numbers.format(available, { trim: false, maxPrecision: 3 }) %></td>
 </tr>
