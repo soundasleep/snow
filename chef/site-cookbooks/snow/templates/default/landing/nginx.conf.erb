@@ -13,4 +13,8 @@ server {
     gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript text/x-js;
     gzip_buffers 16 8k;
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+
+    if ($http_accept_language ~ /nb/) {
+        rewrite ^/index.no.html(/?.*)$ $1 break;
+    }
 }
