@@ -413,7 +413,7 @@ api.defaultFiatCurrency = function() {
         var sortedFiats = _.filter(api.balances.current, function(x) {
             return x.balance > 0 && api.currencies[x.currency].fiat
         }).sort(function(a, b) {
-            return b - a
+            return b.balance - a.balance
         })
 
         var fiat = sortedFiats[0]
