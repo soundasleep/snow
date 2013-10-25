@@ -25,12 +25,14 @@
                 </div>
 
                 <div class="hidden-empty">
-                    <div class="alert alert-info">
-                        <p class=""></p>
-                        <%- i18n('withdraw.bank.fee') %>
-                    </div>
+                    <form class="panel">
+                        <div class="amount-placeholder"></div>
 
-                    <form class="well">
+                        <div class="alert alert-info">
+                            <p class=""></p>
+                            <%- i18n('withdraw.bank.fee') %>
+                        </div>
+
                         <div class="account form-group">
                             <label for="account">
                                 <%- i18n('withdraw.bank.bank account.label') %>
@@ -44,8 +46,6 @@
 
                             <select name="account" class="form-control"></select>
                         </div>
-
-                        <div class="amount-placeholder"></div>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block"><%- i18n('withdraw.bank.submit') %></button>
