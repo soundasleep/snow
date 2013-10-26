@@ -11,6 +11,8 @@
     "alertify": "https://github.com/fabien-d/alertify.js/archive/0.3.11.tar.gz"
   },
   "devDependencies": {
+    "grunt-cli": "~0.1.9",
+    "grunt": "~0.4.1",
     "grunt-browserify": "~1.2.9",
     "grunt-concurrent": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",

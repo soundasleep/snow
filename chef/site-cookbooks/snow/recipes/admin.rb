@@ -52,7 +52,7 @@ deploy_revision node[:snow][:admin][:app_directory] do
         code %{
           PATH=$PATH:./node_modules/.bin
           npm install
-          grunt
+          grunt production
         }
       end
     end
