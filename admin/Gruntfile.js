@@ -42,8 +42,7 @@ module.exports = function(grunt) {
 
                 files: {
                     'public/head.js': [
-                        'lib/modernizr/modernizr.js',
-                        'lib/raven-js/raven.js'
+                        'lib/modernizr/modernizr.js'
                     ],
                     'public/vendor.js': [
                         'lib/jquery/jquery.js',
