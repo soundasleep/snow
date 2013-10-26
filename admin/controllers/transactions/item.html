@@ -4,7 +4,7 @@
     <td class="type"><%= type %></td>
     <td class="amount">
         <%= numbers.format(amount, { currency: currency }) %>
-        <% if (currency != 'BTC') { %>
+        <% if (currency != 'BTC' && amountBtc !== null) { %>
             (<%= numbers.format(amountBtc, { currency: 'BTC' }) %>)
         <% } %>
     </td>
