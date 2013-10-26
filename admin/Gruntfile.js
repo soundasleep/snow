@@ -98,7 +98,7 @@ module.exports = function(grunt) {
         uglify: {
             libraries: {
                 files: {
-                    'dist/head.js': ['lib/raven/raven.js', 'public/head.js'],
+                    'dist/head.js': ['lib/raven-js/raven.js', 'public/head.js'],
                     'dist/vendor.js': 'public/vendor.js'
                 }
             },
