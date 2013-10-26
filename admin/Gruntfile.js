@@ -131,7 +131,7 @@ module.exports = function(grunt) {
             production: {
                 files: {
                     'dist/app.css': 'public/app.css',
-                    'dist/dist.css': 'public/dist.css'
+                    'dist/vendor.css': 'public/vendor.css'
                 }
             }
         },
