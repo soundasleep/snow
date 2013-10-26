@@ -122,7 +122,7 @@ module.exports = function(grunt) {
 
             production: {
                 files: {
-                    'dist/index.html': 'dist/index.html'
+                    'dist/index.html': 'public/index.html'
                 }
             }
         },
