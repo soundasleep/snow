@@ -130,7 +130,8 @@ module.exports = function(grunt) {
         cssmin: {
             production: {
                 files: {
-                    'dist/app.css': 'public/app.css'
+                    'dist/app.css': 'public/app.css',
+                    'dist/dist.css': 'public/dist.css'
                 }
             }
         },
