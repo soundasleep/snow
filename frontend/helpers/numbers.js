@@ -114,5 +114,5 @@ exports.parse = function(s) {
         return null
     }
 
-    return s
+    return Num(s).toString()
 }
