@@ -29,10 +29,10 @@ app.use(express.cookieParser())
 app.security = require('./security')(app)
 
 if (module.parent) {
-    app.ripple.drop = {}
+    app.ripple.remote = {}
 } else {
     app.notify = require('./email/notify')(app)
-    //app.ripple.connect()
+    app.ripple.connect()
 }
 
 var routes = ['bitcoincharts', 'v1', 'admin']

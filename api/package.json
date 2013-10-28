@@ -20,7 +20,8 @@
     "ejs": "~0.8.4",
     "speakeasy": "~1.0.3",
     "pg-builder": "~1.0.1",
-    "libphonenumber": "0.0.5"
+    "libphonenumber": "0.0.5",
+    "ripple-lib": "~0.7.29"
   },
   "scripts": {
     "test": "mocha",
