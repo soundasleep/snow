@@ -70,7 +70,7 @@ module.exports = function(opts) {
 
     ctrl.value = function(val) {
         if (val !== undefined) {
-            $amountField.text(numbers(val))
+            $amountField.val(numbers(val))
             return ctrl
         }
         return $amountField.parseNumber()
@@ -193,6 +193,10 @@ module.exports = function(opts) {
             return $(format('<li><a href="#">%s</a>', x))
             .attr('data-currency', x)
         }))
+    }
+
+    if (opts.value !== undefined) {
+        ctrl.value(opts.value)
     }
 
     if (opts.showAvailable) {

@@ -1,4 +1,9 @@
 {
+    "withdraw.ripple.entry.unfunded": "Denne kontoen er tom. Send minst 75 XRP for å aktivere den.",
+    "withdraw.ripple.entry.set trust": "Sett trust",
+    "withdraw.ripple.entry.too low trust": "Du må legge til <span data-id=amount-lacking></span> trust til Justcoin.",
+    "withdraw.ripple.summary.status.requested": "Forespurt",
+    "withdraw.ripple.summary.status.processing": "Behandler",
     "deposit.bank.EUR.our bank": "Vår bank",
     "deposit.bank.USD.our bank": "Vår bank",
     "deposit.bank.USD.recipient": "Mottaker",
@@ -220,7 +225,7 @@
     "withdrawripple.intro": "Uttak til Ripple blir vanligvis behandlet på noen få sekunder.",
     "withdrawripple.currency.label": "Valuta",
     "withdrawripple.amount.label": "Antall",
-    "withdrawripple.address.label": "Ripple-adress",
+    "withdrawripple.address.label": "Ripple-adresse",
     "withdrawripple.address.placeholder": "radresse",
     "withdrawripple.button": "Ta ut til Ripple",
 
@@ -437,7 +442,7 @@
     "withdraw.ripple.review.fee": "Avgift",
     "withdraw.ripple.review.no fee": "Ingen avgift",
     "withdraw.ripple.review.confirm": "Bekreft og send",
-    "withdraw.ripple.review.cancel": "Avbryt",
+    "withdraw.ripple.review.back": "Tilbake",
     "withdraw.ripple.summary.heading": "Kvittering",
     "withdraw.ripple.summary.intro": "Vi har mottatt forespørselen din og vil behandle den innen noen sekunder.",
     "withdraw.ripple.summary.send to": "Send til",
