@@ -12,5 +12,7 @@ module.exports = function() {
     // Insert navigation
     $el.find('.deposit-nav').replaceWith(nav('bank').$el)
 
+    $el.toggleClass('is-allowed', api.user.country == 'NO')
+
     return ctrl
 }

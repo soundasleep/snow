@@ -19,6 +19,8 @@ module.exports = function(currency) {
         maxPrecision: 2
     })
 
+    var allowed = ~sepa.indexOf(api.user.country) || ~wire.indexOf(api.user.country)
+
     // Insert amount control
     $el.find('.amount-placeholder').append(amount.$el)
 
@@ -57,7 +59,6 @@ module.exports = function(currency) {
     })
 
     $el.find('.withdraw-nav').replaceWith(nav('bank').$el)
-    var allowed = ~sepa.indexOf(api.user.country) || ~wire.indexOf(api.user.country)
     $el.toggleClass('is-allowed', !!allowed)
 
     return ctrl
