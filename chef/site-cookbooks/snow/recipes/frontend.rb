@@ -56,11 +56,10 @@ deploy_revision node[:snow][:frontend][:app_directory] do
         group "ubuntu"
         cwd "#{release_path}/frontend"
         code %{
-          export PATH=node_modules/.bin:$PATH
           export SEGMENT=#{env_bag['segment']['api_key']}
+          PATH=$PATH:./node_modules/.bin
           npm install
-          node node_modules/bower/bin/bower install
-          make dist
+          grunt production
         }
       end
     end

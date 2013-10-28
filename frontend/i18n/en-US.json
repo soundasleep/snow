@@ -1,4 +1,9 @@
 {
+    "withdraw.ripple.entry.unfunded": "This account is unfunded. Send atleast 75 XRP to activate it.",
+    "withdraw.ripple.entry.set trust": "Set trust",
+    "withdraw.ripple.entry.too low trust": "You must add <span data-id=amount-lacking></span> trust to Justcoin.",
+    "withdraw.ripple.summary.status.requested": "Requested",
+    "withdraw.ripple.summary.status.processing": "Processing",
     "deposit.bank.EUR.our bank": "Our bank",
     "deposit.bank.USD.our bank": "Our bank",
     "deposit.bank.USD.recipient": "Recipient",
@@ -445,7 +450,7 @@
     "withdraw.ripple.review.fee": "Fee",
     "withdraw.ripple.review.no fee": "No fee",
     "withdraw.ripple.review.confirm": "Confirm and send",
-    "withdraw.ripple.review.cancel": "Cancel",
+    "withdraw.ripple.review.back": "Back",
     "withdraw.ripple.summary.heading": "Summary",
     "withdraw.ripple.summary.intro": "Your request has been received and will be processed in a few seconds.",
     "withdraw.ripple.summary.send to": "Send to",

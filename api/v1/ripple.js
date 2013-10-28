@@ -1,9 +1,13 @@
+var debug = require('debug')('snow:v1:ripple')
+, num = require('num')
+
 module.exports = exports = function(app) {
     var demand = app.security.demand
     app.post('/v1/ripple/out', demand.otp(demand.withdraw(2), true), exports.withdraw)
     app.get('/v1/ripple/address', exports.address)
     app.get('/ripple/federation', exports.federation)
     app.get('/v1/ripple/trust/:account', exports.trust)
+    app.get('/v1/ripple/account/:account', exports.account)
 }
 
 exports.federation = function(conn, req, res) {
@@ -122,15 +126,53 @@ exports.withdraw = function(req, res, next) {
     })
 }
 
-exports.trust = function(req, res, next) {
-    if (!req.app.config.ripple_account) {
-        throw new Error('ripple_account not configured')
+exports.account = function(req, res, next) {
+    if (!req.app.ripple) {
+        return next(new Error('Ripple is disabled'))
     }
 
-    req.app.ripple.drop.lines(req.params.account, function(err, lines) {
-        if (err) return next(err)
+    req.app.ripple.remote.request_account_info(req.params.account, function(err, account) {
+        if (err) {
+            if (err.remote && err.remote.error == 'actNotFound') {
+                return res.send(404, {
+                    name: 'AccountNotFound',
+                    message: 'The specified account was not found'
+                })
+            }
 
-        lines = lines.reduce(function(p, c) {
+            debug('error name: %s', err.name || '<none>')
+            return next(err)
+        }
+
+        res.send({
+            balance: num(account.account_data.Balance, 6).toString()
+        })
+    })
+}
+
+exports.trust = function(req, res, next) {
+    if (!req.app.config.ripple_account) {
+        return next(new Error('ripple_account not configured'))
+    }
+
+    if (!req.app.ripple) {
+        return next(new Error('Ripple is disabled'))
+    }
+
+    req.app.ripple.remote.request_account_lines(req.params.account, 0, 'current', function(err, rres) {
+        if (err) {
+            if (err.remote && err.remote.error == 'actNotFound') {
+                return res.send(404, {
+                    name: 'AccountNotFound',
+                    message: 'The specified account was not found'
+                })
+            }
+
+            debug('error name: %s', err.name || '<none>')
+            return next(err)
+        }
+
+        var lines = rres.lines.reduce(function(p, c) {
             if (c.account != req.app.config.ripple_account) return p
 
             p[c.currency] = {

@@ -50,9 +50,9 @@ deploy_revision node[:snow][:admin][:app_directory] do
         group "ubuntu"
         cwd "#{release_path}/admin"
         code %{
+          PATH=$PATH:./node_modules/.bin
           npm install
-          node node_modules/bower/bin/bower install
-          node node_modules/jake/bin/cli.js
+          grunt production
         }
       end
     end

@@ -62,7 +62,11 @@
             margin-top 3em
 
 #area > .withdraw-ripple
-    states entry review summary
+    states entering reviewing sending
+
+    .entry
+        .address
+            states unfunded too-low-trust
 
     .entry, .review, .summary
         border solid 1px #ccc

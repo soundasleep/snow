@@ -15,8 +15,10 @@
     <link rel="icon" href="/favicon.png">
     <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
     <meta name="msapplication-TileImage" content="/tileicon.png">
-    <link href="styles.css?ts=<%= timestamp %>" rel="stylesheet" media="screen">
-    <script src="head.js?ts=<%= timestamp %>"></script>
+    <script src="head.js?<%= +new Date() %>"></script>
+
+    <link href="vendor.css?<%= +new Date() %>" rel="stylesheet" media="screen">
+    <link href="app.css?<%= +new Date() %>" rel="stylesheet" media="screen">
 
     <% if (typeof segment !== 'undefined' && segment) { %>
         <script type="text/javascript">
@@ -31,8 +33,8 @@
         <div class="old-browser"><h4>Your browser is too old</h4><p><a href="http://browsehappy.com">Upgrade now</a></p></div>
     <![endif]-->
 
-    <script src="vendor.js?ts=<%= timestamp %>"></script>
+    <script src="vendor.js?<%= +new Date() %>"></script>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <script src="app.js?ts=<%= timestamp %>"></script>
+    <script src="app.js?<%= +new Date() %>"></script>
 </body>
 </html>
