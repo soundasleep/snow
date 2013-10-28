@@ -8,7 +8,7 @@ module.exports = exports = function(app) {
 exports.create = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/order_create', res)) return
 
-    if (req.body.price && !req.body.price.match(/^\d+(\.\d+)?$/)) {
+    if (req.body.price !== null && !req.body.price.match(/^\d+(\.\d+)?$/)) {
         res.send({
             name: 'BadRequest',
             message: 'Price is invalid'
@@ -19,8 +19,22 @@ exports.create = function(req, res, next) {
     , amount = req.app.cache.parseOrderVolume(req.body.amount, req.body.market)
     , query
 
-    if (req.body.price) {
+    if (amount <= 0) {
+        return res.send({
+            name: 'BadRequest',
+            message: 'Amount is <= 0'
+        })
+    }
+
+    if (req.body.price !== null) {
         price = req.app.cache.parseOrderPrice(req.body.price, req.body.market)
+
+        if (price <= 0) {
+            return res.send({
+                name: 'BadRequest',
+                message: 'Price is <= 0'
+            })
+        }
     }
 
     if (req.body.aon) {
