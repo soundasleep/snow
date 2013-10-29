@@ -311,7 +311,7 @@ api.depth = function(id) {
 
 // curl -H "Content-type: application/json" -X POST \
 // -d '{ "amount": "123.45", "currency": "BTC" }' \
-// https://api.justcoin.com/v1/vouchers
+// https://justcoin.com/api/v1/vouchers
 //
 // { "voucher": "A1B2C3E4F5FF" }
 api.createVoucher = function(amount, currency) {
@@ -323,7 +323,7 @@ api.createVoucher = function(amount, currency) {
     })
 }
 
-// curl -X POST https://api.justcoin.com/v1/vouchers/A1B2C3E4F5FF/redeem
+// curl -X POST https://justcoin.com/api/v1/vouchers/A1B2C3E4F5FF/redeem
 //
 // 200: { "amount": "123.45", "currency": "BTC" }
 // 204: (voucher cancelled)
