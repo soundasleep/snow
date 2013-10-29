@@ -50,6 +50,8 @@ module.exports = function() {
         })
         .done(function(res) {
             var wr = _.find(res, { id: requestId })
+            if (!wr) return
+
             $status.removeClasses(/^is-/)
             .addClass('is-' + wr.state)
 
