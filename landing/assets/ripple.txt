@@ -2,7 +2,7 @@
 justcoin.com
 
 [federation_url]
-https://api.justcoin.com/ripple/federation
+https://justcoin.com/api/ripple/federation
 
 [accounts]
 rJHygWcTLVpSXkowott6kzgZU6viQSVYM1
