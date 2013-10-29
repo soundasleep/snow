@@ -1,4 +1,10 @@
 {
+    "deposit.ripple.address.label": "Send til <small>(Justcoins Ripple-konto)</small>",
+    "deposit.ripple.tag.label": "Destinasjons-tag <small>(Ditt Justcoin-kontonummer)</small>",
+    "deposit.ripple.tag.title": "Destinasjonstagen lar oss vite at innskudd kommer fra akkurat deg. Du trenger ikke endre dette.",
+    "deposit.ripple.heading": "Innskudd fra Ripple",
+    "deposit.ripple.lead": "Fyll inn skjemaet nedenfor, så sender vi deg til Ripple.com for å fullføre innskuddet.",
+    "deposit.ripple.submit": "Fortsett til Ripple.com",
     "withdraw.ripple.entry.unfunded": "Denne kontoen er tom. Send minst 75 XRP for å aktivere den.",
     "withdraw.ripple.entry.set trust": "Sett trust",
     "withdraw.ripple.entry.too low trust": "Du må legge til <span data-id=amount-lacking></span> trust til Justcoin.",

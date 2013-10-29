@@ -7,6 +7,10 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user(2)) return
         master(require('./bitcoin')(), 'deposit')
     })
+    .add(/^deposit\/ripple$/, function() {
+        if (!authorize.user(2)) return
+        master(require('./ripple')(), 'deposit')
+    })
     .add(/^deposit\/litecoin$/, function() {
         if (!authorize.user(2)) return
         master(require('./litecoin')(), 'deposit')

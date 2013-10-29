@@ -1,4 +1,10 @@
 {
+    "deposit.ripple.address.label": "Send to <small>(Justcoin's Ripple account)</small>",
+    "deposit.ripple.tag.label": "Destination tag <small>(Your Justcoin account number)</small>",
+    "deposit.ripple.tag.title": "The destination tag lets us know the deposit is coming from you. You don't need to change this.",
+    "deposit.ripple.heading": "Deposit funds from Ripple",
+    "deposit.ripple.lead": "Fill in the form below and we'll send you to Ripple.com to finish the deposit.",
+    "deposit.ripple.submit": "Continue to Ripple.com",
     "withdraw.ripple.entry.unfunded": "This account is unfunded. Send atleast 75 XRP to activate it.",
     "withdraw.ripple.entry.set trust": "Set trust",
     "withdraw.ripple.entry.too low trust": "You must add <span data-id=amount-lacking></span> trust to Justcoin.",

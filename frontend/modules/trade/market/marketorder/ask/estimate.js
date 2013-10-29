@@ -7,7 +7,6 @@ exports.receive = function(market, amount) {
     , filled
     if (!api.depth[market].bids) {
         debug('no bids available')
-        console.log(api.depth[market])
         return
     }
     _.some(api.depth[market].bids, function(level) {
