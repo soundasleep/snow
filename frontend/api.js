@@ -360,11 +360,16 @@ api.litecoinAddress = function() {
 }
 
 api.rippleAddress = function() {
+    if (api.rippleAddress.value) {
+        return $.Deferred().resolve(api.rippleAddress.value)
+    }
+
     return api.call('v1/ripple/address')
     .then(function(result) {
         return result.address
     })
     .done(function(address) {
+        api.rippleAddress.value = address
         api.trigger('rippleAddress', address)
     })
 }
