@@ -4,7 +4,7 @@ module.exports = function(name) {
     name = name || ''
 
     return function() {
-        if (!console || !console.log) {
+        if (typeof console == 'undefined' || !console || !console.log) {
             return
         }
 
