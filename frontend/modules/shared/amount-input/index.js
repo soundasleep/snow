@@ -213,7 +213,6 @@ module.exports = function(opts) {
         api.on('balances', renderCurrencies)
         api.balances.value && renderCurrencies()
 
-        // TODO: Not working
         $el.on('remove', function() {
             api.off('balances', renderCurrencies)
         })
