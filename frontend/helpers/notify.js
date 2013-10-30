@@ -40,7 +40,7 @@ module.exports = function() {
         }
 
         setTimeout(function() {
-            api.activities(since)
+            //api.activities(since)
         }, 5e3)
     })
 

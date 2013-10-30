@@ -1,5 +1,6 @@
 var debug = require('debug')('snow:v1:ripple')
 , num = require('num')
+, request = require('request')
 
 module.exports = exports = function(app) {
     var demand = app.security.demand
@@ -10,7 +11,7 @@ module.exports = exports = function(app) {
     app.get('/v1/ripple/account/:account', exports.account)
 }
 
-exports.federation = function(conn, req, res) {
+exports.federation = function(req, res, next) {
     var domain = req.query.domain
     , tag = req.query.tag
     , user = req.query.user
@@ -34,8 +35,30 @@ exports.federation = function(conn, req, res) {
     if (!domain) return sendError('invalidParams')
     if (!user && !tag) return sendError('invalidParams')
     if (user && tag) return sendError('invalidParams')
-    if (domain !== req.app.config.ripple_federation.domain) {
-        return sendError('noSuchDomain')
+
+    if (true || domain !== req.app.config.ripple_federation.domain) {
+        return request({
+            url: 'http://' + domain + '/ripple.txt'
+        }, function(err, rres, data) {
+            if (err) return next(err)
+
+            if (rres.statusCode == 404) {
+                debug('ripple.txt not found for domain %s')
+                return sendError('noSuchDomain')
+            }
+
+            var federationUrl = /\[federation_url\]\n(http[^\n]+)/i.exec(data)
+            var q = {
+                url: federationUrl[1],
+                qs: req.query,
+                json: true
+            }
+
+            request(q, function(err, rres, data) {
+                if (err) return next(err)
+                res.send(data)
+            })
+        })
     }
 
     var query = user ? {
@@ -66,7 +89,8 @@ exports.federation = function(conn, req, res) {
                 currencies: req.app.config.ripple_federation_currencies,
                 expires: Math.round(+new Date() / 1e3) + 3600 * 24 * 7,
                 domain: req.app.config.ripple_federation.domain,
-                signer: null
+                signer: null,
+                service_address: req.app.config.ripple_account
             },
             public_key: null,
             signature: null
