@@ -1,5 +1,4 @@
 var debug = require('debug')('snow:ripple:federation')
-, _ = require('lodash')
 , request = require('request')
 , parseUrl = require('url').parse
 
@@ -15,63 +14,56 @@ module.exports = exports = function(app) {
     app.get('/ripple/federation', exports.handler)
 }
 
-exports.cache = {}
-exports.domainCache = {}
-
-exports.getError = function(name) {
-    return {
+exports.sendError = function(res, query, name) {
+    res.send({
         result: 'error',
         error: name,
-        error_message: errorMessages[name] || 'Unknown error'
-    }
+        error_message: errorMessages[name] || 'Unknown error',
+        query: query
+    })
 }
 
 exports.handler = function(req, res, next) {
     if (!/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\.[a-zA-Z]{2,}$/.exec(req.query.domain)) {
-        return res.send(_.extend(exports.getError('invalidParams'), { query: req.query }))
+        debug('domain %s is invalid', req.query.domain)
+        return exports.sendError(res, req.query, 'invalidParams')
     }
 
-    if (!/$\S+^/.exec(req.query.user)) {
-        return res.send(_.extend(exports.getError('invalidParams'), { query: req.query }))
+    if (!/^\S+$/.exec(req.query.user)) {
+        debug('username %s is invalid', req.query.user)
+        return exports.sendError(res, req.query, 'invalidParams')
     }
 
     var domain = req.query.domain.toLowerCase()
     , user = req.query.user.toLowerCase()
-    , cacheKey = user + '@' + domain
 
-    var item = exports.cache[cacheKey]
-    if (item !== undefined) return res.send(item)
+    debug('processing lookup for %s@%s', user, domain)
 
     // The domain name is served directly here
     if (req.query.domain.toLowerCase() == req.app.config.ripple_federation.domain) {
-        return exports.fromUser(user, domain, function(err, rec) {
+        return exports.fromUser(user, function(err, tag) {
             if (err) return next(err)
-            if (!rec) return exports.sendError(req.query, res, 'noSuchUser')
-            var result = {
+            if (!tag) return exports.sendError(res, req.query, 'noSuchUser')
+            res.send({
                 result: 'success',
                 federation_json: {
                     type: 'federation_record',
                     user: user,
-                    tag: rec.tag,
+                    tag: tag,
                     service_address: req.app.config.ripple_account,
                     domain: domain
                 }
-            }
-            exports.cache[cacheKey] = result
-            res.send(result)
+            })
         })
     }
 
-    // The domain is not served here
     if (!req.app.config.ripple_federation.forward) {
-        return exports.sendError(req.query, res, 'noSuchDomain')
+        return exports.sendError(res, req.query, 'noSuchDomain')
     }
 
-    exports.forward(req.query.user, req.query.domain, function(err, rres) {
-        if (err) return next(err)
-        exports.cache[cacheKey] = rres
-        res.send(rres)
-    })
+    debug('forwarding request for %s', domain)
+
+    exports.forward(req, res, next)
 }
 
 exports.fromUser = function(user, cb) {
@@ -88,12 +80,6 @@ exports.fromUser = function(user, cb) {
 }
 
 exports.lookupDomain = function(domain, cb) {
-    var item = exports.domainCache[domain]
-
-    if (item !== undefined) {
-        return cb(null, exports.domainCache)
-    }
-
     request({
         url: 'http://' + domain + '/ripple.txt'
     }, function(err, res, data) {
@@ -107,18 +93,26 @@ exports.lookupDomain = function(domain, cb) {
     })
 }
 
-exports.forward = function(user, domain, cb) {
-    exports.lookupDomain(domain, function(err, url) {
-        if (err) return cb(err)
+exports.forward = function(req, res, next) {
+    exports.lookupDomain(req.query.domain, function(err, url) {
+        if (err) return next(err)
 
         if (!url) {
-            return cb(null, ({
-                result: 'error',
-                error: 'noSuchDomain',
-                error_message: errorMessages['noSuchDomain']
-            })
+            return exports.sendError(res, req.query, 'noSuchDomain')
         }
 
-
+        request({
+            url: url,
+            qs: {
+                type: 'federation',
+                user: req.query.user,
+                domain: req.query.domain
+            },
+            json: true
+        }, function(err, rres, body) {
+            if (err) return next(err)
+            if (rres.statusCode != 200) return next(new Error('Status ' + rres.statusCode))
+            return res.send(body)
+        })
     })
 }
