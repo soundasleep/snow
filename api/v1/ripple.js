@@ -5,77 +5,9 @@ module.exports = exports = function(app) {
     var demand = app.security.demand
     app.post('/v1/ripple/out', demand.otp(demand.withdraw(2), true), exports.withdraw)
     app.get('/v1/ripple/address', exports.address)
-    app.get('/ripple/federation', exports.federation)
     app.get('/v1/ripple/trust/:account', exports.trust)
     app.get('/v1/ripple/account/:account', exports.account)
-}
-
-exports.federation = function(conn, req, res) {
-    var domain = req.query.domain
-    , tag = req.query.tag
-    , user = req.query.user
-    , errorMessages = {
-        'noSuchUser': 'The supplied user was not found.',
-        'noSuchTag': 'The supplied tag was not found.',
-        'noSuchDomain': 'The supplied domain is not served here.',
-        'invalidParams': 'Missing or conflicting parameters.',
-        'unavailable': 'Service is temporarily unavailable.'
-    }
-
-    var sendError = function(name) {
-        res.send({
-            result: 'error',
-            error: name,
-            error_message: errorMessages[name],
-            request: req.query
-        })
-    }
-
-    if (!domain) return sendError('invalidParams')
-    if (!user && !tag) return sendError('invalidParams')
-    if (user && tag) return sendError('invalidParams')
-    if (domain !== req.app.config.ripple_federation.domain) {
-        return sendError('noSuchDomain')
-    }
-
-    var query = user ? {
-        text: 'SELECT user_id FROM "user" WHERE REPLACE(email_lower, \'@\', \'_\') = $1',
-        values: [user]
-    } : {
-        text: [
-            'SELECT REPLACE(email_lower, \'@\', \'_\') username',
-            'FROM "user" WHERE tag = $1'
-        ].join('\n'),
-        values: [tag]
-    }
-
-    req.app.conn.read.query(query, function(err, dr) {
-        if (err) {
-            console.error(err)
-            return sendError('unavailable')
-        }
-
-        if (!dr.rows.length) {
-            return sendError(user ? 'noSuchUser' : 'noSuchTag')
-        }
-
-        var result = {
-            result: 'success',
-            federation_json: {
-                type: 'federation_record',
-                currencies: req.app.config.ripple_federation_currencies,
-                expires: Math.round(+new Date() / 1e3) + 3600 * 24 * 7,
-                domain: req.app.config.ripple_federation.domain,
-                signer: null
-            },
-            public_key: null,
-            signature: null
-        }
-        var row = dr.rows[0]
-        if (user) result.federation_json.tag = row.user_id
-        else result.federation_json.user = row.username
-        res.send(result)
-    })
+    require('./ripple.federation')(app)
 }
 
 exports.address = function(req, res) {
