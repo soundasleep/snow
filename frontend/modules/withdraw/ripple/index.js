@@ -251,10 +251,11 @@ module.exports = function() {
         })
     })
 
-    ctrl.destroy = function() {
+    // Dispose
+    $el.on('remove', function() {
+        amount.$el.triggerHandler('remove')
         utd && utd.stop()
-        utd = null
-    }
+    })
 
     // Insert navigation (top)
     $el.find('.withdraw-nav').replaceWith(nav('ripple').$el)

@@ -10,9 +10,7 @@ module.exports = function() {
     , amount = require('../../shared/amount-input')({
         currencies: ['BTC'],
         min: '0.0001',
-        max: function() {
-            return api.balances['BTC'].available
-        }
+        max: 'available'
     })
     , $address = $el.find('.entry .address')
     , $button = $el.find('.entry .submit')
@@ -119,9 +117,10 @@ module.exports = function() {
         })
     })
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         timer && clearTimeout(timer)
-    }
+        amount.$el.triggerHandler('remove')
+    })
 
     $el.find('.withdraw-nav').replaceWith(nav('bitcoin').$el)
 

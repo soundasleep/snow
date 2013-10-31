@@ -48,6 +48,12 @@ module.exports = function() {
 
     $el.find('.form-control:visible:not(disabled)').focusSoon()
 
+    // Dispose
+    $el.on('remove', function() {
+        amount.$el.triggerHandler('remove')
+    })
+
+    // Insert navigation
     $el.find('.withdraw-nav').replaceWith(nav('voucher').$el)
 
     return ctrl

@@ -9,9 +9,7 @@ module.exports = function() {
     }
     , amount = require('../../shared/amount-input')({
         currencies: ['LTC'],
-        max: function() {
-            return api.balances['LTC'].available
-        }
+        max: 'available'
     })
     , $address = $el.find('.entry .address')
     , $button = $el.find('.entry .submit')
@@ -116,9 +114,10 @@ module.exports = function() {
         })
     })
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         timer && clearTimeout(timer)
-    }
+        amount.$el.triggerHandler('remove')
+    })
 
     $el.find('.withdraw-nav').replaceWith(nav('litecoin').$el)
 

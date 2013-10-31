@@ -194,7 +194,7 @@ module.exports = function(grunt) {
             },
 
             modules: {
-                files: ['modules/**/*', 'i18n/**/*.json', 'helpers/**/*'],
+                files: ['modules/**/*', 'i18n/**/*.json', 'helpers/**/*', '*.js'],
                 tasks: 'browserify:development'
             },
 

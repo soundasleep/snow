@@ -192,17 +192,6 @@ module.exports = function(grunt) {
             templates: {
                 files: ['controllers/**/*.html'],
                 tasks: 'browserify:development'
-            },
-
-            livereload: {
-                options: {
-                    livereload: true
-                },
-
-                files: [
-                    'public/*.js',
-                    'public/*.css'
-                ]
             }
         },
 

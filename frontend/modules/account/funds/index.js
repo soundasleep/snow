@@ -17,9 +17,9 @@ module.exports = function() {
     api.on('balances', balances)
     api.balances.value && balances(api.balances.value)
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         api.off('balances', balances)
-    }
+    })
 
     $el.find('.account-nav').replaceWith(nav('funds').$el)
 
