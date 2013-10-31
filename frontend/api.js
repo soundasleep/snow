@@ -116,19 +116,12 @@ api.call = function(method, data, options) {
             return retryWithOtp()
         }
 
-        return err
-    }).fail(function(err) {
-        if (err.name == 'SessionNotFound') {
-            $.removeCookie('session', { path: '/' })
-            debug('Removed session cookie after "SessionNotFound" error')
-        }
-
-        if (~['OtpRequired', 'NotAuthenticated', 'SessionNotFound'].indexOf(err.name)) {
-            if (!options.authorizing && api.user) {
+        if (~['SessionNotFound'].indexOf(err.name)) {
+            if (!options.authorizing) {
                 debug('invalidating "session" because of %s', err.name)
-                api.logout()
-                require('./authorize').demand(0)
-                return
+                $.removeCookie('session', { path: '/' })
+                location.reload()
+                return $.Deferred()
             }
         }
 
@@ -167,7 +160,14 @@ api.logout = function() {
     api.user = null
 
     if ($.cookie('session')) {
-        return api.call('security/session', null, { type: 'DELETE' })
+        return api.call('security/session', null, { type: 'DELETE', authorizing: true })
+        .then(null, function(err) {
+            if (err.name == 'SessionNotFound') {
+                debug('ignoring session not found in logout')
+                return $.Deferred().resolve()
+            }
+            return err
+        })
         .always(function() {
             $.removeCookie('session', { path: '/' })
         })
@@ -178,7 +178,7 @@ api.logout = function() {
 
 api.login = function(email, password) {
     debug('creating session for %s', email)
-    return api.call('security/session', { email: email })
+    return api.call('security/session', { email: email }, { authorizing: true })
     .then(function(res) {
         debug('retrieved session id: %s', res.id)
         var key = keyFromCredentials(res.id, email, password)
