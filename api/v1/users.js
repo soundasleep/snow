@@ -184,7 +184,7 @@ exports.identity = function(req, res, next) {
             })
         }
 
-        req.app.security.invalidate(req.app, req.user.id)
+        req.app.security.invalidate(req.user.id)
 
         req.app.activity(req.user.id, 'IdentitySet', {})
 
