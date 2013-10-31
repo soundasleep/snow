@@ -53,9 +53,9 @@ module.exports = function() {
         api.balances()
     })
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         balancesTimer && clearTimeout(balancesTimer)
-    }
+    })
 
     return controller
 }

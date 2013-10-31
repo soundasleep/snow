@@ -12,9 +12,9 @@ module.exports = function() {
     , $form = $el.find('form')
     , $submit = $form.find('[type="submit"]')
 
-    ctrl.destroy = function() {
+    $el.on('remove', function() {
         $modal.modal('hide')
-    }
+    })
 
     $el.on('click', '[data-action="close"]', function(e) {
         e.preventDefault()
