@@ -1,4 +1,9 @@
 {
+    "settings.nav.profile": "Profile",
+    "settings.profile.heading": "Profile",
+    "settings.profile.username": "Username",
+    "settings.profile.submit": "Save",
+    "settings.profile.saved": "Your profile has been updated",
     "deposit.bank.EUR.do not send as nok": "<u>Don't</u> send as NOK",
     "deposit.bank.USD.do not send as nok": "<u>Don't</u> send as NOK",
     "deposit.ripple.address.label": "Send to <small>(Justcoin's Ripple account)</small>",
