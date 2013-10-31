@@ -14,6 +14,8 @@ module.exports = exports = function(app) {
 }
 
 exports.patch = function(req, res, next) {
+    if (!req.app.validate(req.body, 'v1/user_patch', res)) return
+
     var updates = {}
     , values = [req.user.id]
 
@@ -21,12 +23,16 @@ exports.patch = function(req, res, next) {
         updates['language'] = req.body.language
     }
 
+    if  (req.body.username !== undefined) {
+        updates['username'] = req.body.username
+    }
+
     var updateText = _.map(updates, function(value, key) {
         values.push(value)
         return key + ' = $' + values.length
     })
 
-    if (values.length === 1) {
+    if (values.length == 1) {
         return res.send(400, {
             name: 'NoUpdates',
             message: 'No updates were provided'
@@ -69,6 +75,7 @@ exports.whoami = function(req, res, next) {
             '   language,',
             '   security_level,',
             '   two_factor,',
+            '   username,',
             '   city',
             'FROM user_view',
             'WHERE user_id = $1'
@@ -88,6 +95,7 @@ exports.whoami = function(req, res, next) {
             phone: row.phone,
             firstName: row.firstname,
             lastName: row.lastname,
+            username: row.username,
             address: row.address,
             emailVerified: row.email_verified_at !== null,
             country: row.country,
