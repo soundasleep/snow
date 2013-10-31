@@ -8,6 +8,7 @@ module.exports = exports = function(app) {
     app.get('/v1/ripple/trust/:account', exports.trust)
     app.get('/v1/ripple/account/:account', exports.account)
     require('./ripple.federation')(app)
+    require('./ripple.bitcoinbridge')(app)
 }
 
 exports.address = function(req, res) {

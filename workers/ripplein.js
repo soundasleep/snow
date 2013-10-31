@@ -304,6 +304,11 @@ RippleIn.prototype.processTransaction = function(tran, cb) {
 
     var units = this.stringToUnits(tran.amount, tran.currency)
 
+    if (tran.dt == 1) {
+        debug('Ignoring transaction to destination tag 1 (Bitcoin bridge)')
+        return cb()
+    }
+
     this.rippleCredit(
         tran.hash,
         tran.currency,

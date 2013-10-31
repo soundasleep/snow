@@ -135,6 +135,8 @@ BitcoinOut.prototype.sendBatch = function(requests, cb) {
         }
 
         if (err.code == -6) {
+            debug('%s', err.message)
+            debug('%s', err.name)
             debug('request failed because wallet is lacking funds')
             debug('trying to re-queue requests')
 
