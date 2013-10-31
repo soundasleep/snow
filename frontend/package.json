@@ -7,7 +7,7 @@
     "lodash": "~2.2.1",
     "moment": "~2.1.0",
     "thirty-two": "0.0.1",
-    "debug": "~0.7.2",
+    "debug": "0.7.2",
     "grunt-bower": "~0.7.0",
     "grunt-cli": "~0.1.9",
     "grunt": "~0.4.1",
