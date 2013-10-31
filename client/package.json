@@ -13,5 +13,9 @@
   },
   "bin": {
     "snow": "./bin/snow"
+  },
+  "devDependencies": {
+    "expect.js": "~0.2.0",
+    "mocha": "~1.12.0"
   }
 }

@@ -166,7 +166,7 @@ exports.otp = function(inner, optional) {
 
             debug('otp is correct, setting tfaPassed on the user')
 
-            req.user.tfaPassed = true
+            req.session.tfaPassed = true
 
             next()
         })

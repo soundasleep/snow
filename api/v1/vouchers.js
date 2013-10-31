@@ -111,12 +111,6 @@ exports.redeem = function(app, user, voucher, cb) {
         },
 
         function(dr, cb) {
-            if (!dr.rowCount) {
-                var err = new Error('Voucher not found')
-                err.name = 'VoucherNotFound'
-                return cb(err)
-            }
-
             if (!dr.rows[0].tid) {
                 return cb(null, null)
             }
@@ -147,5 +141,15 @@ exports.redeem = function(app, user, voucher, cb) {
                 amount: app.cache.formatCurrency(row.amount, row.currency_id)
             })
         }
-    ], cb)
+    ], function(err, res) {
+        if (err) {
+            if (err.message.match(/not found/)) {
+                err = new Error('Voucher not found')
+                err.name = 'VoucherNotFound'
+                return cb(err)
+            }
+        }
+
+        cb(err, res)
+    })
 }

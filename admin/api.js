@@ -93,7 +93,7 @@ api.login = function(email, password, otp) {
     return api.call('security/session', { email: email })
     .then(function(res) {
         var key = keyFromCredentials(res.id, email, password)
-        $.cookie('session', key)
+        $.cookie('session', key, { path: '/' })
 
         return api.call('v1/twoFactor/auth', {
             otp: otp

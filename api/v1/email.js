@@ -64,13 +64,8 @@ exports.verify = function(req, res, next) {
         var uid = dr.rows[0].uid
 
         if (!uid) {
-            if (err.message == 'Code not found or expired') {
-                return req.app.tarpit(function() {
-                    res.send(404, 'Code not found or expired')
-                })
-            }
-
-            return next(err)
+            res.send(404, 'Code not found or expired')
+            return
         }
 
         req.app.security.invalidate(uid)
