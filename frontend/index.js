@@ -10,12 +10,9 @@ window.api = require('./api')
 window.errors = require('./errors')
 window.i18n = require('./i18n')
 window.numbers = require('./helpers/numbers')
-window.notify = require('./helpers/notify')()
 window.formatters = require('./helpers/formatters')
 window.moment = require('moment')
 window.autologout = require('./helpers/autologout')()
-
-$app.append(window.notify.$el)
 
 debug('shared components inited')
 
@@ -45,8 +42,6 @@ api.on('user', function(user) {
         api.patchUser({ language: i18n.desired })
         .fail(errors.reportFromXhr)
     }
-
-    api.activities()
 })
 
 $app.on('click', 'a[href="#set-language"]', function(e) {

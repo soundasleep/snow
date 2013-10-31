@@ -83,7 +83,8 @@ describe('bankaccounts', function() {
                     req.accountNumber,
                     req.iban,
                     req.swiftbic,
-                    req.routingNumber
+                    req.routingNumber,
+                    req.displayName
                 ])
                 cb()
             })

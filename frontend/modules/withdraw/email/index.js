@@ -115,6 +115,12 @@ module.exports = function() {
 
     $transferForm.field('email').focusSoon()
 
+    // Dispose
+    $el.on('remove', function() {
+        amount.$el.triggerHandler('remove')
+    })
+
+    // Insert navigation
     $el.find('.withdraw-nav').replaceWith(nav('email').$el)
 
     return controller

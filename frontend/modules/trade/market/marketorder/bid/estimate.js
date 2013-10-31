@@ -6,6 +6,7 @@ exports.receive = function(market, desired) {
     var depth = api.depth[market]
     if (!depth) {
         debug('no depth available to estimate')
+        return
     }
 
     var base = market.substr(0, 3)

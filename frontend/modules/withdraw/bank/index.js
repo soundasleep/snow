@@ -25,7 +25,7 @@ module.exports = function(currency) {
     $el.find('.amount-placeholder').append(amount.$el)
 
     $el.on('remove', function() {
-        amount.$el.trigger('remove')
+        amount.$el.triggerHandler('remove')
     })
 
     // Enumerate bank accounts

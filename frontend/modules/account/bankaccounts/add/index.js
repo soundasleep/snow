@@ -12,9 +12,9 @@ module.exports = function() {
     , $form = $el.find('form')
     , $submit = $form.find('[type="submit"]')
 
-    ctrl.destroy = function() {
+    $el.on('remove', function() {
         $modal.modal('hide')
-    }
+    })
 
     $el.on('click', '[data-action="close"]', function(e) {
         e.preventDefault()
@@ -38,7 +38,7 @@ module.exports = function() {
     var validateSwift = validation.fromRegex($el.find('.swift'), /^[A-Za-z0-9 ]{1,15}$/)
     validation.monitorField($el.field('swift'), validateSwift)
 
-    var validateName = validation.fromRegex($el.find('.name'), /^.{0,30}$/)
+    var validateName = validation.fromRegex($el.find('.name'), /^.{0,25}$/)
     validation.monitorField($el.field('name'), validateName)
 
     var validate = validation.fromFields({

@@ -64,7 +64,8 @@ module.exports = function() {
 
                 // The account was not found, but this withdraw will create it
                 if (values.amount.currency == 'XRP' && num(values.amount.amount).gte(minFunded)) {
-                    return values
+                    debug('would meet reserve')
+                    return $.Deferred().resolve(values)
                 }
 
                 $address.addClass('has-error is-unfunded')
@@ -267,10 +268,11 @@ module.exports = function() {
         })
     })
 
-    ctrl.destroy = function() {
+    // Dispose
+    $el.on('remove', function() {
+        amount.$el.triggerHandler('remove')
         utd && utd.stop()
-        utd = null
-    }
+    })
 
     // Insert navigation (top)
     $el.find('.withdraw-nav').replaceWith(nav('ripple').$el)
