@@ -40,10 +40,10 @@ module.exports = function(id) {
     api.on('depth:' + id, onDepth)
     api.depth[id] && onDepth(api.depth[id])
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         refresh.stop()
         api.off('depth:' + id, onDepth)
-    }
+    })
 
     var refresh = uptodate(api.depth.bind(api, id), null, {
         now: !api.depth[id]

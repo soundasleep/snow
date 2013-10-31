@@ -57,9 +57,9 @@ module.exports = function(after) {
         })
     })
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         timer && clearInterval(timer)
-    }
+    })
 
     return controller
 }

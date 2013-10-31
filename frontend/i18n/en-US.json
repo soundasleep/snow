@@ -1,4 +1,6 @@
 {
+    "deposit.bank.EUR.do not send as nok": "<u>Don't</u> send as NOK",
+    "deposit.bank.USD.do not send as nok": "<u>Don't</u> send as NOK",
     "deposit.ripple.address.label": "Send to <small>(Justcoin's Ripple account)</small>",
     "deposit.ripple.tag.label": "Destination tag <small>(Your Justcoin account number)</small>",
     "deposit.ripple.tag.title": "The destination tag lets us know the deposit is coming from you. You don't need to change this.",
@@ -24,7 +26,7 @@
     "deposit.bank.EUR.fee": "Fee",
     "deposit.bank.EUR.heading": "Deposit EUR with bank transfer",
     "deposit.bank.EUR.intro": "It's fast and easy to deposit using bank transfer. Send from your Internet banking using the details below.",
-    "deposit.bank.NOK.kyc warning": "The transfer must be sent from %s (%s). Other payments will be returned.",
+    "deposit.bank.NOK.kyc warning": "The transfer must be sent from <b>%s</b> with the address <b>%s</b>. Other payments will be returned.",
     "deposit.bank.heading": "Bank  deposit",
     "deposit.bank.lead": "Depositing using bank transfer is easy. Choose your currency:",
     "deposit.bank.NOK.heading": "Deposit NOK (domestic)",

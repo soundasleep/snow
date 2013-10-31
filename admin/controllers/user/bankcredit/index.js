@@ -68,9 +68,9 @@ module.exports = function(userId) {
     api.on('currencies', renderCurrencies)
     api.currencies.value || api.currencies()
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         api.off('currencies', renderCurrencies)
-    }
+    })
 
     return controller
 }

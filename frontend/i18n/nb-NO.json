@@ -1,4 +1,6 @@
 {
+    "deposit.bank.EUR.do not send as nok": "<u>Ikke</u> send som NOK",
+    "deposit.bank.USD.do not send as nok": "<u>Ikke</u> send som NOK",
     "deposit.ripple.address.label": "Send til <small>(Justcoins Ripple-konto)</small>",
     "deposit.ripple.tag.label": "Destinasjons-tag <small>(Ditt Justcoin-kontonummer)</small>",
     "deposit.ripple.tag.title": "Destinasjonstagen lar oss vite at innskudd kommer fra akkurat deg. Du trenger ikke endre dette.",
@@ -24,7 +26,7 @@
     "deposit.bank.EUR.fee": "Avgift",
     "deposit.bank.EUR.heading": "Sett inn EUR med bankoverføring",
     "deposit.bank.EUR.intro": "Det er raskt og enkelt å sette inn med bankoverføring. Send fra nettbanken din med detaljene under.",
-    "deposit.bank.NOK.kyc warning": "Overføringen må sendes fra %s (%s). Andre overføringer vil bli returnert.",
+    "deposit.bank.NOK.kyc warning": "Overføringen må sendes fra <b>%s</b> med adressen <b>%s</b>. Andre overføringer vil bli returnert.",
     "deposit.bank.heading": "Innskudd med bankoverføring",
     "deposit.bank.lead": "Det er raskt og enkelt å sette inn med bankoverføring. Velg valuta:",
     "deposit.bank.NOK.heading": "Sette inn NOK",
