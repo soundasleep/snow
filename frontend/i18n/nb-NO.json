@@ -1,4 +1,6 @@
 {
+    "deposit.bank.EUR.do not send as nok": "<u>Ikke</u> send som NOK",
+    "deposit.bank.USD.do not send as nok": "<u>Ikke</u> send som NOK",
     "deposit.ripple.address.label": "Send til <small>(Justcoins Ripple-konto)</small>",
     "deposit.ripple.tag.label": "Destinasjons-tag <small>(Ditt Justcoin-kontonummer)</small>",
     "deposit.ripple.tag.title": "Destinasjonstagen lar oss vite at innskudd kommer fra akkurat deg. Du trenger ikke endre dette.",
