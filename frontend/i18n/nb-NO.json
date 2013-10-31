@@ -26,7 +26,7 @@
     "deposit.bank.EUR.fee": "Avgift",
     "deposit.bank.EUR.heading": "Sett inn EUR med bankoverføring",
     "deposit.bank.EUR.intro": "Det er raskt og enkelt å sette inn med bankoverføring. Send fra nettbanken din med detaljene under.",
-    "deposit.bank.NOK.kyc warning": "Overføringen må sendes fra %s (%s). Andre overføringer vil bli returnert.",
+    "deposit.bank.NOK.kyc warning": "Overføringen må sendes fra <b>%s</b> med adressen <b>%s</b>. Andre overføringer vil bli returnert.",
     "deposit.bank.heading": "Innskudd med bankoverføring",
     "deposit.bank.lead": "Det er raskt og enkelt å sette inn med bankoverføring. Velg valuta:",
     "deposit.bank.NOK.heading": "Sette inn NOK",
