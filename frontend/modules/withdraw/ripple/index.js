@@ -7,6 +7,7 @@ var template = require('./index.html')
 , minFunded = '75'
 , format = require('util').format
 , uptodate = require('../../../helpers/uptodate')
+, ripple = require('../../../helpers/ripple')
 
 module.exports = function() {
     var $el = $('<div class="withdraw-ripple is-entering">').html($(template()))
@@ -19,7 +20,8 @@ module.exports = function() {
     , amount = require('../../shared/amount-input')({
         currency: 'XRP',
         currencies: currencies,
-        max: 'available'
+        max: 'available',
+        value: '1'
     })
     , $entryForm = $el.find('form.entry')
     , $entrySubmit = $entryForm.find('[type="submit"]')
@@ -29,7 +31,10 @@ module.exports = function() {
     $el.find('.amount-placeholder').replaceWith(amount.$el)
 
     // Validation
-    var validateAddress = validation.fromRegex($address, /^r[a-z0-9]{26,33}$/i)
+    var validateDestination = function() {
+        var val = $entryForm.field('address').val()
+        return ripple.resolve(val)
+    }
 
     var validateAmount = function() {
         if (amount.validate(true)) {
@@ -44,11 +49,11 @@ module.exports = function() {
         return $.Deferred().reject()
     }
 
-    validation.monitorField($entryForm.field('address'), validateAddress)
+    validation.monitorField($entryForm.field('address'), validateDestination)
     validation.monitorField($entryForm.field('amount'), validateAmount)
 
     var validateFields = validation.fromFields({
-        address: validateAddress,
+        destination: validateDestination,
         amount: validateAmount
     })
 
@@ -88,67 +93,73 @@ module.exports = function() {
         return values
     }
 
+    function validateTrust(values) {
+        debug('validating trust from %s (%s)', values.destination.address, values.amount.currency)
+        return ripple.trustFrom(values.destination.address, values.amount.currency)
+        .then(function(line) {
+            debug('account has %s trust and %s in use', line.limit, line.balance)
+
+            var lacking = num(0).set_precision(6)
+            .add(line.limit)
+            .sub(line.balance)
+            .sub(values.amount.amount)
+            .mul(-1)
+
+            // Trust line is sufficient
+            if (lacking.lte(0)) {
+                return values
+            }
+
+            return $.Deferred().reject({
+                lacking: lacking.toString(),
+                line: line
+            })
+        })
+    }
+
     var validate = function() {
         return validateFields()
         .then(function(values) {
-            debug('field validation has passed. checking balance...')
+            console.log('values after validate', values)
 
             // Check for account existence (balance)
-            return api.call('v1/ripple/account/' + values.address)
+            return api.call('v1/ripple/account/' + values.destination.address)
             .then(function(account) {
                 return validateAccountBalance(values, null, account)
             }, function(err) {
                 return validateAccountBalance(values, err)
             })
-            .then(function() {
-                // If XRP is being withdrawn, there is no need to check trust lines
-                if (values.amount.currency == 'XRP') {
-                    return values
-                }
+        })
+        .then(function(values) {
+            // If XRP is being withdrawn, there is no need to check trust lines
+            if (values.amount.currency == 'XRP') {
+                return values
+            }
 
-                return api.call('v1/ripple/trust/' + values.address)
-                .then(function(lines) {
-                    var line = lines[values.amount.currency] || {
-                        balance: '0',
-                        limit: '0'
-                    }
+            return validateTrust(values)
+            .then(null, function(err) {
+                $address.addClass('has-error has-too-low-trust')
 
-                    debug('account has %s trust and %s in use', line.limit, line.balance)
+                $address.find('.too-low-trust [data-id="amount-lacking"]')
+                .text(numbers(err.lacking, { currency: values.amount.currency }))
 
-                    var lacking = num(0).set_precision(6)
-                    .add(line.limit)
-                    .sub(line.balance)
-                    .sub(values.amount.amount)
-                    .mul(-1)
+                // Retrieve our ripple account
+                return api.rippleAddress()
+                .then(function(address) {
+                    debug('resolved our address as %s', address)
 
-                    // Trust line is sufficient
-                    if (lacking.lte(0)) {
-                        return values
-                    }
+                    // Trust link is absolute, not additive
+                    var required = err.lacking.add(err.line.balance)
 
-                    $address.addClass('has-error has-too-low-trust')
+                    debug('asking user to add %s trust', required.toString())
 
-                    $address.find('.too-low-trust [data-id="amount-lacking"]')
-                    .text(numbers(lacking, { currency: values.amount.currency }))
+                    $address.find('.too-low-trust a.add-trust')
+                    .attr('href', format('https://ripple.com//trust?to=%s&amount=%s/%s&label=%s&name=Justcoin',
+                        address, required.toString(), values.amount.currency,
+                        encodeURIComponent(format('Hi %s!', api.user.firstName || 'there'))
+                    ))
 
-                    // Retrieve our ripple account
-                    return api.rippleAddress()
-                    .then(function(address) {
-                        debug('resolved our address as %s', address)
-
-                        // Trust link is absolute, not additive
-                        var required = lacking.add(line.balance)
-
-                        debug('asking user to add %s trust', required.toString())
-
-                        $address.find('.too-low-trust a.add-trust')
-                        .attr('href', format('https://ripple.com//trust?to=%s&amount=%s/%s&label=%s&name=Justcoin',
-                            address, required.toString(), values.amount.currency,
-                            encodeURIComponent(format('Hi %s!', api.user.firstName || 'there'))
-                        ))
-
-                        return $.Deferred().reject()
-                    })
+                    return $.Deferred().reject()
                 })
             })
         })
@@ -160,7 +171,13 @@ module.exports = function() {
 
         $el.toggleClass('is-entering is-reviewing')
 
-        $review.find('.address').text(values.address)
+        if (values.destination.federation) {
+            $review.find('.address').html(format('<abbr title="%s">%s</abbr>',
+                values.destination.address,
+                values.destination.federation))
+        } else {
+            $review.find('.address').text(values.destination.address)
+        }
 
         $review.find('.amount').text(numbers(values.amount.amount, {
             currency: values.amount.currency

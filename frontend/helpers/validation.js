@@ -5,6 +5,7 @@ var _ = require('lodash')
  * the form { field1: deferred1, field2: deferred2 }
  */
 exports.validateFields = function(fields) {
+    console.log('validating fields', fields)
     return $.when.apply($, _.values(fields))
     .then(function() {
         return _.reduce(arguments, function(results, result, index) {
@@ -54,6 +55,7 @@ exports.monitorField = function($field, validator) {
 
 exports.fromFields = function(fields) {
     return function(submitting) {
+        console.log('fields', fields)
         var validators = _.reduce(_.keys(fields), function(p, name) {
             p[name] = fields[name](submitting)
             return p
