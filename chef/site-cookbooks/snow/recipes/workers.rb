@@ -20,7 +20,7 @@ deploy_wrapper 'workers' do
     sloppy true
 end
 
-services = %w(bitcoinin bitcoinout bitcoinaddress litecoinin litecoinout litecoinaddress ripplein rippleout)
+services = %w(bitcoinin bitcoinbridge bitcoinout bitcoinaddress litecoinin litecoinout litecoinaddress ripplein rippleout)
 
 services.each do |service|
   template "/etc/init/snow-#{service}.conf" do
