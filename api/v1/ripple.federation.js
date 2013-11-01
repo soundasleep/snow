@@ -68,7 +68,7 @@ exports.handler = function(req, res, next) {
 
 exports.fromUser = function(user, cb) {
     var query = {
-        text: 'SELECT tag FROM "user" WHERE username = $1',
+        text: 'SELECT tag FROM "user" WHERE LOWER(username) = LOWER($1)',
         values: [user]
     }
 
