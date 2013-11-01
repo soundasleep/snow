@@ -20,8 +20,7 @@ module.exports = function() {
     , amount = require('../../shared/amount-input')({
         currency: 'XRP',
         currencies: currencies,
-        max: 'available',
-        value: '1'
+        max: 'available'
     })
     , $entryForm = $el.find('form.entry')
     , $entrySubmit = $entryForm.find('[type="submit"]')
@@ -85,10 +84,12 @@ module.exports = function() {
             debug('%s XRP is being withdrawn. final balance is %s XRP', values.amount.amount, balance.toString())
         }
 
-        // TODO: Remove magic number (50 XRP account reserve)
         if (balance.lt(minFunded)) {
+            $address.addClass('has-error is-unfunded')
             return $.Deferred().reject()
         }
+
+        debug('account has sufficient XRP')
 
         return values
     }
@@ -120,8 +121,6 @@ module.exports = function() {
     var validate = function() {
         return validateFields()
         .then(function(values) {
-            console.log('values after validate', values)
-
             // Check for account existence (balance)
             return api.call('v1/ripple/account/' + values.destination.address)
             .then(function(account) {
@@ -203,7 +202,7 @@ module.exports = function() {
         $el.toggleClass('is-reviewing is-sending')
         $status.addClass('requested')
 
-        $send.find('.address').text(values.address)
+        $send.find('.address').text(values.destination.address)
         $send.find('.amount').text(numbers(values.amount.amount, {
             currency: values.amount.currency
         }))
@@ -211,7 +210,7 @@ module.exports = function() {
         return api.call('v1/ripple/out', {
             currency: values.amount.currency,
             amount: values.amount.amount,
-            address: values.address
+            address: values.destination.address
         })
         .then(function(withdraw) {
             var deferred = $.Deferred()
