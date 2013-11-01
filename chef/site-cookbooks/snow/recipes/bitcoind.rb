@@ -47,7 +47,7 @@ apt_repository "bitcoin" do
 end
 
 execute 'apt-get bitcoind' do
-   command 'apt-get -q -y --force-yes install bitcoind=0.8.3-precise1'
+   command 'apt-get -q -y --force-yes install bitcoind=0.8.5-precise1'
    creates "/usr/bin/bitcoind"
 end
 
