@@ -120,26 +120,35 @@ BitcoinOut.prototype.sendBatch = function(requests, cb) {
             debug('send requests successful')
             debug(util.inspect(res))
 
-            return async.each(requests,
-                out.markRequestCompleted.bind(that, that.client), function(err)
-            {
-                if (!err) {
-                    debug('succeeded in marking requests as done')
-                    return cb()
-                }
+            return async.each(requests, function(request, cb) {
+                async.parallel([
+                    // Mark complete
+                    function(cb) {
+                        out.markRequestCompleted(that.client, request, cb)
+                    },
 
-                console.error('%s failed to mark item as done', prefix)
+                    // Store transaction id
+                    function(cb) {
+                        that.client.query({
+                            text: [
+                                'UPDATE btc_withdraw_request',
+                                'SET txid = $1',
+                                'WHERE request_id = $2'
+                            ].join('\n'),
+                            values: [res, request.request_id]
+                        }, cb)
+                    }
+                ], cb)
+            }, function(err) {
+                if (!err) return cb()
+                console.error('%s failed to mark items as done', prefix)
                 console.error('%s', prefix, err)
                 cb()
             })
         }
 
-        if (err.code == -6) {
-            debug('%s', err.message)
-            debug('%s', err.name)
-            debug('request failed because wallet is lacking funds')
-            debug('trying to re-queue requests')
-
+        if (err.message == 'Account has insufficient funds') {
+            debug('request failed because wallet is lacking funds. trying to re-queue requests')
             return out.reQueue(that.client, requests, function(err) {
                 if (!err) {
                     debug('succeeded in requeing the requests')

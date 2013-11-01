@@ -18,6 +18,5 @@
     "asi": true,
     "noarg": true,
     "nonew": true,
-    "trailing": true,
-    "maxdepth": 3
+    "trailing": true
 }
