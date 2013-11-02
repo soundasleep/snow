@@ -15,7 +15,7 @@ exports.invalidate = function(what) {
 
     if (typeof what == 'number') {
         debug('deleting cached user %s (%s)', what,
-            ~exports.users.cache[what] ? 'hit' : 'miss')
+            ~exports.users.cache[what] ? 'hit' : 'miss');
         delete exports.users.cache[what]
         return
     }
