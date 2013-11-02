@@ -4,13 +4,10 @@ var debug = require('debug')('snow')
 , num = require('num')
 , async = require('async')
 , Table = require('cli-table')
-, Snow = module.exports = function(key, ep, email, keyPrimary) {
+, Snow = module.exports = function(key, ep) {
+    this.key = key
     this.url = ep
     debug('using endpoint %s', ep)
-
-    this.key = key
-    this.keyPrimary = keyPrimary
-    this.email = email
 }
 
 function bodyToError(body) {
@@ -21,6 +18,7 @@ function bodyToError(body) {
 }
 
 Snow.prototype.orders = function(cb) {
+    console.log(this.key)
     request(this.url + 'orders', {
         json: true,
         qs: {
@@ -74,29 +72,19 @@ Snow.prototype.cancel = function(id, cb) {
 }
 
 Snow.prototype.cancelAll = function(cb) {
-	var me = this
-	var orderCancelled = 0;
-	this.orders( function(err, orders) {
-		if (err) throw err
-		if (orders.length == 0){
-			cb(null, 0)
-			return;
-		}
-		async.forEach(
-				orders,
-				function(order, callback) {
-					me.cancel(order.id, function(err) {
-						if (err) throw err
-						debug('Order #%s cancelled', order.id)
-						orderCancelled++;
-						callback()
-					})
-				}, 
-				function(err) {
-					cb(err, orderCancelled)
-				}
-		);
-	})
+	var that = this
+
+	this.orders(function(err, orders) {
+		if (err) return cb(err)
+
+		async.forEach(orders, function(order, cb) {
+			that.cancel(order.id, function(err) {
+				if (err) return cb(err)
+				debug('Order #%s cancelled', order.id)
+                cb()
+            })
+        }, cb)
+    })
 }
 
 Snow.prototype.order = function(order, cb) {
@@ -108,7 +96,7 @@ Snow.prototype.order = function(order, cb) {
         }
     }, function(err, res, body) {
         if (err) return cb(err)
-        if (res.statusCode !== 201) return cb(bodyToError(body))
+        if (res.statusCode != 201) return cb(bodyToError(body))
         cb(null, body.id)
     })
 }
@@ -121,7 +109,7 @@ Snow.prototype.whoami = function(cb) {
         }
     }, function(err, res, body) {
         if (err) return cb(err)
-        if (res.statusCode !== 200) return cb(bodyToError(body))
+        if (res.statusCode != 200) return cb(new Error('Status: ' + res.statusCode))
         cb(null, body)
     })
 }
@@ -134,39 +122,37 @@ Snow.prototype.balances = function(cb) {
         }
     }, function(err, res, body) {
         if (err) return cb(err)
-        if (res.statusCode !== 200) return cb(bodyToError(body))
+        if (res.statusCode != 200) return cb(bodyToError(body))
         cb(null, body)
     })
 }
 
-Snow.prototype.securitySession = function(cb) {
-	
-    request(this.url + 'security/session', {
-        json: {"email": this.email},
-        method: 'POST'
-    }, function(err, res, body) {
-        if (err) return cb(err)
-        if (res.statusCode !== 201) return cb(bodyToError(body))
-        this.sessionKey = body.id;
-        cb(null, body.id)
-    })
-}
+// I'll need to look at how this is done. I belive you post to
+// security/session with your email and receive a token. You then
+// hash that token with your email and password to retrieve the session
+// secret.
+//
+// I suggest that running login overrides the use of this.key for queries.
+// Snow.prototype.login = function(username, password, cb) {
+// }
 
 Snow.prototype.createTableUser = function(user){
 	var table = new Table({
-        head: ['Id', 'Email', 'Security Level', 'twoFactor', 'First name', 'Last name', 'Phone', 'Email verified' ],
+        head: ['Id', 'Email', 'Security Level', 'twoFactor', 'First name', 'Last name', 'Phone', 'Email verified'],
         colWidths: [4, 24, 14, 12, 16, 16, 16, 16]
     })
+
     table.push([
-                user.id,
-                user.email || '',
-                user.securityLevel || '',
-                user.twoFactor ? 'Yes' : 'No',
-                user.firstName || '',
-                user.lastName || '',
-                user.phone || '',
-                user.emailVerified ? 'Yes' : 'No'
-            ]);
+        user.id,
+        user.email || '',
+        user.securityLevel || '',
+        user.twoFactor ? 'Yes' : 'No',
+        user.firstName || '',
+        user.lastName || '',
+        user.phone || '',
+        user.emailVerified ? 'Yes' : 'No'
+    ])
+
     return table
 }
 
@@ -184,7 +170,7 @@ Snow.prototype.createTableBalances = function(balances){
             balance.available
         ])
     })
-    
+
     return table
 }
 

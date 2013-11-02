@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-var num = require('num')
-, fs = require('fs')
+var fs = require('fs')
 , Table = require('cli-table')
 , async = require('async')
 , optimist = require('optimist')
@@ -61,31 +60,31 @@ var client = new (require('../index'))(config.key, config.url)
 
 if (method == 'showall') {
     return async.series([function (callback) {
-    	client.whoami(function(err, user) {
+        client.whoami(function(err, user) {
             if (err) throw err
             console.log(client.createTableUser(user).toString())
             callback()
         })
     }, function (callback) {
-    	client.balances(function(err, balances) {
+        client.balances(function(err, balances) {
             if (err) throw err
             console.log(client.createTableBalances(balances).toString())
             callback()
         })
     }, function (callback) {
-    	client.orders(function(err, orders) {
+        client.orders(function(err, orders) {
             if (err) throw err
             console.log(client.createTableOrders(orders).toString())
             callback()
         })
     }, function (callback) {
-    	client.markets(function(err, markets) {
+        client.markets(function(err, markets) {
             if (err) throw err
             console.log(client.createTableMarkets(markets).toString())
             callback()
         })
-    }], function (err) {
-    	console.log("show all done")
+    }], function(err) {
+        if (err) throw err
     });
 }
 
