@@ -62,7 +62,7 @@ exports.lookup = function(key, cb) {
     if (!session) return cb()
 
     if (session.expires < +new Date()) {
-        debug('session with key %s expired during lookup', pretty(key))
+        debug('session with key %s expired during lookup', pretty(key));
         delete exports.sessions[key]
         return cb()
     }
@@ -120,7 +120,7 @@ exports.randomSha256 = function() {
 exports.remove = function(skey, cb) {
     exports.lookup(skey, function(err, session) {
         if (err) return cb(err)
-        if (!session) return cb(new Error('Session not found'))
+        if (!session) return cb(new Error('Session not found'));
         delete exports.app.security.session.sessions[skey];
         debug('session with key %s removed', skey)
         cb()
