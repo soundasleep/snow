@@ -1,0 +1,8 @@
+[domain]
+justcoin.com
+
+[federation_url]
+https://justcoin.com/api/ripple/federation
+
+[accounts]
+rJHygWcTLVpSXkowott6kzgZU6viQSVYM1

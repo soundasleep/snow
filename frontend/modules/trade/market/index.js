@@ -34,11 +34,11 @@ module.exports = function(market, mode, type) {
     var subModule = mode == 'limit' ? limitOrder : marketOrder
     subModule.setOrderType(type)
 
-    controller.destroy = function() {
-        marketOrder.destroy()
-        limitOrder.destroy()
-        depth.destroy()
-    }
+    $el.on('remove', function() {
+        marketOrder.$el.triggerHandler('remove')
+        limitOrder.$el.triggerHandler('remove')
+        depth.$el.triggerHandler('remove')
+    })
 
     $el.find('.trade-nav').replaceWith(nav(market, mode, type).$el)
 

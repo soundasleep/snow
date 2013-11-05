@@ -14,8 +14,8 @@ var master = module.exports = function(val, name) {
     }
 
     if (val !== undefined) {
-        if (page && page.destroy) {
-            page.destroy()
+        if (page) {
+            page.$el.triggerHandler('remove')
         }
         page = val
         $area.html(page.$el)

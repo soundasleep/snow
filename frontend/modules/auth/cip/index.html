@@ -1,15 +1,19 @@
 <div class="container">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <h1><%- i18n('auth.cip.heading') %></h1>
 
             <p class="lead"><%- i18n('auth.cip.intro') %></p>
 
-            <ul><%- i18n('auth.cip.requirements') %></ul>
+            <div class="well">
+                <p class="lead">
+                    <strong>To:</strong> <a href="mailto:cip@justcoin.com">cip@justcoin.com</a>
+                </p>
 
-            <p class="lead">
-                <a href="mailto:cip@justcoin.com">cip@justcoin.com</a>
-            </p>
+                <p><strong>Subject:</strong> Verification <%= api.user.tag %></p>
+            </div>
+
+            <ul><%- i18n('auth.cip.requirements') %></ul>
 
             <p><%- i18n('auth.cip.no retain') %></p>
 

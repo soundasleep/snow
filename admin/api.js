@@ -1,6 +1,6 @@
 /* global -api */
 var _ = require('lodash')
-, sjcl = require('./bower_components/sjcl/sjcl.js')
+, sjcl = require('./lib/sjcl/sjcl.js')
 , emitter = require('./helpers/emitter')
 , api = module.exports = emitter()
 
@@ -93,7 +93,10 @@ api.login = function(email, password, otp) {
     return api.call('security/session', { email: email })
     .then(function(res) {
         var key = keyFromCredentials(res.id, email, password)
-        $.cookie('session', key, { path: '/' })
+        $.cookie('session', key, {
+            path: '/',
+            secure: window.location.protocol == 'https:'
+        })
 
         return api.call('v1/twoFactor/auth', {
             otp: otp

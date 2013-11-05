@@ -1,7 +1,5 @@
 var template = require('./index.html')
 , format = require('util').format
-, _ = require('lodash')
-, num = require('num')
 , nav = require('../nav')
 
 module.exports = function() {
@@ -11,37 +9,20 @@ module.exports = function() {
     }
     , $transferForm = $el.find('.transfer-form')
     , $email = $transferForm.find('.email')
-    , $amount = $transferForm.find('.amount')
     , $transferButton = $transferForm.find('.submit')
     , $sendForm = $el.find('.send-form')
     , $sendButton = $sendForm.find('.submit')
-
-    // Add currencies
-    _.each(api.currencies.value, function(c) {
-        if (c.id == 'NOK') return
-        var html = format('<option value="%s">%s</option>', c.id, c.id)
-        $transferForm.field('currency').append(html)
+    , amount = require('../../shared/amount-input')({
+        currencies: 'digital',
+        max: 'available'
     })
+
+    $el.find('.amount-placeholder').replaceWith(amount.$el)
 
     function validateEmail() {
         var val = $transferForm.field('email').val()
         return $email
         .toggleClass('has-error', !/^\S+@\S+$/.exec(val))
-        .hasClass('error')
-    }
-
-    function validateAmount() {
-        var val = numbers.parse($transferForm.field('amount').val())
-        , currency = _.find(api.currencies.value, {
-            id: $transferForm.field('currency').val()
-        })
-        , precision = val ? num(val).get_precision() : null
-        , empty = !val
-        , invalidNumber = empty || !val || val < 0
-        , precisionTooHigh = !invalidNumber && precision > currency.scale
-
-        return $amount
-        .toggleClass('has-error', empty || invalidNumber || precisionTooHigh)
         .hasClass('error')
     }
 
@@ -55,7 +36,7 @@ module.exports = function() {
         $transferForm.find('.field').blur()
 
         validateEmail()
-        validateAmount()
+        amount.validate(true)
 
         if ($transferForm.find('.has-error').length) {
             $transferForm.find('.has-error:first').find('.field:first').focus()
@@ -66,9 +47,7 @@ module.exports = function() {
         $transferForm.find('.field').enabled(false)
         $transferButton.loading(true, 'Sending...')
 
-        api.sendToUser($transferForm.field('email').val(),
-            numbers.parse($transferForm.field('amount').val()),
-            $transferForm.field('currency').val())
+        api.sendToUser($transferForm.field('email').val(), amount.value(), amount.currency())
         .always(function() {
             $transferButton.loading(false)
         })
@@ -97,9 +76,8 @@ module.exports = function() {
             errors.alertFromXhr(err)
         })
         .done(function() {
-            showConfirmation(format('You sent %s %s to %s',
-                $transferForm.field('amount').val(),
-                $transferForm.field('currency').val(),
+            showConfirmation(format('You sent %s to %s',
+                numbers(amount.value(), { currency: amount.currency() }),
                 $transferForm.field('email').val()))
         })
     })
@@ -116,10 +94,7 @@ module.exports = function() {
 
         $sendButton.loading(true)
 
-        api.sendToUser($transferForm.field('email').val(),
-            numbers.parse($transferForm.field('amount').val()),
-            $transferForm.field('currency').val(),
-            true)
+        api.sendToUser($transferForm.field('email').val(), amount.value(), amount.currency(), true)
         .always(function() {
             $sendButton.loading(false)
         })
@@ -128,9 +103,8 @@ module.exports = function() {
         })
         .done(function() {
             $sendButton.enabled(false)
-            showConfirmation(format('You sent %s %s to %s',
-                $transferForm.field('amount').val(),
-                $transferForm.field('currency').val(),
+            showConfirmation(format('You sent %s to %s',
+                numbers(amount.value(), { currency: amount.currency() }),
                 $transferForm.field('email').val()))
         })
     })
@@ -141,6 +115,12 @@ module.exports = function() {
 
     $transferForm.field('email').focusSoon()
 
+    // Dispose
+    $el.on('remove', function() {
+        amount.$el.triggerHandler('remove')
+    })
+
+    // Insert navigation
     $el.find('.withdraw-nav').replaceWith(nav('email').$el)
 
     return controller

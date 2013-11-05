@@ -10,12 +10,14 @@ module.exports = function() {
     , balancesTimer
 
     function balancesChanged(balances) {
+        if (!api.user) return
+
         var fiats = _.filter(balances, function(x) {
-            return ~['NOK'].indexOf(x.currency)
+            return api.currencies[x.currency].fiat
         })
 
         var digitals = _.filter(balances, function(x) {
-            return ~['BTC', 'LTC', 'XRP'].indexOf(x.currency)
+            return !api.currencies[x.currency].fiat
         })
 
         var $fiats = $el.find('.fiat .dropdown-menu li')
@@ -33,8 +35,8 @@ module.exports = function() {
                 numbers.format(item.available, { currency: item.currency }))
         }))
 
-        var fiat = _.find(fiats, { currency: 'NOK' })
-        , digital = _.find(digitals, { currency: 'BTC' })
+        var fiat = _.find(fiats, { currency: api.defaultFiatCurrency() })
+        , digital = _.find(digitals, { currency: api.defaultDigitalCurrency() })
 
         $fiat.html(numbers.format(fiat.available, { currency: fiat.currency }))
         $digital.html(numbers.format(digital.available, { currency: digital.currency }))
@@ -47,13 +49,13 @@ module.exports = function() {
     })
 
     api.on('user', function(user) {
-        $el.find('.user-name').html(user.firstName || user.email)
+        $el.find('.user-name').text(user.firstName || user.email)
         api.balances()
     })
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         balancesTimer && clearTimeout(balancesTimer)
-    }
+    })
 
     return controller
 }

@@ -20,11 +20,12 @@
                 </div>
 
                 <span class="help-block">
-                    <span class="visible-insufficient-funds hidden-precision-too-high">
-                        <%- i18n('markets.market.limitorder.ask.amount.insufficient funds') %>
-                    </span>
                     <span class="visible-precision-too-high">
                         <%- i18n('markets.market.limitorder.ask.amount.too many decimals') %>
+                    </span>
+
+                    <span class="visible-insufficient-funds">
+                        <%- i18n('markets.market.limitorder.ask.amount.insufficient funds') %>
                     </span>
                 </span>
             </div>
@@ -47,16 +48,19 @@
                 </span>
             </div>
 
-            <table class="table order-summary">
+            <table class="order-summary table">
                 <tr>
                     <th>
-                        <%- i18n('markets.market.limitorder.ask.summary.order total') %>
+                        <%- i18n('markets.market.limitorder.ask.summary.total') %>
                     </th>
-                    <td>
-                        <span class="hidden-too-deep">
-                            <span class="quote"></span> <%= quote %>
-                        </span>
+                    <td class="subtotal">
                     </td>
+                </tr>
+                <tr>
+                    <th>
+                        <%- i18n('markets.market.limitorder.ask.summary.fee') %>
+                    </th>
+                    <td class="fee"></td>
                 </tr>
             </table>
 

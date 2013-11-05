@@ -3,7 +3,6 @@ var header = require('./header')
 , model = require('../../helpers/model')
 , _ = require('lodash')
 , moment = require('moment')
-, format = require('util').format
 
 module.exports = function(userId) {
     var $el = $('<div class="admin-user-profile">').html(template({
@@ -21,11 +20,6 @@ module.exports = function(userId) {
     // Header
     $el.find('.header-placeholder').replaceWith(header(userId, 'user').$el)
 
-    // Link to intercom.io
-    $el.find('.intercom-link')
-    .attr('href', format('https://www.intercom.io/apps/%s/users/show?user_id=%s',
-        '64463fba8faa8166444bfb3c00a5e40976bd622e', userId))
-
     function renderProfile(u) {
         // Straight forward strings
         var plains = {
@@ -42,7 +36,7 @@ module.exports = function(userId) {
 
         _.each(plains, function(v, k) {
             var $row = $el.find('.' + k)
-            $row.find('span').html((u[v] || '').toString().replace(/\n/g, '<br />')),
+            $row.find('span').text((u[v] || '').toString().replace(/\n/g, '<br />')),
             $row.find('.field').val(u[v] || '')
         })
 
@@ -68,6 +62,12 @@ module.exports = function(userId) {
         $el.find('.poa').toggleClass('success', !!u.poa_approved_at)
         $el.find('.two-factor').toggleClass('success', !!u.two_factor)
 
+        if (u.reset_started_at) {
+            $el.find('.password-reset span')
+            .html(moment(u.reset_started_at).format('Do MMMM YYYY, HH:mm'))
+        }
+
+        $el.toggleClass('has-started-password-reset', !!u.reset_started_at)
         $el.toggleClass('has-verified-email', !!u.email_verified_at)
 
         oldUser = u
@@ -180,6 +180,17 @@ module.exports = function(userId) {
         .fail(errors.alertFromXhr)
         .done(function() {
             fetchProfile()
+        })
+    })
+
+    $el.on('click', '[data-action="forgive-password-reset"]', function(e) {
+        e.preventDefault()
+
+        var url = 'admin/users/' + userId + '/forgivePasswordReset'
+        api.call(url, null, { type: 'POST' })
+        .fail(errors.alertFromXhr)
+        .done(function() {
+            window.location.reload()
         })
     })
 

@@ -35,10 +35,11 @@ module.exports = function(market) {
         setOrderType(type)
     })
 
-    controller.destroy = function() {
-        bid.destroy()
-        ask.destroy()
-    }
+    // Dispose
+    $el.on('remove', function() {
+        bid.$el.triggerHandler('remove')
+        ask.$el.triggerHandler('remove')
+    })
 
     controller.setOrderType = setOrderType
 

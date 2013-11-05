@@ -65,7 +65,7 @@ exports.reportFromXhr = function(error) {
     debug(message)
     debug(JSON.stringify(data, null, 4))
 
-    if (typeof Raven !== undefined) {
+    if (typeof Raven !== 'undefined') {
         Raven.captureMessage(message, data)
     }
 }

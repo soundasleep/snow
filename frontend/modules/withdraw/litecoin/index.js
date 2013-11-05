@@ -8,8 +8,8 @@ module.exports = function() {
         $el: $el
     }
     , amount = require('../../shared/amount-input')({
-        fixedCurrency: true,
-        currency: 'LTC'
+        currencies: ['LTC'],
+        max: 'available'
     })
     , $address = $el.find('.entry .address')
     , $button = $el.find('.entry .submit')
@@ -104,7 +104,7 @@ module.exports = function() {
 
         $el.find('.review .submit').loading(true, 'Confirming...')
         api.call('v1/ltc/out', {
-            amount: $el.field('amount').parseNumber(),
+            amount: amount.value(),
             address: $el.field('address').val()
         })
         .fail(errors.alertFromXhr)
@@ -114,9 +114,10 @@ module.exports = function() {
         })
     })
 
-    controller.destroy = function() {
+    $el.on('remove', function() {
         timer && clearTimeout(timer)
-    }
+        amount.$el.triggerHandler('remove')
+    })
 
     $el.find('.withdraw-nav').replaceWith(nav('litecoin').$el)
 

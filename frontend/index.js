@@ -1,5 +1,7 @@
 var debug = require('./helpers/debug')('snow:entry')
 
+require('./helpers/framekiller')()
+
 debug('initializing shared components')
 
 window.$app = $('body')
@@ -8,12 +10,9 @@ window.api = require('./api')
 window.errors = require('./errors')
 window.i18n = require('./i18n')
 window.numbers = require('./helpers/numbers')
-window.notify = require('./helpers/notify')()
 window.formatters = require('./helpers/formatters')
 window.moment = require('moment')
 window.autologout = require('./helpers/autologout')()
-
-$app.append(window.notify.$el)
 
 debug('shared components inited')
 
@@ -43,8 +42,6 @@ api.on('user', function(user) {
         api.patchUser({ language: i18n.desired })
         .fail(errors.reportFromXhr)
     }
-
-    api.activities()
 })
 
 $app.on('click', 'a[href="#set-language"]', function(e) {
@@ -52,13 +49,21 @@ $app.on('click', 'a[href="#set-language"]', function(e) {
     i18n.set($(this).attr('data-language'))
 })
 
+debug('boostrapping...')
+
 api.bootstrap()
 .fail(function(err) {
-    debug('reloading window after alert (bootstrap failed)')
     errors.alertFromXhr(err)
-    window.location.reload()
+
+    debug('reloading window after alert (bootstrap failed) in 10 sec')
+
+    setTimeout(function() {
+        window.location.reload()
+    }, 10e3)
 })
 .done(function() {
+    debug('boostrapping successful')
+
     var master = require('./modules/master')
     master.render()
 

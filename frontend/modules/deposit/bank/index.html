@@ -5,106 +5,33 @@
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1><%= i18n('depositbank.heading') %></h1>
+                    <h1><%- i18n('deposit.bank.heading') %></h1>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-lg-12 hidden-sepa">
-                    <div class="alert lead">
-                        Sorry, but at this time we only accept
-                        <a href="http://en.wikipedia.org/wiki/Single_Euro_Payments_Area" target="_blank" title="Single Euro Payments Area">SEPA</a>
-                        bank deposits.
-                        Your country, <strong><%- api.user.countryFriendly() %></strong>,
-                        is not a part of the SEPA initiative.
-                    </div>
-                </div>
-
-                <div class="col-lg-12 payment-details visible-sepa">
+                <div class="col-lg-12">
                     <p class="lead">
-                        <%= i18n('depositbank.intro') %>
-                        <span class="visible-norway">
-                            <%- i18n('depositbank.norway-warning', api.user.firstName + ' ' + api.user.lastName, api.user.address) %>
-                        </span>
+                        <%- i18n('deposit.bank.lead') %>
                     </p>
 
                     <div class="row">
-                        <div class="col-lg-6">
-                            <strong><%= i18n('depositbank.recipient') %></strong>
-                        </div>
-                        <div class="col-lg-6 visible-norway">
-                            Justcoin AS<br />
-                            Tordenskioldsgate 3<br />
-                            0160 Oslo
-                        </div>
-                        <div class="col-lg-6 hidden-norway">
-                            Justcoin AS<br />
-                            Tordenskioldsgate 3<br />
-                            0160 Oslo<br>
-                            Norway
-                        </div>
-                    </div>
-                    <div class="row visible-norway">
-                        <div class="col-lg-6">
-                            <strong><%= i18n('depositbank.account') %></strong>
+                        <div class="col-lg-2 eur">
+                            <a href="#deposit/bank/USD" class="btn btn-success btn-xl">
+                                USD
+                            </a>
                         </div>
 
-                        <div class="col-lg-6">
-                            1503.36.59595
-                        </div>
-                    </div>
-
-                    <div class="row hidden-norway">
-                        <div class="col-lg-6">
-                            <strong>IBAN</strong>
+                        <div class="col-lg-2 eur">
+                            <a href="#deposit/bank/EUR" class="btn btn-success btn-xl">
+                                EUR
+                            </a>
                         </div>
 
-                        <div class="col-lg-6">
-                            NO0512506115084
-                        </div>
-                    </div>
-
-                    <div class="row hidden-norway">
-                        <div class="col-lg-6">
-                            <strong>SWIFT/BIC</strong>
-                        </div>
-
-                        <div class="col-lg-6">
-                            DNBANOKKXXX
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <strong><%= i18n('depositbank.messageToRecipient') %></strong>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <%= messageToRecipient %>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <%= i18n('depositbank.minimumAmount') %>
-                        </div>
-
-                        <div class="col-lg-6 visible-norway">
-                            100 NOK
-                        </div>
-
-                        <div class="col-lg-6 hidden-norway">
-                            25 EUR
-                        </div>
-                    </div>
-
-                    <div class="row hidden-norway">
-                        <div class="col-lg-6">
-                            <%= i18n('depositbank.sepaFee') %>
-                        </div>
-
-                        <div class="col-lg-6">
-                            20 NOK (~2.5 EUR)
+                        <div class="col-lg-2 nok">
+                            <a href="#deposit/bank/NOK" class="btn btn-success btn-xl">
+                                NOK
+                            </a>
                         </div>
                     </div>
                 </div>

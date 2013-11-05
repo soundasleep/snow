@@ -57,5 +57,9 @@ module.exports = function(after) {
         })
     })
 
+    $el.on('remove', function() {
+        timer && clearInterval(timer)
+    })
+
     return controller
 }

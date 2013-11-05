@@ -27,8 +27,17 @@
                     <table class="accounts-table table table-striped hidden-empty">
                         <thead>
                             <tr>
+                                <th class="display-name-header">
+                                    <%- i18n('account.bankaccounts.headers.display-name') %>
+                                </th>
                                 <th class="account-number-header">
-                                    <%- i18n('account.bankaccounts.headers.account-number') %>
+                                    <%- i18n('account.bankaccounts.headers.account-number') %> / IBAN
+                                </th>
+                                <th class="swiftbic-header">
+                                    SWIFT/BIC
+                                </th>
+                                <th class="routing-number-header">
+                                    Rtn.
                                 </th>
                             </tr>
                         </thead>

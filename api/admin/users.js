@@ -15,6 +15,26 @@ module.exports = exports = function(app) {
     app.get('/admin/users/:user/accounts', app.security.demand.admin, exports.accounts)
     app.del('/admin/users/:user/bankAccounts/:id', app.security.demand.admin,
         exports.removeBankAccount)
+    app.post('/admin/users/:user/forgivePasswordReset', app.security.demand.admin,
+        exports.forgivePasswordReset)
+}
+
+exports.forgivePasswordReset = function(req, res, next) {
+    req.app.conn.write.query({
+        text: 'UPDATE "user" SET reset_started_at = NULL WHERE user_id = $1',
+        values: [+req.params.user]
+    }, function(err, dr) {
+        if (err) return next(err)
+
+        if (!dr.rowCount) {
+            return res.send(404, {
+                name: 'UserNotFound',
+                message: 'User not found'
+            })
+        }
+
+        res.send(204)
+    })
 }
 
 exports.removeBankAccount = function(req, res, next) {
@@ -119,7 +139,8 @@ exports.patch = function(req, res, next) {
         text: [
             'UPDATE "user"',
             'SET ' + updates.join(),
-            'WHERE user_id = $1'
+            'WHERE user_id = $1',
+            'RETURNING poi_approved_at, poa_approved_at'
         ].join('\n'),
         values: values
     }, function(err, dr) {
@@ -133,6 +154,16 @@ exports.patch = function(req, res, next) {
             user_id: req.params.id,
             edits: req.body
         })
+
+        var row = dr.rows[0]
+
+        // Will this mark the user as having passed KyC?
+        if ((req.body.poi_approved || req.body.poa_approved) &&
+            row.poi_approved_at &&
+            row.poa_approved_at)
+        {
+            req.app.activity(req.params.id, 'KycCompleted', {})
+        }
 
         req.app.security.invalidate(+req.params.id)
 

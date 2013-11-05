@@ -69,8 +69,18 @@
         top -15px
 
 #area > .auth-verifyphone
-    .code-form
-        display none
+    states texted slow voice
+
+    form
+        states loading
+
+    .phone
+        .number
+            states locked-out
+
+    .verify
+        .code
+            states wrong
 
 #area > .auth-identity
     form
@@ -106,7 +116,7 @@
 
 .is-area-register
 .is-area-login
-    background: url('/img/registerbg.jpg')  no-repeat center center fixed;
+    background: url('img/registerbg.jpg')  no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

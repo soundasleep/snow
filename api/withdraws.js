@@ -1,18 +1,35 @@
 var _ = require('lodash')
+, format = require('util').format
+
+exports.formatDestination = function(row) {
+    if (row.method == 'BTC') {
+        return row.bitcoin_address
+    } else if (row.method == 'LTC') {
+        return row.litecoin_address
+    } else if (row.method == 'ripple') {
+        return row.ripple_address
+    } else if (row.method == 'bank') {
+        if (row.bank_iban && row.bank_swiftbic) {
+            // IBAN + SWIFT/BIC
+            return format('IBAN: %s, SWIFT: %s', row.bank_iban, row.bank_swiftbic)
+        } else if (row.bank_swiftbic) {
+            // International
+            if (row.bank_routing_number) {
+                return format('Account: %s, SWIFT: %s, Rtn: %s',
+                    row.bank_account_number, row.bank_swiftbic, row.bank_routing_number)
+            } else {
+                return format('Account: %s, SWIFT: %s',
+                    row.bank_account_number, row.bank_swiftbic)
+            }
+        } else if (row.bank_account_number) {
+            // Domestic
+            return format('Domestic: %s', row.bank_account_number)
+        }
+    }
+}
 
 exports.format = function(app, row) {
-    var destination
-
-    if (row.method == 'BTC') {
-        destination = row.bitcoin_address
-    } else if (row.method == 'LTC') {
-        destination = row.litecoin_address
-    } else if (row.method == 'ripple') {
-        destination = row.ripple_address
-    } else if (row.method == 'bank'){
-        destination = row.bank_account_number ||
-            row.bank_iban + ' (' + row.bank_swiftbic + ')'
-    }
+    var destination = exports.formatDestination(row)
 
     if (!destination) {
         throw new Error('Unknown destination for ' + JSON.stringify(row))

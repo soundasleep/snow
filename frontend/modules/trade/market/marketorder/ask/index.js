@@ -1,259 +1,175 @@
+/* global -confirm */
 var num = require('num')
-, _ = require('lodash')
 , template = require('./index.html')
-, debug = require('../../../../../helpers/debug')('trade')
+, estimate = require('./estimate')
+, balanceLabel = require('../../../../shared/balance')
+, validation = require('../../../../../helpers/validation')
+, confirm = require('../../../../shared/modals/confirm')
 
 module.exports = function(market) {
-    var $el = $('<div class="ask">').html(template({
-        base: market.substr(0, 3),
-        quote: market.substr(3, 3)
+    var base = market.substr(0, 3)
+    , quote = market.substr(3, 3)
+    , feeRatio = api.feeRatio(market)
+    , amountPrec = api.currencies[base].scale - api.markets[market].scale
+    , $el = $('<div class="ask">').html(template({
+        base: base,
+        quote: quote
     }))
-    , controller = {
+    , $form = $el.find('form')
+    , $submit = $form.find('[type="submit"]')
+    , $amount = $el.find('.amount')
+    , ctrl = {
         $el: $el
     }
-    , quote = market.substr(3, 3)
-    , base = market.substr(0, 3)
-    , depth
-    , $sell = $el.find('.sell')
-    , pricePrecision = _.find(api.markets.value, { id: market }).scale
-    , basePrecision = _.find(api.currencies.value, { id: base }).scale
-    , volumePrecision = basePrecision - pricePrecision
-    , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
-    , receive
 
-    function updateQuote() {
-        $sell.removeClass('is-too-deep')
+    // Validation
+    var validateAmount = validation.fromFn($el.find('.amount'), function(d, val) {
+        val = numbers.parse(val)
 
-        if (!depth) return
-        var sell = numbers.parse($el.field('sell').val())
+        if (!val || val <= 0) return d.reject('is-invalid')
 
-        if (sell === null) return
-        sell = num(sell)
-
-        if (sell.lte(0)) return
-
-        if (!depth.bids.length) {
-            $sell.addClass('has-error')
-            .addClass('is-too-deep')
-            return
+        if (num(val).get_precision() > amountPrec) {
+            return d.reject('is-precision-too-high')
         }
 
-        receive = num(0)
+        var avail = api.balances[base].available
 
-        var remaining = num(sell)
+        if (num(val).gt(avail)) return d.reject('has-insufficient-funds')
 
-        var filled = _.some(depth.bids, function(level) {
-            debug('%s remaining', remaining.toString())
+        if (!estimate.receive(market, val)) return d.reject('is-too-deep')
 
-            var price = num(level[0])
-            , volume = num(level[1])
-            , take = volume.gte(remaining) ? remaining : volume
-
-            if (take.eq(0)) {
-                return true
-            }
-
-            var total = take.mul(price)
-
-            debug('Taking %s @ %s (of %s); Total %s',
-                take.toString(), price.toString(), volume.toString(),
-                total.toString())
-
-            receive = receive.add(take.mul(price))
-            remaining = remaining.sub(take)
-
-            debug('Sum receive %s, remaining %s', receive.toString(),
-                remaining.toString())
-
-            if (remaining.eq(0)) {
-                return true
-            }
-        })
-
-        $sell.toggleClass('is-too-deep', !filled)
-
-        if (!filled) {
-            $sell.addClass('has-error')
-            return
-        }
-
-        // Subtract fee
-        receive = receive.mul('0.995')
-
-        var effectivePrice = receive.div(sell)
-        effectivePrice.set_precision(pricePrecision)
-
-        receive.set_precision(quotePrecision)
-
-        $el.find('.receive-quote').html(
-            numbers.format(receive.toString()))
-
-        $el.find('.receive-price').html(
-            numbers.format(effectivePrice.toString()))
-    }
-
-    function balancesUpdated() {
-        var balances = api.balances.current
-        , item = _.find(balances, { currency: base })
-
-        $el.find('.available')
-        .html(numbers.format(item.available,
-            { maxPrecision: 2, currency: item.currency }))
-        .attr('title', numbers.format(item.available, { currency: item.currency }))
-
-
-        // The user's ability to cover the order may have changed
-        validateSell()
-    }
-
-    function validateSell(emptyIsError) {
-        updateQuote()
-
-        if ($sell.hasClass('is-too-deep')) {
-            return
-        }
-
-        $sell
-        .removeClass('has-insufficient-funds')
-        .removeClass('is-precision-too-high')
-
-        var val = $el.field('sell').val()
-        , valid
-
-        if (!val.length) {
-            valid = !emptyIsError
-            $sell.toggleClass('has-error', !valid)
-            return valid
-        }
-
-        var sell = numbers.parse(val)
-
-        if (sell === null) {
-            valid = false
-        } else {
-            if (num(sell).lte(0)) return
-
-            var precision = num(sell).get_precision()
-            , maxPrecision = volumePrecision
-
-            if (precision > maxPrecision) {
-                valid = false
-                $sell.addClass('is-precision-too-high')
-            } else {
-                var item = _.find(api.balances.current, { currency: base })
-
-                if (!item) {
-                    debug('User does not have a %s balance', base)
-                    return
-                }
-
-                var available = item.available
-
-                if (num(sell).gt(available)) {
-                    debug('Available %s < required %s', available.toString(),
-                        sell.toString())
-
-                    valid = false
-                    $sell.addClass('has-insufficient-funds')
-                } else {
-                    valid = true
-                }
-            }
-        }
-
-        $sell.toggleClass('has-error', !valid)
-
-        return valid
-    }
-
-    function onDepth(res) {
-        depth = res
-        updateQuote()
-    }
-
-    controller.destroy = function() {
-        api.off('balances', balancesUpdated)
-        api.off('depth:' + market, onDepth)
-    }
-
-    // Update market order sell (bid)
-    $el.field('sell').on('change keyup', function() {
-        // Order matters. Validate clears error, bid quote may add error.
-        validateSell()
-        updateQuote()
+        return d.resolve(val)
     })
 
-    $el.on('submit', 'form', function(e) {
+    validation.monitorField($el.field('amount'), validateAmount)
+
+    var validate = validation.fromFields({
+        amount: validateAmount
+    })
+
+    // Update summary whenever a field is changed
+    $form.on('keyup change', '.form-control', summarize)
+
+    // Available label
+    $el.find('.available').replaceWith(balanceLabel({
+        currency: base,
+        flash: true
+    }).$el)
+
+    $form.on('submit', function(e) {
         e.preventDefault()
 
-        var $button = $el.find('[type="submit"]')
-        , $form = $el.find('form')
+        $form.addClass('is-loading')
 
-        if (!validateSell(true)) {
-            $form.field('sell').focus()
-            $button.shake()
-            return
-        }
+        validate(true)
+        .always(function() {
+            $form.removeClass('is-loading')
+            $amount.field().focus()
+        })
+        .then(function(values) {
+            var confirmText = i18n(
+                'markets.market.marketorder.ask.confirm',
+                numbers(values.amount, { currency: base }))
 
-        var confirmText = i18n(
-            'markets.market.marketorder.ask.confirm',
-            numbers($el.field('sell').parseNumber(), { currency: base }),
-            numbers(receive, { currency: quote }))
-
-        alertify.confirm(confirmText, function(ok) {
-            if (!ok) return
-
-            $button.loading(true, i18n('markets.market.marketorder.ask.placing order'))
-            $form.addClass('is-loading')
+            return confirm(confirmText)
+            .then(function() {
+                return values
+            })
+        })
+        .done(function(values) {
+            $submit.loading(true, i18n('markets.market.marketorder.ask.placing order'))
 
             api.call('v1/orders', {
                 market: market,
                 type: 'ask',
-                amount: $el.field('sell').parseNumber(),
+                amount: num(values.amount).mul(num('1.0000').sub(feeRatio)).toString(),
                 price: null
             })
             .always(function() {
-                $button.loading(false)
-                $form.removeClass('is-loading')
+                $submit.loading(false)
             })
-            .fail(function(err) {
-                errors.alertFromXhr(err)
-            })
+            .fail(errors.alertFromXhr)
             .done(function() {
-                $el.field('sell', '')
-                .field('price', '')
-                $el.find('.available').flash()
-                $form.field('sell').focus()
-
                 api.depth(market)
                 api.balances()
+
+                alertify.log(i18n('trade.market.order placed'))
+
+                $amount.field().val('')
             })
         })
     })
 
-    $el.on('click', '[data-action="sell-all"]', function(e) {
-        e.preventDefault()
-        var item = _.find(api.balances.current, { currency: base })
+    function summarize() {
+        var $summary = $el.find('.order-summary')
+        , amount = numbers.parse($amount.field().val())
+        , summary
 
-        if (!item) {
-            alert(base + ' balance unknown')
+        if (amount) {
+            summary = estimate.summary(market, amount, feeRatio)
+        }
+
+        if (!summary) {
+            $summary.find('.receive-price').empty()
+            $summary.find('.fee').empty()
+            $summary.find('.receive-quote').empty('')
             return
         }
 
-        // Set precision to the maximum allowed
-        var avail = num(item.available)
-        avail.set_precision(pricePrecision)
+        $summary.find('.receive-price')
+        .html(numbers.format(summary.price, { precision: 3, currency: quote }))
+        .attr('title', numbers.format(summary.price, {
+            precision: api.markets[market].scale,
+            currency: quote
+        }))
 
-        $el.field('sell').val(numbers.format(avail))
-        $el.field('sell').trigger('change')
+        if (feeRatio === 0) {
+            $summary.find('.fee')
+            .css('color', 'green')
+            .css('font-weight', 'bold')
+            .html('FREE')
+        } else {
+            $summary.find('.fee')
+            .html(numbers.format(summary.fee, { precision: 4, currency: base }))
+            .attr('title', numbers.format(summary.fee, {
+                precision: api.currencies[base].scale,
+                currency: base
+            }))
+        }
+
+        $summary.find('.receive-quote')
+        .html(numbers.format(summary.receive, { precision: 3, currency: quote }))
+        .attr('title', numbers.format(summary.receive, {
+            precision: api.currencies[quote].scale,
+            currency: quote
+        }))
+    }
+
+    $el.on('click', '[data-action="sell-all"]', function(e) {
+        e.preventDefault()
+        $el.field('amount')
+        .val(numbers(num(api.balances[base].available), {
+            thousands: false,
+            maxPrecision: amountPrec,
+            trim: true
+        }))
+        .trigger('change')
     })
 
-    // Subscribe to balance updates
-    api.balances.current && balancesUpdated()
-    api.on('balances', balancesUpdated)
-    api.on('depth:' + market, onDepth)
+    $amount.field().on('keyup change', validate)
 
-    $el.field('sell').focusSoon()
+    $el.find('.available').replaceWith(balanceLabel({
+        currency: quote,
+        flash: true
+    }).$el)
 
-    return controller
+    api.on('depth:' + market, summarize)
+
+    $el.on('remove', function() {
+        api.off('depth:' + market, summarize)
+    })
+
+    $amount.field().focusSoon()
+
+    return ctrl
 }
