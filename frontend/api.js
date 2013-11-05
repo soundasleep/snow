@@ -132,7 +132,10 @@ api.call = function(method, data, options) {
 api.loginWithKey = function(key) {
     if (key) {
         debug('logging in with key %s', key)
-        $.cookie('session', key, { path: '/' })
+        $.cookie('session', key, {
+            path: '/',
+            secure: window.location.protocol == 'https:'
+        })
     }
 
     return api.call('v1/whoami', null, { authorizing: true })
