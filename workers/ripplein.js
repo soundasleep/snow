@@ -302,12 +302,33 @@ RippleIn.prototype.processTransaction = function(tran, cb) {
         return cb()
     }
 
-    var units = this.stringToUnits(tran.amount, tran.currency)
-
     if (tran.dt == 1) {
         debug('Ignoring transaction to destination tag 1 (Bitcoin bridge)')
         return cb()
     }
+
+    var units
+
+    try {
+        units = this.stringToUnits(tran.amount, tran.currency)
+    } catch (e) {
+        if (e.message.match(/^precision too high/)) {
+            debug('returning %s to sender (precision too high)', tran.hash)
+            return that.returnToSender(tran, function(err, returned) {
+                if (err) {
+                    err = new Error(util.format('Failed to return %s to sender: %s', tran.hash, err.message))
+                    that.emit(err)
+                } else if (returned) {
+                    that.emit('log', util.format('transaction %s returned to sender', tran.hash))
+                }
+
+                cb()
+            })
+        }
+
+        throw e
+    }
+
 
     this.rippleCredit(
         tran.hash,
