@@ -1,11 +1,13 @@
 var debug = require('debug')('snow')
 , assert = require('assert')
 , request = require('request')
+, num = require('num')
+, async = require('async')
+, Table = require('cli-table')
 , Snow = module.exports = function(key, ep) {
-    this.url = ep || 'https://justcoin.com/api/v1/'
-    debug('using endpoint %s', ep)
-
     this.key = key
+    this.url = ep
+    debug('using endpoint %s', ep)
 }
 
 function bodyToError(body) {
@@ -16,6 +18,7 @@ function bodyToError(body) {
 }
 
 Snow.prototype.orders = function(cb) {
+    console.log(this.key)
     request(this.url + 'orders', {
         json: true,
         qs: {
@@ -68,6 +71,22 @@ Snow.prototype.cancel = function(id, cb) {
     })
 }
 
+Snow.prototype.cancelAll = function(cb) {
+	var that = this
+
+	this.orders(function(err, orders) {
+		if (err) return cb(err)
+
+		async.forEach(orders, function(order, cb) {
+			that.cancel(order.id, function(err) {
+				if (err) return cb(err)
+				debug('Order #%s cancelled', order.id)
+                cb()
+            })
+        }, cb)
+    })
+}
+
 Snow.prototype.order = function(order, cb) {
     request(this.url + 'orders', {
         json: order,
@@ -77,7 +96,120 @@ Snow.prototype.order = function(order, cb) {
         }
     }, function(err, res, body) {
         if (err) return cb(err)
-        if (res.statusCode !== 201) return cb(bodyToError(body))
+        if (res.statusCode != 201) return cb(bodyToError(body))
         cb(null, body.id)
     })
+}
+
+Snow.prototype.whoami = function(cb) {
+    request(this.url + 'whoami', {
+        json: true,
+        qs: {
+            key: this.key
+        }
+    }, function(err, res, body) {
+        if (err) return cb(err)
+        if (res.statusCode != 200) return cb(new Error('Status: ' + res.statusCode))
+        cb(null, body)
+    })
+}
+
+Snow.prototype.balances = function(cb) {
+    request(this.url + 'balances', {
+        json: true,
+        qs: {
+            key: this.key
+        }
+    }, function(err, res, body) {
+        if (err) return cb(err)
+        if (res.statusCode != 200) return cb(bodyToError(body))
+        cb(null, body)
+    })
+}
+
+// I'll need to look at how this is done. I belive you post to
+// security/session with your email and receive a token. You then
+// hash that token with your email and password to retrieve the session
+// secret.
+//
+// I suggest that running login overrides the use of this.key for queries.
+// Snow.prototype.login = function(username, password, cb) {
+// }
+
+Snow.prototype.createTableUser = function(user){
+	var table = new Table({
+        head: ['Id', 'Email', 'Security Level', 'twoFactor', 'First name', 'Last name', 'Phone', 'Email verified'],
+        colWidths: [4, 24, 14, 12, 16, 16, 16, 16]
+    })
+
+    table.push([
+        user.id,
+        user.email || '',
+        user.securityLevel || '',
+        user.twoFactor ? 'Yes' : 'No',
+        user.firstName || '',
+        user.lastName || '',
+        user.phone || '',
+        user.emailVerified ? 'Yes' : 'No'
+    ])
+
+    return table
+}
+
+Snow.prototype.createTableBalances = function(balances){
+	var table = new Table({
+        head: ['Currency', 'Balance', 'Hold', 'Available'],
+        colWidths: [12, 12, 12, 12]
+    })
+
+	balances.forEach(function(balance) {
+        table.push([
+            balance.currency,
+            balance.balance,
+            balance.hold,
+            balance.available
+        ])
+    })
+
+    return table
+}
+
+Snow.prototype.createTableMarkets = function(markets){
+	var table = new Table({
+        head: ['Market', 'Bid', 'Ask', 'Last', 'High', 'Low', 'Volume'],
+        colWidths: [8, 12, 12, 12, 12, 12, 12]
+    })
+
+    markets.forEach(function(market) {
+        table.push([
+            market.id,
+            market.bid || '',
+            market.ask || '',
+            market.last || '',
+            market.high || '',
+            market.low || '',
+            market.volume || '0'
+        ])
+    })
+    return table
+}
+
+Snow.prototype.createTableOrders = function(orders){
+	var table = new Table({
+        head: ['#', 'Market', 'Type', 'Volume', 'Price', 'Total'],
+        colWidths: [8, 10, 6, 20, 20, 20]
+    })
+
+    orders.forEach(function(order) {
+        var pair = [order.market.substr(0, 3), order.market.substr(3)]
+        table.push([
+            order.id,
+            order.market,
+            order.type.toUpperCase(),
+            order.remaining + ' ' + pair[0],
+            order.price + ' ' + pair[1],
+            num(order.remaining).mul(order.price) + ' ' + pair[1]
+        ])
+    })
+    return table
 }

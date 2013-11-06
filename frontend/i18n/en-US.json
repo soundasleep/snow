@@ -1,4 +1,6 @@
 {
+    "auth.register.submitted.heading": "Almost there!",
+    "auth.register.submitted.instruction": "We have sent an email to <strong>%s</strong><br>with a link to complete signup.",
     "settings.nav.profile": "Profile",
     "settings.profile.heading": "Profile",
     "settings.profile.username": "Username",
@@ -281,13 +283,6 @@
     "identity.country": "Country",
     "identity.save": "Save",
 
-    "verifyemail.heading": "Verify email",
-    "verifyemail.intro": "To make your account more secure, we'll now verify your email. Ready?",
-    "verifyemail.send button": "Send email to %s",
-    "verifyemail.send button.sending": "Sending email to %s",
-    "verifyemail.send button.waiting": "Check your e-mail now",
-    "verifyemail.confirmation": "Your email has been verified.",
-
     "resetPassword.heading": "Reset your password",
     "resetPassword.intro": "<p>To reset your password, you will need access to the email and phone number you registered with.</p><p>We will first email you a link. After you click the link, go back to this window.</p>",
 
@@ -531,7 +526,6 @@
     "deposit.voucher.redeemed.reload": "Redeem another voucher",
     "deposit.voucher.cancelled.heading": "Voucher cancelled",
     "deposit.voucher.cancelled.intro": "Your voucher has been cancelled and the funds returned to your account.",
-    "auth.verifyemail.locked out": "You tried to verify your email not long ago and need to wait before making another attempt.",
     "invalid": "Invalid",
     "account.nav.transactions": "Transactions",
     "account.transactions.types.WithdrawFee": "Withdraw fee",

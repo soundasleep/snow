@@ -67,10 +67,7 @@ exports.demandLevel = function(level, after) {
         return true
     }
 
-    if (api.user.securityLevel < 1) {
-        debug('suggesting to verify email to reach level 1')
-        router.go('auth/verifyemail?after=' + after, true)
-    } else if (api.user.securityLevel < 2) {
+    if (api.user.securityLevel < 2) {
         debug('suggesting to verify phone to reach level 2')
         router.go('auth/verifyphone?after=' + after, true)
     } else if (api.user.securityLevel < 3) {

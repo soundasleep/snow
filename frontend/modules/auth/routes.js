@@ -21,11 +21,6 @@ module.exports = function(router, master, authorize) {
         if (api.user.securityLevel >= 3) return router.after(after, true)
         master(require('./identity')(after), 'identity')
     })
-    .add(/^auth\/verifyemail(?:\?after=(.+))?$/, function(after) {
-        if (!authorize.user()) return
-        if (api.user.securityLevel >= 1) return router.after(after, true)
-        master(require('./verifyemail')(after), 'verifyemail')
-    })
     .add(/^auth\/verifyphone(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user(1)) return
         if (api.user.securityLevel >= 2) return router.after(after, true)
