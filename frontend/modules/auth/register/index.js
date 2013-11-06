@@ -165,13 +165,19 @@ module.exports = function(after) {
     })
 
     function register() {
-        api.register($email.find('input').val(), $password.find('input').val())
+        var email = $email.find('input').val()
+        , password = $password.find('input').val()
+
+        api.register(email, password)
         .always(function() {
             $submit.prop('disabled', false)
             .removeClass('is-loading')
             .html(i18n('register.create button'))
         }).done(function() {
-            router.after(after)
+            $el.addClass('has-submitted')
+            $.cookie('register.userKey', api.getUserKey(email, password))
+            $.cookie('register.email', email)
+            $el.find('.submitted .instruction').html(i18n('auth.register.submitted.instruction', _.escape(email)))
         }).fail(function(err) {
             if (err.name == 'EmailFailedCheck') {
                 $email.find('input').focus()
@@ -203,6 +209,9 @@ module.exports = function(after) {
     }
 
     $email.find('input').focusSoon()
+
+    // Prevent the user from being redirected to login if reloadng the browser
+    $.removeCookie('existingUser', { path: '/' })
 
     return controller
 }

@@ -68,7 +68,6 @@ module.exports = function(userId) {
         }
 
         $el.toggleClass('has-started-password-reset', !!u.reset_started_at)
-        $el.toggleClass('has-verified-email', !!u.email_verified_at)
 
         oldUser = u
     }
@@ -169,17 +168,6 @@ module.exports = function(userId) {
         .fail(errors.alertFromXhr)
         .done(function() {
             cancelEdit()
-        })
-    })
-
-    $el.on('click', '*[data-action="send-email-verification"]', function(e) {
-        e.preventDefault()
-
-        var url = 'admin/users/' + userId + '/sendVerificationEmail'
-        api.call(url, null, { type: 'POST' })
-        .fail(errors.alertFromXhr)
-        .done(function() {
-            fetchProfile()
         })
     })
 

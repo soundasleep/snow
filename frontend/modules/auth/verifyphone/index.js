@@ -1,5 +1,5 @@
 var util = require('util')
-, debug = require('../../../helpers/debug')('verifyemail')
+, debug = require('../../../helpers/debug')('verifyphone')
 , template = require('./index.html')
 , callingcodes = require('../../../assets/callingcodes.json')
 , validation = require('../../../helpers/validation')

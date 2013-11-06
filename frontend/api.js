@@ -16,8 +16,16 @@ function sha256(s) {
     return sjcl.codec.hex.fromBits(bits)
 }
 
+api.getUserKey = function(email, password) {
+    return sha256(email.toLowerCase() + password)
+}
+
 function keyFromCredentials(sid, email, password) {
-    var ukey = sha256(email.toLowerCase() + password)
+    var ukey = api.getUserKey(email, password)
+    return keyFromUserKey(sid, ukey)
+}
+
+function keyFromUserKey(sid, ukey) {
     var skey = sha256(sid + ukey)
     debug('created skey %s from sid %s and ukey %s', shortSha(skey),
         shortSha(sid), shortSha(ukey))
@@ -179,6 +187,16 @@ api.logout = function() {
     return $.Deferred().resolve()
 }
 
+api.loginWithUserKey = function(email, userKey) {
+    debug('creating session for %s', email)
+    return api.call('security/session', { email: email }, { authorizing: true })
+    .then(function(res) {
+        debug('retrieved session id: %s', res.id)
+        var key = keyFromUserKey(res.id, userKey)
+        return api.loginWithKey(key)
+    })
+}
+
 api.login = function(email, password) {
     debug('creating session for %s', email)
     return api.call('security/session', { email: email }, { authorizing: true })
@@ -202,9 +220,6 @@ api.register = function(email, password) {
     return api.call('v1/users', {
         email: email,
         key: key
-    })
-    .then(function() {
-        return api.login(email, password)
     })
 }
 
