@@ -1,7 +1,7 @@
 module.exports = function(app) {
     var routes = ['balances', 'markets', 'orders', 'ripple',
     'currencies', 'activities', 'users', 'withdraws',
-    'keys', 'email', 'resetPassword', 'spend', 'bankaccounts',
+    'keys', 'resetPassword', 'spend', 'bankaccounts',
     'language', 'vouchers', 'send', 'tfa', 'transactions', 'session']
 
     routes.forEach(function(name) {

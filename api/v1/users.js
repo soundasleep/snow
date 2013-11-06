@@ -4,13 +4,13 @@ var _ = require('lodash')
 
 module.exports = exports = function(app) {
     app.get('/v1/whoami', app.security.demand.any, exports.whoami)
-    app.post('/v1/users', exports.create)
     app.post('/v1/users/identity', app.security.demand.primary(2), exports.identity)
     app.post('/v1/users/verify/text', app.security.demand.primary(1), exports.startPhoneVerify)
     app.post('/v1/users/verify/call', app.security.demand.primary(1), exports.voiceFallback)
     app.post('/v1/users/verify', app.security.demand.primary(1), exports.verifyPhone)
     app.patch('/v1/users/current', app.security.demand.primary, exports.patch)
     app.post('/v1/changePassword', app.security.demand.otp(app.security.demand.primary, true), exports.changePassword)
+    require('./users.create')(app)
 }
 
 exports.patch = function(req, res, next) {
@@ -63,7 +63,6 @@ exports.whoami = function(req, res, next) {
             'SELECT',
             '   user_id id,',
             '   email,',
-            '   email_verified_at,',
             '   admin,',
             '   tag,',
             '   phone_number phone,',
@@ -97,7 +96,6 @@ exports.whoami = function(req, res, next) {
             lastName: row.lastname,
             username: row.username,
             address: row.address,
-            emailVerified: row.email_verified_at !== null,
             country: row.country,
             postalArea: row.postalarea,
             city: row.city,
@@ -106,57 +104,6 @@ exports.whoami = function(req, res, next) {
             twoFactor: !!row.two_factor
         })
 	})
-}
-
-exports.create = function(req, res, next) {
-    if (!req.app.validate(req.body, 'v1/user_create', res)) return
-
-    req.app.verifyEmail(req.body.email, function(err, ok) {
-        if (err) {
-            debug('E-mail validation failed for %s:\n', req.body.email, err)
-        }
-
-        if (!ok) {
-            if (err) debug('email check failed', err)
-            debug('email check failed for %s', req.body.email)
-
-            return res.send(403, {
-                name: 'EmailFailedCheck',
-                message: 'E-mail did not pass validation'
-            })
-        }
-
-        req.app.conn.write.query({
-            text: 'SELECT create_user($1, $2) user_id',
-            values: [req.body.email, req.body.key]
-        }, function(err, dr) {
-            if (!err) {
-                var row = dr.rows[0]
-                req.app.activity(row.user_id, 'Created', {})
-                return res.send(201, { id: row.user_id })
-            }
-
-            if (err.message.match(/email_regex/)) {
-                return res.send(403, {
-                    name: 'InvalidEmail',
-                    message: 'e-mail is invalid'
-                })
-            }
-
-            if (err.message.match(/api_key_pkey/) ||
-                err.message.match(/email_lower_unique/))
-            {
-                return res.send(403, {
-                    name: 'EmailAlreadyInUse',
-                    message:'e-mail is already in use'
-                })
-            }
-
-            req.app.security.invalidate(req.body.key)
-
-            next(err)
-        })
-    })
 }
 
 exports.identity = function(req, res, next) {

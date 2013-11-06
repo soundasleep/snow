@@ -22,7 +22,6 @@ app.activity = require('./activity')(app)
 app.validate = require('./validate')
 app.email = require('./email')(app)
 app.ripple = require('./ripple')(app)
-app.verifyEmail = require('./verifyemail')
 app.use(express.bodyParser())
 app.use(express.cookieParser())
 
