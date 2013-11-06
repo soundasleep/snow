@@ -61,6 +61,39 @@ api.bootstrap()
         window.location.reload()
     }, 10e3)
 })
+.then(function() {
+    var verifyCode = location.hash.match(/^#([a-z0-9]{20})$/)
+    if (!verifyCode) return
+    location.hash = ''
+    debug('the user is verifying email to complete registration')
+
+    return api.call('v1/users/verify/' + verifyCode[1], {})
+    .then(null, function(err) {
+        if (err.name == 'UnknownEmailVerifyCode') {
+            debug('trying to recover from unknown code (ignore)')
+            return $.Deferred().resolve()
+        }
+
+        return err
+    })
+    .then(function() {
+        var userKey = $.cookie('register.userKey')
+        if (userKey) {
+            var email = $.cookie('register.email')
+            debug('can auto-login user %s from user key from registration', email)
+            $.removeCookie('register.userKey')
+            $.removeCookie('register.email')
+            return api.loginWithUserKey(email, userKey)
+        }
+
+        debug('theres no user key. redirecting to login')
+
+        // TODO: i18n
+        alertify.log('Your email has been verified!')
+        $.cookie('existingUser', true)
+    })
+    .fail(errors.alertFromXhr)
+})
 .done(function() {
     debug('boostrapping successful')
 

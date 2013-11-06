@@ -1,4 +1,6 @@
 {
+    "auth.register.submitted.heading": "Nesten ferdig!",
+    "auth.register.submitted.instruction": "Vi har sendt en epost til <strong>%s</strong><br>med en link for å starte.",
     "settings.nav.profile": "Profil",
     "settings.profile.heading": "Profil",
     "settings.profile.username": "Brukernavn",
@@ -67,7 +69,6 @@
     "activities.FillOrder.bid": "Du kjøpte %s for %s (%s per)",
     "activities.FillOrder.ask": "Du solgte %s for %s (%s per)",
     "markets.market.heading": "%s/%s",
-    "auth.verifyemail.locked out": "Du prøvde å bekrefte eposten din for ikke lenge siden og må vente før du kan prøve på nytt.",
     "trade.stats.accu.buyers": "Kjøpere (%s)",
     "trade.stats.accu.sellers": "Selgere (%s)",
     "trade.stats.accu.title": "%s/%s Ordrebok (sammenlagt)",
@@ -271,13 +272,6 @@
     "identity.postalArea": "Postkode",
     "identity.country": "Land",
     "identity.save": "Lagre",
-
-    "verifyemail.heading": "Godkjenn epost",
-    "verifyemail.intro": "For å gjøre kontoen din mer sikker, godkjenner vi eposten din. Klar?",
-    "verifyemail.send button": "Send epost til %s",
-    "verifyemail.send button.sending": "Sender epost til %s",
-    "verifyemail.send button.waiting": "Sjekk eposten din nå",
-    "verifyemail.confirmation": "Eposten din har blitt godkjent.",
 
     "top.vouchers": "Kuponger",
     "top.send": "Send til epost",
