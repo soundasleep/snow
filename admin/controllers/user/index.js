@@ -171,17 +171,6 @@ module.exports = function(userId) {
         })
     })
 
-    $el.on('click', '*[data-action="send-email-verification"]', function(e) {
-        e.preventDefault()
-
-        var url = 'admin/users/' + userId + '/sendVerificationEmail'
-        api.call(url, null, { type: 'POST' })
-        .fail(errors.alertFromXhr)
-        .done(function() {
-            fetchProfile()
-        })
-    })
-
     $el.on('click', '[data-action="forgive-password-reset"]', function(e) {
         e.preventDefault()
 
