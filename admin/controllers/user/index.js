@@ -68,7 +68,6 @@ module.exports = function(userId) {
         }
 
         $el.toggleClass('has-started-password-reset', !!u.reset_started_at)
-        $el.toggleClass('has-verified-email', !!u.email_verified_at)
 
         oldUser = u
     }

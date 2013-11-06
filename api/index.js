@@ -23,7 +23,6 @@ app.validate = require('./validate')
 app.email = require('./email')(app)
 app.ripple = require('./ripple')(app)
 app.tropo = require('./tropo')(app)
-app.verifyEmail = require('./verifyemail')
 app.intercom = require('./intercom')
 
 app.use(express.bodyParser())
