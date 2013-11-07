@@ -1,0 +1,10 @@
+npm-debug.log
+node_modules/
+phantomjs.exe
+build/
+config.dev.json
+bower_components/
+/*.ps1
+/tmp/
+/dist/
+/public/

@@ -27,6 +27,13 @@ exports.getDbHeight = function(cb) {
     })
 }
 
+exports.setDbBalance = function(val, cb) {
+    exports.db.query({
+        text: 'UPDATE settings SET ltc_balance = $1',
+        values: [val]
+    }, cb)
+}
+
 exports.setDbHeight = function(height, cb) {
     debug('setting db height to %d...', height)
     exports.dbHeight = height
@@ -51,7 +58,11 @@ exports.check = function(cb) {
                 exports.daemon.getBlockHash.bind(exports.daemon, n),
                 exports.daemon.getBlock.bind(exports.daemon),
                 exports.processBlock,
-                exports.setDbHeight.bind(null, n)
+                exports.setDbHeight.bind(null, n),
+                function(dr, cb) {
+                    exports.daemon.getBalance(cb)
+                },
+                exports.setDbBalance
             ], function(err) {
                 if (err) return cb(err)
                 debug('finished with block #%d', n)
@@ -100,7 +111,7 @@ exports.processTx = function(txid, cb) {
         var detail = tx.details[0]
         if (detail.category !== 'receive') return cb()
         var address = detail.address
-        , satoshis = +num(detail.amount).mul(1e8)
+        , satoshis = +num(detail.amount.toFixed(8)).mul(1e8)
         exports.credit(txid, address, satoshis, cb)
     })
 }

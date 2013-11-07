@@ -1,0 +1,57 @@
+#area > .trade-market
+    states order-mode-limit order-mode-market
+
+    .amount
+        states insufficient-funds precision-too-high
+
+    .market-order, .limit-order
+        states order-type-bid order-type-ask
+
+    .limit-order
+        .price
+            states precision-too-high
+
+        .bid
+            .total
+                &.is-more-than-available
+                    color red
+
+        .ask
+            .amount
+                states insufficient-funds
+
+    .market-order
+        .bid
+            .amount
+                states insufficient-funds precision-too-high too-deep too-small
+
+        .ask
+            .amount
+                states too-deep insufficient-funds precision-too-high
+
+    .market-order, .limit-order
+        .bid, .ask
+            .order-summary
+                td
+                    text-align right
+
+#area > .trade-orders
+    .active-orders, .order-history
+        td.number
+            text-align right
+
+.trade-nav
+    .order-modes
+        @media (min-width: 768px)
+            margin-top 33px
+
+        font-size 1.5em
+
+        .active
+            font-weight bold
+            pointer-events none
+            color #333
+
+    .jc-sidenav
+        @media (min-width: 768px)
+            margin-top 10px

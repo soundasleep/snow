@@ -1,0 +1,88 @@
+server {
+    listen <%= node[:snow][:reverse][:https_port] %>;
+    server_name <%= node[:snow][:reverse][:server_name] %>;
+
+    <% unless node[:snow][:reverse][:access_log].nil? %>
+    access_log <%= node[:snow][:reverse][:access_log] %>;
+    <% end %>
+    <% unless node[:snow][:reverse][:error_log].nil? %>
+    error_log <%= node[:snow][:reverse][:error_log] %>;
+    <% end %>
+
+    gzip on;
+    gzip_http_version 1.1;
+    gzip_vary on;
+    gzip_comp_level 6;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript text/x-js;
+    gzip_buffers 16 8k;
+    gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+
+    # CORS from https://gist.github.com/michiel/1064640/
+    location / {
+        add_header X-Frame-Options DENY;
+        real_ip_header X-Forwarded-For;
+        set_real_ip_from 10.0.0.0/8;
+        add_header Access-Control-Allow-Origin '*';
+        add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+        add_header Access-Control-Allow-Headers 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+        proxy_set_header X-Real-IP $remote_addr;
+
+        location /api {
+            rewrite ^/api(/?.*)$ $1 break;
+            proxy_pass http://<%= @api_ip %>:<%= node[:snow][:api][:port] %>;
+            break;
+        }
+
+        location /client {
+            rewrite ^/client(/?.*)$ $1 break;
+            proxy_pass http://<%= @frontend_ip %>:<%= node[:snow][:frontend][:port] %>;
+            break;
+        }
+
+        location /admin {
+            rewrite ^/admin(/?.*)$ $1 break;
+            proxy_pass http://<%= @admin_ip %>:<%= node[:snow][:admin][:port] %>;
+            break;
+        }
+
+        location / {
+            if ($request_method = 'OPTIONS') {
+                add_header Access-Control-Max-Age' 1728000;
+                add_header Content-Type 'text/plain charset=UTF-8';
+                add_header Content-Length' 0;
+                return 204;
+            }
+
+            proxy_pass http://<%= @landing_ip %>:<%= node[:snow][:landing][:port] %>;
+            break;
+        }
+    }
+}
+
+# Redirect non-https to https (also www.)
+server {
+    listen <%= node[:snow][:reverse][:http_port] %>;
+    server_name ~^(www\.)?<%= node[:snow][:reverse][:server_name] %>$;
+    return 301 https://<%= node[:snow][:reverse][:server_name] %>$request_uri;
+}
+
+# Redirect www. prefixed https
+server {
+    listen <%= node[:snow][:reverse][:https_port] %>;
+    server_name www.<%= node[:snow][:reverse][:server_name] %>;
+    return 301 https://<%= node[:snow][:reverse][:server_name] %>$request_uri;
+}
+
+# Proxy api. (legacy)
+server {
+    listen <%= node[:snow][:reverse][:https_port] %>;
+    server_name api.<%= node[:snow][:reverse][:server_name] %>;
+
+    location ~ ^(.*)$ {
+        proxy_pass http://127.0.0.1:<%= node[:snow][:reverse][:https_port] %>/api$1;
+        proxy_set_header Host <%= node[:snow][:reverse][:server_name] %>;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}

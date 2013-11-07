@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="settings-nav"></div>
+
+        <div class="col-lg-9">
+            <h1><%- i18n('settings.profile.heading') %></h1>
+
+            <form>
+                <div class="form-group username">
+                    <label class="control-label" for="username">
+                        <%- i18n('settings.profile.username') %>
+                    </label>
+                    <input type="username" class="form-control" name="username" value="<%= username %>">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        <%- i18n('settings.profile.submit') %>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

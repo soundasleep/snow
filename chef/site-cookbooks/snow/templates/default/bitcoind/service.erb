@@ -1,0 +1,11 @@
+start on startup
+env NAME=bitcoind
+
+script
+    echo $$ > /var/run/$NAME.pid
+    sudo -Eu ubuntu /usr/bin/bitcoind -datadir=/btc >> /var/log/$NAME.log 2>&1
+end script
+
+post-stop script
+   rm -f /var/run/$NAME.pid
+end script

@@ -1,17 +1,16 @@
-var withdraws = require('../../withdraws')
+var withdraws = require('../../shared/withdraws')
 , header = require('../header')
 
 module.exports = function(userId) {
-    var url = 'admin/withdraws?user_id=' + userId
-    , controller = withdraws(url)
-
-    // Insert header
-    controller.$el.find('.header-placeholder')
-    .replaceWith(header(userId, 'withdraw-requests').$el)
+    var opts = { user_id: userId }
+    , controller = withdraws(opts)
 
     controller.$el
     .addClass('container')
     .addClass('is-single-user')
+
+    // Insert header
+    controller.$el.prepend(header(userId, 'withdraw-requests').$el)
 
     controller.init()
 

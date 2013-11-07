@@ -1,5 +1,5 @@
 module.exports = exports = function(app) {
-    app.post('/v1/spend', app.auth.trade, exports.spend)
+    app.post('/v1/spend', app.security.demand.trade, exports.spend)
 }
 
 exports.spend = function(req, res, next) {
@@ -14,7 +14,7 @@ exports.spend = function(req, res, next) {
             'WHERE base_currency_id || quote_currency_id = $3'
         ].join('\n'),
         values: [
-            req.user,
+            req.user.id,
             req.app.cache.parseCurrency(req.body.amount, quote),
             req.body.market
         ]

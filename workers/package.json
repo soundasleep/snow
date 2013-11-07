@@ -4,9 +4,9 @@
   "description": "workers for snow",
   "dependencies": {
     "lodash": "~1.2.1",
-    "debug": "~0.7.2",
+    "debug": "0.7.2",
     "request": "~2.12.0",
-    "num": "0.2.0",
+    "num": "abrkn/node-num",
     "q": "~0.9.3",
     "drop": "~0.2.5",
     "bitcoin": "~1.6.2",
@@ -14,7 +14,9 @@
     "konfu": "~1.1.4",
     "semaphore": "~1.0.1",
     "async": "~0.2.8",
-    "pg": "~1.1.0"
+    "pg": "~1.1.0",
+    "ripple-lib": "~0.7.29",
+    "sjcl": "~1.0.0"
   },
   "scripts": {
     "test": "mocha"

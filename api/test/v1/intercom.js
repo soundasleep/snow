@@ -9,7 +9,7 @@ var expect = require('expect.js')
 describe('intercom', function() {
     it('returns intercom settings', function(done) {
         var uid =  dummy.id()
-        , impersonate = mock.impersonate(app, uid, { primary: true })
+        , impersonate = mock.impersonate(app, uid)
         , res = {
             app_id: app.config.intercom_app_id,
             user_id: uid,

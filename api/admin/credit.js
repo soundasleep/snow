@@ -1,5 +1,5 @@
 module.exports = exports = function(app) {
-    app.post('/admin/bankCredit', app.auth.admin, exports.bankCredit)
+    app.post('/admin/bankCredit', app.security.demand.admin, exports.bankCredit)
 }
 
 exports.bankCredit = function(req, res, next) {
@@ -24,7 +24,7 @@ exports.bankCredit = function(req, res, next) {
         }
 
         // Log for admin
-        req.app.activity(req.user, 'AdminBankAccountCredit', req.body)
+        req.app.activity(req.user.id, 'AdminBankAccountCredit', req.body)
 
         // Log for user
         req.app.activity(req.body.user_id, 'BankCredit', {

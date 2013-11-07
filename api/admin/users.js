@@ -2,19 +2,39 @@ var _ = require('lodash')
 , format = require('util').format
 
 module.exports = exports = function(app) {
-    app.get('/admin/users', app.auth.admin, exports.users)
-    app.get('/admin/users/:id', app.auth.admin, exports.user)
-    app.patch('/admin/users/:id', app.auth.admin, exports.patch)
+    app.get('/admin/users', app.security.demand.admin, exports.users)
+    app.get('/admin/users/:id', app.security.demand.admin, exports.user)
+    app.patch('/admin/users/:id', app.security.demand.admin, exports.patch)
     app.get('/admin/users/:user/bankAccounts',
-        app.auth.admin, exports.bankAccounts)
-    app.get('/admin/users/:user/activity', app.auth.admin, exports.activity)
-    app.post('/admin/users/:user/sendVerificationEmail', app.auth.admin,
+        app.security.demand.admin, exports.bankAccounts)
+    app.get('/admin/users/:user/activity', app.security.demand.admin, exports.activity)
+    app.post('/admin/users/:user/sendVerificationEmail', app.security.demand.admin,
         exports.sendVerificationEmail)
-    app.post('/admin/users/:user/bankAccounts', app.auth.admin,
+    app.post('/admin/users/:user/bankAccounts', app.security.demand.admin,
         exports.addBankAccount)
-    app.get('/admin/users/:user/accounts', app.auth.admin, exports.accounts)
-    app.del('/admin/users/:user/bankAccounts/:id', app.auth.admin,
+    app.get('/admin/users/:user/accounts', app.security.demand.admin, exports.accounts)
+    app.del('/admin/users/:user/bankAccounts/:id', app.security.demand.admin,
         exports.removeBankAccount)
+    app.post('/admin/users/:user/forgivePasswordReset', app.security.demand.admin,
+        exports.forgivePasswordReset)
+}
+
+exports.forgivePasswordReset = function(req, res, next) {
+    req.app.conn.write.query({
+        text: 'UPDATE "user" SET reset_started_at = NULL WHERE user_id = $1',
+        values: [+req.params.user]
+    }, function(err, dr) {
+        if (err) return next(err)
+
+        if (!dr.rowCount) {
+            return res.send(404, {
+                name: 'UserNotFound',
+                message: 'User not found'
+            })
+        }
+
+        res.send(204)
+    })
 }
 
 exports.removeBankAccount = function(req, res, next) {
@@ -119,22 +139,33 @@ exports.patch = function(req, res, next) {
         text: [
             'UPDATE "user"',
             'SET ' + updates.join(),
-            'WHERE user_id = $1'
+            'WHERE user_id = $1',
+            'RETURNING poi_approved_at, poa_approved_at'
         ].join('\n'),
         values: values
     }, function(err, dr) {
         if (err) return next(err)
 
         if (!dr.rowCount) {
-            return next(new Error('User ' + req.user + ' not found'))
+            return next(new Error('User ' + req.params.id + ' not found'))
         }
 
-        req.app.activity(req.user, 'AdminEditUser', {
+        req.app.activity(req.user.id, 'AdminEditUser', {
             user_id: req.params.id,
             edits: req.body
         })
 
-        req.app.auth.invalidate(req.app, +req.params.id)
+        var row = dr.rows[0]
+
+        // Will this mark the user as having passed KyC?
+        if ((req.body.poi_approved || req.body.poa_approved) &&
+            row.poi_approved_at &&
+            row.poa_approved_at)
+        {
+            req.app.activity(req.params.id, 'KycCompleted', {})
+        }
+
+        req.app.security.invalidate(+req.params.id)
 
         res.send(204)
     })
@@ -207,6 +238,11 @@ exports.buildQuery = function(params) {
     if (params.user_id || params.all) {
         conditions.push(['user_id', params.user_id || params.all ])
     }
+
+    if (params.tag || params.all) {
+        conditions.push(['tag', params.tag || params.all ])
+    }
+
     if (+(params.user_id || params.all)) {
         conditions.push(['user_id', (params.user_id || params.all) / 1234 ])
     }

@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+# Always specify a reference to avoid trouble in the future
+
+site 'http://community.opscode.com/api/v1'
+
+cookbook 'hostname',
+  :git => 'https://github.com/timurbatyrshin/chef-cookbook-hostname',
+  :ref => 'f7fc6fb81d637e18371060167a0b39c2ff2155af'
+
+cookbook 'cron',
+  :git => 'https://github.com/opscode-cookbooks/cron.git',
+  :ref => '6f669a60e203bf4cbec62bdcdb5e247dfe7c5e32'
+
+cookbook 'monit',
+    :path => '../../chef-monit'
+  # :git => 'https://github.com/phlipper/chef-monit.git',
+  # :ref => 'd78262e52e75bd8254bdc33612d14b4e9dd34c8a'
+
+cookbook 'aws',
+    :git => 'https://github.com/opscode-cookbooks/aws.git',
+    :ref => 'v0.101.4'
+
+cookbook 'postgresql',
+    :path => '../../chef-postgresql'
+  # :git => 'https://github.com/phlipper/chef-postgresql.git',
+  # :ref => '0.11.2'
+
+cookbook 'nodejs',
+    :git => 'https://github.com/phlipper/chef-nodejs.git',
+    :ref => '1.7.0'
+
+cookbook 'logrotate',
+    :git => 'https://github.com/opscode-cookbooks/logrotate.git',
+    :ref => '1.2.2'
+
+cookbook 'deploy_wrapper',
+    :path => '../../chef-deploy_wrapper'
+    # :git => 'https://github.com/cwjohnston/chef-deploy_wrapper.git',
+    # :ref => 'bf717075443626f1109ee4590dec23ef359fc4a3'
+
+cookbook 'ssh_known_hosts',
+    :git => 'https://github.com/opscode-cookbooks/ssh_known_hosts.git',
+    :ref => '7be00659342ce09c9c1b472b4340b211e77131a1'
+
+cookbook 'nginx',
+  :git => 'https://github.com/opscode-cookbooks/nginx.git',
+  :ref => 'd7a41ce15b30f91df95195b213d95bb9b3a6c4c3'
+
+cookbook 'postfix',
+  :git => 'https://github.com/opscode-cookbooks/postfix.git',
+  :ref => '4832ed74640cc36dd1618c8d39ea9a154ea6d5f5'
+
+cookbook 'hostsfile',
+  :git => 'https://github.com/customink-webops/hostsfile.git',
+  :ref => '63769c54580942551281db9c1dcf996b5ce95730'

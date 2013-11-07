@@ -1,5 +1,5 @@
 var _ = require('lodash')
-, debug = require('../../util/debug')('login')
+, debug = require('../../helpers/debug')('login')
 
 module.exports = function(after) {
     var controller = {
