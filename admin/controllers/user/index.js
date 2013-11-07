@@ -3,6 +3,7 @@ var header = require('./header')
 , model = require('../../helpers/model')
 , _ = require('lodash')
 , moment = require('moment')
+, format = require('util').format
 
 module.exports = function(userId) {
     var $el = $('<div class="admin-user-profile">').html(template({
@@ -16,6 +17,11 @@ module.exports = function(userId) {
 
     // User id is always known
     $el.find('.userId td span').html(userId)
+
+    // Link to intercom.io
+    $el.find('.intercom-link')
+    .attr('href', format('https://www.intercom.io/apps/%s/users/show?user_id=%s',
+        '64463fba8faa8166444bfb3c00a5e40976bd622e', userId))
 
     // Header
     $el.find('.header-placeholder').replaceWith(header(userId, 'user').$el)
