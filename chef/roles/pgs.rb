@@ -20,6 +20,12 @@ override_attributes(
         'method' => 'trust'
       }
     ],
-    "hot_standby" => "on"
+    "hot_standby" => "on",
+    "log_min_duration_statement" => 100,
+    "log_line_prefix" => "%t [%p]: [%l-1] db=%d,user=%u ",
+    "log_checkpoints" => "on",
+    "log_connections" => "on",
+    "log_disconnections" => "on",
+    "log_lock_waits" => "on"
   }
 )

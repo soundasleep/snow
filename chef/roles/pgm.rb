@@ -31,6 +31,12 @@ override_attributes(
         'addr' => '10.0.1.0/24',
         'method' => 'trust'
       }
-    ]
+    ],
+    "log_min_duration_statement" => 100,
+    "log_line_prefix" => "%t [%p]: [%l-1] db=%d,user=%u ",
+    "log_checkpoints" => "on",
+    "log_connections" => "on",
+    "log_disconnections" => "on",
+    "log_lock_waits" => "on"
   }
 )
