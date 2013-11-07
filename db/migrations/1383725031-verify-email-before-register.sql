@@ -33,6 +33,24 @@ BEGIN
 END; $BODY$
   LANGUAGE plpgsql;
 
+CREATE INDEX activity_user_id_idx
+ON activity (user_id);
+
+CREATE INDEX btc_deposit_address_account_id_idx
+ON btc_deposit_address (account_id);
+
+CREATE INDEX ltc_deposit_address_account_id_idx
+ON ltc_deposit_address (account_id);
+
+CREATE INDEX api_key_user_id_idx
+ON api_key (user_id);
+
+CREATE INDEX account_user_id_idx
+ON account (user_id);
+
+CREATE INDEX bank_account_user_id_idx
+ON bank_account (user_id);
+
 CREATE OR REPLACE FUNCTION delete_user (
     uid int
 ) RETURNS void AS $$
@@ -47,6 +65,9 @@ BEGIN
     DELETE FROM ltc_deposit_address lda
     USING account a
     WHERE a.account_id = lda.account_id AND a.user_id = uid;
+
+    DELETE FROM bank_account
+    WHERE user_id = uid;
 
     DELETE FROM account
     WHERE user_id = uid;
@@ -94,16 +115,12 @@ BEGIN
 END; $$ LANGUAGE plpgsql;
 
 -- Migrate
-
-
 UPDATE "user"
 SET suspended = TRUE
 WHERE email_verified_at IS NULL;
 
 -- Delete users with no transactions
-SELECT delete_user(u.user_id)
-FROM "user" u
-WHERE u.user_id NOT IN (
+WITH user_with_tx AS (
     SELECT DISTINCT a.user_id
     FROM transaction t
     INNER JOIN account a ON a.account_id = t.debit_account_id
@@ -112,9 +129,12 @@ WHERE u.user_id NOT IN (
     SELECT DISTINCT a.user_id
     FROM transaction t
     INNER JOIN account a ON a.account_id = t.credit_account_id
-    WHERE a.user_id IS NOT NULL
-) AND
-u.email_verified_at IS NULL;
+)
+SELECT delete_user(u.user_id)
+FROM "user" u
+WHERE
+    u.email_verified_at IS NULL AND
+    u.user_id NOT IN (SELECT user_id FROM user_with_tx);
 
 ALTER TABLE "user"
 DROP COLUMN email_verified_at,
