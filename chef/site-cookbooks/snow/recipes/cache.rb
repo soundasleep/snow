@@ -8,7 +8,7 @@ template '/etc/varnish/snow-cache.vcl' do
   owner "root"
   group "root"
   variables({
-    :reverse_ip => reverse_ip || '127.0.0.1',
+    :reverse_ip => reverse_ip || '127.0.0.1'
   })
   notifies :reload, resources(:service => "varnish")
 end
