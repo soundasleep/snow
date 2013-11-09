@@ -35,3 +35,8 @@ logrotate_app "snow" do
   rotate 7
   create "664 root root"
 end
+
+template '/home/ubuntu/.vimrc' do
+  source "vimrc.erb"
+  owner "ubuntu"
+end

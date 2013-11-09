@@ -67,6 +67,13 @@ GIT
       partial_search (>= 0.0.0)
 
 GIT
+  remote: https://github.com/opscode-cookbooks/varnish.git
+  ref: 5881859574c00754da3cfd3fb50f2151b8af310f
+  sha: 5881859574c00754da3cfd3fb50f2151b8af310f
+  specs:
+    varnish (0.9.11)
+
+GIT
   remote: https://github.com/phlipper/chef-nodejs.git
   ref: 1.7.0
   sha: 72c52b39622e7a31afe9a13ec61b756c3a25e968
@@ -112,4 +119,5 @@ DEPENDENCIES
   postfix (>= 0)
   postgresql (>= 0)
   ssh_known_hosts (>= 0)
+  varnish (>= 0)
 

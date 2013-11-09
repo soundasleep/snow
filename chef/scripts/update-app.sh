@@ -16,4 +16,4 @@ knife ssh \
     -x ubuntu \
     -a ec2.local_ipv4 \
     -i $SSH_KEY \
-    "sudo chef-client --override-runlist \"role[api],role[admin],role[reverse],role[workers]\""
+    "sudo chef-client --override-runlist \"role[api],role[cache],role[admin],role[reverse],role[workers]\""
