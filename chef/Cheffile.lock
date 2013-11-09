@@ -1,15 +1,15 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apt (2.1.1)
+    apt (2.3.0)
     build-essential (1.4.2)
-    dpkg_autostart (0.1.6)
-    ohai (1.1.10)
-    partial_search (1.0.2)
-    runit (1.1.6)
+    dpkg_autostart (0.1.8)
+    ohai (1.1.12)
+    partial_search (1.0.6)
+    runit (1.4.0)
       build-essential (>= 0.0.0)
       yum (>= 0.0.0)
-    yum (2.3.0)
+    yum (2.4.2)
 
 GIT
   remote: https://github.com/customink-webops/hostsfile.git
@@ -67,6 +67,13 @@ GIT
       partial_search (>= 0.0.0)
 
 GIT
+  remote: https://github.com/opscode-cookbooks/varnish.git
+  ref: 5881859574c00754da3cfd3fb50f2151b8af310f
+  sha: 5881859574c00754da3cfd3fb50f2151b8af310f
+  specs:
+    varnish (0.9.11)
+
+GIT
   remote: https://github.com/phlipper/chef-nodejs.git
   ref: 1.7.0
   sha: 72c52b39622e7a31afe9a13ec61b756c3a25e968
@@ -112,4 +119,5 @@ DEPENDENCIES
   postfix (>= 0)
   postgresql (>= 0)
   ssh_known_hosts (>= 0)
+  varnish (>= 0)
 

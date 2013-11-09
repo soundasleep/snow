@@ -54,3 +54,7 @@ cookbook 'postfix',
 cookbook 'hostsfile',
   :git => 'https://github.com/customink-webops/hostsfile.git',
   :ref => '63769c54580942551281db9c1dcf996b5ce95730'
+
+cookbook 'varnish',
+  :git => 'https://github.com/opscode-cookbooks/varnish.git',
+  :ref => '5881859574c00754da3cfd3fb50f2151b8af310f'
