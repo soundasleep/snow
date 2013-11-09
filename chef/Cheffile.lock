@@ -1,15 +1,15 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apt (2.1.1)
+    apt (2.3.0)
     build-essential (1.4.2)
-    dpkg_autostart (0.1.6)
-    ohai (1.1.10)
-    partial_search (1.0.2)
-    runit (1.1.6)
+    dpkg_autostart (0.1.8)
+    ohai (1.1.12)
+    partial_search (1.0.6)
+    runit (1.4.0)
       build-essential (>= 0.0.0)
       yum (>= 0.0.0)
-    yum (2.3.0)
+    yum (2.4.2)
 
 GIT
   remote: https://github.com/customink-webops/hostsfile.git
