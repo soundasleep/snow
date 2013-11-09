@@ -1,8 +1,8 @@
 import std;
 
 backend default {
-    .host = "10.0.1.148";
-    .port = "8040";
+    .host = "<%= @reverse_ip %>";
+    .port = "<%= node['snow']['reverse']['https_port'] %>";
 }
 
 acl purge {
@@ -172,7 +172,8 @@ sub vcl_deliver {
     remove resp.http.Vary;
     remove resp.http.Server;
     remove resp.http.X-Powered-By;
-
+    remove resp.http.Age;
+/*
     if (obj.hits > 0) {
         set resp.http.X-Cache = "HIT";
         set resp.http.X-Cache-Hits = obj.hits;
@@ -180,4 +181,5 @@ sub vcl_deliver {
         set resp.http.X-Cache = "MISS";
     }
     return(deliver);
+*/
 }
