@@ -85,6 +85,7 @@ api.call = function(method, data, options) {
 
     options || (options = {})
     options.qs = options.qs || {}
+    options.qs.ts = Math.floor(new Date())
 
     if (options.type) settings.type = options.type
     else if (data) settings.type = 'POST'
