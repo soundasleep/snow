@@ -175,7 +175,7 @@ sub vcl_deliver {
     remove resp.http.Server;
     remove resp.http.X-Powered-By;
     remove resp.http.Age;
-/*
+
     if (obj.hits > 0) {
         set resp.http.X-Cache = "HIT";
         set resp.http.X-Cache-Hits = obj.hits;
@@ -183,5 +183,4 @@ sub vcl_deliver {
         set resp.http.X-Cache = "MISS";
     }
     return(deliver);
-*/
 }
