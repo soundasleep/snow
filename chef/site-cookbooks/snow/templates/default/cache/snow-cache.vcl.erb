@@ -113,6 +113,8 @@ sub vcl_recv {
 }
 
 sub vcl_fetch {
+    set beresp.ttl = 0s;
+
     # Strip cookies from user invariant queries
     if (req.http.X-Varnish-Public == "true")
     {
