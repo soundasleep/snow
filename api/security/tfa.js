@@ -4,34 +4,97 @@ var assert = require('assert')
 module.exports = exports = function(app) {
     exports.app = app
     exports.speakeasy = require('speakeasy')
-    exports.usedOtp = []
     return exports
+}
+
+exports.validate = function(secret, guess, minCounter) {
+    debug('checking guess %s', guess)
+
+    for (var offset = -3; offset <= 3; offset++) {
+        var counter = Math.floor(+new Date() / 30e3) - offset
+
+        if (minCounter && counter <= minCounter) {
+            debug('cannot use offset %s (%s >= %s)', offset, counter, minCounter)
+            continue
+        }
+
+        var answer = exports.speakeasy.hotp({
+            key: secret,
+            encoding: 'base32',
+            counter: counter
+        })
+
+        debug('checking vs answer %s at offset %s', answer, offset)
+
+        if (answer == guess) {
+            debug('correct guess at offset %s', offset)
+            return counter
+        }
+    }
 }
 
 /**
  * Consume a one-time password
- * @param  {string} key   The two-factor key/secret
+ * @param  {int} userId         The id of the user
  * @param  {string} guess       User supplied otp
  * @return {boolean}            Null if the user is locked out,
  *                              else whether the guess was corrected
  */
-exports.consume = function(key, guess) {
-    assert.equal(guess.length, 6)
+exports.consume = function(userId, secret, guess, cb) {
+    debug('looking up otp details for user %s', userId)
 
-    var answer = exports.speakeasy.time({ key: key, encoding: 'base32' })
-    assert.equal(answer.length, 6)
+    // Is the user locked out from trying?
+    exports.app.conn.read.query({
+        text: [
+            'SELECT',
+            '   two_factor_success_counter,',
+            '   two_factor',
+            'FROM "user"',
+            'WHERE',
+            '   user_id = $1 AND',
+            '   (',
+            '       COALESCE(two_factor_failures, 0) < 3 OR',
+            '       now() - two_factor_failure_at > \'30s\'::interval',
+            '   )'
+        ].join('\n'),
+        values: [userId]
+    }, function(err, dr) {
+        if (err) return cb(err)
+        if (!dr.rowCount) return cb(null, null)
+        secret || (secret = dr.rows[0].two_factor)
 
-    if (~exports.usedOtp.indexOf(key + answer)) {
-        return null
-    }
+        var counter = exports.validate(secret, guess, dr.rows[0].two_factor_success_counter)
 
-    exports.usedOtp.push(key + answer)
+        if (counter) {
+            return exports.app.conn.write.query({
+                text: [
+                    'UPDATE "user"',
+                    'SET',
+                    '   two_factor_success_counter = $2,',
+                    '   two_factor_failures = NULL,',
+                    '   two_factor_failure_at = NULL',
+                    'WHERE user_id = $1'
+                ].join('\n'),
+                values: [userId, counter]
+            }, function(err) {
+                if (err) return cb(err)
+                cb(null, true)
+            })
+        }
 
-    if (exports.usedOtp.length > 10000) {
-        exports.usedOtp.shift()
-    }
-
-    debug('expected otp %s, received %s', answer, guess)
-
-    return guess == answer
+        exports.app.conn.write.query({
+            text: [
+                'UPDATE "user"',
+                'SET',
+                '   two_factor_failures = COALESCE(two_factor_failures, 0) + 1,',
+                '   two_factor_failure_at = now()',
+                'WHERE user_id = $1'
+            ].join('\n'),
+            values: [userId]
+        }, function(err, dr) {
+            if (err) return cb(err)
+            assert(dr.rowCount)
+            cb(null, false)
+        })
+    })
 }
