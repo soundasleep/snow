@@ -43,12 +43,12 @@ deploy_revision node[:snow][:landing][:app_directory] do
         user "ubuntu"
         group "ubuntu"
         cwd "#{release_path}/landing"
-        code <<-EOH
-        PATH=$PATH:./node_modules/.bin
-        npm install
-        bower install
-        grunt
-        EOH
+        code %{
+          export SEGMENT=#{env_bag['segment']['api_key']}
+          PATH=$PATH:./node_modules/.bin
+          npm install
+          grunt production
+        }
       end
     end
     keep_releases 0
