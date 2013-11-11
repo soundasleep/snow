@@ -55,7 +55,7 @@ exports.csv = function(req, res, next) {
                 row.timestamp,
                 row.date,
                 row.currency,
-                exports.app.cache.formatCurrency(row.amount, row.currency)
+                row.creditUserId == req.user.id ? row.amount : '-' + row.amount
             ]
         }))
 
