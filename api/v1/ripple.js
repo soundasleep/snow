@@ -18,6 +18,13 @@ exports.address = function(req, res) {
 exports.withdraw = function(req, res, next) {
     if (!req.app.validate(req.body, 'v1/ripple_out', res)) return
 
+    if (req.body.address == req.app.config.ripple_account) {
+        return res.send(400, {
+            name: 'CannotSendToSelf',
+            message: 'Cannot send Ripple payment to oneself'
+        })
+    }
+
     var queryText = [
         'SELECT ripple_withdraw(user_currency_account($1, $2), $3, $4) rid'
     ].join('\n')
