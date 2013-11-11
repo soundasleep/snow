@@ -1,9 +1,8 @@
 var config = require('konfu')
 , RippleIn = require('../ripplein')
-, dbClient = require('../lib/db')(config.pg_url, config.pg_native)
-, rippleIn = new RippleIn(dbClient, config.ripple_uri, config.ripple_account, config.ripple_secret)
-, raven = require('../lib/raven')
-
-rippleIn.on('log', function(msg) {
-    raven.captureMessage(msg)
+, rippleIn = new RippleIn({
+    conn: require('../lib/db')(config.pg_url, config.pg_native),
+    account: config.ripple_account,
+    secret: config.ripple_secret
 })
+rippleIn.init()

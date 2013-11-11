@@ -1,160 +1,136 @@
-var Drop = require('drop')
-, num = require('num')
+var ripplelib = require('ripple-lib')
 , assert = require('assert')
+, _ = require('lodash')
+, debug = require('debug')('snow:ripple-in')
+, async = require('async')
 , EventEmitter = require('events').EventEmitter
 , util = require('util')
-, async = require('async')
-, _ = require('lodash')
-, debug = require('debug')('snow:ripplein')
+, num = require('num')
 
-var RippleIn = module.exports = function(db, uri, account, secret) {
-    var that = this
-
-    assert(db)
-    assert(uri)
-    assert(account)
-    assert(secret)
-
+module.exports = function(opts) {
     _.bindAll(this)
+    _.extend(this, {
+    }, opts)
 
-    this.uri = uri
-    this.client = db
-    this.account = account
-    this.secret = secret
-
-    this.connect()
-
-    async.parallel([
-        that.cacheCurrencies
-    ], function(err) {
-        if (err) that.emit(err)
-
-        debug('subscribing...')
-
-        that.subscribeAccounts(function(err) {
-            if (err) return that.emit(err)
-
-            that.catchup(function(err) {
-                if (err) that.emit(err)
-                debug('finished catching up. init complete')
-            })
-        })
+    this.ripple = new ripplelib.Remote({
+        trusted: true,
+        local_signing: true,
+        local_fee: true,
+        fee_cusion: 1.5,
+        servers: [
+            {
+                host: 's1.ripple.com',
+                port: 443,
+                secure: true
+            }
+        ],
+        trace: false && require('debug')('ripple').enabled
     })
+    this.ripple.set_secret(this.account, this.secret)
+    this.ripple.on('subscribed', this.rippleSubscribed)
+    this.ripple.on('ledger_closed', this.rippleLedgerClosed)
+    this.ripple.on('state', this.rippleState)
 }
 
-util.inherits(RippleIn, EventEmitter)
+util.inherits(module.exports, EventEmitter)
 
-RippleIn.prototype.connect = function() {
-    var that = this
+var RippleIn = module.exports.prototype
 
-    debug('connecting to %s', this.uri)
+RippleIn.rippleState = function(state) {
+    debug('state: %s', state)
 
-    this.drop = new Drop(this.uri)
-    this.drop.opts.secrets[this.account] = this.secret
-
-    this.drop.on('close', function() {
-        that.emit('error', new Error('Disconnected from Ripple'))
-    })
-
-    this.drop.on('error', function(err) {
-        that.emit('error', err)
-    })
+    if (state == 'offline') {
+        debug('disconnected from ripple. reconnect in 5 sec')
+        this.live = false
+        setTimeout(this.ripple.connect, 5e3)
+    }
 }
 
-RippleIn.prototype.getCurrentLedgerIndex = function(cb) {
-    this.drop.ledger(function(err, ledger) {
-        if (err) return cb(err)
+RippleIn.rippleLedgerClosed = function(message) {
+    debug('ledger %s closed', message.ledger_index)
+    if (!this.live) return debug('ignoring ledger close when not live')
 
-        debug('last validated ledger retrieved (%s)', ledger.index)
-        cb(null, ledger.index)
-    })
-}
+    this.internalLedgerIndex = message.ledger_index
 
-RippleIn.prototype.catchup = function(cb) {
-    var that = this
-    debug('catching up...')
+    // There is no need to save every ledger index to the database
+    if (message.ledger_index % 25 > 0) return
 
-    async.waterfall([
-        this.getCurrentLedgerIndex,
+    debug('saving ledger internal index as %s', this.internalLedgerIndex)
 
-        function(index, next) {
-            debug('fetching internal accounts and ledger indexes...')
-
-            var query = 'SELECT address, ledger_index FROM ripple_account'
-
-            that.client.query(query, function(err, dr) {
-                if (err) return next(err)
-                debug('found %d accounts', dr.rows.length)
-
-                async.eachSeries(dr.rows, function(row, next) {
-                    debug('row %s index %s', row.ledger_index, index)
-
-                    if (row.ledger_index == index) {
-                        console.log('No need to catch up %s', row.address)
-                        return next()
-                    }
-
-                    that.catchupAccount(row.address, row.ledger_index + 1, index, next)
-                }, next)
-            })
-        }
-    ], cb)
-}
-
-RippleIn.prototype.setAccountLedgerIndex = function(account, index, cb) {
-    console.log('Setting ledger index of account %s to %s', account, index)
-
-    this.client.query({
+    this.conn.query({
         text: [
             'UPDATE ripple_account',
-            'SET ledger_index = $1',
-            'WHERE address = $2 AND',
-            '(ledger_index IS NULL OR ledger_index < $1)'
+            'SET ledger_index = $1'
         ].join('\n'),
-        values: [index, account]
-    }, function(err, dr) {
-        if (err) {
-            console.error('Failed to ledger index for %s to %s: %s',
-                account, index, err.message)
-
-            return cb(err)
-        }
-
-        if (dr.rowCount) {
-            console.log('Ledger index of account %s set to %s', account, index)
-        } else {
-            console.log('Ledger index was not set for %s (redundant)', account)
-        }
-
-        cb()
+        values: [message.ledger_index]
+    }, function(err) {
+        if (!err) return debug('saved ledger index as %s', message.ledger_index)
+        console.error('failed to save internal ledger index: %s\n', err.message, err.stack)
     })
 }
 
-RippleIn.prototype.catchupAccount = function(account, fromIndex, toIndex, cb) {
+RippleIn.init = function() {
     var that = this
 
-    console.log('Catching up account %s (%d ... %d)', account, fromIndex, toIndex)
+    // Subscribe to incoming transactions
+    debug('subscribing...')
+    var rippleAccount = this.ripple.add_account(this.account)
+    rippleAccount.on('transaction-inbound', this.rippleTransaction)
 
-    this.drop.transactions(account, fromIndex, toIndex, function(err, trans) {
-        if (err) return cb(err)
+    async.series({
+        currencies: this.cacheCurrencies,
 
-        console.log('Found %d transactions for %s',
-            trans.length, account, fromIndex, toIndex)
+        internal: function(cb) {
+            // Retrieve internal ledger index to allow for initial catchup
+            that.getInternalLedgerIndex(function(err, index) {
+                if (err) return cb(err)
+                debug('internal ledger index retrieved, %s', index)
+                that.internalLedgerIndex = index
 
-        async.eachSeries(trans, function(tran, next) {
-            that.processTransaction(tran, next)
-        }, function(err) {
-            if (err) return cb(err)
-            debug('finished catching up %s', account)
-            that.setAccountLedgerIndex(account, toIndex, cb)
-        }, cb)
+                that.ripple.connect()
+            })
+        }
+    }, function(err) {
+        if (err) that.emit('error', err)
     })
 }
 
-RippleIn.prototype.cacheCurrencies = function(cb) {
+RippleIn.rippleSubscribed = function() {
+    var that = this
+    debug('catching up from %s', this.internalLedgerIndex)
+    this.live = null
+
+    async.waterfall([
+        function(cb) {
+            that.ripple.request_account_tx({
+                account: that.account,
+                ledger_index_min: that.internalLedgerIndex
+            }, cb)
+        },
+
+        function(res, cb) {
+            debug('catching up with %s transactions', res.transactions.length)
+            async.forEachSeries(res.transactions, that.rippleTransaction, cb)
+        }
+    ], function(err) {
+        if (err) return that.emit(err)
+        if (that.live === false) return debug('disconnected while catching up')
+        that.live = true
+        debug('caught up and now live')
+    })
+}
+
+RippleIn.getInternalLedgerIndex = function(cb) {
+    var query = 'SELECT ledger_index FROM ripple_account'
+    this.conn.query(query, function(err, dr) {
+        cb(err, err ? null : dr.rows[0].ledger_index)
+    })
+}
+
+RippleIn.cacheCurrencies = function(cb) {
     var that = this
     , query = 'SELECT currency_id, scale FROM "currency"'
-    this.client.query(query, function(err, dr) {
+    this.conn.query(query, function(err, dr) {
         if (err) return cb(err)
         var currencies = dr.rows
         that.currencies = currencies.reduce(function(p, c) {
@@ -165,12 +141,11 @@ RippleIn.prototype.cacheCurrencies = function(cb) {
     })
 }
 
-// FUNCTION ripple_credit(h varchar(64), s currency_id, a int, amnt bigint)
-RippleIn.prototype.rippleCredit = function(hash, currencyId, tag, amount, cb) {
+RippleIn.rippleCredit = function(hash, currencyId, tag, amount, cb) {
     console.log('Ripple crediting user with tag %s %s %s (tx %s)', tag,
-        amount, currencyId, hash)
+        num(amount, this.currencies[currencyId].scale).toString(), currencyId, hash)
 
-    this.client.query({
+    this.conn.query({
         text: 'SELECT ripple_credit($1, $2, $3, $4) tid',
         values: [hash, currencyId, tag, amount]
     }, function(err, dr) {
@@ -191,185 +166,187 @@ RippleIn.prototype.rippleCredit = function(hash, currencyId, tag, amount, cb) {
             return cb(err)
         }
 
-        console.log('ripple credit complete, internal transaction id %s', dr.rows[0].tid)
+        console.log('Credited %s, internal transaction id %s', hash, dr.rows[0].tid)
 
         cb(null, dr.rows[0].tid)
     })
 }
 
-RippleIn.prototype.stringToUnits = function(amount, currencyId) {
+RippleIn.stringToUnits = function(amount, currencyId) {
     var currency = this.currencies[currencyId]
-    if (!currency) throw new Error('currency not found')
-    var n = +num(amount).mul(Math.pow(10, currency.scale))
-    if (n % 1 !== 0) throw new Error('precision too high on ' + n)
-    return n
+    if (!currency) throw new Error('currency ' + currencyId + ' not found')
+    var n = num(amount).mul(Math.pow(10, currency.scale))
+    if (+n % 1 !== 0) throw new Error('precision too high on ' + n.toString())
+    return n.toString().replace(/\.0+$/, '')
 }
 
-// use a single address, but support multiple
-RippleIn.prototype.subscribeAccounts = function(cb) {
-    var that = this
-    , query = 'SELECT address FROM ripple_account'
+// Marks the transaction as processed. The returned parameter stores
+// whether the transaction was to be returned to sender.
+RippleIn.markProcessed = function(hash, returned, cb) {
+    debug('marking %s as processed %sreturned', hash, returned ? '' : 'NOT ')
 
-    debug('looking for accounts...')
-
-    this.client.query(query, function(err, dr) {
-        if (err) return cb(err)
-        debug('found %s accounts', dr.rowCount)
-        var accounts = _.pluck(dr.rows, 'address')
-        async.eachSeries(accounts, that.subscribeAccount, cb)
-    })
-}
-
-RippleIn.prototype.subscribeAccount = function(account, cb) {
-    debug('subscribing to %s', account)
-
-    this.drop.subscribe(account, this.onAccountMessage.bind(this, this.account),
-        function(err)
-    {
-        if (err) return cb(err)
-        debug('subscribed to %s', account)
-        cb()
-    })
-}
-
-RippleIn.prototype.returnToSender = function(tran, cb) {
-    var that = this
-
-    this.client.query({
+    this.conn.query({
         text: [
             'INSERT INTO ripple_processed (hash, returned)',
             'VALUES ($1, $2)'
         ].join('\n'),
-        values: [tran.hash, true]
+        values: [hash, !!returned]
     }, function(err) {
         if (err) {
             if (err.message.match(/ripple_processed_pkey/)) {
-                console.log('Already returned transaction %s to sender', tran.hash)
+                debug('transaction %s has already been processed', hash)
                 return cb(null, false)
             }
 
-            return cb(err, false)
+            return cb(err)
         }
 
-        if (tran.st) from += ':' + tran.st
-
-        var from = tran.from
-        , amount = _.pick(tran, 'amount' ,'issuer', 'currency')
-
-        that.drop.payment(that.account, tran.from, amount, function(err) {
-            if (err) return cb(err)
-            cb(null, true)
-        })
+        cb(null, true)
     })
 }
 
-RippleIn.prototype.processTransaction = function(tran, cb) {
+// Return the specified transaction to its sender
+RippleIn.returnToSender = function(tran, cb) {
+    var that = this
+    debug('returning %s to sender %s', tran.hash, tran.Account)
+
+    that.markProcessed(tran.hash, true, function(err, res) {
+        if (err) {
+            console.error('failed to return %s to sender', tran.hash)
+            console.error(err.message)
+            return cb && cb(err)
+        }
+
+        if (!res) {
+            debug('will not return duplicate transaction %s', tran.hash)
+            return cb && cb(null, false)
+        }
+
+        var to = tran.Account
+        if (tran.SourceTag) to += ':' + tran.SourceTag
+
+        that.ripple.transaction(
+            that.account,
+            to,
+            tran.Amount,
+            function(err) {
+                if (!err) return cb && cb(null, true)
+                console.error('failed to return %s to sender: %s', tran.hash, err.message)
+                cb(err)
+            }
+        )
+    })
+}
+
+RippleIn.tryReturnToSender = function(tran, cb) {
     var that = this
 
-    assert(tran)
-    assert(tran.type)
-    assert(cb)
+    that.returnToSender(tran, function(err, returned) {
+        if (err) {
+            err = new Error(util.format('Failed to return %s to sender: %s\n%s', tran.hash, err.message, err.stack))
+            that.emit(err)
+        } else if (returned) {
+            console.log('Returned %s to sender', tran.hash)
+        } else {
+            debug('Did not return %s to sender (duplicate)', tran.hash)
+        }
 
-    if (tran.from == this.account) {
-        return cb()
+        cb && cb()
+    })
+}
+
+// Process a transation. The format differs slightly between transaction-inbound
+// and the result from account_tx (transaction field or tx field)
+RippleIn.rippleTransaction = function(tran, cb) {
+    var that = this
+
+    if (tran.meta.TransactionResult != 'tesSUCCESS') {
+        debug('ignoring tx with result %s', tran.meta.TransactionResult)
+        return cb && cb()
     }
 
-    if (tran.to != this.account) {
-        debug('ignoring transaction not to us (to %s)', tran.to)
-        return cb()
+    var inner = tran.transaction || tran.tx
+    assert(inner)
+    assert(inner.hash)
+
+    assert(inner.TransactionType)
+    if (inner.TransactionType != 'Payment') {
+        debug('ignoring transaction of type %s', inner.TransactionType)
+        return cb && cb()
     }
 
-    if (tran.type !== 'payment') {
-        debug('Ignoring %s', tran.type)
-        return cb()
+    assert(inner.Destination)
+    if (inner.Destination != this.account) {
+        debug('ignoring transaction not to us (%s)', inner.Destination)
+        return cb && cb()
     }
 
-    debug('processing transaction %s...', tran.hash)
-    debug(util.inspect(tran))
+    if (inner.DestinationTag === undefined) {
+        if (process.env.NODE_ENV == 'production') {
+            throw new Error('Cannot receive without destination tag in production')
+        }
 
-    if (tran.type != 'payment') {
-        debug('unexpected transaction type %s. skipping', tran.type)
-        return cb()
+        debug('ignoring transaction with destination tag when not in production')
+
+        return cb && cb()
     }
 
-    if (!tran.dt) {
-        debug('ignoring legacy transaction with no dt')
-        return cb()
+    if (inner.DestinationTag == 1) {
+        debug('ignoring transaction with tag %s', inner.DestinationTag || '(none)')
+        return cb && cb()
     }
 
-    if (tran.issuer && tran.issuer != this.account) {
-        debug('ignoring transaction with issuer %s (not us)', tran.issuer)
-        return cb()
+    assert(inner.Amount)
+    if (inner.Amount.issuer && inner.Amount.issuer != this.account) {
+        debug('returning transaction with issuer %s', inner.Amount.issuer)
+        return exports.returnToSender(inner, cb)
     }
 
-    if (tran.dt == 1) {
-        debug('Ignoring transaction to destination tag 1 (Bitcoin bridge)')
-        return cb()
-    }
+    //debug('transaction:\n%s', util.inspect(tran))
 
-    var units
+    var rippleAmount = ripplelib.Amount.from_json(inner.Amount)
+    , currency = rippleAmount._currency.to_human()
+    , units
+
+    if (currency == 'XRP') {
+        assert(typeof inner.Amount == 'string')
+        assert(!~inner.Amount.indexOf('.'))
+    }
 
     try {
-        units = this.stringToUnits(tran.amount, tran.currency)
+        var text = rippleAmount.to_text()
+        if (currency == 'XRP') {
+            text = num(text, 6).toString()
+        }
+        units = this.stringToUnits(text, currency)
     } catch (e) {
         if (e.message.match(/^precision too high/)) {
-            debug('returning %s to sender (precision too high)', tran.hash)
-            return that.returnToSender(tran, function(err, returned) {
-                if (err) {
-                    err = new Error(util.format('Failed to return %s to sender: %s', tran.hash, err.message))
-                    that.emit(err)
-                } else if (returned) {
-                    that.emit('log', util.format('transaction %s returned to sender', tran.hash))
-                }
-
-                cb()
-            })
+            debug('precision of %s (%s) is too high', inner.hash, rippleAmount.to_text())
+            return that.tryReturnToSender(inner, cb)
         }
 
         throw e
     }
 
+    debug('ripple amount %s %s. our units: %s', rippleAmount._currency.to_human(), rippleAmount.to_text(), units)
 
-    this.rippleCredit(
-        tran.hash,
-        tran.currency,
-        tran.dt,
+    that.rippleCredit(
+        inner.hash,
+        currency,
+        inner.DestinationTag,
         units,
         function(err, tid) {
             if (err) {
                 if (err.name == 'UserNotFound') {
-                    debug('Returning ' + tran.hash + ' to sender')
-
-                    return that.returnToSender(tran, function(err, returned) {
-                        if (err) {
-                            err = new Error(util.format(
-                                'Failed to return %s to sender: %s',
-                                tran.hash, err.message))
-                            that.emit('error', err)
-                        }
-
-                        if (returned) {
-                            that.emit('log', util.format(
-                                'Transaction %s returned to sender',
-                                tran.hash))
-                        }
-
-                        cb()
-                    })
+                    debug('User not found (bad DT). Will return transaction')
+                    return that.tryReturnToSender(inner, cb)
                 }
 
-                return cb(err)
+                that.emit(err)
+                return cb && cb(err)
             }
 
-            cb(null, tid)
+            cb && cb(null, tid)
         }
     )
-}
-
-RippleIn.prototype.onAccountMessage = function(account, tran) {
-    var that = this
-
-    this.processTransaction(tran, function(err) {
-        if (err) that.emit('error', err)
-    })
 }

@@ -148,27 +148,29 @@ exports.otp = function(inner, optional) {
                 })
             }
 
-            var correct = exports.app.security.tfa.consume(req.user.tfaSecret, req.body.otp)
+            exports.app.security.tfa.consume(req.user.id, null, req.body.otp, function(err, correct) {
+                if (err) return next(err)
 
-            if (correct === null) {
-                return res.send(403, {
-                    name: 'BlockedOtp',
-                    message: 'Time-based one-time password has been consumed. Try again in 30 seconds'
-                })
-            }
+                if (correct === null) {
+                    return res.send(403, {
+                        name: 'BlockedOtp',
+                        message: 'Time-based one-time password has been consumed. Try again in 30 seconds'
+                    })
+                }
 
-            if (!correct) {
-                return res.send(403, {
-                    name: 'WrongOtp',
-                    message: 'Wrong one-time password'
-                })
-            }
+                if (!correct) {
+                    return res.send(403, {
+                        name: 'WrongOtp',
+                        message: 'Wrong one-time password'
+                    })
+                }
 
-            debug('otp is correct, setting tfaPassed on the user')
+                debug('otp is correct, setting tfaPassed on the user')
 
-            req.session.tfaPassed = true
+                req.session.tfaPassed = true
 
-            next()
+                next()
+            })
         })
     }
 }
