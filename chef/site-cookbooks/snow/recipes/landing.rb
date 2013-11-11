@@ -47,7 +47,7 @@ deploy_revision node[:snow][:landing][:app_directory] do
           export SEGMENT=#{env_bag['segment']['api_key']}
           PATH=$PATH:./node_modules/.bin
           npm install
-          grunt production
+          grunt
         }
       end
     end
