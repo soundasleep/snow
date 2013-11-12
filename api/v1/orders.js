@@ -6,9 +6,6 @@ module.exports = exports = function(app) {
 }
 
 exports.create = function(req, res, next) {
-    console.log(req.query)
-    console.log(req.body)
-
     if (!req.app.validate(req.body, 'v1/order_create', res)) return
 
     if (req.body.price !== null && !req.body.price.match(/^\d+(\.\d+)?$/)) {
