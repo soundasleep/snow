@@ -23,8 +23,10 @@ module.exports = exports = function(target, name, fake) {
 }
 
 exports.once = function(target, name, fake) {
+    var outer = new Error().stack
     var wrapper = exports(target, name, function() {
         var result = fake ? fake.apply(this, arguments) : null
+        if (!wrapper.restore) throw new Error('double restore ' + outer)
         wrapper.restore()
         return result
     })
