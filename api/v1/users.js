@@ -75,6 +75,8 @@ exports.whoami = function(req, res, next) {
             '   security_level,',
             '   two_factor,',
             '   username,',
+            '   poi_approved_at,',
+            '   poa_approved_at,',
             '   city',
             'FROM user_view',
             'WHERE user_id = $1'
@@ -101,7 +103,9 @@ exports.whoami = function(req, res, next) {
             city: row.city,
             securityLevel: row.security_level,
             language: row.language,
-            twoFactor: !!row.two_factor
+            twoFactor: !!row.two_factor,
+            poi: !!row.poi_approved_at,
+            poa: !!row.poa_approved_at
         })
 	})
 }
@@ -121,7 +125,7 @@ exports.identity = function(req, res, next) {
             '   postal_area = $7',
             'WHERE',
             '   user_id = $1 AND',
-            '   first_name IS NULL'
+            '   poi_approved_at IS NULL AND poa_approved_at IS NULL'
         ].join('\n'),
         values: [req.user.id, req.body.firstName, req.body.lastName, req.body.address,
             req.body.country, req.body.city, req.body.postalArea]
@@ -141,7 +145,8 @@ exports.identity = function(req, res, next) {
 
         req.app.security.invalidate(req.user.id)
 
-        req.app.activity(req.user.id, 'IdentitySet', {})
+        req.app.activity(req.user.id, 'IdentitySet', _.pick(req.body,
+            'firstName', 'lastName', 'address', 'country', 'city', 'postalArea'))
 
         return res.send(204)
     })
