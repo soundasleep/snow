@@ -135,7 +135,7 @@ module.exports = function(after) {
             })
             .done(function() {
                 api.user.phone = parsedNumber
-                api.user.securityLevel = 2
+                api.securityLevel(2)
                 $app.trigger('verifiedphone', { number: parsedNumber })
 
                 alertify.log(i18n('auth.verifyphone.success log'))

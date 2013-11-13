@@ -79,6 +79,10 @@ module.exports = function() {
         if (!authorize.admin()) return
         master(withdraws(), 'admin')
     })
+    .add(/^credits$/, function() {
+        if (!authorize.admin()) return
+        master(require('../controllers/credits')(), 'admin')
+    })
     .add(/^(.+)$/, function(hash) {
         master(notfound(hash))
     })

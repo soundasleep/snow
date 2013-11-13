@@ -72,7 +72,7 @@ exports.demandLevel = function(level, after) {
         router.go('auth/verifyphone?after=' + after, true)
     } else if (api.user.securityLevel < 3) {
         debug('suggesting to enter full name and address to reach level 3')
-        router.go('auth/identity?after=' + after, true)
+        router.go('settings/profile?after=' + after, true)
     } else if (api.user.securityLevel < 4) {
         debug('user country is %s', api.user.country)
 
