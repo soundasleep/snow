@@ -7,9 +7,13 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user()) return
         master(require('./changepassword')(), 'settings')
     })
-    .add(/^settings\/profile$/, function() {
+    .add(/^settings\/profile(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return
-        master(require('./profile')(), 'settings')
+        master(require('./profile')(after), 'settings')
+    })
+    .add(/^settings\/username$/, function() {
+        if (!authorize.user()) return
+        master(require('./username')(), 'settings')
     })
     .add(/^settings\/twofactor$/, function() {
         if (!authorize.user()) return

@@ -138,6 +138,18 @@ api.call = function(method, data, options) {
     })
 }
 
+api.securityLevel = function(val) {
+    if (val !== undefined) {
+        $app
+        .removeClasses(/^has-security-level/)
+        .addClass('has-security-level-' + val)
+
+        api.user.securityLevel = val
+        return api
+    }
+    return api.user.securityLevel
+}
+
 api.loginWithKey = function(key) {
     if (key) {
         debug('logging in with key %s', key)
@@ -152,6 +164,7 @@ api.loginWithKey = function(key) {
         $.cookie('existingUser', true, { path: '/', expires: 365 * 10 })
 
         api.user = user
+        api.securityLevel(user.securityLevel)
 
         api.user.countryFriendly = function() {
             if (!user.country) return null
