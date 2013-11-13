@@ -42,7 +42,7 @@ module.exports = function(userId) {
 
                 $el.addClass('is-loading').enabled(false)
 
-                api.call('admin/bankCredit', body, { type: 'POST' })
+                api.call('admin/bankCredits', body, { type: 'POST' })
                 .always(function() {
                     $el.removeClass('is-loading').enabled(true)
                 })
