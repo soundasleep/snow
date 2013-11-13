@@ -30,7 +30,7 @@ router.now = router.reload = function() {
 router.after = function(hash, replace) {
     hash || (hash = '')
     hash = hash.replace(/^\#/g, '')
-    hash = hash.replace(/^(auth\/)?(login|register|identity)/, '')
+    hash = hash.replace(/^(auth\/)?(login|register)/, '')
     return router.go(hash, replace)
 }
 

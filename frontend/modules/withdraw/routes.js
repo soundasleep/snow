@@ -24,6 +24,8 @@ module.exports = function(router, master, authorize) {
         master(require('./ripple')(), 'withdraw')
     })
     .add(/^withdraw\/bank$/, function() {
+        if (!authorize.user(3)) return
+
         // Only require level 4 security if the user is actually
         // allowed to withdraw to a bank account.
         var allowed = ~sepa.indexOf(api.user.country) || ~wire.indexOf(api.user.country)
