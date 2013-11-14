@@ -78,7 +78,7 @@ describe('withdraws', function() {
                     created_at: res[0].created,
                     completed: res[0].completed,
                     state: res[0].state,
-                    amount: '987.12311111',
+                    amount: 987.12311111e8,
                     currency_id: res[0].currency,
                     error: res[0].error
                 }))
