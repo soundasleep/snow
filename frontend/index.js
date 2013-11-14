@@ -120,12 +120,4 @@ api.bootstrap()
             router.now()
         }
     }
-
-    $(window).on('hashchange', function() {
-        $(window).scrollTop(0)
-
-        if (typeof analytics != 'undefined') {
-            analytics.pageview()
-        }
-    })
 })
