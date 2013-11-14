@@ -13,7 +13,8 @@ exports.getBankCredits = function(req, res, next) {
         '   u.tag user_tag',
         'FROM bank_credit bc',
         'INNER JOIN "user" u ON u.user_id = bc.user_id',
-        'WHERE state = \'review\''
+        'WHERE state = \'review\'',
+        'ORDER BY bc.bank_credit_id DESC'
     ].join('\n')
 
     req.app.conn.read.query(query, function(err, dr) {
