@@ -42,7 +42,7 @@ module.exports = function(after) {
         postalArea: validatePostalArea
     })
 
-    var canEdit = !(api.user.poi || api.user.poia)
+    var canEdit = !(api.user.poi || api.user.poa)
     $el.toggleClass('is-allowed-to-edit', canEdit)
 
     if (!canEdit) {
