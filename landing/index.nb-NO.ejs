@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <style>
-        <% include build/styles.min.css %>
+        <% include public/app.css %>
     </style>
 
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -47,7 +47,7 @@
                 <!-- Login for tablet and desktop -->
                 <a href="#" data-action="show-chart" class="hidden-showing-chart">Vis graf</a>
                 <a href="#" data-action="hide-chart" class="visible-showing-chart">Skjul graf</a>
-                <a class="btn-login hidden-phone" href="/client/#login">Logg inn</a>
+                <a class="btn-login hidden-phone" href="/client/#auth/login">Logg inn</a>
 
                 <select class="ticker-stock"></select>:
                 <span class="ticker-type">Siste:</span>
@@ -77,7 +77,7 @@
         <!-- Logo for phones -->
         <div class="row visible-phone " style="text-align:center">
             <span class="span12">
-                <a class="btn login-phone" href="/client/#login">Logg inn</a>
+                <a class="btn login-phone" href="/client/#auth/login">Logg inn</a>
             </span>
         </div>
     </div>
@@ -244,8 +244,8 @@
     </div>
 
     <script>
-        <% include build/vendor.min.js %>
-        <% include build/landing.min.js %>
+        <% include public/vendor.js %>
+        <% include public/app.js %>
     </script>
 </body>
 </html>
