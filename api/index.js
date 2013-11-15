@@ -24,6 +24,7 @@ app.email = require('./email')(app)
 app.ripple = require('./ripple')(app)
 app.tropo = require('./tropo')(app)
 app.intercom = require('./intercom')
+app.segment = require('./segment')(app)
 
 app.use(express.bodyParser())
 app.use(express.cookieParser())

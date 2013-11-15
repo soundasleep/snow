@@ -88,7 +88,7 @@ function updateChart(market) {
 }
 
 var lastMarkets
-, sortOrder = ['BTCNOK', 'BTCEUR', 'BTCLTC', 'BTCXRP']
+, sortOrder = ['BTCNOK', 'BTCUSD', 'BTCEUR', 'BTCLTC', 'BTCXRP']
 
 function fetchMarkets() {
     return $.ajax({
@@ -154,7 +154,13 @@ $(function() {
 })
 
 if (window.analytics) {
-    analytics.trackLink($('.btn-login'), 'Clicked Login')
+    var lang = $('html').attr('lang')
+
+    window.analytics.page('Landing page', {
+        language: lang
+    })
+
+    analytics.trackLink($('[href="/client/#auth/login"]'), 'Clicked Login')
 
     var signups = ['main', 'screenshot', 'bitcoin', 'ripple', 'litecoin', 'about']
 
