@@ -65,7 +65,7 @@ exports.approveBankCredit = function(req, res, next) {
             'UPDATE bank_credit',
             'SET state = \'approved\'',
             'WHERE bank_credit_id = $1',
-            'RETURNING transaction_id'
+            'RETURNING transaction_id, user_id, currency_id, amount'
         ].join('\n'),
         values: [
             +req.params.id
@@ -74,6 +74,9 @@ exports.approveBankCredit = function(req, res, next) {
 
     req.app.conn.write.query(query, function(err, dr) {
         if (err) return next(err)
+
+        var row = dr.rows[0]
+
         if (!dr.rowCount) {
             return res.send(404, {
                 name: 'BankCreditNotFound',
@@ -84,6 +87,16 @@ exports.approveBankCredit = function(req, res, next) {
         // Log for admin
         req.app.activity(req.user.id, 'AdminApproveBankCredit', {
             id: +req.params.id
+        })
+
+        // Log segment activity
+        req.app.segment.track({
+            userId: row.user_id.toString(),
+            event: 'Bank credited',
+            properties: {
+                currency: row.currency_id,
+                amount: req.app.cache.formatCurrency(row.amount, row.currency_id)
+            }
         })
 
         res.send(201, { id: dr.rows[0].transaction_id })

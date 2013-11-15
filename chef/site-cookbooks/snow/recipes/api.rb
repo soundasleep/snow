@@ -89,6 +89,7 @@ template "#{node[:snow][:api][:app_directory]}/shared/config/api.json" do
         :email_from => env_bag['api']['email_from'],
         :ripple => env_bag['ripple'],
         :website_url => env_bag['api']['website_url'],
+        :segment => env_bag['segment']
     })
     notifies :restart, resources(:service => "snow-api")
 end
