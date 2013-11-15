@@ -55,9 +55,9 @@ exports.beginCreate = function(req, res, next) {
 
 exports.endCreate = function(req, res, next) {
     req.app.conn.write.query({
-        text: 'SELECT create_user_end($1)',
+        text: 'SELECT create_user_end($1) user_id',
         values: [req.params.code]
-    }, function(err) {
+    }, function(err, dr) {
         if (err) {
             if (err.message == 'Unknown email verification code') {
                 return res.send(409, {
@@ -67,6 +67,12 @@ exports.endCreate = function(req, res, next) {
             }
             return next(err)
         }
+
+        req.app.segment.track({
+            userId: dr.rows[0].user_id.toString(),
+            event: 'Signed up'
+        })
+
         res.send(204)
     })
 }
