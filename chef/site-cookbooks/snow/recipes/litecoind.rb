@@ -97,5 +97,5 @@ service "litecoind" do
   action [:enable, :start]
 end
 
-monit_monitrc "litecoind" do
-end
+#monit_monitrc "litecoind" do
+#end
