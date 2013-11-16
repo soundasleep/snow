@@ -27,7 +27,8 @@ module.exports = function(grunt) {
 
         ejs: {
             options: {
-                segment: process.env.SEGMENT
+                segment: process.env.SEGMENT,
+                optimizely: process.env.OPTIMIZELY
             },
 
             'development-US': {

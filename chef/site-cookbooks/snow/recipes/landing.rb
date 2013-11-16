@@ -47,7 +47,9 @@ deploy_revision node[:snow][:landing][:app_directory] do
           npm install
           PATH=$PATH:./node_modules/.bin
           bower install
-          SEGMENT=#{env_bag['segment']['api_key']} grunt
+          export SEGMENT=#{env_bag['segment']['api_key']}
+          export OPTIMIZELY=#{env_bag['optimizely']['app_id']}
+          grunt
         }
       end
     end
