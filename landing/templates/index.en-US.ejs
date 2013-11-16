@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <% if (typeof optimizely != 'undefined') { %>
+    <script src="//cdn.optimizely.com/js/<%= optimizely %>.js"></script>
+    <% } %>
     <meta charset="utf-8">
     <title>Justcoin · Secure Bitcoin Exchange from Norway (USD, EUR, NOK)</title>
     <meta name="description" content="Buy, sell and trade Bitcoin at fair prices with Justcoin, the secure Bitcoin exchange from Norway. Create a Bitcoin wallet and exchange your usd/euro/nok to BTC.">
