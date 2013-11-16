@@ -9,7 +9,7 @@
     <meta name="google-site-verification" content="k-cpuaSupUp1f4IQ2iZPmhIHOBIcGYUVVHLuApat1y4" />
 
     <style>
-        <% include public/app.css %>
+        <% include ../public/app.css %>
     </style>
 
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -247,6 +247,10 @@
 
         <hr class="featurette-divider">
 
+        <div>
+            <% include some.ejs %>
+        </div>
+
         <footer>
             <p class="pull-right"><a href="#top">Back to top</a></p>
 
@@ -260,8 +264,8 @@
     </div>
 
     <script>
-        <% include public/vendor.js %>
-        <% include public/app.js %>
+        <% include ../public/vendor.js %>
+        <% include ../public/app.js %>
     </script>
 </body>
 </html>
