@@ -32,13 +32,13 @@ module.exports = function(grunt) {
 
             'development-US': {
                 baseDir: 'public',
-                src: 'index.en-US.ejs',
+                src: 'templates/index.en-US.ejs',
                 dest: 'public/index.html'
             },
 
             'development-NO': {
                 baseDir: 'public',
-                src: 'index.nb-NO.ejs',
+                src: 'templates/index.nb-NO.ejs',
                 dest: 'public/index.no.html'
             }
         },
@@ -148,29 +148,9 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            gruntfile: {
-                files: ['Gruntfile.js'],
-                tasks: ['stylus']
-            },
-
-            styles: {
-                files: ['*.styl'],
-                tasks: 'stylus'
-            },
-
             modules: {
-                files: ['vendor/**/*', '*.js'],
+                files: ['templates/*.ejs', '*.js'],
                 tasks: ['ejs:development-NO', 'ejs:development-US']
-            },
-
-            livereload: {
-                options: {
-                },
-
-                files: [
-                    'public/*.js',
-                    'public/*.css'
-                ]
             }
         },
 
