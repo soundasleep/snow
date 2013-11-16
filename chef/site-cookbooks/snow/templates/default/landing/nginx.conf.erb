@@ -14,7 +14,19 @@ server {
     gzip_buffers 16 8k;
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 
-    if ($http_accept_language ~ "(no|nb)") {
-        rewrite index.html /index.no.html? break;
+    location / {
+        if ($http_accept_language ~ "(no|nb)") {
+            return 301 $scheme://<%= node[:snow][:reverse][:server_name] %>/no;
+        }
+
+        return 301 $scheme://<%= node[:snow][:reverse][:server_name] %>/en;
+    }
+
+    location /no {
+        try_files /index.no.html /;
+    }
+
+    location /en {
+        try_files /index.html /;
     }
 }
