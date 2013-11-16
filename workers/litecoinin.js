@@ -2,6 +2,7 @@ var num = require('num')
 , async = require('async')
 , debug = require('debug')('snow:litecoinin')
 , _ = require('lodash')
+, util = require('util')
 
 module.exports = exports = function(o) {
     _.extend(exports, { minConf: 6 }, o)
@@ -107,7 +108,9 @@ exports.processTx = function(txid, cb) {
         if (err && err.message.match(/^Invalid or non-wallet/)) return cb()
         if (err) return cb(err)
         if (!tx.details) return cb()
-        if (tx.details.length != 1) return cb(new Error('more than one detail'))
+        if (tx.details.length != 1) {
+            return cb(new Error('More than one detail in %s', util.inspect(tx)))
+        }
         var detail = tx.details[0]
         if (detail.category !== 'receive') return cb()
         var address = detail.address
