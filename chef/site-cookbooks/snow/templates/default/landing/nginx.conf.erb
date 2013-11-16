@@ -16,10 +16,10 @@ server {
 
     location / {
         if ($http_accept_language ~ "(no|nb)") {
-            return 301 $scheme://<%= node[:snow][:reverse][:server_name] %>/no$is_args$args;
+            return 301 https://<%= node[:snow][:reverse][:server_name] %>/no$is_args$args;
         }
 
-        return 301 $scheme://<%= node[:snow][:reverse][:server_name] %>/en$is_args$args;
+        return 301 https://<%= node[:snow][:reverse][:server_name] %>/en$is_args$args;
     }
 
     location /no {
