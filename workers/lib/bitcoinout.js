@@ -49,7 +49,7 @@ BitcoinOut.prototype.validateAddresses = function(requests, cb) {
     async.each(requests, function(request, cb) {
         that.bitcoin.validateAddress(request.address, function(err, res) {
             if (!err && res.isvalid) {
-                debug('address %s validated', request.address)
+                console.log('address %s validated', request.address)
                 validRequests.push(request)
                 return cb()
             }
@@ -70,7 +70,7 @@ BitcoinOut.prototype.validateAddresses = function(requests, cb) {
                     return cb()
                 }
 
-                debug('the request %s was aborted', request.request_id)
+                console.log('the request %s was aborted', request.request_id)
 
                 cb()
             })
@@ -86,7 +86,7 @@ BitcoinOut.prototype.executeBatch = function(requests, cb) {
         this.validateAddresses.bind(this, requests),
         function(requests, next) {
             if (!requests.length) {
-                debug('no requests are valid, skipping this batch')
+                console.error('no requests are valid, skipping this batch')
                 return cb()
             }
             next(null, requests)
@@ -107,7 +107,7 @@ exports.formatRequestsToSendMany = function(requests) {
 BitcoinOut.prototype.sendBatch = function(requests, cb) {
     var that = this
 
-    debug('will send %d transactions', requests.length)
+    console.log('will send %d transactions', requests.length)
     debug(util.inspect(requests))
 
     var cmd = exports.formatRequestsToSendMany(requests)
@@ -117,7 +117,7 @@ BitcoinOut.prototype.sendBatch = function(requests, cb) {
 
     this.bitcoin.sendMany('', cmd, function(err, res) {
         if (!err) {
-            debug('send requests successful')
+            console.log('send requests successful')
             debug(util.inspect(res))
 
             return async.each(requests, function(request, cb) {
@@ -148,10 +148,11 @@ BitcoinOut.prototype.sendBatch = function(requests, cb) {
         }
 
         if (err.message == 'Account has insufficient funds') {
-            debug('request failed because wallet is lacking funds. trying to re-queue requests')
+            console.error('request failed because wallet is lacking funds. trying to re-queue requests')
+
             return out.reQueue(that.client, requests, function(err) {
                 if (!err) {
-                    debug('succeeded in requeing the requests')
+                    console.log('succeeded in requeing the requests')
                     return cb()
                 }
 
