@@ -474,7 +474,7 @@
     "withdraw.nav.to user": "To user",
     "withdraw.nav.voucher": "Voucher",
     "withdraw.nav.withdraws": "Withdraws",
-    "withdraw.bank.fee": "A fee will be deducted to cover our costs. <a href=\"#about/terms\">See terms</a>",
+    "withdraw.bank.fee": "A fee will be deducted to cover our costs. <a href=\"/en/terms\">See terms</a>",
     "withdraw.bank.country not allowed": "Sorry, but we are not sending bank transfers to your country yet",
     "withdraw.bank.nok fee": "A fee of 10 NOK will be deducted from the amount.",
     "withdraw.bank.eur fee": "A fee of 5 EUR will be deducted from the amount.",

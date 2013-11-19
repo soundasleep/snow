@@ -465,7 +465,7 @@
     "withdraw.nav.to user": "Til bruker",
     "withdraw.nav.voucher": "Gavekort",
     "withdraw.nav.withdraws": "Uttak",
-    "withdraw.bank.fee": "En avgift vil bli trukket fra beløpet for å dekke våre kostnader. <a href=\"#about/terms\">Se vilkår</a>",
+    "withdraw.bank.fee": "En avgift vil bli trukket fra beløpet for å dekke våre kostnader. <a href=\"/no/terms\">Se vilkår</a>",
     "withdraw.bank.country not allowed": "Beklager, men vi tillater ikke ennå uttak til landet ditt",
     "withdraw.bank.nok fee": "En avgift på 10 kr. vil bli trukket fra beløpet.",
     "withdraw.bank.eur fee": "En avgift på &euro; 5 vil bli trukket fra beløpet.",
