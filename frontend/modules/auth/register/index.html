@@ -26,7 +26,7 @@
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" name="terms"> <%= i18n('auth.register.agree.lead') %>
-                        <a href="#about/terms" target="_blank"><%= i18n('auth.register.agree.link') %></a>
+                        <a href="/<%= ~i18n.desired.match(/no/i) ? 'no' : 'en' %>/terms" target="_blank"><%= i18n('auth.register.agree.link') %></a>
                     </label>
                 </div>
          </div>

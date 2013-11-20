@@ -16,17 +16,29 @@ server {
 
     location = / {
         if ($http_accept_language ~ "(no|nb)") {
-            return 301 https://<%= node[:snow][:reverse][:server_name] %>/no$is_args$args;
+            return 301 https://<%= node[:snow][:reverse][:server_name] %>/no/$is_args$args;
         }
 
-        return 301 https://<%= node[:snow][:reverse][:server_name] %>/en$is_args$args;
+        return 301 https://<%= node[:snow][:reverse][:server_name] %>/en/$is_args$args;
     }
 
     location = /no {
-        try_files /index.no.html /;
+        return 301 https://<%= node[:snow][:reverse][:server_name] %>/no/$is_args$args;
     }
 
     location = /en {
-        try_files /index.html /;
+        return 301 https://<%= node[:snow][:reverse][:server_name] %>/en/$is_args$args;
+    }
+
+    location = /no/ {
+        try_files /index-no.html /;
+    }
+
+    location = /en/ {
+        try_files /index-en.html /;
+    }
+
+    location ~ "^/([a-z]{2})/([^\?]+)" {
+        try_files /$2-$1.html /;
     }
 }
