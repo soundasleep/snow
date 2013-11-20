@@ -31,16 +31,11 @@ module.exports = function(grunt) {
                 optimizely: process.env.OPTIMIZELY
             },
 
-            'development-US': {
-                baseDir: 'public',
-                src: 'templates/index.en-US.ejs',
-                dest: 'public/index.html'
-            },
-
-            'development-NO': {
-                baseDir: 'public',
-                src: 'templates/index.nb-NO.ejs',
-                dest: 'public/index.no.html'
+            all: {
+                src: ['*.ejs'],
+                dest: 'public/',
+                expand: true,
+                ext: '.html'
             }
         },
 
@@ -63,8 +58,7 @@ module.exports = function(grunt) {
 
                 files: {
                     'public/vendor.js': [
-                        'bower_components/jquery/jquery.min.js',
-                        'vendor/highstock.js'
+                        'vendor/jquery*.js'
                     ]
                 }
             }
@@ -138,6 +132,9 @@ module.exports = function(grunt) {
 
                         return [
                             function(req, res, next) {
+                                req.url = req.url.replace(/\/([a-z]{2})\/$/, '/index-$1.html')
+                                req.url = req.url.replace(/\/([a-z]{2})\/(about|terms|contact|privacy)$/, '/$2-$1.html')
+
                                 next()
                             },
 
@@ -149,9 +146,19 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            modules: {
-                files: ['templates/*.ejs', '*.js'],
-                tasks: ['ejs:development-NO', 'ejs:development-US']
+            templates: {
+                files: ['**/*.ejs'],
+                tasks: ['ejs:all']
+            },
+
+            stylus: {
+                files: '**/*.styl',
+                tasks: ['stylus']
+            },
+
+            grunt: {
+                files: ['Gruntfile.js'],
+                tasks: ['development']
             }
         },
 
@@ -180,8 +187,7 @@ module.exports = function(grunt) {
         'copy:development',
         'stylus',
         'concat',
-        'ejs:development-NO',
-        'ejs:development-US'
+        'ejs:all'
     ])
 
     grunt.registerTask('production', [
@@ -191,8 +197,7 @@ module.exports = function(grunt) {
         'uglify',
         'htmlmin',
         'cssmin',
-        'ejs:development-NO',
-        'ejs:development-US'
+        'ejs:all'
     ])
 
     grunt.registerTask('serve', ['development', 'concurrent:serve'])

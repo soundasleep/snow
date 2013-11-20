@@ -1,206 +1,125 @@
-@import "bower_components/bootstrap/css/bootstrap.min.css"
-@import "bower_components/bootstrap/css/bootstrap-responsive.min.css"
-@import "states.styl"
+.header
+  background white
+  padding 10px 20px 10px 10px
+  border-bottom solid 1px #ddd
 
-body {
-  padding-bottom: 40px;
-  color: #5a5a5a;
-}
+.cover
+    background-image url("/norway.jpg")
+    background-size cover
+    background-position center
+    height 601px
 
-em.icon-large {
-  width auto
-  height 1em
-}
+    .cover-content
+      margin-top 200px
 
-/* MARKETING CONTENT
--------------------------------------------------- */
+    .tagline, .sub-tagline
+      color: white;
+      text-shadow: 0px 1px black;
+      font-size: 50px;
+      font-weight: normal;
+      font-family: ProximaNova, Arial, sans-serif;
 
-/* Center align the text within the three columns below the carousel */
+    .sub-tagline
+      font-size 20px
 
-.marketing h2 {
-  font-weight: normal;
-}
-.marketing .span4 p {
-  margin-left: 10px;
-  margin-right: 10px;
-}
+@media (max-width: 768px)
+  .cover
+    height 240px
 
+    .tagline, .sub-tagline
+      font-size 30px
 
-/* Featurettes
-------------------------- */
+    .sub-tagline
+      font-size 18px
 
-.featurette-divider {
-  margin: 80px 0; /* Space out the Bootstrap <hr> more */
-}
-.featurette {
-  padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
-  overflow: hidden; /* Vertically center images part 2: clear their floats. */
-}
-.featurette-image {
-  margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
-}
-
-/* Give some space on the sides of the floated elements so text doesn't run right into it. */
-.featurette-image.pull-left {
-  margin-right: 40px;
-}
-.featurette-image.pull-right {
-  margin-left: 40px;
-}
-
-/* Thin out the marketing headings */
-.featurette-heading {
-  font-size: 50px;
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
-
-
-/* RESPONSIVE CSS
--------------------------------------------------- */
-
-@media (max-width: 979px) {
-  .featurette {
-    height: auto;
-    padding: 0;
-  }
-  .featurette-image.pull-left,
-  .featurette-image.pull-right {
-    display: block;
-    float: none;
-    max-width: 40%;
-    margin: 0 auto 20px;
-  }
-}
-
-
-@media (max-width: 767px) {
-
-  .navbar-inner {
-    margin: -20px;
-  }
-
-  .marketing .span4 + .span4 {
-    margin-top: 40px;
-  }
-
-  .featurette-heading {
-    font-size: 30px;
-  }
-  .featurette .lead {
-    font-size: 18px;
-    line-height: 1.5;
-  }
-
-}
-
-
-/* Custome stuff... */
-
-.header-background {
-  background: #388eb2 url(norway.jpg);
-  background-repeat:no-repeat;
-  height:601px;
-  background-position:center top;
-  margin-bottom: 60px;
-  position relative
-}
-
-.header {
-  text-shadow:0 1px 1px rgba(0,0,0,.4);
-  color:#fff;
-  max-width:680px;
-}
-
-.logo {
-}
-
-.promotion
-  height 601px
-  width 327px
-  position absolute
-  top 0
-  left 30px
-  margin-left 10px
-
-.btn-login, .btn-login:hover {
-  display: block;
-  position: absolute;
-  top:0;
-  right: 20px;
-  color: #fff;
-  text-decoration: none;
-}
-
-.tickers
-  visibility hidden
-  text-shadow: 0 0 2px rgba(0,0,0,0.3);
-  position absolute
-  top 0
-  left 0
-  z-index 10000
-
-.ticker-stock {
-  border 0
-  background transparent
-  color #fff
-  width 100px
-  margin-top 7px
-}
-
-.ticker-stock:hover, .ticker-stock option {
-  background #fff
-  color black
-}
-
-.ticker-type {
-  font-size: 12px;
-}
-
-@media (max-width: 767px) {
-
-  .header-background {
-    margin: 0 -20px 40px;
-    //height:400px;
-  }
-
-  .header {
-    margin-left:20px;
-    margin-right:20px;
-    margin-top:30px;
-  }
-
-  .header .lead {
-    font-size: 17px;
-    line-height: 25px;
-  }
-
-  .btn-container {
-    text-align: center;
-  }
-}
-
-.login-phone
-  margin-top 15px
-  margin-bottom 15px
-
-.tickers a, .tickers a:hover
-  color #fff
-  margin-top 10px
-  margin-left 10px
+    .cover-content
+      margin-top 20px
 
 body
-  states showing-chart fetched-markets
+  margin 0
+  padding 0
 
-.charts
-  height 400px
+.logo
+  //background yellow
 
-.has-fetched-markets
-  .tickers
-    visibility visible
+.nav
+  //background blue
+  text-align right
 
-h1
-  font-weight normal
-  font-size 25px
+.customer-count
+  font-family: 'Gotham A', 'Gotham B', Helvetica, Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 300;
+  padding-top 25px
+  margin-bottom 50px
+  text-align center
+
+@media(max-width:768px)
+    .customer-count
+      font-size 23px
+
+.wrapper
+  padding: 0 15px;
+
+.btn.cta
+  padding: 18px 28px;
+  font-size: 32px;
+  line-height: normal;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  margin-top 45px
+
+@media(max-width:768px)
+  .btn.cta
+      padding: 18px 28px;
+      font-size: 24px;
+      line-height: normal;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      margin-top 24px
+
+.vias i
+  font-size 9em
+  color #4488AA
+
+@media(max-width:768px)
+  .vias i
+    font-size 3em
+
+.vias > *
+  text-align center
+
+.footer
+  margin-top 150px
+  border-top solid 1px #ccc
+  background #444
+  color #c9c9c9
+  padding-top 50px
+
+.footer .links > p
+  border-bottom:solid 1px #666
+
+.footer .links, .footer .links li
+  list-style-type: none
+  padding-bottom 7px
+
+  a
+    color #c9c9c9
+
+.testimonials .testimonial .quote
+  font-size: 1.3em;
+  color #222
+  font-style: italic;
+
+.testimonial
+  border solid 1px #fafafa
+  background #f9f9f9
+  padding 2em
+
+.quoter
+  text-align right
+
+h2
+  margin-top 35px
