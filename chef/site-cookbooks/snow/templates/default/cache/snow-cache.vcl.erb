@@ -95,7 +95,7 @@ sub vcl_recv {
         req.url ~ "^/api/v1/ripple/address" ||
         req.url ~ "^/api/v1/markets/?" ||
         req.url ~ "\.(png|jpg|txt|css|js|ico)$" ||
-        req.url ~ "^/(admin|client|[a-z]{2})?")
+        req.url ~ "^/(admin|client)")
     {
         # Remove query parameters
         set req.url = regsub(req.url, "\?.*$", "");
@@ -121,7 +121,7 @@ sub vcl_fetch {
         unset beresp.http.set-cookie;
     }
 
-    if (req.url ~ "^/(client|admin|[a-z]{2})?") {
+    if (req.url ~ "^/(client|admin)") {
         set beresp.ttl = 10m;
     }
 
