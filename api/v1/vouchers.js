@@ -19,7 +19,7 @@ module.exports = exports = function(app) {
         )
     })
 
-    app.post('/v1/vouchers/:id/redeem', app.security.demand.deposit(2), function(req, res, next) {
+    app.post('/v1/vouchers/:id/redeem', app.security.demand.deposit(3), function(req, res, next) {
         exports.redeem(req.app, req.user.id, req.params.id, function(err, details) {
             if (!err) {
                 return res.send(details)
