@@ -67,9 +67,13 @@ api.call = function(method, data, options) {
 
         return error
     })
-    .fail(function(err) {
+    .then(null, function(err) {
         if (err.name == 'SessionNotFound') {
             $.removeCookie('session', { path: '/' })
+
+            setTimeout(function() {
+                location.reload()
+            }, 10e3)
         }
 
         return err
