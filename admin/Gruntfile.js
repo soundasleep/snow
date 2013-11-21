@@ -185,7 +185,7 @@ module.exports = function(grunt) {
             },
 
             scripts: {
-                files: ['controllers/**/*.js', 'routes/**/*.js', 'helpers/**/*.js'],
+                files: ['controllers/**/*.js', 'routes/**/*.js', 'helpers/**/*.js', '*.js'],
                 tasks: 'browserify:development'
             },
 
