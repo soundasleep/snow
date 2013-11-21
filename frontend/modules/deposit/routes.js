@@ -4,15 +4,15 @@ module.exports = function(router, master, authorize) {
         router.go('deposit/bank', true)
     })
     .add(/^deposit\/bitcoin$/, function() {
-        if (!authorize.user(2)) return
+        if (!authorize.user(3)) return
         master(require('./bitcoin')(), 'deposit')
     })
     .add(/^deposit\/ripple$/, function() {
-        if (!authorize.user(2)) return
+        if (!authorize.user(3)) return
         master(require('./ripple')(), 'deposit')
     })
     .add(/^deposit\/litecoin$/, function() {
-        if (!authorize.user(2)) return
+        if (!authorize.user(3)) return
         master(require('./litecoin')(), 'deposit')
     })
     .add(/^deposit\/bank$/, function() {
@@ -31,7 +31,7 @@ module.exports = function(router, master, authorize) {
         }
     })
     .add(/^deposit\/voucher$/, function() {
-        if (!authorize.user(2)) return
+        if (!authorize.user(3)) return
         master(require('./voucher')(), 'deposit')
     })
     .add(/^([a-z0-9]{12})$/i, function(code) {
