@@ -36,5 +36,8 @@ api.bootstrap()
 .fail(function(err) {
     debug('reloading window after alert (bootstrap failed)')
     errors.alertFromXhr(err)
-    window.location.reload()
+
+    setTimeout(function() {
+        location.reload()
+    }, 10e3)
 })
