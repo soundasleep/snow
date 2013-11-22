@@ -8,7 +8,7 @@ module.exports = function(router, master, authorize) {
         master(require('./changepassword')(), 'settings')
     })
     .add(/^settings\/profile(?:\?after=(.+))?$/, function(after) {
-        if (!authorize.user()) return
+        if (!authorize.user(2)) return
         master(require('./profile')(after), 'settings')
     })
     .add(/^settings\/username$/, function() {

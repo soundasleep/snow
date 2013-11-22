@@ -3,8 +3,8 @@ var debug = require('debug')('snow:v1:ripple')
 
 module.exports = exports = function(app) {
     var demand = app.security.demand
-    app.post('/v1/ripple/out', demand.otp(demand.withdraw(2), true), exports.withdraw)
-    app.get('/v1/ripple/address', exports.address)
+    app.post('/v1/ripple/out', demand.otp(demand.withdraw(3), true), exports.withdraw)
+    app.get('/v1/ripple/address', demand.deposit(3), exports.address)
     app.get('/v1/ripple/trust/:account', exports.trust)
     app.get('/v1/ripple/account/:account', exports.account)
     require('./ripple.federation')(app)
