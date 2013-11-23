@@ -8,6 +8,8 @@ include_recipe "monit"
 bag = data_bag_item("snow", "main")
 env_bag = bag[node.chef_environment]
 
+Chef::Application.fatal!("env_bag for #{node.chef_environment} is null") if env_bag.nil?
+
 node.default['monit']['alert_email'] = env_bag['monit']['alert_email']
 
 node.default['snow']['pgm']['volume_id'] = env_bag['pgm']['volume_id']

@@ -16,5 +16,9 @@
     "ripple_account": "<%= @ripple['account'] %>",
     "ripple_secret": "<%= @ripple['secret'] %>",
     "local_ripple_uri": "ws://<%= @rippled_ip %>:5006",
-    "ripple_uri": "wss://s1.ripple.com:51233"
+    "ripple_uri": "wss://s1.ripple.com:51233",
+    "metrics_firebase_secret": "<%= @env_bag["workers"]["metrics"]["firebase_secret"] %>",
+    "metrics_firebase_url": "<%= @env_bag["workers"]["metrics"]["firebase_url"] %>",
+    "oxr_app_id": "<%= @env_bag["workers"]["metrics"]["oxr_app_id"] %>",
+    "segment_secret": "<%= @env_bag["segment"]["api_secret"] %>"
 }

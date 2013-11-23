@@ -20,7 +20,7 @@ deploy_wrapper 'workers' do
     sloppy true
 end
 
-services = %w(bitcoinin bitcoinbridge bitcoinout bitcoinaddress litecoinin litecoinout litecoinaddress ripplein rippleout)
+services = %w(bitcoinin bitcoinbridge bitcoinout bitcoinaddress litecoinin litecoinout litecoinaddress ripplein rippleout metrics)
 
 services.each do |service|
   template "/etc/init/snow-#{service}.conf" do
@@ -67,6 +67,7 @@ deploy_revision node[:snow][:workers][:app_directory] do
     notifies :restart, "service[snow-litecoinaddress]"
     notifies :restart, "service[snow-ripplein]"
     notifies :restart, "service[snow-rippleout]"
+    notifies :restart, "service[snow-metrics]"
     keep_releases 0
     symlinks({
          "config/workers.json" => "workers/config/#{node.chef_environment}.json"
@@ -101,9 +102,11 @@ template "#{node[:snow][:workers][:app_directory]}/shared/config/workers.json" d
         :ripple => env_bag['ripple'],
         :litecoind_ip => litecoind_ip || '127.0.0.1',
         :rippled_ip => rippled_ip || '127.0.0.1',
-        :bitcoind_ip => bitcoind_ip || '127.0.0.1'
+        :bitcoind_ip => bitcoind_ip || '127.0.0.1',
+        :env_bag => env_bag
     })
     notifies :restart, resources(:service => "snow-bitcoinin")
+    notifies :restart, resources(:service => "snow-metrics")
 end
 
 monit_monitrc "snow-workers" do
