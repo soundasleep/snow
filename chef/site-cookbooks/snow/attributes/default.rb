@@ -23,6 +23,7 @@ default['snow']['workers']['litecoinin']['min_conf'] = 6
 
 default['snow']['branch'] = 'master'
 
-node.set["monit"]["default_monitrc_configs"] = ["ssh"]
+# Append to the existing (ssh and load)
+default["monit"]["default_monitrc_configs"] = []
 
 node.set['varnish']['listen_port'] = 8030

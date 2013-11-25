@@ -16,7 +16,11 @@
     "async": "~0.2.8",
     "pg": "~1.1.0",
     "ripple-lib": "~0.7.29",
-    "sjcl": "~1.0.0"
+    "sjcl": "~1.0.0",
+    "firebase": "0.6.17",
+    "open-exchange-rates": "0.2.0",
+    "analytics-node": "0.5.0",
+    "firebase-token-generator": "0.1.4"
   },
   "scripts": {
     "test": "mocha"
