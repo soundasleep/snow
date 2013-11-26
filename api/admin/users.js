@@ -1,5 +1,6 @@
 var _ = require('lodash')
 , format = require('util').format
+, builder = require('pg-builder')
 
 module.exports = exports = function(app) {
     app.get('/admin/users', app.security.demand.admin, exports.users)
@@ -297,9 +298,49 @@ exports.buildQuery = function(params) {
 }
 
 exports.users = function(req, res, next) {
-    var query = exports.buildQuery(req.query)
-    req.app.conn.read.query(query, function(err, dr) {
+    var q = builder()
+    .f('"user"')
+    .s('*')
+    .s('COUNT(*) OVER() full_row_count')
+
+    if (req.query.tag) {
+        q = q.w('tag = ${tag}')
+    }
+
+    if (req.query.all) {
+        q = q.w([
+            'tag::varchar = ${all}',
+            'user_id::varchar = ${all}',
+            'first_name || \' \' || last_name ~~* (\'%\' || ${all} || \'%\')',
+            'phone_number ~~* (\'%\' || ${all})',
+            'country = ${all}',
+            'email ~~* (\'%\' || ${all} || \'%\')'
+        ].join(' OR '))
+    }
+
+    q = q.p(_.pick(req.query, 'all', 'tag'))
+
+    var limit = Math.min(50, +req.query.limit || 50)
+    q = q.limit(limit)
+
+    if (req.query.all !== undefined) {
+        q = q.o('CASE WHEN user_id::varchar = ${all} THEN 0 ELSE 1 END')
+    }
+
+    q = q.o('user_id', 'asc')
+
+    if (req.query.skip) q = q.skip(req.query.skip)
+
+    req.app.conn.read.query(q, function(err, dr) {
         if (err) return next(err)
-        return res.send(dr.rows)
+
+        res.send({
+            count: dr.rows[0] ? dr.rows[0].full_row_count : 0,
+            limit: limit,
+            users: dr.rows.map(function(row) {
+                console.log(row)
+                return _.omit(row, 'full_row_count')
+            })
+        })
     })
 }
