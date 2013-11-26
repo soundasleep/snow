@@ -71,9 +71,9 @@ module.exports = function() {
         if (!authorize.admin()) return
         master(transactions(userId), 'admin')
     })
-    .add(/^users$/, function() {
+    .add(/users(?:\?query=([^&]+)(?:&skip=(\d+))?)?/, function(query, skip) {
         if (!authorize.admin()) return
-        master(users(), 'admin')
+        master(users(query, +skip), 'admin')
     })
     .add(/^withdraws$/, function() {
         if (!authorize.admin()) return
