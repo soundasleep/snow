@@ -58,3 +58,7 @@ cookbook 'hostsfile',
 cookbook 'varnish',
   :git => 'https://github.com/opscode-cookbooks/varnish.git',
   :ref => '5881859574c00754da3cfd3fb50f2151b8af310f'
+
+cookbook 'awscli',
+  :git => 'https://github.com/ebensing/chef-awscli.git',
+  :ref => '10756bb38defe06aceaf5eb42f29ef6a42cfe359'

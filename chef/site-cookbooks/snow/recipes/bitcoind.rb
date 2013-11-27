@@ -74,3 +74,12 @@ end
 
 monit_monitrc "bitcoind" do
 end
+
+# Automatic backups
+include_recipe "cron"
+include_recipe "snow::ebssnapshot"
+
+cron_d "ebs-snapshot" do
+  minute 0
+  command "/usr/bin/ebs-snapshot.sh /btc #{node[:snow][:bitcoind][:volume_id]}"
+end

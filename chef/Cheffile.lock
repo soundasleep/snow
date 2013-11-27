@@ -6,6 +6,9 @@ SITE
     dpkg_autostart (0.1.8)
     ohai (1.1.12)
     partial_search (1.0.6)
+    python (1.4.4)
+      build-essential (>= 0.0.0)
+      yum (>= 0.0.0)
     runit (1.4.0)
       build-essential (>= 0.0.0)
       yum (>= 0.0.0)
@@ -17,6 +20,14 @@ GIT
   sha: 63769c54580942551281db9c1dcf996b5ce95730
   specs:
     hostsfile (2.0.0)
+
+GIT
+  remote: https://github.com/ebensing/chef-awscli.git
+  ref: 10756bb38defe06aceaf5eb42f29ef6a42cfe359
+  sha: 10756bb38defe06aceaf5eb42f29ef6a42cfe359
+  specs:
+    awscli (0.1.0)
+      python (>= 0.0.0)
 
 GIT
   remote: https://github.com/opscode-cookbooks/aws.git
@@ -108,6 +119,7 @@ PATH
 
 DEPENDENCIES
   aws (>= 0)
+  awscli (>= 0)
   cron (>= 0)
   deploy_wrapper (>= 0)
   hostname (>= 0)
