@@ -51,6 +51,7 @@ exports.handler = function(req, res, next) {
                     user: user,
                     tag: tag,
                     service_address: req.app.config.ripple_account,
+                    destination_address: req.app.config.ripple_account,
                     domain: domain
                 }
             })
