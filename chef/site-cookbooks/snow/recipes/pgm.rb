@@ -58,6 +58,7 @@ include_recipe "cron"
 include_recipe "snow::ebssnapshot"
 
 cron_d "ebs-snapshot" do
+  hour 15
   minute 0
   command "/usr/bin/ebs-snapshot.sh /pgmdata #{node[:snow][:pgm][:volume_id]}"
 end

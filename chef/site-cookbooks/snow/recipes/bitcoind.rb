@@ -80,6 +80,7 @@ include_recipe "cron"
 include_recipe "snow::ebssnapshot"
 
 cron_d "ebs-snapshot" do
-  minute 0
+  hour 14
+  minute 30
   command "/usr/bin/ebs-snapshot.sh /btc #{node[:snow][:bitcoind][:volume_id]}"
 end
