@@ -99,3 +99,13 @@ end
 
 #monit_monitrc "litecoind" do
 #end
+
+# Automatic backups
+include_recipe "cron"
+include_recipe "snow::ebssnapshot"
+
+cron_d "ebs-snapshot" do
+  hour 14
+  minute 0
+  command "/usr/bin/ebs-snapshot.sh /ltc #{node[:snow][:litecoind][:volume_id]}"
+end
