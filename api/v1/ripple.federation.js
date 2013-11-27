@@ -49,7 +49,7 @@ exports.handler = function(req, res, next) {
                 federation_json: {
                     type: 'federation_record',
                     user: user,
-                    tag: tag,
+                    dt: tag,
                     service_address: req.app.config.ripple_account,
                     destination_address: req.app.config.ripple_account,
                     domain: domain
