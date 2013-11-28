@@ -11,10 +11,12 @@ module.exports = function(opts) {
     , lastItems
 
     function itemsChanged(items) {
+        console.log('??? items', items)
         $items.html($.map(items, function(item) {
             var $item = $(itemTemplate(item))
             $item.addClass('is-' + item.state)
             .attr('data-id', item.id)
+            console.log(item, item.user)
 
             return $item
         }))
@@ -24,6 +26,17 @@ module.exports = function(opts) {
 
     function refresh() {
         api.call('admin/withdraws', null, { qs: opts })
+        .then(function(withdraws) {
+            return $.when.apply($, _.map(withdraws, function(withdraw) {
+                return api.call('admin/users/' + withdraw.user)
+                .then(function(user) {
+                    withdraw.user = user
+                })
+            }))
+            .then(function() {
+                return withdraws
+            })
+        })
         .fail(errors.alertFromXhr)
         .done(itemsChanged)
     }

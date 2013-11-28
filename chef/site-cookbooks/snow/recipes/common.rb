@@ -42,3 +42,6 @@ template '/home/ubuntu/.vimrc' do
   source "vimrc.erb"
   owner "ubuntu"
 end
+
+diskmonit "rootfs" do
+end

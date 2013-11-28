@@ -84,3 +84,7 @@ cron_d "ebs-snapshot" do
   minute 30
   command "/usr/bin/ebs-snapshot.sh /btc #{node[:snow][:bitcoind][:volume_id]}"
 end
+
+diskmonit "btc" do
+    path "/btc"
+end

@@ -62,3 +62,7 @@ cron_d "ebs-snapshot" do
   minute 0
   command "/usr/bin/ebs-snapshot.sh /pgmdata #{node[:snow][:pgm][:volume_id]}"
 end
+
+diskmonit "pgmdata" do
+    path "/pgmdata"
+end
