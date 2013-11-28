@@ -134,7 +134,7 @@ sub vcl_fetch {
     }
 
     # Deliver errors without caching
-    if (obj.status >= 300) {
+    if (beresp.status >= 300) {
         return (deliver);
     }
 
@@ -164,7 +164,6 @@ sub vcl_fetch {
     {
         set beresp.ttl = 10m;
     }
-
 
     if (beresp.ttl <= 0s) {
         return (hit_for_pass);
