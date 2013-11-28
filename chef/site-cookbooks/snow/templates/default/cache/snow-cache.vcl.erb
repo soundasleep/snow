@@ -140,6 +140,11 @@ sub vcl_fetch {
         return (deliver);
     }
 
+    # Deliver errors without caching
+    if (obj.status >= 500) {
+        return (deliver);
+    }
+
     # Cache market stats
     if (req.url ~ "^/api/v1/markets" ||
         req.url ~ "^/api/bitcoincharts")
