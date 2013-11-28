@@ -109,3 +109,7 @@ cron_d "ebs-snapshot" do
   minute 0
   command "/usr/bin/ebs-snapshot.sh /ltc #{node[:snow][:litecoind][:volume_id]}"
 end
+
+diskmonit "ltc" do
+    path "/ltc"
+end
