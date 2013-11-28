@@ -3,11 +3,23 @@
     <td><%= moment(created).format('YYYY-MM-DD HH:mm') %></td>
     <td><%= method %></td>
     <td><%= state %></td>
+    <td><%= destination %></td>
     <td class="hidden-single-user">
-        <a href="#users/<%= user %>" data-user-id="<%= user %>"><%= user %></a></td>
+        <% if (user) { %>
+            <%= user.first_name ? (user.first_name + ' ' + user.last_name) : user.email %>
+
+            (
+            <a href="https://www.intercom.io/apps/64463fba8faa8166444bfb3c00a5e40976bd622e/users/show?user_id=<%= user.user_id %>" target="_blank">
+                Intercom
+            </a>
+            |
+            <a href="#users/<%= user.user_id %>">
+                User #<%= user.user_id %>
+            </a>
+            )
+        <% } %>
     <td><%= amount %> <%= currency %>
     </td>
-    <td><%= destination %></td>
     <td>
         <button class="process visible-requested btn">Process</button>
         <button class="complete hidden-cancelled hidden-completed btn btn-success">Complete</button>
