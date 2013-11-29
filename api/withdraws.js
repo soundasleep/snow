@@ -57,7 +57,7 @@ exports.query = function(app, opts, cb) {
     }
 
     if (opts.user_id) {
-        q = q.w('AND user_id = ${userId}')
+        q = q.w('user_id = ${userId}')
         q = q.p('userId', opts.user_id)
     }
 
