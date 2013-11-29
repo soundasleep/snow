@@ -93,6 +93,7 @@ exports.credit = function(txid, address, satoshis, cb) {
                 return cb()
             }
             if (err) return cb(err)
+            console.log('credited %s satoshis to %s (%s)', satoshis, address, txid)
             cb(null, dr.rows[0].tid)
         })
     })
@@ -108,11 +109,13 @@ exports.processTx = function(txid, cb) {
         if (err && err.message.match(/^Invalid or non-wallet/)) return cb()
         if (err) return cb(err)
         if (!tx.details) return cb()
-        if (tx.details.length != 1) return cb()
-        var detail = tx.details[0]
-        if (detail.category !== 'receive') return cb()
-        var address = detail.address
-        , satoshis = +num(detail.amount.toFixed(8)).mul(1e8)
-        exports.credit(txid, address, satoshis, cb)
+
+        async.eachSeries(tx.details, function(detail, cb) {
+            debug('proecssing detail %s', util.inspect(detail))
+            if (detail.category != 'receive') return cb()
+            var address = detail.address
+            , satoshis = +num(detail.amount.toFixed(8)).mul(1e8)
+            exports.credit(txid, address, satoshis, cb)
+        }, cb)
     })
 }
