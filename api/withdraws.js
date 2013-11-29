@@ -1,5 +1,6 @@
 var _ = require('lodash')
 , format = require('util').format
+, builder = require('pg-builder')
 
 exports.formatDestination = function(row) {
     if (row.method == 'BTC') {
@@ -47,26 +48,20 @@ exports.format = function(app, row) {
 }
 
 exports.query = function(app, opts, cb) {
-    var text = [
-        'SELECT *',
-        'FROM withdraw_request_view',
-        'WHERE TRUE'
-    ]
-    , values = []
+    var q = builder()
+    .f('withdraw_request_view')
+    .s('*')
 
     if (opts.activeOnly) {
-        text.push('AND state NOT IN (\'cancelled\', \'completed\')')
+        q = q.w('state NOT IN (\'cancelled\', \'completed\')')
     }
 
     if (opts.user_id) {
-        text.push('AND user_id = $1')
-        values.push(opts.user_id)
+        q = q.w('AND user_id = ${userId}')
+        q = q.p('userId', opts.user_id)
     }
 
-    app.conn.read.query({
-        text: text.join('\n'),
-        values: values
-    }, function(err, dr) {
+    app.conn.read.query(q, function(err, dr) {
         if (err) return cb(err)
         cb(null, dr.rows.map(exports.format.bind(exports, app)))
     })
