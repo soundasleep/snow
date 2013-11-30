@@ -1,6 +1,7 @@
 var config = require('konfu')
 , Activities = require('../metrics.activities')
 , Fees = require('../metrics.fees')
+, Stats = require('../metrics.stats')
 , Firebase = require('firebase')
 , FirebaseTokenGenerator = require('firebase-token-generator')
 , firebaseTokenGenerator = new FirebaseTokenGenerator(config.metrics_firebase_secret)
@@ -21,5 +22,10 @@ firebaseRoot.auth(firebaseToken, function(err) {
         segmentSecret: config.segment_secret,
         postgresUrl: config.pg_url,
         oxrAppId: config.oxr_app_id
+    })
+
+    new Stats({
+        firebaseRoot: firebaseRoot,
+        postgresUrl: config.pg_url
     })
 })
