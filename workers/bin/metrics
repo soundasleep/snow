@@ -11,21 +11,21 @@ var config = require('konfu')
 firebaseRoot.auth(firebaseToken, function(err) {
     if (err) throw err
 
-    // new Activities({
-    //     firebaseRoot: firebaseRoot,
-    //     segmentSecret: config.segment_secret,
-    //     postgresUrl: config.pg_url
-    // })
+    new Activities({
+        firebaseRoot: firebaseRoot,
+        segmentSecret: config.segment_secret,
+        postgresUrl: config.pg_url
+    })
 
-    // new Fees({
-    //     firebaseRoot: firebaseRoot,
-    //     segmentSecret: config.segment_secret,
-    //     postgresUrl: config.pg_url,
-    //     oxrAppId: config.oxr_app_id
-    // })
+    new Fees({
+        firebaseRoot: firebaseRoot,
+        segmentSecret: config.segment_secret,
+        postgresUrl: config.pg_url,
+        oxrAppId: config.oxr_app_id
+    })
 
     new Stats({
         firebaseRoot: firebaseRoot,
-        postgresUrl: config.pg_url,
+        postgresUrl: config.pg_url
     })
 })

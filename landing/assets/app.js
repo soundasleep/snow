@@ -12,7 +12,11 @@ if (window.analytics) {
 
 $(function() {
     if (window.Firebase) {
-        var stats = new Firebase('https://justcoin.firebaseIO.com/stats/userCount');
+        var firebaseName = 'justcoin-dev'
+        if (window.environment == 'production') firebaseName = 'justcoin'
+        if (window.environment == 'staging') firebaseName = 'justcoin-staging'
+
+        var stats = new Firebase('https://' + firebaseName + '.firebaseIO.com/stats/userCount');
         stats.on('value', function(snapshot) {
             $('.user-count').text(snapshot.val());
         });
