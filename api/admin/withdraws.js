@@ -8,8 +8,25 @@ module.exports = exports = function(app) {
         })
     })
 
+    app.get('/admin/withdraws/:id', app.security.demand.admin, exports.withdraw)
+
     app.patch('/admin/withdraws/:id', app.security.demand.admin, exports.patch)
     app.post('/admin/withdraws/:id/complete', app.security.demand.admin, exports.complete)
+}
+
+exports.withdraw = function(req, res, next) {
+    req.app.conn.read.query({
+        text: [
+            'SELECT *',
+            'FROM withdraw_request_view',
+            'WHERE request_id = $1'
+        ].join('\n'),
+        values: [+req.params.id]
+    }, function(err, dr) {
+        if (err) return next(err)
+        if (!dr.rowCount) return res.send(404)
+        res.send(dr.rows[0])
+    })
 }
 
 exports.cancel = function(req, res, next) {
