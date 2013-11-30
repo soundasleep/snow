@@ -10,6 +10,14 @@ if (window.analytics) {
     analytics.trackLink($('[href="/client/#auth/register"]'), 'Clicked Sign Up')
 }
 
+function numberWithCommas(x) {
+    x = x.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x))
+        x = x.replace(pattern, '$1 $2')
+    return x;
+}
+
 $(function() {
     if (window.Firebase) {
         var firebaseName = 'justcoin-dev'
@@ -18,7 +26,8 @@ $(function() {
 
         var stats = new Firebase('https://' + firebaseName + '.firebaseIO.com/stats/userCount');
         stats.on('value', function(snapshot) {
-            $('.user-count').text(snapshot.val());
+            var count = numberWithCommas(snapshot.val())
+            $('.user-count').text(count);
         });
     }
 })
