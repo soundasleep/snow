@@ -47,7 +47,16 @@ module.exports = function() {
         $(this).loading(true, 'Deleting...')
 
         api.call('v1/orders/' + $item.attr('data-id'), null, { type: 'DELETE' })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'OrderNotFound') {
+                alertify.alert('The order has already been deleted', function() {
+                    router.reload()
+                })
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function() {
             api.balances()
             $item.remove()
