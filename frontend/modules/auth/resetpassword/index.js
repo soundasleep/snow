@@ -94,8 +94,7 @@ module.exports = function() {
         .fail(errors.alertFromXhr)
         .done(function() {
             // TODO: i18n
-            alert('Reset complete. Please do not forget your password again.' +
-                'International calls are expensive.')
+            alert('Reset complete. Please do not forget your password again.')
             window.location = '/'
         })
     })
