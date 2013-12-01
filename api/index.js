@@ -16,14 +16,15 @@ app.conn = {
     write: config.pg_write_url ? pg(config.pg_write_url, config.pg_native) : {}
 }
 
+app.use(express.bodyParser())
+app.use(express.cookieParser())
+
 app.smtp = config.smtp ? createSmtpTransport(config.smtp.service, config.smtp.options) : {}
 app.tarpit = require('./tarpit')()
 app.activity = require('./activity')(app)
 app.validate = require('./validate')
 app.email = require('./email')(app)
 app.ripple = require('./ripple')(app)
-app.use(express.bodyParser())
-app.use(express.cookieParser())
 
 app.security = require('./security')(app)
 
