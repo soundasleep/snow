@@ -1,4 +1,5 @@
 {
+    "master.footer.faq": "F.A.Q.",
     "auth.register.submitted.heading": "Almost there!",
     "auth.register.submitted.instruction": "We have sent an email to <strong>%s</strong><br>with a link to complete signup.",
     "settings.nav.profile": "Profile",

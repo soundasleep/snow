@@ -1,4 +1,5 @@
 {
+    "master.footer.faq": "F.A.Q.",
     "auth.register.submitted.heading": "Nesten ferdig!",
     "auth.register.submitted.instruction": "Vi har sendt en epost til <strong>%s</strong><br>med en link for å starte.",
     "settings.nav.profile": "Profil",
