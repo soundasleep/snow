@@ -74,7 +74,7 @@ describe('resetPassword', function() {
                 }))
             })
 
-            mock.once(app.tropo, 'say', function(number, msg, cb) {
+            mock.once(app.phone, 'text', function(number, msg, cb) {
                 expect(number).to.be('123456789')
                 expect(msg).to.contain(phoneCode.split('').join(', '))
                 cb()

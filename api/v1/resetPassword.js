@@ -108,32 +108,15 @@ exports.resetPasswordContinue = function(req, res, next) {
 
         debug('correct code is %s', code)
 
-        var codeMsg = [
-            '<prosody rate=\'-5%\'>',
-            'Your code is:' ,
-            '</prosody>',
-            '<prosody rate=\'-40%\'>',
-            code.split('').join(', '),
-            '</prosody>'
-        ].join('')
-
-        var msg = [
-            '<speak>',
-            '<prosody rate=\'-5%\'>',
-            'Justcoin password reset.',
-            '</prosody>',
-            codeMsg,
-            codeMsg,
-            '</speak>'
-        ].join('')
+        var msg = code + ' is your Justcoin reset code'
 
         debug('requesting call to %s', phoneNumber)
 
-        res.send('Email confirmed. Next we will call you. ' +
+        res.send('Email confirmed. Next we will text you a 4 digit code. ' +
             'Close this window and go back to the password reset window.')
 
         setTimeout(function() {
-            req.app.tropo.say(phoneNumber, msg, function(err) {
+            req.app.phone.text(phoneNumber, msg, function(err) {
                 if (!err) return debug('call placed')
                 console.error('Failed to call user at %s', phoneNumber)
                 console.error(err)
