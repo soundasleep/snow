@@ -1,10 +1,7 @@
-/* global TropoWebAPI, TropoJSON */
 var _ = require('lodash')
-, Tropo = require('tropo')
 , debug = require('debug')('snow:users')
 , libphonenumber = require('libphonenumber')
 
-require('tropo-webapi')
 
 module.exports = exports = function(app) {
     app.get('/v1/whoami', app.security.demand.any, exports.whoami)
@@ -12,14 +9,8 @@ module.exports = exports = function(app) {
     app.post('/v1/users/verify/text', app.security.demand.primary(1), exports.startPhoneVerify)
     app.post('/v1/users/verify/call', app.security.demand.primary(1), exports.voiceFallback)
     app.post('/v1/users/verify', app.security.demand.primary(1), exports.verifyPhone)
-    app.post('/tropo', exports.tropoHandler)
     app.patch('/v1/users/current', app.security.demand.primary, exports.patch)
     app.post('/v1/changePassword', app.security.demand.otp(app.security.demand.primary, true), exports.changePassword)
-
-    exports.tropo = new Tropo({
-        voiceToken: app.config.tropo_voice_token,
-        messagingToken: app.config.tropo_messaging_token
-    })
 
     require('./users.create')(app)
 }
@@ -251,7 +242,7 @@ exports.voiceFallback = function(req, res, next) {
         '</speak>'
     ].join('')
 
-    exports.tropo.call(item.number, msg, function(err) {
+    req.app.phone.call(item.number, msg, function(err) {
         if (err) return next(err)
         res.send(204)
     })
@@ -318,51 +309,13 @@ exports.startPhoneVerify = function(req, res, next) {
 
         var msg = code + ' is your Justcoin code'
 
-        exports.tropo.message(number, msg, function(err) {
+        req.app.phone.text(number, msg, function(err) {
             if (err) return next(err)
             res.send(200, {
                 number: number
             })
         })
     })
-}
-
-exports.tropoHandler = function(req, res) {
-    var params = req.body.session.parameters
-
-    debug('processing tropo request with params %j', params)
-
-    var method
-
-    if (params.token == req.app.config.tropo_messaging_token) {
-        method = 'message'
-    }
-
-    if (params.token == req.app.config.tropo_voice_token) {
-        method = 'call'
-    }
-
-    if (!method) {
-        debug('invalid tropo token %s', params.token)
-        return res.send(400)
-    }
-
-    var tropo = new TropoWebAPI()
-
-    if (method == 'call') {
-        tropo.call(params.numberToDial)
-        tropo.wait(2000)
-        tropo.say(params.msg)
-    } else {
-        tropo.call(params.number, null, null, null, null, null, 'SMS', null, null, null)
-        tropo.say(params.msg)
-    }
-
-    var tropoJSON = TropoJSON(tropo)
-
-    debug('sending tropo response %s', tropoJSON)
-
-    res.send(tropoJSON)
 }
 
 exports.changePassword = function(req, res, next) {
