@@ -80,7 +80,7 @@
     "shared.amount-input.amount.too high": "More than available",
     "shared.amount-input.amount.invalid": "Invalid",
     "auth.verifyphone.heading": "Account level 3 required",
-    "auth.verifyphone.lead": "To increase the security of your account, we will now send you a text message with a four digit code. Make sure your reception is good.",
+    "auth.verifyphone.lead": "This feature requires mobile verification.<br><br>To increase the security of your account, we will now send you a text message with a four digit code.",
     "auth.verifyphone.phone.country.label": "Country",
     "auth.verifyphone.phone.number.label": "Phone number",
     "auth.verifyphone.phone.number.invalid": "Not a valid phone number",
