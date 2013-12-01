@@ -16,6 +16,13 @@
     <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
     <meta name="msapplication-TileImage" content="/tileicon.png">
     <script src="head.js?<%= +new Date() %>"></script>
+    <script type="text/javascript">
+        if ('-ms-user-select' in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+            var msViewportStyle = document.createElement('style');
+            msViewportStyle.appendChild(document.createTextNode('@-ms-viewport{width:auto!important}'));
+            document.getElementsByTagName('head')[0].appendChild(msViewportStyle);
+        }
+    </script>
 
     <link href="vendor.css?<%= +new Date() %>" rel="stylesheet" media="screen">
     <link href="app.css?<%= +new Date() %>" rel="stylesheet" media="screen">

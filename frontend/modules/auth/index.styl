@@ -22,7 +22,7 @@
 
     .new-user
         position relative
-        top -15px
+        top -10px
 
     .otp
         states wrong, invalid, locked-out
@@ -124,3 +124,18 @@
 .is-area-cip
     footer, .top
         display none
+
+@media (max-width: 500px)
+    #area > .auth-login
+    #area > .auth-register
+        border-radius: 0
+        padding: 20px
+        border: 0
+        margin: 0
+
+    #area > .auth-register .register-form input[type="text"], 
+    #area > .auth-register .register-form input[type="password"]
+        width: 100%
+
+    #area > .auth-register .register-form button
+        width: 100%
