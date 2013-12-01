@@ -18,6 +18,7 @@
     "deposit.bank.NOK.payment.back": "Back",
     "deposit.bank.NOK.summary.intro": "As soon as we receive your payment, you'll receive an email from us. This takes <strong>up to 2 bank days</strong>.",
     "deposit.bank.NOK.summary.back to home": "Back to account overview",
+    "master.footer.faq": "F.A.Q.",
     "auth.register.submitted.heading": "Almost there!",
     "auth.register.submitted.instruction": "We have sent an email to <strong>%s</strong><br>with a link to complete signup.",
     "settings.nav.profile": "Profile",

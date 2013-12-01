@@ -18,6 +18,7 @@
     "deposit.bank.NOK.payment.back": "Tilbake",
     "deposit.bank.NOK.summary.intro": "Så snart vi mottar betalingen vil du få en melding fra oss på epost. Dette tar <strong>opp til 2 virkedager</strong>.",
     "deposit.bank.NOK.summary.back to home": "Tilbake til kontooversikt",
+    "master.footer.faq": "F.A.Q.",
     "auth.register.submitted.heading": "Nesten ferdig!",
     "auth.register.submitted.instruction": "Vi har sendt en epost til <strong>%s</strong><br>med en link for å starte.",
     "settings.nav.profile": "Profil",
