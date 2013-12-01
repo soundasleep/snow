@@ -77,9 +77,9 @@ module.exports = function(after) {
                     $el.addClass('has-texted')
                     $code.field().focus()
 
-                    slowTimer = setTimeout(function() {
-                        $el.addClass('is-slow')
-                    }, 10e3)
+                    // slowTimer = setTimeout(function() {
+                    //     $el.addClass('is-slow')
+                    // }, 10e3)
 
                     parsedNumber = res.number
                 }, 2e3)
