@@ -83,7 +83,7 @@
     "trade.stats.vohlc.yAxis.volume": "Volum (%s)",
     "trade.stats.vohlc.xAxis": "Dato",
     "auth.verifyphone.heading": "Sikkerhetsnivå 3 kreves",
-    "auth.verifyphone.lead": "For å gjøre kontoen din sikrere, sender vi deg nå en tekstmelding med en kode på fire tall. Pass på å ha dekning.",
+    "auth.verifyphone.lead": "Denne funksjonen krever mobil verifikasjon.<br><br>For å gjøre kontoen din sikrere, sender vi deg nå en tekstmelding med en kode på fire tall.",
     "auth.verifyphone.phone.country.label": "Land",
     "auth.verifyphone.phone.number.label": "Telefonnummer",
     "auth.verifyphone.phone.number.invalid": "Ikke et gyldig nummer",
