@@ -18,6 +18,8 @@
     "sjcl": "1.0.0"
   },
   "scripts": {
+    "pack": "tar -zcf node_modules.tar.gz node_modules",
+    "unpack": "tar -zxf node_modules.tar.gz",
     "test": "mocha"
   },
   "devDependencies": {

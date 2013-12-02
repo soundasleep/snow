@@ -55,7 +55,8 @@ deploy_revision node[:snow][:workers][:app_directory] do
         group "ubuntu"
         cwd "#{release_path}/workers"
         code %{
-          npm install
+          npm run-script unpack
+          npm rebuild
         }
       end
     end
