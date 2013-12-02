@@ -42,4 +42,15 @@ $(function() {
             $('.user-count').text(count);
         });
     }
+
+    $('.flags a[href="#set-language"]').click(function(event){
+        event.preventDefault();
+        var language = $(this).attr('data-language');
+        var path = window.location.pathname;
+
+        if (language == 'nb-NO' && path != '/no/')
+            window.location = '/no/';
+        else if (language == 'en-US' && path != '/en/')
+            window.location = '/en/';
+    });
 })
