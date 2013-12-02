@@ -19,6 +19,18 @@ function numberWithCommas(x) {
 }
 
 $(function() {
+
+    var supportsSvg = function() {
+        var e = document.createElement('div');
+        e.innerHTML = '<svg></svg>';
+        return !!(window.SVGSVGElement && e.firstChild instanceof window.SVGSVGElement);
+    };
+
+    if (!supportsSvg())
+    {
+        $(".header .logo").attr('src', '/justcoin.png');
+    }
+    
     if (window.Firebase) {
         var firebaseName = 'justcoin-dev'
         if (window.environment == 'production') firebaseName = 'justcoin'
@@ -29,10 +41,5 @@ $(function() {
             var count = numberWithCommas(snapshot.val())
             $('.user-count').text(count);
         });
-    }
-
-    if (window.SVGSVGElement == undefined)
-    {
-        $(".header .logo").attr('src', '/justcoin.png');
     }
 })
