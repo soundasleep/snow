@@ -115,6 +115,7 @@ sub vcl_recv {
 
 sub vcl_fetch {
     set beresp.ttl = 0s;
+    set beresp.http.cache-control = "max-age=0";
 
     # The backend does not set any cookies
     unset beresp.http.set-cookie;
