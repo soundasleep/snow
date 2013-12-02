@@ -314,6 +314,7 @@ exports.users = function(req, res, next) {
             'first_name || \' \' || last_name ~~* (\'%\' || ${all} || \'%\')',
             'phone_number ~~* (\'%\' || ${all})',
             'country = ${all}',
+            'address ~~* (\'%\' || ${all} || \'%\')',
             'email ~~* (\'%\' || ${all} || \'%\')'
         ].join(' OR '))
     }
