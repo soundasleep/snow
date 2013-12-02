@@ -23,6 +23,8 @@
     "firebase-token-generator": "0.1.4"
   },
   "scripts": {
+    "pack": "tar -zcf node_modules.tar.gz node_modules",
+    "unpack": "tar -zxf node_modules.tar.gz",
     "test": "mocha"
   },
   "devDependencies": {
