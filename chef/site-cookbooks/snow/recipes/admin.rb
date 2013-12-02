@@ -50,8 +50,9 @@ deploy_revision node[:snow][:admin][:app_directory] do
         group "ubuntu"
         cwd "#{release_path}/admin"
         code %{
+          npm run-script unpack
+          npm rebuild
           PATH=$PATH:./node_modules/.bin
-          npm install
           grunt production
         }
       end
