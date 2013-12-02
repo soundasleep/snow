@@ -9,79 +9,133 @@
                 </div>
             </div>
 
-            <div class="row visible-allowed">
-                <div class="col-lg-12">
-                    <p class="lead">
-                        <%= i18n('deposit.bank.NOK.intro') %>
-                    </p>
+            <div class="col-lg-12 hidden-allowed">
+                <div class="alert lead">
+                    <%- i18n('not allowed', api.user.countryFriendly()) %>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12 hidden-allowed">
-                    <div class="alert lead">
-                        Sorry, but at this time we do not accept NOK bank deposits from your country,
-                        <strong><%= api.user.countryFriendly() %></strong>.
+            <div class="visible-allowed">
+                <div class="step-sender visible-step-sender">
+                    <p class="lead">
+                        <%= i18n('deposit.bank.NOK.sender.intro') %>
+                    </p>
+
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <%= i18n('deposit.bank.NOK.sender.name') %>
+                            </td>
+
+                            <td>
+                                <%- formatters.escape(api.user.firstName + ' ' + api.user.lastName) %>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <%= i18n('deposit.bank.NOK.sender.address') %>
+                            </td>
+
+                            <td>
+                                <%- formatters.escape(api.user.address).replace('\n', '<br>') %><br>
+                                <%= api.user.postalArea %> <%= api.user.city %>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <p>
+                        <%- i18n('deposit.bank.NOK.sender.disclaimer') %>
+                    </p>
+
+                    <div>
+                        <button data-action="next-step" class="btn btn-primary btn-lg">
+                            <%= i18n('deposit.bank.NOK.sender.next button') %>
+                        </button>
+
+                        <a href="#settings/profile" class="btn btn-default btn-lg">
+                            <%= i18n('deposit.bank.NOK.sender.change address') %>
+                        </a>
                     </div>
                 </div>
 
-                <div class="col-lg-12 payment-details visible-allowed">
-                    <div class="panel">
-                         <p class="visible-allowed">
-                            <%- i18n('deposit.bank.NOK.kyc warning', formatters.escape(api.user.firstName + ' ' + api.user.lastName), formatters.escape(api.user.address)) %>
-                        </p>
+                <div class="step-payment visible-step-payment">
+                    <p class="lead">
+                        <%= i18n('deposit.bank.NOK.payment.intro') %>
+                    </p>
 
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.NOK.recipient') %></strong>
-                            </div>
-                            <div class="col-lg-6">
-                                Justcoin AS<br />
-                                Tordenskioldsgate 3<br />
-                                0160 Oslo
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.NOK.account') %></strong>
-                            </div>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <%= i18n('deposit.bank.NOK.payment.account') %>
+                            </td>
 
-                            <div class="col-lg-6">
+                            <td>
                                 1503.36.59595
-                            </div>
-                        </div>
+                             </td>
+                        </tr>
 
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.NOK.messageToRecipient') %></strong>
-                            </div>
+                        <tr>
+                            <td>
+                                <%= i18n('deposit.bank.NOK.payment.message') %>
+                            </td>
+                            <td>
+                                <strong><%= api.user.tag %></strong>
+                            </td>
+                        </tr>
 
-                            <div class="col-lg-6">
-                                <%= messageToRecipient %>
-                            </div>
-                        </div>
+                        <tr>
+                            <td>
+                                <%= i18n('deposit.bank.NOK.payment.recipient name') %>
+                            </td>
+                            <td>
+                                Justcoin AS
+                            </td>
+                        </tr>
 
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <%= i18n('deposit.bank.NOK.fee') %>
-                            </div>
+                        <tr>
+                            <td>
+                                <%= i18n('deposit.bank.NOK.payment.recipient address') %>
+                            </td>
+                            <td>
+                                Tordenskioldsgate 3
+                            </td>
+                        </tr>
 
-                            <div class="col-lg-6">
-                                <span style="color:green;font-weight:bold">
-                                    <%= i18n('deposit.bank.NOK.fee free') %>
-                                </span>
-                            </div>
-                        </div>
+                        <tr>
+                            <td>
+                                <%= i18n('deposit.bank.NOK.payment.recipient postal area') %>
+                            </td>
+                            <td>
+                                0160 Oslo
+                            </td>
+                        </tr>
+                    </table>
 
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <%= i18n('deposit.bank.NOK.minimumAmount') %>
-                            </div>
+                    <p>
+                        <%- i18n('deposit.bank.NOK.payment.disclaimer', api.user.tag) %>
+                    </p>
 
-                            <div class="col-lg-6">
-                                100 NOK
-                            </div>
-                        </div>
+                    <div>
+                        <button data-action="next-step" class="btn btn-primary btn-lg">
+                            <%- i18n('deposit.bank.NOK.payment.next button') %>
+                        </button>
+
+                        <a data-action="prev-step" class="btn btn-default btn-lg">
+                            <%- i18n('deposit.bank.NOK.payment.back') %>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="step-summary visible-step-summary">
+                    <p class="lead">
+                        <%- i18n('deposit.bank.NOK.summary.intro') %>
+                    </p>
+
+                    <div>
+                        <a href="#" class="btn btn-primary btn-lg">
+                            <%- i18n('deposit.bank.NOK.summary.back to home') %>
+                        </a>
                     </div>
                 </div>
             </div>

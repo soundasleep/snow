@@ -206,7 +206,12 @@ exports.cancel = function(req, res, next) {
         values: [+req.params.id, req.user.id]
     }, function(err, dr) {
         if (err) return next(err)
-        if (!dr.rowCount) return res.send(404)
+        if (!dr.rowCount) {
+            return res.send(404, {
+                name: 'OrderNotFound',
+                message: 'The specified order does not exist or has been canceled'
+            })
+        }
         res.send(204)
         req.app.activity(req.user.id, 'CancelOrder', { id: +req.params.id })
     })

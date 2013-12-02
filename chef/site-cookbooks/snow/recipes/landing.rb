@@ -48,6 +48,7 @@ deploy_revision node[:snow][:landing][:app_directory] do
           PATH=$PATH:./node_modules/.bin
           export SEGMENT=#{env_bag['segment']['api_key']}
           export OPTIMIZELY=#{env_bag['optimizely']['app_id']}
+          export NODE_ENV=#{node.chef_environment}
           grunt
         }
       end

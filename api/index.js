@@ -16,20 +16,19 @@ app.conn = {
     write: config.pg_write_url ? pg(config.pg_write_url, config.pg_native) : {}
 }
 
+app.use(express.bodyParser())
+app.use(express.cookieParser())
+
 app.smtp = config.smtp ? createSmtpTransport(config.smtp.service, config.smtp.options) : {}
 app.tarpit = require('./tarpit')()
 app.activity = require('./activity')(app)
 app.validate = require('./validate')
 app.email = require('./email')(app)
 app.ripple = require('./ripple')(app)
-app.tropo = require('./tropo')(app)
 app.intercom = require('./intercom')
 app.segment = require('./segment')(app)
-
-app.use(express.bodyParser())
-app.use(express.cookieParser())
-
 app.security = require('./security')(app)
+app.phone = require('./phone')(app)
 
 if (module.parent) {
     app.ripple.remote = {}

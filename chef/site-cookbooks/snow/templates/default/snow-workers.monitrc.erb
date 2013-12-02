@@ -51,3 +51,9 @@ check process snow-rippleout
     start program = "/sbin/start snow-rippleout"
     stop program = "/sbin/start snow-rippleout"
     if 3 restarts within 5 cycles then alert
+
+check process snow-metrics
+    with pidfile /var/run/snow-metrics.pid
+    start program = "/sbin/start snow-metrics"
+    stop program = "/sbin/start snow-metrics"
+    if 3 restarts within 5 cycles then alert

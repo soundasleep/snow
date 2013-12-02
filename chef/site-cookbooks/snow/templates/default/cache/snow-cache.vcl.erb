@@ -119,13 +119,6 @@ sub vcl_fetch {
     # The backend does not set any cookies
     unset beresp.http.set-cookie;
 
-    # Cache statics for 10 min
-    if (req.url ~ "\.(png|jpg|txt|css|js|ico)$" ||
-        req.url ~ "^/(admin|client|no|en)/")
-    {
-        set beresp.ttl = 10m;
-    }
-
     # If a user creates or deletes an order, invalidate market stats
     if ((req.url ~ "^/api/v1/orders" && req.request == "POST") ||
         (req.url ~ "^/api/v1/spend" && req.request == "POST") ||
@@ -138,6 +131,18 @@ sub vcl_fetch {
     # Deliver anything that can't be cached
     if (req.request != "GET" && req.request != "HEAD") {
         return (deliver);
+    }
+
+    # Deliver errors without caching
+    if (beresp.status >= 300) {
+        return (deliver);
+    }
+
+    # Cache statics for 10 min
+    if (req.url ~ "\.(png|jpg|txt|css|js|ico)$" ||
+        req.url ~ "^/(admin|client|no|en)/")
+    {
+        set beresp.ttl = 10m;
     }
 
     # Cache market stats
@@ -159,7 +164,6 @@ sub vcl_fetch {
     {
         set beresp.ttl = 10m;
     }
-
 
     if (beresp.ttl <= 0s) {
         return (hit_for_pass);

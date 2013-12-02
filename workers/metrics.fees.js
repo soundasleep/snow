@@ -222,7 +222,7 @@ exports.prototype.getBccRate = function(ticker, date, cb) {
             , item = data[unix.toString()]
 
             if (!item) {
-                cb(new Error(util.format('Cannot find key %s (%s) in keys', unix, date)))
+                return cb(new Error(util.format('Cannot find key %s (%s) in keys', unix, date)))
             }
 
             cb(null, item[7])

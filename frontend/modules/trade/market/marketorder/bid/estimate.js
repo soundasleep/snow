@@ -80,7 +80,7 @@ exports.summary = function(market, amount, feeRatio) {
     , quote = market.substr(3)
     , quotePrec = api.currencies[quote].scale
 
-    if (!receive) return null
+    if (!receive || !parseFloat(receive.amount)) return null
 
     var price = num(amount)
     .sub(receive.remaining)

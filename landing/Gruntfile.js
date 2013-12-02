@@ -28,7 +28,8 @@ module.exports = function(grunt) {
         ejs: {
             options: {
                 segment: process.env.SEGMENT,
-                optimizely: process.env.OPTIMIZELY
+                optimizely: process.env.OPTIMIZELY,
+                environment: process.env.NODE_ENV || 'dev'
             },
 
             all: {
@@ -133,7 +134,7 @@ module.exports = function(grunt) {
                         return [
                             function(req, res, next) {
                                 req.url = req.url.replace(/\/([a-z]{2})\/$/, '/index-$1.html')
-                                req.url = req.url.replace(/\/([a-z]{2})\/(about|terms|contact|privacy)$/, '/$2-$1.html')
+                                req.url = req.url.replace(/\/([a-z]{2})\/(about|terms|contact|privacy|faq)$/, '/$2-$1.html')
 
                                 next()
                             },

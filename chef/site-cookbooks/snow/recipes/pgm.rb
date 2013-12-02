@@ -2,6 +2,7 @@ include_recipe "snow::common"
 include_recipe "postgresql::server"
 include_recipe "postgresql::contrib"
 include_recipe "aws"
+include_recipe "awscli"
 
 aws = data_bag_item("aws", "main")
 
@@ -50,4 +51,18 @@ unless File.exists? '/pgmdata/main/PG_VERSION'
     directory "/pgmdata/main/9.2" do
         action :delete
     end
+end
+
+# Automatic backups
+include_recipe "cron"
+include_recipe "snow::ebssnapshot"
+
+cron_d "ebs-snapshot" do
+  hour 15
+  minute 0
+  command "/usr/bin/ebs-snapshot.sh /pgmdata #{node[:snow][:pgm][:volume_id]}"
+end
+
+diskmonit "pgmdata" do
+    path "/pgmdata"
 end
