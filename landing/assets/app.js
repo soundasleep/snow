@@ -30,4 +30,9 @@ $(function() {
             $('.user-count').text(count);
         });
     }
+
+    if (window.SVGSVGElement == undefined)
+    {
+        $(".header .logo").attr('src', '/justcoin.png');
+    }
 })
