@@ -1,6 +1,6 @@
 {
     "intercom.compose.header": "Can't find the answer in <a target=\"_blank\">our F.A.Q</a>? Write to Justcoin:",
-    "intercom.compose.placeholder": "Write your question here. We'll try to answewr within 24 hours. In the meantime you can check our F.A.Q.",
+    "intercom.compose.placeholder": "Write your question here. We'll try to answer within 24 hours. In the meantime you can check our F.A.Q.",
     "deposit.bank.NOK.heading": "Deposit NOK",
     "deposit.bank.NOK.not allowed": "Sorry, but at this time we do not accept NOK bank deposits from your country, <strong>%s</strong>.",
     "deposit.bank.NOK.sender.intro": "You can only send from a bank account registered to your own name and address. Make sure the details match your Internet banking:",
