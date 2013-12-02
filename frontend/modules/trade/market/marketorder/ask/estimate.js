@@ -5,7 +5,7 @@ var _ = require('lodash')
 exports.receive = function(market, amount) {
     var receive = 0
     , filled
-    if (!api.depth[market].bids) {
+    if (!api.depth[market].bids.length) {
         debug('no bids available')
         return
     }

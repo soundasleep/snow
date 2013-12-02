@@ -71,17 +71,21 @@ module.exports = function() {
 
     $enableForm.on('submit', function(e) {
         e.preventDefault()
+        var $btn = $enableForm.find('[type="submit"]').loading(true)
 
         validateEnableOtp(true)
-        .done(function(otp) {
-            api.call('v1/twofactor/enable', {
+        .then(function(otp) {
+            return api.call('v1/twofactor/enable', {
                 key: $enableForm.field('secret').val(),
                 otp: otp
             })
             .fail(function(err) {
+                // Ignore error about two factor already being enabled
                 if (err.name == 'TwoFactorAlreadyEnabled') {
-                    api.user.twoFactor = true
-                    router.go('')
+                    alertify.alert('Two factor is already enabled', function() {
+                        location.reload()
+                    })
+                    return
                 }
 
                 if (err.name == 'WrongOtp') {
@@ -101,6 +105,9 @@ module.exports = function() {
                 alertify.log(i18n('settings.twofactor.enabled alert'))
                 router.go('')
             })
+        })
+        .always(function() {
+            $btn.loading(false)
         })
     })
 

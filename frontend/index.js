@@ -20,6 +20,7 @@ i18n.detect()
 
 require('./helpers/jquery')
 require('./routes.js')()
+require('./helpers/intercom')
 
 if (window.analytics) {
     require('./segment')
