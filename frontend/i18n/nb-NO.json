@@ -1,4 +1,6 @@
 {
+    "intercom.compose.header": "Finner du ikke svaret i <a target=\"_blank\">vår F.A.Q</a>? Send en melding til Justcoin:",
+    "intercom.compose.placeholder": "Skriv spørsmålet ditt her. Vi skal prøve å svare innen 24 timer. I mellomtiden kan du sjekke vår F.A.Q.",
     "deposit.bank.NOK.heading": "Innskudd med NOK",
     "deposit.bank.NOK.not allowed": "Beklager, men vi tillater for tiden ikke bankinnskudd i NOK fra ditt land, <strong>%s</strong>.",
     "deposit.bank.NOK.sender.intro": "Du kan bare sende fra en konto i ditt navn og adresse. Kontroller at dette stemmer med nettbanken:",
