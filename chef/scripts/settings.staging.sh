@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 export REGION=eu-west-1
 export AZ=${REGION}b
 export PRIVATE_SUBNET=subnet-8bafe3e0
