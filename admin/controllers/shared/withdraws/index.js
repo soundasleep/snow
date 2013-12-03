@@ -11,12 +11,10 @@ module.exports = function(opts) {
     , lastItems
 
     function itemsChanged(items) {
-        console.log('??? items', items)
         $items.html($.map(items, function(item) {
             var $item = $(itemTemplate(item))
             $item.addClass('is-' + item.state)
             .attr('data-id', item.id)
-            console.log(item, item.user)
 
             return $item
         }))
