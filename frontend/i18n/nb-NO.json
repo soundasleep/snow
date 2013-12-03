@@ -24,11 +24,11 @@
     "auth.register.submitted.heading": "Nesten ferdig!",
     "auth.register.submitted.instruction": "Vi har sendt en epost til <strong>%s</strong><br>med en link for å starte.",
     "settings.nav.profile": "Profil",
-    "settings.nav.username": "Username",
+    "settings.nav.username": "Ripple brukernavn",
     "settings.username.heading": "Brukernavn",
-    "settings.username.username": "Brukernavn",
+    "settings.username.username": "Ripple brukernavn",
     "settings.username.submit": "Lagre",
-    "settings.username.saved": "Profilen ble lagret",
+    "settings.username.saved": "Din Ripple brukernavn har blitt oppdatert",
     "deposit.bank.EUR.do not send as nok": "<u>Ikke</u> send som NOK",
     "deposit.bank.USD.do not send as nok": "<u>Ikke</u> send som NOK",
     "deposit.ripple.address.label": "Send til <small>(Justcoins Ripple-konto)</small>",
@@ -225,7 +225,7 @@
     "login.email.placeholder": "Epost",
     "login.password.placeholder": "Passord",
     "login.button": "Logg inn",
-    
+
     "not found.heading": "Finner ikke siden",
     "not found.subHeading": "Vi kan dessverre ikke finne siden du leter etter.",
     "not found.body": "Du kan ha skrevet inn adressen feil, eller du kan ha brukt en utdatert link.",
