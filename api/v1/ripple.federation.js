@@ -44,7 +44,7 @@ exports.handler = function(req, res, next) {
                     ],
                     domain: req.app.config.ripple_federation.domain,
                     type: 'federation_record',
-                    quote_url: 'https://' + req.app.config.ripple_federation.domain + '/ripple/bridge/out/bitcoin',
+                    quote_url: 'https://' + req.app.config.ripple_federation.domain + '/api/ripple/bridge/out/bitcoin',
                     destination: req.query.destination
                 }
             })
