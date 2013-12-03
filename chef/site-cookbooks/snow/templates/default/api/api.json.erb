@@ -16,9 +16,10 @@
     <% unless @bde.nil? %>
     "bde_api_key": "<%= @bde %>",
     <% end %>
-    <% unless @tropo.nil? %>
-    "tropo_voice_token": "<%= @tropo['voice_token'] %>",
-    "tropo_messaging_token": "<%= @tropo['messaging_token'] %>",
+    <% unless @twilio.nil? %>
+    "twilio_account_sid": "<%= @twilio['account_sid'] %>",
+    "twilio_auth_token": "<%= @twilio['auth_token'] %>",
+    "twilio_from": "<%= @twilio['from'] %>",
     <% end %>
     <% unless node[:raven][:uri].nil? %>
     "raven": "<%= node[:raven][:uri] %>",

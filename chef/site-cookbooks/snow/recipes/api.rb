@@ -86,7 +86,7 @@ template "#{node[:snow][:api][:app_directory]}/shared/config/api.json" do
         :smtp => env_bag['api']['smtp'],
         :intercom => env_bag['api']['intercom'],
         :bde => env_bag['api']['bde'],
-        :tropo => env_bag['api']['tropo'],
+        :twilio => env_bag['api']['twilio'],
         :email_from => env_bag['api']['email_from'],
         :ripple => env_bag['ripple'],
         :website_url => env_bag['api']['website_url'],
