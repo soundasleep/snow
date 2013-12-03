@@ -8,5 +8,6 @@ cd ruby-1.9.3-p484/
 ./configure --prefix=/usr/local
 make
 sudo make install
-sudo apt-get install ruby1.9.1-dev
+sudo apt-get install -y ruby1.9.1-dev
 sudo gem install bundler
+sudo gem install librarian-chef
