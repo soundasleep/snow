@@ -229,8 +229,9 @@
     "login.errors.email.badFormat": "Doesn't look valid.",
     "login.otp.label": "One-Time Password",
 
-    "not found.heading": "Not found",
-    "not found.body": "There's nothing at this address.",
+    "not found.heading": "Page Not Found",
+    "not found.subHeading": "Sorry, we can't find the page you are looking for.",
+    "not found.body": "You may have typed the address incorrectly or you may have used an outdated link.",
 
     "orders.cancel.label": "Cancel",
     "orders.buy": "Buy",

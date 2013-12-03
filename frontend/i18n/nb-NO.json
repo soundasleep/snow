@@ -225,8 +225,11 @@
     "login.email.placeholder": "Epost",
     "login.password.placeholder": "Passord",
     "login.button": "Logg inn",
-    "not found.heading": "Ikke funnet",
-    "not found.body": "Det er ingenting på denne adressen.",
+    
+    "not found.heading": "Finner ikke siden",
+    "not found.subHeading": "Vi kan dessverre ikke finne siden du leter etter.",
+    "not found.body": "Du kan ha skrevet inn adressen feil, eller du kan ha brukt en utdatert link.",
+
     "orders.cancel.label": "Avbryt",
     "orders.buy": "Kjøp",
     "orders.sell": "Selg",
