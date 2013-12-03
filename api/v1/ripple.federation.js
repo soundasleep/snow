@@ -29,11 +29,6 @@ exports.handler = function(req, res, next) {
         return exports.sendError(res, req.query, 'invalidParams')
     }
 
-    if (!/^\S+$/.exec(req.query.user)) {
-        debug('username %s is invalid', req.query.user)
-        return exports.sendError(res, req.query, 'invalidParams')
-    }
-
     var domain = req.query.domain.toLowerCase()
     , user = req.query.user.toLowerCase()
 
@@ -41,6 +36,31 @@ exports.handler = function(req, res, next) {
 
     // The domain name is served directly here
     if (req.query.domain.toLowerCase() == req.app.config.ripple_federation.domain) {
+        // Destination is a Bitcoin address
+        if (req.query.destination && req.query.destination.match(/^1[1-9A-Za-z][^OIl]{20,40}/)) {
+            return res.send({
+                result: 'success',
+                federation_json: {
+                    currencies: [
+                        {
+                            issuer: req.app.config.ripple_account,
+                            currency: 'BTC'
+                        }
+                    ],
+                    domain: req.app.config.ripple_federation.domain,
+                    type: 'federation_record',
+                    quote_url: 'https://' + req.app.config.ripple_federation.domain + '/ripple/bridge/out/bitcoin',
+                    destination: req.query.destination
+                }
+            })
+        }
+
+        // Check if user looks valid
+        if (!/^\S+$/.exec(user)) {
+            debug('username %s is invalid', req.query.user)
+            return exports.sendError(res, req.query, 'invalidParams')
+        }
+
         return exports.fromUser(user, function(err, tag) {
             if (err) return next(err)
             if (!tag) return exports.sendError(res, req.query, 'noSuchUser')
