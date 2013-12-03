@@ -51,7 +51,7 @@ deploy_revision "/home/ubuntu/rippled" do
   ssh_wrapper "/home/ubuntu/rippled-ssh-wrapper/rippled_deploy_wrapper.sh"
   action :deploy
   branch 'master'
-  keep_releases 0
+  keep_releases 1
 
   symlinks({
        "rippled.cfg" => "rippled/rippled.cfg"

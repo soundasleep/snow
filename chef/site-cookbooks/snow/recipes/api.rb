@@ -44,7 +44,7 @@ deploy_revision node[:snow][:api][:app_directory] do
     action :deploy
     branch node[:snow][:branch]
     notifies :restart, "service[snow-api]"
-    keep_releases 0
+    keep_releases 1
     symlinks({
          "config/api.json" => "api/config/#{node.chef_environment}.json"
     })
