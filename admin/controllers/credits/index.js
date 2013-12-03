@@ -63,9 +63,6 @@ module.exports = function() {
         var grouped = _.groupBy(items, 'currency')
         , summaries = _.map(grouped, summarize)
 
-        console.log('??? grouped', grouped)
-        console.log(summaries)
-
         var $summaries = $.map(summaries, function(item) {
             return _.template('<li><strong><%= currency %>:</strong> <%= sum %> (<%= count %> credits)</li>')(item)
         })
