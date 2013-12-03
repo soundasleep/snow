@@ -19,6 +19,18 @@ function numberWithCommas(x) {
 }
 
 $(function() {
+
+    var supportsSvg = function() {
+        var e = document.createElement('div');
+        e.innerHTML = '<svg></svg>';
+        return !!(window.SVGSVGElement && e.firstChild instanceof window.SVGSVGElement);
+    };
+
+    if (!supportsSvg())
+    {
+        $(".header .logo").attr('src', '/justcoin.png');
+    }
+    
     if (window.Firebase) {
         var firebaseName = 'justcoin-dev'
         if (window.environment == 'production') firebaseName = 'justcoin'
@@ -30,4 +42,15 @@ $(function() {
             $('.user-count').text(count);
         });
     }
+
+    $('.flags a[href="#set-language"]').click(function(event){
+        event.preventDefault();
+        var language = $(this).attr('data-language');
+        var path = window.location.pathname;
+
+        if (language == 'nb-NO' && path != '/no/')
+            window.location = '/no/';
+        else if (language == 'en-US' && path != '/en/')
+            window.location = '/en/';
+    });
 })

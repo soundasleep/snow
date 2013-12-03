@@ -44,7 +44,8 @@ deploy_revision node[:snow][:landing][:app_directory] do
         group "ubuntu"
         cwd "#{release_path}/landing"
         code %{
-          npm install
+          npm run-script unpack
+          npm rebuild
           PATH=$PATH:./node_modules/.bin
           export SEGMENT=#{env_bag['segment']['api_key']}
           export OPTIMIZELY=#{env_bag['optimizely']['app_id']}

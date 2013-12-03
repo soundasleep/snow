@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "dependencies": {
     "lodash": "2.2.1",
-    "num": "abrkn/node-num",
+    "num": "git://github.com/abrkn/node-num.git#v0.2.9",
     "moment": "2.1.0",
     "nib": "1.0.1",
     "alertify": "https://github.com/fabien-d/alertify.js/archive/0.3.11.tar.gz"
@@ -30,8 +30,12 @@
     "grunt-bower-task": "0.3.2",
     "http-proxy": "0.10.3"
   },
+  "scripts": {
+    "pack": "tar -zcf node_modules.tar.gz node_modules",
+    "unpack": "tar -zxf node_modules.tar.gz"
+  },
   "engines": {
-    "node": ">=0.10",
+    "node": "~0.10",
     "npm": ">=1.1"
   }
 }

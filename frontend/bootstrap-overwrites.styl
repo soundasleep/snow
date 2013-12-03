@@ -1,0 +1,40 @@
+.btn
+    border-radius: 2px
+    background-image: none
+    border: 0
+    &:focus
+        outline: 0
+
+.btn-group
+    margin-bottom: 15px
+    .btn + .btn
+        margin-left: 15px
+
+.btn-group > .btn:last-child:not(:first-child), 
+.btn-group > .dropdown-toggle:not(:first-child),
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle)
+    border-bottom-left-radius: 2px
+    border-top-left-radius: 2px
+    border-bottom-right-radius: 2px
+    border-top-right-radius: 2px
+
+.input-group-addon.addon-btn
+    padding: 0
+
+.input-group-addon
+    border-radius: 2px
+
+.input-lg
+    margin-top: -1px
+    height: 43px
+    border-radius: 2px;
+
+select.input-lg
+    height: 43px
+    line-height: 43px
+
+.form-control
+    border-radius: 2px
+
+form > .form-group:last-child
+    margin-bottom: 0;

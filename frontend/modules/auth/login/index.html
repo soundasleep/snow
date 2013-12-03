@@ -1,7 +1,10 @@
 <div class="container">
-    <h3><%= i18n('login.heading') %></h3>
-    <p><a href="#auth/register" class="new-user"><%= i18n('login.new user register') %></a></p>
+    <div class="flags pull-right">
+        <a href="#set-language" data-language="nb-NO"><img src="img/flags/NO.png" alt="Norsk" /></a>
+        <a href="#set-language" data-language="en-US"><img src="img/flags/US.png" alt="English" /></a>
+    </div>
 
+    <h3><%= i18n('login.heading') %></h3>
     <form class="login">
         <div class="form-group email">
             <label class="control-label"><%= i18n('login.email.label') %></label>
@@ -33,6 +36,7 @@
             <button type="submit" class="btn btn-success btn-large"><%= i18n('login.login button') %></button>
         </div>
 
+        <p><a href="#auth/register" class="new-user"><%= i18n('login.new user register') %></a></p>
         <p>
             <a href="#auth/resetpassword">
             <%= i18n('auth.login.forgot password') %>

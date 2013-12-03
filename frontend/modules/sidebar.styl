@@ -16,20 +16,6 @@ body {
   padding-top: 50px; /* Account for fixed navbar */
 }
 
-/* Custom docs button */
-.btn-jc {
-  color: #563d7c;
-  background-color: #fff;
-  border-color: #e5e5e5;
-}
-.btn-jc:hover,
-.btn-jc:focus,
-.btn-jc:active {
-  color: #fff;
-  background-color: #563d7c;
-  border-color: #563d7c;
-}
-
 /* Temp CSS until RC2 */
 .jc-customize-placeholder {
   margin-bottom: -100px;
@@ -63,10 +49,14 @@ topbarbgactive = #C0ECFF
 .jc-nav .navbar-nav > .active > a:hover {
   color: #333;
   background-color topbarbgactive
-  height 53px
 }
+
+.navbar-brand
+  padding-bottom: 10px;
+  padding-top: 13px
+
 .jc-nav .navbar-toggle {
-  border-color: #FFC52C
+  border-color: #f7f5fa
 }
 .jc-nav .navbar-toggle:hover {
   background-color topbarbgactive
@@ -134,10 +124,6 @@ topbarbgactive = #C0ECFF
 .carbonad #azcarbon > img {
   display: none; /* hide what I assume are tracking images */
 }
-
-.jc-btn
-  background-color #869DBC
-  color #FFF
 
 /* Docs sidebar
 -------------------------------------------------- */
@@ -328,12 +314,13 @@ topbarbgactive = #C0ECFF
   color: #777;
 }
 .footer-links {
-  margin: 10px 0;
+  margin: 0;
   padding-left: 0;
 }
 .footer-links li {
-  display: inline;
+  display: inline-block;
   padding: 0 2px;
+  margin-bottom: 10px;
 }
 .footer-links li:first-child {
   padding-left: 0;

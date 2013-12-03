@@ -1,15 +1,27 @@
-#area > .auth-login
+#area > .auth-login,
+#area > .auth-register
     max-width: 550px
-    padding: 19px 0px 29px 100px
+    padding: 19px 29px 29px 100px
     margin: 40px auto 20px
     border: 1px solid #e5e5e5
     border-radius: 5px
     box-shadow: 0 1px 2px rgba(0,0,0,.05)
     background-color #fff
 
-    .email, .password, .otp
-        input
-            max-width 30em
+    @media (max-width: 500px)
+        border-radius: 0
+        padding: 20px
+        border: 0
+        margin: 0
+
+    input[type="text"], 
+    input[type="email"], 
+    input[type="password"]
+        max-width 300px
+        @media (max-width: 500px)
+            max-width 100%
+
+#area > .auth-login
 
     .help-block
         max-width 220px
@@ -20,34 +32,17 @@
     .email .help-block
         visibility visible
 
-    .new-user
-        position relative
-        top -10px
-
     .otp
         states wrong, invalid, locked-out
 
 #area > .auth-register
     states submitted
-    max-width: 550px
-    padding: 19px 0px 29px 100px
-    margin: 40px auto 20px
-    border: 1px solid #e5e5e5
-    border-radius: 5px
-    box-shadow: 0 1px 2px rgba(0,0,0,.05)
-    background-color #fff
 
     .submitted
         max-width 30em
 
     .register-form
-        button
-            width 300px
-
-        input[type="text"], 
-        input[type="email"], 
-        input[type="password"]
-            width 285px
+        margin-bottom: 15px
 
         .terms label
             font-weight normal
@@ -58,10 +53,13 @@
         h3
             margin-bottom 20px
 
+        .form-group
+            margin-bottom: 0
+
     .help-block
         max-width 220px
         font-size 90%
-        margin-bottom 11px
+        margin-top 0
         visibility hidden
 
     .email .help-block
@@ -126,19 +124,3 @@
 .is-area-cip
     footer, .top
         display none
-
-@media (max-width: 500px)
-    #area > .auth-login
-    #area > .auth-register
-        border-radius: 0
-        padding: 20px
-        border: 0
-        margin: 0
-
-    #area > .auth-register .register-form input[type="text"], 
-    #area > .auth-register .register-form input[type="email"]
-    #area > .auth-register .register-form input[type="password"]
-        width: 100%
-
-    #area > .auth-register .register-form button
-        width: 100%

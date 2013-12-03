@@ -14,7 +14,6 @@ function look() {
     var landingLanguage = i18n.desired && i18n.desired.match(/no/i) ? 'no' : 'en'
     $widget.on('click', function() {
         var $container = $('#IntercomNewMessageContainer')
-        console.log($container)
         $container.find('h1').html(i18n('intercom.compose.header'))
         .find('a')
         .attr('href', '/' + landingLanguage + '/faq')

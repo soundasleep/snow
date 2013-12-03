@@ -56,9 +56,10 @@ deploy_revision node[:snow][:frontend][:app_directory] do
         group "ubuntu"
         cwd "#{release_path}/frontend"
         code %{
+          npm run-script unpack
+          npm rebuild
           export SEGMENT=#{env_bag['segment']['api_key']}
           PATH=$PATH:./node_modules/.bin
-          npm install
           grunt production
         }
       end
