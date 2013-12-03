@@ -30,6 +30,29 @@ GIT
       python (>= 0.0.0)
 
 GIT
+  remote: https://github.com/justcoin/chef-deploy_wrapper.git
+  ref: master
+  sha: c5cafbbaf91152690491118acfe89139e5f233e6
+  specs:
+    deploy_wrapper (0.1.0)
+
+GIT
+  remote: https://github.com/justcoin/chef-monit.git
+  ref: 314fb5a3a3870e5b63e9da650ee077868df30086
+  sha: 314fb5a3a3870e5b63e9da650ee077868df30086
+  specs:
+    monit (1.3.3)
+
+GIT
+  remote: https://github.com/justcoin/chef-postgresql
+  ref: 7b1f0d3e830ee7f61d0ec735b049dafabc097b5e
+  sha: 7b1f0d3e830ee7f61d0ec735b049dafabc097b5e
+  specs:
+    postgresql (0.11.2)
+      apt (>= 0.0.0)
+      dpkg_autostart (>= 0.0.0)
+
+GIT
   remote: https://github.com/opscode-cookbooks/aws.git
   ref: v0.101.4
   sha: 78e9e6201779fa72cefad1cb9a70a33795328cd3
@@ -99,23 +122,6 @@ GIT
   specs:
     hostname (0.1.0)
       hostsfile (>= 0.0.0)
-
-PATH
-  remote: ../../chef-deploy_wrapper
-  specs:
-    deploy_wrapper (0.1.0)
-
-PATH
-  remote: ../../chef-monit
-  specs:
-    monit (1.3.3)
-
-PATH
-  remote: ../../chef-postgresql
-  specs:
-    postgresql (0.11.2)
-      apt (>= 0.0.0)
-      dpkg_autostart (>= 0.0.0)
 
 DEPENDENCIES
   aws (>= 0)
