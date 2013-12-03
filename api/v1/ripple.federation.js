@@ -24,11 +24,6 @@ exports.sendError = function(res, query, name) {
 }
 
 exports.handler = function(req, res, next) {
-    if (!/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\.[a-zA-Z]{2,}$/.exec(req.query.domain)) {
-        debug('domain %s is invalid', req.query.domain)
-        return exports.sendError(res, req.query, 'invalidParams')
-    }
-
     var domain = req.query.domain.toLowerCase()
     , user = req.query.user.toLowerCase()
 
