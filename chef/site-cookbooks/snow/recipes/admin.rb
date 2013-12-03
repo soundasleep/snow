@@ -57,7 +57,7 @@ deploy_revision node[:snow][:admin][:app_directory] do
         }
       end
     end
-    keep_releases 0
+    keep_releases 1
     symlinks({})
     symlink_before_migrate({})
     create_dirs_before_symlink([])

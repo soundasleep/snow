@@ -68,7 +68,7 @@ deploy_revision node[:snow][:workers][:app_directory] do
     notifies :restart, "service[snow-litecoinaddress]"
     notifies :restart, "service[snow-ripplein]"
     notifies :restart, "service[snow-rippleout]"
-    keep_releases 0
+    keep_releases 1
     symlinks({
          "config/workers.json" => "workers/config/#{node.chef_environment}.json"
     })
