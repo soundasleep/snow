@@ -63,6 +63,8 @@ exports.consume = function(userId, secret, guess, cb) {
         if (!dr.rowCount) return cb(null, null)
         secret || (secret = dr.rows[0].two_factor)
 
+        if (!secret) return cb(new Error('User does not have two-factor enabled'))
+
         var counter = exports.validate(secret, guess, dr.rows[0].two_factor_success_counter)
 
         if (counter) {
