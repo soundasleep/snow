@@ -27,6 +27,25 @@ sub vcl_hash {
 }
 
 sub vcl_recv {
+    # Redirect landing page
+    if (req.url ~ "^/(\?.*)?$") {
+        if (req.http.cookie ~ "language=nb-NO") {
+            error 750 regsub(req.url, "^(.*)$", "/no\1");
+        }
+
+        if (req.http.cookie ~ "language=en-US") {
+            error 750 regsub(req.url, "^(.*)$", "/en\1");
+        }
+
+        if (req.http.accept-language ~ "(?i)(nb|no)") {
+            set req.http.X-Language = "language=nb-NO;path=/;max-age=31536000";
+            error 750 regsub(req.url, "^(.*)$", "/no\1");
+        }
+
+        set req.http.X-Language = "language=en-US;path=/;max-age=31536000";
+        error 750 regsub(req.url, ".*", "/en\0");
+    }
+
     # The only cookie is used is session
     if (req.http.cookie && req.http.cookie ~ "(^|; *)session=[^;]+") {
         set req.http.cookie =
@@ -190,4 +209,13 @@ sub vcl_deliver {
     }
 
     return (deliver);
+}
+
+sub vcl_error {
+    if (obj.status == 750) {
+        set obj.http.Location = obj.response;
+        set obj.status = 302;
+        set obj.http.Set-Cookie = req.http.X-Language;
+        return(deliver);
+    }
 }

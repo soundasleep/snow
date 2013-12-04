@@ -47,10 +47,16 @@ $(function() {
         event.preventDefault();
         var language = $(this).attr('data-language');
         var path = window.location.pathname;
+        var date = new Date();
+        date.setFullYear(date.getFullYear() + 10);
 
-        if (language == 'nb-NO' && path != '/no/')
+        if (language == 'nb-NO' && path != '/no/') {
+            document.cookie = "language=nb-NO;expires=" + date.toGMTString() + ";path=/";
             window.location = '/no/';
-        else if (language == 'en-US' && path != '/en/')
+        }
+        else if (language == 'en-US' && path != '/en/') {
+            document.cookie = "language=en-US;expires=" + date.toGMTString() + ";path=/";
             window.location = '/en/';
+        }
     });
 })

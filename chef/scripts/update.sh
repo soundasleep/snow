@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Usage: scripts/update.sh environment role
 # Example: scripts/update.sh staging bitcoind
