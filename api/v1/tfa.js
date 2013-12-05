@@ -26,9 +26,11 @@ exports.remove = function(req, res, next) {
 
         req.app.activity(req.user.id, 'RemoveTwoFactor', {})
         req.session.tfaPassed = false
-        req.app.security.invalidate(req.user.id)
 
-        res.send(204)
+        req.app.security.session.update(req.cookies.session, req.session, function(err) {
+            if (err) return next(err)
+            res.send(204)
+        })
     })
 }
 
@@ -72,11 +74,14 @@ exports.enable = function(req, res, next) {
             })
         }
 
-        req.app.security.invalidate(req.user.id)
-        req.session.tfaPassed = true
         req.app.activity(req.user.id, 'EnableTwoFactor', {})
 
-        res.send(204)
+        req.session.tfaPassed = true
+
+        req.app.security.session.update(req.cookies.session, req.session, function(err) {
+            if (err) return next(err)
+            res.send(204)
+        })
     })
 }
 

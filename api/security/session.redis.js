@@ -11,12 +11,12 @@ module.exports = exports = function(opts) {
     if (opts.uri) {
         var parsedUri = parseUrl(opts.uri)
         this.redis = redis.createClient(parsedUri.port, parsedUri.hostname)
+
+        if (parsedUri.auth) {
+            this.redis.auth(parsedUri.auth.split(':')[1])
+        }
     } else {
         this.redis = redis.createClient()
-    }
-
-    if (parsedUri.auth) {
-        this.redis.auth(parsedUri.auth.split(':')[1])
     }
 }
 
@@ -37,4 +37,8 @@ exports.prototype.extend = function(key, cb) {
 
 exports.prototype.remove = function(key, cb) {
     this.redis.del(this.opts.prefix + key, cb)
+}
+
+exports.prototype.update = function(key, val, cb) {
+    this.redis.set(this.opts.prefix + key, JSON.stringify(val), cb)
 }
