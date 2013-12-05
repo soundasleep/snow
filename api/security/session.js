@@ -3,6 +3,7 @@ var debug = require('debug')('snow:security:session')
 , assert = require('assert')
 , MemoryStore = require('./session.memory')
 , RedisStore = require('./session.redis')
+, _ = require('lodash')
 
 module.exports = exports = function(app) {
     exports.app = app
@@ -39,7 +40,7 @@ exports.handler = function(req, res, next) {
 
         exports.app.security.users.fromUserId(session.userId, function(err, user) {
             if (err) return next(err)
-            assert(user)
+            assert(user, 'User #' + session.userId + ' in session not found')
             req.user = user
             debug('session attached (user #%d)', user.id)
             next()
@@ -101,4 +102,9 @@ exports.randomSha256 = function() {
 
 exports.remove = function(key, cb) {
     exports.store.remove(key, cb)
+}
+
+exports.update = function(key, session, cb) {
+    debug('updating session...')
+    exports.store.update(key, session, cb)
 }
