@@ -166,8 +166,6 @@ exports.patch = function(req, res, next) {
             req.app.activity(req.params.id, 'KycCompleted', {})
         }
 
-        req.app.security.invalidate(+req.params.id)
-
         res.send(204)
     })
 }

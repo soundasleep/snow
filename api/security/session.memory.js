@@ -40,3 +40,9 @@ exports.prototype.remove = function(key, cb) {
     delete this.sessions[key]
     cb(null, true)
 }
+
+exports.prototype.update = function(key, val, cb) {
+    if (!this.sessions[key]) return cb(new Error('Session not found'))
+    this.sessions[key] = val
+    cb()
+}
