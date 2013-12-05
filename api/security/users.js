@@ -16,7 +16,6 @@ function formatRow(row) {
 
 module.exports = exports = function(app) {
     exports.app = app
-    exports.cache = {}
     return exports
 }
 
@@ -47,7 +46,6 @@ exports.query = function(condition, value, cb) {
         if (err) return cb(err)
         if (!dr.rowCount) return cb()
         var user = formatRow(dr.rows[0])
-        exports.cache[user.id] = user
         cb(null, user)
     })
 }

@@ -7,20 +7,11 @@ module.exports = exports = function(app) {
     return exports
 }
 
-exports.cache = {}
-
 exports.lookup = function(key, cb) {
-    var item = exports.cache[key]
-
-    if (item === undefined) {
-        return exports.app.security.users.fromApiKey(key, function(err, item) {
-            if (err) return cb(err)
-            exports.cache[key] = item
-            cb(null, item)
-        })
-    }
-
-    cb(null, item)
+    return exports.app.security.users.fromApiKey(key, function(err, item) {
+        if (err) return cb(err)
+        cb(null, item)
+    })
 }
 
 exports.handler = function(req, res, next) {

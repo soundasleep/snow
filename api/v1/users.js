@@ -53,7 +53,6 @@ exports.patch = function(req, res, next) {
         if (!dr.rowCount) {
             return next(new Error('User ' + req.user.id + ' not found'))
         }
-        req.app.security.invalidate(req.user.id)
         res.send(204)
     })
 }
@@ -145,7 +144,6 @@ exports.identity = function(req, res, next) {
             })
         }
 
-        req.app.security.invalidate(req.user.id)
         req.app.intercom.setIdentity(req.user.id, req.body)
 
         req.app.activity(req.user.id, 'IdentitySet', _.pick(req.body,
@@ -188,8 +186,6 @@ exports.verifyPhone = function(req, res, next) {
                 message: 'Verification failed. The code is wrong.'
             })
         }
-
-        req.app.security.invalidate(req.user.id)
 
         req.app.conn.read.query({
             text: [
@@ -332,6 +328,5 @@ exports.changePassword = function(req, res, next) {
         if (err) return next(err)
         req.app.activity(req.user.id, 'ChangePassword', {})
         res.send(204)
-        req.app.security.invalidate(req.user.id)
     })
 }

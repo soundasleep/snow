@@ -24,8 +24,6 @@ exports.remove = function(req, res, next) {
             })
         }
 
-        req.app.security.invalidate(req.params.id)
-
         res.send(204)
     })
 }
