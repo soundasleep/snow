@@ -1,10 +1,12 @@
-<li class="market <%= id %>" data-id="<%= id %>">
+<li class="market <%= id %>" data-id="<%= id %>">    
     <% if (type == 'stats') { %>
         <a href="#trade/<%= id %>/stats" title="<%= id.substr(0, 3) %> / <%= id.substr(3, 3) %>">
+            <i class="icon-exchange"></i>
             <%= id.substr(0, 3) %>/<%= id.substr(3, 3) %>
         </a>
     <% } else { %>
         <a href="#trade/<%= id %>/<%= mode %>/<%= type %>" title="<%= id.substr(0, 3) %> / <%= id.substr(3, 3) %>">
+            <i class="icon-exchange"></i>
             <%= id.substr(0, 3) %>/<%= id.substr(3, 3) %>
         </a>
     <% } %>
@@ -12,16 +14,19 @@
     <ul class="nav">
         <li class="bid">
             <a href="#trade/<%= id %>/<%= mode %>/buy" title="<%= id.substr(0, 3) %> / <%= id.substr(3, 3) %>">
+                <i class="icon-circle-arrow-left"></i>
                 <%- i18n('trade.nav.market.buy') %>
             </a>
         </li>
         <li class="ask">
             <a href="#trade/<%= id %>/<%= mode %>/sell" title="<%= id.substr(0, 3) %> / <%= id.substr(3, 3) %>">
+                <i class="icon-circle-arrow-right"></i>
                 <%- i18n('trade.nav.market.sell') %>
             </a>
         </li>
         <li class="stats">
             <a href="#trade/<%= id %>/stats" title="<%= id.substr(0, 3) %> / <%= id.substr(3, 3) %>">
+                <i class="icon-list"></i>
                 <%- i18n('trade.nav.market.stats') %>
             </a>
         </li>
