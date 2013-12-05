@@ -18,7 +18,9 @@ function numberWithCommas(x) {
     return x;
 }
 
+
 $(function() {
+    $('.customer-count').css('opacity', 0);
 
     var supportsSvg = function() {
         var e = document.createElement('div');
@@ -40,6 +42,7 @@ $(function() {
         stats.on('value', function(snapshot) {
             var count = numberWithCommas(snapshot.val())
             $('.user-count').text(count);
+            $('.customer-count').animate({opacity: 1}, 500);
         });
     }
 
