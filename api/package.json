@@ -20,7 +20,8 @@
     "libphonenumber": "git://github.com/justcoin/libphonenumber.git#b15651311b27544958f03adcb159dd8c335aeda4",
     "ripple-lib": "0.7.29",
     "analytics-node": "0.5.0",
-    "twilio": "1.4.0"
+    "twilio": "1.4.0",
+    "redis": "0.9.1"
   },
   "scripts": {
     "pack": "tar -zcf node_modules.tar.gz node_modules",

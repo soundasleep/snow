@@ -1,4 +1,8 @@
 {
+    "session": {
+        "type": "redis",
+        "uri": "redis://<%= @redis_ip %>"
+    },
     "website_url": "<%= @website_url %>",
     "pg_write_url": "<%= @pgm_conn %>",
     "pg_read_url": "<%= @pgs_conn %>",

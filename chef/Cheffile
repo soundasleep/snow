@@ -58,3 +58,7 @@ cookbook 'varnish',
 cookbook 'awscli',
   :git => 'https://github.com/ebensing/chef-awscli.git',
   :ref => '10756bb38defe06aceaf5eb42f29ef6a42cfe359'
+
+cookbook 'redisio',
+  :git => 'https://github.com/brianbianco/redisio/',
+  :ref => 'be95852f73dcc9a8ef48db394044525ca48cfd70'
