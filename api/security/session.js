@@ -2,10 +2,23 @@ var debug = require('debug')('snow:security:session')
 , crypto = require('crypto')
 , assert = require('assert')
 , MemoryStore = require('./session.memory')
+, RedisStore = require('./session.redis')
 
 module.exports = exports = function(app) {
     exports.app = app
-    exports.store = new MemoryStore()
+
+    var storeType = !app.config.session || !app.config.session.type ?
+        'memory' :
+        app.config.session.type
+
+    if (storeType == 'memory') {
+        exports.store = new MemoryStore()
+    } else if (storeType == 'redis') {
+        exports.store = new RedisStore({
+            uri: app.config.session.uri
+        })
+    }
+
     app.use(exports.handler)
     return exports
 }

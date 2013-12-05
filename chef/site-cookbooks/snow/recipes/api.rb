@@ -81,6 +81,7 @@ pgs_ip = search(:node, 'role:pgs').first ? search(:node, 'role:pgs').first[:ipad
 template "#{node[:snow][:api][:app_directory]}/shared/config/api.json" do
     source 'api/api.json.erb'
     variables({
+        :redis_ip => reverse_ip = search(:node, 'role:reverse').first ? search(:node, 'role:reverse').first[:ipaddress] : '127.0.0.1',
         :pgm_conn => "postgres://postgres@#{pgm_ip || '127.0.0.1'}/snow",
         :pgs_conn => "postgres://postgres@#{pgs_ip || '127.0.0.1'}/snow",
         :smtp => env_bag['api']['smtp'],
