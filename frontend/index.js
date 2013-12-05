@@ -13,6 +13,7 @@ window.numbers = require('./helpers/numbers')
 window.formatters = require('./helpers/formatters')
 window.moment = require('moment')
 window.autologout = require('./helpers/autologout')()
+window.loading = require('./helpers/loading')()
 
 debug('shared components inited')
 
