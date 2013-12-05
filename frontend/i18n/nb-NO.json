@@ -421,7 +421,7 @@
     "auth.cip.continue": "Jeg har sendt begge dokumentene",
     "auth.cip.return": "Tilbake til kontooversikt",
     "auth.cip.outro": "Takk! Vi skal se over dokumentene så snart vi kan og si fra når vi har godkjent dem.",
-    "withdraw.withdraws.empty": "Du har ikke bestilt noen uttak.",
+    "withdraw.withdraws.empty": "Alle uttak du gjør vil vises her.",
     "required": "Kreves",
     "account.nav.funds": "Beholdning",
     "account.nav.activity": "Aktivitet",

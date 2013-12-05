@@ -313,10 +313,13 @@ topbarbgactive = #C0ECFF
   margin-bottom: 0;
   color: #777;
 }
-.footer-links {
-  margin: 0;
-  padding-left: 0;
-}
+.footer-links
+  margin: 0 100px
+  padding-left: 0
+  @media(max-width: 768px)
+    margin: 0 10px
+
+
 .footer-links li {
   display: inline-block;
   padding: 0 2px;
