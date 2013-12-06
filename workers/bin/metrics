@@ -11,7 +11,7 @@ var config = require('konfu')
 
 firebaseRoot.auth(firebaseToken, function(err) {
     if (err) throw err
-    /*
+
     new Activities({
         firebaseRoot: firebaseRoot,
         segmentSecret: config.segment_secret,
@@ -29,7 +29,6 @@ firebaseRoot.auth(firebaseToken, function(err) {
         firebaseRoot: firebaseRoot,
         postgresUrl: config.pg_url
     })
-    */
 
     new ExchangeRates({
         firebaseRoot: firebaseRoot,
