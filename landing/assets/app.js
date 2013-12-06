@@ -28,18 +28,32 @@ $(function() {
 
     if (!supportsSvg())
     {
-        $(".header .logo").attr('src', '/justcoin.png');
+        $('.header .logo').attr('src', '/justcoin.png');
     }
     
     if (window.Firebase) {
         var firebaseName = 'justcoin-dev'
+
+        //firebaseName = 'evconsult'; // Local dev for Eirik
+
         if (window.environment == 'production') firebaseName = 'justcoin'
         if (window.environment == 'staging') firebaseName = 'justcoin-staging'
 
-        var stats = new Firebase('https://' + firebaseName + '.firebaseIO.com/stats/userCount');
+        var firebaseRef = new Firebase('https://' + firebaseName + '.firebaseIO.com/')
+
+        var stats = firebaseRef.child('/stats/userCount');
         stats.on('value', function(snapshot) {
             var count = numberWithCommas(snapshot.val())
             $('.user-count').text(count);
+        });
+
+        var exchangeRates = firebaseRef.child('/stats/exchangeRates');
+        exchangeRates.on('value', function(snapshot) {
+            var data = snapshot.val();
+            $('#BTCNOK').text(data['BTCNOK']);
+            $('#BTCUSD').text(data['BTCUSD']);
+            $('#BTCEUR').text(data['BTCEUR']);
+            $('div.exchangerates').fadeTo('slow', 1);
         });
     }
 
@@ -51,11 +65,11 @@ $(function() {
         date.setFullYear(date.getFullYear() + 10);
 
         if (language == 'nb-NO' && path != '/no/') {
-            document.cookie = "language=nb-NO;expires=" + date.toGMTString() + ";path=/";
+            document.cookie = 'language=nb-NO;expires=' + date.toGMTString() + ';path=/';
             window.location = '/no/';
         }
         else if (language == 'en-US' && path != '/en/') {
-            document.cookie = "language=en-US;expires=" + date.toGMTString() + ";path=/";
+            document.cookie = 'language=en-US;expires=' + date.toGMTString() + ';path=/';
             window.location = '/en/';
         }
     });
