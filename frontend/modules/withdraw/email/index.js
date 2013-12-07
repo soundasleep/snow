@@ -113,7 +113,7 @@ module.exports = function() {
         router.reload()
     })
 
-    $transferForm.field('email').focusSoon()
+    $transferForm.field('amount').focusSoon()
 
     // Dispose
     $el.on('remove', function() {
