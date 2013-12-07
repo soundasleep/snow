@@ -1,65 +1,20 @@
 #area > .withdraw-bitcoin
     states entry review summary
 
-    .entry, .review, .summary
-        border solid 1px #ccc
-        background-color #fafafa
-        padding 1.5em 6em 2em 2em
-        max-width 40em
-
-    .review
-        .actions
-            margin-top 3em
-
-    .submit
-            width 100%
-            max-width 15em
-
-        .summary
-            .status
-                states requested processing completed cancelled updating
-
-        .payment-details
-            margin 3em 0 3em
-            width auto
-
-#area > .withdraw-email
-    .transfer-form, .send-form, .send-confirmed
-        border solid 1px #ccc
-        background-color #fafafa
-        padding 1.5em 6em 2em 2em
-        max-width 40em
-
-    .send-form, .send-confirmed
-        display none
-
-    .actions
-        margin-top 2em
-
-        .submit
-            width 100%
-            max-width 13.7em
-
-#area > .withdraw-litecoin
-    states entry review summary
-
-    .entry, .review, .summary
-        border solid 1px #ccc
-        background-color #fafafa
-        padding 1.5em 6em 2em 2em
-        max-width 40em
-
     .summary
         .status
             states requested processing completed cancelled updating
 
-    .payment-details
-        margin 3em 0 3em
-        width auto
+#area > .withdraw-email
+    .send-form, .send-confirmed
+        display none
 
-    .review
-        .actions
-            margin-top 3em
+#area > .withdraw-litecoin
+    states entry review summary
+
+    .summary
+        .status
+            states requested processing completed cancelled updating
 
 #area > .withdraw-ripple
     states entering reviewing sending
@@ -68,23 +23,9 @@
         .address
             states unfunded too-low-trust
 
-    .entry, .review, .summary
-        border solid 1px #ccc
-        background-color #fafafa
-        padding 1.5em 6em 2em 2em
-        max-width 40em
-
     .summary
         .status
             states requested processing completed cancelled updating
-
-    .payment-details
-        margin 3em 0 3em
-        width auto
-
-    .review
-        .actions
-            margin-top 3em
 
 #area > .withdraw-voucher
     states created creating

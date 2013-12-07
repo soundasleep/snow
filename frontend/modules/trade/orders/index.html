@@ -1,11 +1,11 @@
 <div class="container">
-    <div class="row">
-        <div class="trade-nav"></div>
+    <div class="trade-nav"></div>
 
-        <div class="col-lg-9">
-            <h1><%= i18n('orders.heading') %></h1>
+    <div class="col-lg-9">
+        <h1 class="content-title"><%= i18n('orders.heading') %></h1>
 
-            <table class="active-orders table table-striped table-bordered">
+        <div class="content-area">
+            <table class="active-orders table table-striped">
                 <thead>
                     <tr>
                         <th><%= i18n('orders.column headers.id') %></th>
@@ -21,10 +21,12 @@
                 </thead>
                 <tbody class="items"></tbody>
             </table>
+        </div>
 
-            <h4><%= i18n('orders.history heading') %></h4>
+        <h1 class="content-title"><%= i18n('orders.history heading') %></h1>
 
-            <table class="order-history table table-striped table-bordered">
+        <div class="content-area">
+            <table class="order-history table table-striped">
                 <thead>
                     <tr>
                         <th><%= i18n('orders.column headers.id') %></th>

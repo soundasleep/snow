@@ -5,7 +5,7 @@ Try out your own values or use our snippet below. Tip: By default, the navbar is
 */
 
 body
-    padding-top 70px
+    padding-top 150px
     states loading
 
     states security-level-1, security-level-2, security-level-3, security-level-4
@@ -67,6 +67,10 @@ body.is-logged-in > .top
 .flash
     -animation flash 500ms ease-out
 
+footer .logo
+    margin-top: 40px
+    margin-bottom: 20px
+
 @media (max-width: 768px)
     body
         padding-top 0
@@ -88,9 +92,6 @@ body.is-logged-in > .top
 @media (min-width: 768px)
     body > .top .summary
         float right
-
-footer
-    opacity 0.9
 
 .loading-overlay
     background white

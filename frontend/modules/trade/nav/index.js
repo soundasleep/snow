@@ -15,7 +15,7 @@ module.exports = function(tab, mode, type) {
     $el.find('.order-modes .advanced').toggleClass('active', mode == 'limit')
 
     function marketsFetched(markets) {
-        $el.find('.nav').append($.map(markets, function(market) {
+        $el.find('.nav').prepend($.map(markets, function(market) {
             return marketTemplate({
                 id: market.id,
                 type: type == 'ask' ? 'sell' : type == 'bid' ? 'buy' : 'stats',

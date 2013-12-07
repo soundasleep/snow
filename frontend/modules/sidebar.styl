@@ -14,6 +14,7 @@ freiablue = darken(#94B1D1, 40%)
 body {
   position: relative; /* For scrollyspy */
   padding-top: 50px; /* Account for fixed navbar */
+  background-color: #f9f9f9;
 }
 
 /* Temp CSS until RC2 */
@@ -35,25 +36,41 @@ topbarbgactive = #C0ECFF
   background-color topbarbg
 
 
-.jc-nav .navbar-brand
 .jc-nav .navbar-nav > li > a
   color #fff
+  padding-bottom: 30px
+  margin-bottom: -15px
 
 .jc-nav .navbar-nav > li > a:hover {
   color: #fff;
 }
+
 .jc-nav .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav>.open>a,
 .navbar-inverse .navbar-nav>.open>a:hover,
 .navbar-inverse .navbar-nav>.open>a:focus,
 .jc-nav .navbar-nav > .active > a:hover {
-  color: #333;
-  background-color topbarbgactive
+  color: #b2d6fd
+  background-color: transparent
+  background-image: url(img/nav-active.png)
+  background-position: center bottom
+  background-repeat: no-repeat
 }
 
 .navbar-brand
-  padding-bottom: 10px;
-  padding-top: 13px
+  padding-bottom: 5px
+  padding-top: 15px
+  float: none
+  text-align: left
+  margin-left: 0
+  @media(max-width: 768px)
+    padding-left: 0
+    padding-top: 6px
+
+.navbar-inverse .navbar-nav > .active > a, 
+.navbar-inverse .navbar-nav > .active > a:hover, 
+.navbar-inverse .navbar-nav > .active > a:focus
+  background-color: transparent
 
 .jc-nav .navbar-toggle {
   border-color: #f7f5fa
@@ -136,28 +153,26 @@ topbarbgactive = #C0ECFF
 /* First level of nav */
 .jc-sidenav {
   @media (min-width: 768px) {
-    margin-top: 70px;
+    margin-top: 35px;
   }
 
   margin-bottom: 30px;
   padding-top:    10px;
   padding-bottom: 10px;
-  text-shadow: 0 1px 0 #fff;
-  background-color: #f7f5fa;
-  border-radius: 5px;
 }
 
 /* All levels of nav */
 .jc-sidebar .nav > li > a {
+  text-decoration: none;
   display: block;
   color: #716b7a;
-  padding: 5px 20px;
+  padding: 5px;
+  margin: 0 -5px;
 }
 .jc-sidebar .nav > li > a:hover,
 .jc-sidebar .nav > li > a:focus {
-  text-decoration: none;
+  color: #563d7c;
   background-color: #e5e3e9;
-  //border-right: 1px solid #dbd8e0;
 }
 .jc-sidebar .nav > .active > a,
 .jc-sidebar .nav > .active:hover > a,
@@ -165,7 +180,6 @@ topbarbgactive = #C0ECFF
   font-weight: bold;
   color: #563d7c;
   background-color: transparent;
-  //border-right: 1px solid #563d7c;
 }
 
 /* Nav: second level (shown on .active) */
@@ -303,9 +317,7 @@ topbarbgactive = #C0ECFF
 -------------------------------------------------- */
 
 .jc-footer {
-  padding-top: 40px;
-  padding-bottom: 30px;
-  margin-top: 100px;
+  padding: 40px 0 30px;
   text-align: center;
   border-top: 1px solid #e5e5e5
 }
@@ -313,10 +325,13 @@ topbarbgactive = #C0ECFF
   margin-bottom: 0;
   color: #777;
 }
-.footer-links {
-  margin: 0;
-  padding-left: 0;
-}
+.footer-links
+  margin: 0 100px
+  padding-left: 0
+  @media(max-width: 768px)
+    margin: 0
+
+
 .footer-links li {
   display: inline-block;
   padding: 0 2px;

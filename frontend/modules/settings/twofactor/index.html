@@ -1,14 +1,19 @@
 <div class="container">
-    <div class="row">
-        <div class="settings-nav"></div>
+    <div class="settings-nav"></div>
 
-        <div class="col-lg-9">
-            <h1><%- i18n('settings.twofactor.heading') %></h1>
+    <div class="col-lg-9">
+        <h1 class="content-title"><%- i18n('settings.twofactor.heading') %></h1>
 
+        <div class="content-area">
             <div class="hidden-two-factor">
                 <p class="lead"><%- i18n('settings.twofactor.disabled.lead') %></p>
+                <p class="two-factor-marketplace">
+                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank"><img src="img/two-factor/google.png"/></a>
+                    <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605" target="_blank"><img src="img/two-factor/apple.png"/></a>
+                    <a href="http://www.windowsphone.com/s?appid=e7994dbc-2336-4950-91ba-ca22d653759b" target="_blank"><img src="img/two-factor/microsoft.png"/></a>
+                </p>
 
-                <img src="https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=otpauth://totp/<%= location.hostname %>:<%- encodeURIComponent(api.user.email) %>%3Fsecret=<%= secret %>%26issuer=Justcoin" />
+                <img class="two-factor-image" src="https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=otpauth://totp/<%= location.hostname %>:<%- encodeURIComponent(api.user.email) %>%3Fsecret=<%= secret %>%26issuer=Justcoin" />
 
                 <form name="enable">
                     <div class="row">
