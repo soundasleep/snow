@@ -17,6 +17,10 @@ module.exports = function(router, master, authorize) {
     })
     .add(/^settings\/twofactor$/, function() {
         if (!authorize.user()) return
-        master(require('./twofactor')(), 'account')
+        master(require('./twofactor')(), 'settings')
+    })
+    .add(/^settings\/apikeys$/, function() {
+        if (!authorize.user(3)) return
+        master(require('./apikeys')(), 'settings')
     })
 }

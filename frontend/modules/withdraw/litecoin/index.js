@@ -9,6 +9,7 @@ module.exports = function() {
     }
     , amount = require('../../shared/amount-input')({
         currencies: ['LTC'],
+        min: '0.0001',
         max: 'available'
     })
     , $address = $el.find('.entry .address')
@@ -82,11 +83,11 @@ module.exports = function() {
         validateAddress(true)
         amount.validate(true)
 
-        var $invalid = $el.find('.entry .is-invalid')
+        var $error = $el.find('.has-error')
 
-        if ($invalid.length) {
+        if ($error.length) {
             $button.shake()
-            $invalid.filter(':first').find('.field:visible:first').focus()
+            $error.filter(':first').find('.form-control:visible:first').focus()
             return
         }
 

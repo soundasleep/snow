@@ -1,66 +1,64 @@
-<div class="row">
-    <div class="well">
-        <p class="available-container">
-            <%- i18n('markets.market.marketorder.ask.you have') %>
-            <span class="available">...</span>
-            <%- i18n('markets.market.marketorder.ask.to sell') %>
-        </p>
+<div class="well row-right">
+    <p class="available-container">
+        <%- i18n('markets.market.marketorder.ask.you have') %>
+        <span class="available">...</span>
+        <%- i18n('markets.market.marketorder.ask.to sell') %>
+    </p>
 
-        <form>
-            <div class="form-group amount">
-                <label class="control-label">
-                    <%= base %>
-                    <%- i18n('markets.market.marketorder.ask.sell.to sell') %>
-                    (<a href="#" data-action="sell-all">
-                        <%- i18n('markets.market.marketorder.ask.sell.all') %>
-                    </a>)
-                </label>
+    <form>
+        <div class="form-group amount">
+            <label class="control-label">
+                <%= base %>
+                <%- i18n('markets.market.marketorder.ask.sell.to sell') %>
+                (<a href="#" data-action="sell-all">
+                    <%- i18n('markets.market.marketorder.ask.sell.all') %>
+                </a>)
+            </label>
 
-                <div class="input-group">
-                    <input type="text" name="amount" class="form-control" />
-                    <span class="input-group-addon"><%= base %></span>
-                </div>
-
-                <span class="help-block">
-                    <span class="visible-insufficient-funds hidden-precision-too-high">
-                        <%- i18n('markets.market.marketorder.ask.sell.insufficient funds') %>
-                    </span>
-                    <span class="visible-precision-too-high">
-                        <%- i18n('markets.market.marketorder.ask.sell.too many decimals') %>
-                    </span>
-                    <span class="visible-too-deep hidden-insufficient-funds hidden-precision-too-high">
-                        <%- i18n('markets.market.marketorder.ask.sell.more than for sale') %>
-                    </span>
-                </span>
+            <div class="input-group">
+                <input type="text" name="amount" class="form-control" />
+                <span class="input-group-addon"><%= base %></span>
             </div>
 
-            <table class="order-summary table">
-                <tr>
-                    <th>
-                        <%- i18n('markets.market.marketorder.ask.summary.price per') %>
-                        <%= base %>
-                    </th>
-                    <td class="receive-price">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <%- i18n('markets.market.marketorder.ask.summary.fee') %>
-                    </th>
-                    <td class="fee">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <%- i18n('markets.market.marketorder.ask.summary.you receive') %>
-                    </th>
-                    <td class="receive-quote"></td>
-                </tr>
-            </table>
+            <span class="help-block">
+                <span class="visible-insufficient-funds hidden-precision-too-high">
+                    <%- i18n('markets.market.marketorder.ask.sell.insufficient funds') %>
+                </span>
+                <span class="visible-precision-too-high">
+                    <%- i18n('markets.market.marketorder.ask.sell.too many decimals') %>
+                </span>
+                <span class="visible-too-deep hidden-insufficient-funds hidden-precision-too-high">
+                    <%- i18n('markets.market.marketorder.ask.sell.more than for sale') %>
+                </span>
+            </span>
+        </div>
 
-            <button type="submit" class="btn btn-success btn-block">
-                <%- i18n('markets.market.marketorder.ask.sell button') %>
-            </button>
-        </form>
-    </div>
+        <table class="order-summary table">
+            <tr>
+                <th>
+                    <%- i18n('markets.market.marketorder.ask.summary.price per') %>
+                    <%= base %>
+                </th>
+                <td class="receive-price">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <%- i18n('markets.market.marketorder.ask.summary.fee') %>
+                </th>
+                <td class="fee">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <%- i18n('markets.market.marketorder.ask.summary.you receive') %>
+                </th>
+                <td class="receive-quote"></td>
+            </tr>
+        </table>
+
+        <button type="submit" class="btn btn-success btn-block">
+            <%- i18n('markets.market.marketorder.ask.sell button') %>
+        </button>
+    </form>
 </div>

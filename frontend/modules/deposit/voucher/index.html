@@ -1,11 +1,11 @@
 <div class="container">
-    <div class="row">
-        <div class="deposit-nav"></div>
-        <div class="col-lg-6">
-            <h1><%- i18n('deposit.voucher.heading') %></h1>
+    <div class="deposit-nav"></div>
+    <div class="col-lg-6">
+        <h1 class="content-title"><%- i18n('deposit.voucher.heading') %></h1>
 
+        <div class="content-area">
             <div class="redeem hidden-cancelled hidden-redeemed">
-                <form class="form form-horizontal well">
+                <form class="form">
                     <div class="code form-group">
                         <label class="control-label">
                             <%- i18n('deposit.voucher.code') %>
@@ -15,8 +15,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"></label>
-
                         <button type="submit" class="submit btn btn-success">
                             <%- i18n('deposit.voucher.submit') %>
                         </button>
