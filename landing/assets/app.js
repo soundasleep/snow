@@ -30,11 +30,9 @@ $(function() {
     {
         $('.header .logo').attr('src', '/justcoin.png');
     }
-    
+
     if (window.Firebase) {
         var firebaseName = 'justcoin-dev'
-
-        //firebaseName = 'evconsult'; // Local dev for Eirik
 
         if (window.environment == 'production') firebaseName = 'justcoin'
         if (window.environment == 'staging') firebaseName = 'justcoin-staging'
