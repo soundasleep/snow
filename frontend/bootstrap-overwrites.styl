@@ -6,14 +6,14 @@
         outline: 0
 
 .btn-success
-    background-color: #5399e3
+    background-color: #7fba00
 
 .btn-success:hover, 
 .btn-success:focus, 
 .btn-success:active, 
 .btn-success.active, 
 .open .dropdown-toggle.btn-success
-    background-color: #4b88c9
+    background-color: #72a700
 
 .btn-group
     margin-bottom: 15px
@@ -72,9 +72,26 @@ form > .form-group:last-child
 .progress
     margin-bottom: 0
 
+.table.depth > tbody > tr > td
+    vertical-align: top
+    padding: 0
+    font-size: 1
+
+    table
+        font-size: 12px
+        border: 0
+
+        th:first-child,
+        td:first-child
+            border-left: 0
+
+        th:last-child,
+        td:last-child
+            border-right: 0
+
+
 .table
-    @media(max-width: 1200px)
-        font-size: 14px
+    font-size: 14px
         
     @media(max-width: 768px)
         font-size: 12px
