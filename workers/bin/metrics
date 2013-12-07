@@ -2,6 +2,7 @@ var config = require('konfu')
 , Activities = require('../metrics.activities')
 , Fees = require('../metrics.fees')
 , Stats = require('../metrics.stats')
+, ExchangeRates = require('../metrics.exchangerates')
 , Firebase = require('firebase')
 , FirebaseTokenGenerator = require('firebase-token-generator')
 , firebaseTokenGenerator = new FirebaseTokenGenerator(config.metrics_firebase_secret)
@@ -27,5 +28,10 @@ firebaseRoot.auth(firebaseToken, function(err) {
     new Stats({
         firebaseRoot: firebaseRoot,
         postgresUrl: config.pg_url
+    })
+
+    new ExchangeRates({
+        firebaseRoot: firebaseRoot,
+        ratesUrl: config.api_url + '/v1/markets'
     })
 })
