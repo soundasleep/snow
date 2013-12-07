@@ -30,8 +30,4 @@ module.exports = function(router, master, authorize) {
         if (!authorize.user(3)) return
         master(require('./bankaccounts/add')(), 'account')
     })
-    .add(/^account\/apikeys$/, function() {
-        if (!authorize.user(3)) return
-        master(require('./apikeys')(), 'account')
-    })
 }

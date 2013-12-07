@@ -1,14 +1,13 @@
 <div class="container">
-    <div class="row">
-        <div class="account-nav"></div>
+    <div class="account-nav"></div>
 
-        <div class="col-lg-9">
-            <h1><%- i18n('account.funds.heading') %></h1>
+    <div class="col-lg-9">
+        <h1 class="content-title"><%- i18n('account.funds.heading') %></h1>
 
+        <div class="content-area">
             <div class="alert alert-danger lead hidden-two-factor-enabled">
                 <%- i18n('account.funds.two factor warning') %>
             </div>
-
 
             <a href="#deposit/bank" class="btn btn-success btn-lg" style="">
                 <%- i18n('account.funds.deposit now') %>

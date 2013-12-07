@@ -111,7 +111,5 @@ module.exports = function() {
         })
     })
 
-    $el.focusSoon()
-
     return controller
 }
