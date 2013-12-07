@@ -5,100 +5,98 @@
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1><%= i18n('deposit.bank.USD.heading') %></h1>
+                    <h1 class="content-title"><%= i18n('deposit.bank.USD.heading') %></h1>
 
-                    <p class="lead visible-allowed">
-                        <%= i18n('deposit.bank.USD.intro') %>
-                    </p>
-                </div>
-            </div>
+                    <div class="content-area">
+                        <p class="lead visible-allowed">
+                            <%= i18n('deposit.bank.USD.intro') %>
+                        </p>
 
-            <div class="row">
-                <div class="col-lg-12 hidden-allowed">
-                    <div class="alert lead">
-                        Sorry, but at this time we do not accept bank deposits from your country,
-                        <strong><%= api.user.countryFriendly() %></strong>.
-                    </div>
-                </div>
-
-                <div class="col-lg-12 payment-details visible-allowed">
-                    <div class="panel">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.USD.recipient') %></strong>
-                            </div>
-                            <div class="col-lg-6">
-                                Justcoin AS<br />
-                                <small>
-                                    Tordenskioldsgate 3<br />
-                                    0160 Oslo<br>
-                                    Norway
-                                </small>
+                        <div class="hidden-allowed">
+                            <div class="alert lead">
+                                Sorry, but at this time we do not accept bank deposits from your country,
+                                <strong><%= api.user.countryFriendly() %></strong>.
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong>IBAN</strong>
+                        <div class="payment-details visible-allowed">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong><%= i18n('deposit.bank.USD.recipient') %></strong>
+                                </div>
+                                <div class="col-lg-6">
+                                    Justcoin AS<br />
+                                    <small>
+                                        Tordenskioldsgate 3<br />
+                                        0160 Oslo<br>
+                                        Norway
+                                    </small>
+                                </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                NO56 1250 0506 111
-                            </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong>IBAN</strong>
+                                </div>
 
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong>SWIFT/BIC</strong>
-                            </div>
-
-                            <div class="col-lg-6">
-                                DNBANOKKXXX
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.USD.messageToRecipient') %></strong>
+                                <div class="col-lg-6">
+                                    NO56 1250 0506 111
+                                </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                <%= messageToRecipient %>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.USD.minimumAmount') %></strong>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong>SWIFT/BIC</strong>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    DNBANOKKXXX
+                                </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                35 USD (<%- i18n('deposit.bank.USD.do not send as nok') %>)
-                            </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong><%= i18n('deposit.bank.USD.messageToRecipient') %></strong>
+                                </div>
 
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.EUR.our bank') %></strong>
+                                <div class="col-lg-6">
+                                    <%= messageToRecipient %>
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong><%= i18n('deposit.bank.USD.minimumAmount') %></strong>
+                                </div>
 
-                            <div class="col-lg-6">
-                                <small>
-                                    DNB BANK ASA<br />
-                                    Stranden 21<br />
-                                    0021 OSLO<br />
-                                    Norway
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <strong><%= i18n('deposit.bank.USD.fee') %></strong>
+                                <div class="col-lg-6">
+                                    35 USD (<%- i18n('deposit.bank.USD.do not send as nok') %>)
+                                </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                ~10.00 USD<br />
-                                <small>See <a href="/en/terms" target="_blank">Terms</a></small>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong><%= i18n('deposit.bank.EUR.our bank') %></strong>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <small>
+                                        DNB BANK ASA<br />
+                                        Stranden 21<br />
+                                        0021 OSLO<br />
+                                        Norway
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong><%= i18n('deposit.bank.USD.fee') %></strong>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    ~10.00 USD<br />
+                                    <small>See <a href="/en/terms" target="_blank">Terms</a></small>
+                                </div>
                             </div>
                         </div>
                     </div>
