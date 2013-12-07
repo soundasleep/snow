@@ -32,6 +32,6 @@ firebaseRoot.auth(firebaseToken, function(err) {
 
     new ExchangeRates({
         firebaseRoot: firebaseRoot,
-        ratesUrl: config.api_url + '/v1/markets'
+        ratesUrl: config.api_url + 'v1/markets'
     })
 })
