@@ -34,7 +34,7 @@ ExchangeRates.prototype.tick = function(cb) {
                 exchangeRates[data[i].id] = numberWithCommas(parseInt(data[i].last, 10).toFixed(0).toString());
 
             }
-            
+
             // update firebase
             var ratesRef = this.root.child('stats/exchangeRates');
             debug('current exchange rates: \n' + util.inspect(exchangeRates));
@@ -48,7 +48,7 @@ ExchangeRates.prototype.tick = function(cb) {
 };
 
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 module.exports = ExchangeRates;
