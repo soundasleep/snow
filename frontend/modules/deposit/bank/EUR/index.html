@@ -1,28 +1,24 @@
 <div class="container">
-    <div class="row">
-        <div class="deposit-nav"></div>
+    <div class="deposit-nav"></div>
 
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1><%= i18n('deposit.bank.EUR.heading') %></h1>
+    <div class="col-lg-9">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="content-title"><%= i18n('deposit.bank.EUR.heading') %></h1>
 
+                <div class="content-area">
                     <p class="lead visible-allowed">
                         <%= i18n('deposit.bank.EUR.intro') %>
                     </p>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-12 hidden-allowed">
-                    <div class="alert lead">
-                        Sorry, but at this time we do not accept bank deposits from your country,
-                        <strong><%= api.user.countryFriendly() %></strong>.
+                    <div class="hidden-allowed">
+                        <div class="alert lead">
+                            Sorry, but at this time we do not accept bank deposits from your country,
+                            <strong><%= api.user.countryFriendly() %></strong>.
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-lg-12 payment-details visible-allowed">
-                    <div class="panel">
+                    <div class="payment-details visible-allowed">
                         <div class="row">
                             <div class="col-lg-6">
                                 <strong><%= i18n('deposit.bank.EUR.recipient') %></strong>
