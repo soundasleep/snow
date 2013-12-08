@@ -25,7 +25,24 @@ exports.withdraw = function(req, res, next) {
     }, function(err, dr) {
         if (err) return next(err)
         if (!dr.rowCount) return res.send(404)
-        res.send(dr.rows[0])
+        res.send(dr.rows.map(function(row) {
+            return {
+                amount: req.app.cache.formatCurrency(row.amount, row.currency_id),
+                currency: row.currency_id,
+                userId: row.user_id,
+                bankAccountNumber: row.bank_account_number,
+                bankIban: row.bank_iban,
+                bankSwiftbic: row.bank_swiftbic,
+                bitcoinAddress: row.bitcoin_address,
+                litecoinAddress: row.litecoin_address,
+                method: row.method,
+                id: row.request_id,
+                rippleAddress: row.ripple_address,
+                state: row.state,
+                createdAt: row.created_at,
+                bankForceSwift: row.bank_force_swift
+            }
+        })[0])
     })
 }
 

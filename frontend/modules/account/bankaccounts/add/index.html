@@ -8,18 +8,22 @@
 
             <form>
                 <div class="modal-body">
-                    <div class="form-group type">
+                    <div class="form-group type visible-advanced">
                         <label name="type" class="control-label">
                             <%- i18n('account.bankaccounts.add.type') %>
                         </label>
 
                         <select class="form-control" name="type">
-                            <option value="norway">Norway</option>
-                            <option value="iban">IBAN/SEPA</option>
+                            <option value="norway"><%- i18n('account.bankaccounts.add.domestic') %></option>
+                            <option value="iban">IBAN</option>
                             <option value="international">International wire</option>
                         </select>
                     </div>
 
+                    <!-- <span class="visible-type-norway"><%- i18n('account.bankaccounts.add.domestic.description') %></span>
+                    <span class="visible-type-iban"><%- i18n('account.bankaccounts.add.domestic.iban') %></span>
+                    <span class="visible-type-international"><%- i18n('account.bankaccounts.add.domestic.international') %></span>
+ -->
                     <div class="form-group name">
                         <label for="name" class="control-label">
                             <%- i18n('account.bankaccounts.add.display name') %>
@@ -78,6 +82,10 @@
 
                     <div class="modal-footer">
                         <div class="actions">
+                            <a href="javascript:" style="float:left" class="hidden-advanced" data-action="advanced">
+                                <%- i18n('account.bankaccounts.add.advanced') %>
+                            </a>
+
                             <button type="button" class="btn btn-default" data-action="close">
                                 <%- i18n('account.bankaccounts.add.close') %>
                             </button>

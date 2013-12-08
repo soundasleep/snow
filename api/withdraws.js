@@ -12,7 +12,8 @@ exports.formatDestination = function(row) {
     } else if (row.method == 'bank') {
         if (row.bank_iban && row.bank_swiftbic) {
             // IBAN + SWIFT/BIC
-            return format('IBAN: %s, SWIFT: %s', row.bank_iban, row.bank_swiftbic)
+            return format('IBAN: %s, SWIFT: %s%s', row.bank_iban, row.bank_swiftbic,
+                row.bank_force_swift ? ' (No SEPA)' : '')
         } else if (row.bank_swiftbic) {
             // International
             if (row.bank_routing_number) {
