@@ -85,6 +85,10 @@ module.exports = function() {
         typeGuess = 'iban'
     }
 
+    if (api.user.country != 'NO') {
+        $form.find('select[name="type"] option[value="norway"]').remove();
+    }
+
     $form.field('type').on('change', function() {
         $form
         .removeClass('is-type-norway is-type-iban is-type-international')
