@@ -401,6 +401,12 @@
     "account.bankaccounts.add.close": "Lukk",
     "account.bankaccounts.add.iban": "IBAN",
     "account.bankaccounts.add.swiftbic": "SWIFT/BIC",
+    "account.bankaccounts.add.advanced": "Flere valg",
+    "account.bankaccounts.add.domestic": "Innenlands",
+    "account.bankaccounts.add.domestic.description": "Domestic",
+    "account.bankaccounts.add.domestic.iban": "IBAN",
+    "account.bankaccounts.add.domestic.international": "International",
+
     "auth.norwaydeposit.heading": "Sikkerhetsnivå 4 kreves",
     "auth.norwaydeposit.intro": "Vi vil nå bekrefte ditt navn og din adresse. Sett inn et valgfritt beløp fra din norske bankkonto, så vil vi bekrefte deg og kreditere din Justcoin-konto.",
     "auth.norwaydeposit.continue": "Jeg har overført",

@@ -392,6 +392,11 @@
     "account.bankaccounts.add.close": "Close",
     "account.bankaccounts.add.iban": "IBAN",
     "account.bankaccounts.add.swiftbic": "SWIFT/BIC",
+    "account.bankaccounts.add.advanced": "More options",
+    "account.bankaccounts.add.domestic": "Domestic",
+    "account.bankaccounts.add.domestic.description": "Domestic",
+    "account.bankaccounts.add.domestic.iban": "IBAN",
+    "account.bankaccounts.add.domestic.international": "International",
 
     "account.funds.heading": "Funds",
     "account.funds.headers.balance": "Balance",

@@ -21,6 +21,11 @@ module.exports = function() {
         history.go(-1)
     })
 
+    $el.on('click', '[data-action="advanced"]', function(e) {
+        e.preventDefault()
+        $form.addClass('is-advanced')
+    })
+
     $el.find('.modal').modal({
         keyboard: false,
         backdrop: 'static'
