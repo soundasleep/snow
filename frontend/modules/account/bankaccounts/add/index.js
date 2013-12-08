@@ -31,7 +31,7 @@ module.exports = function() {
         backdrop: 'static'
     })
 
-    var validateIban = validation.fromRegex($el.find('.iban'), /^[A-Za-z0-9 ]{1,35}$/)
+    var validateIban = validation.fromRegex($el.find('.iban'), /^[A-Z]{2}[A-Z0-9]+$/)
     validation.monitorField($el.field('iban'), validateIban)
 
     var validateAccountNumber = validation.fromRegex($el.find('.account-number'), /^[0-9]{1,35}$/)
