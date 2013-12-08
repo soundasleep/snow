@@ -398,6 +398,8 @@
     "account.bankaccounts.add button": "Legg til bankkonto",
     "account.bankaccounts.headers.account-number": "Kontonummer",
     "account.bankaccounts.headers.status": "Status",
+    "account.bankaccounts.blocked.title": "Land ikke støttet",
+    "account.bankaccounts.blocked": "Beklager, men vi støtter ikke bankoverføringer fra ditt land ennå.",
     "account.bankaccounts.add.close": "Lukk",
     "account.bankaccounts.add.iban": "IBAN",
     "account.bankaccounts.add.swiftbic": "SWIFT/BIC",

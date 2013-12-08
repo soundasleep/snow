@@ -389,6 +389,8 @@
     "account.bankaccounts.add button": "Add bank account",
     "account.bankaccounts.headers.account-number": "Account #",
     "account.bankaccounts.headers.status": "Status",
+    "account.bankaccounts.blocked.title": "Country not supported",
+    "account.bankaccounts.blocked": "Sorry, but we are not supporting bank transfers from your country yet.",
     "account.bankaccounts.add.close": "Close",
     "account.bankaccounts.add.iban": "IBAN",
     "account.bankaccounts.add.swiftbic": "SWIFT/BIC",

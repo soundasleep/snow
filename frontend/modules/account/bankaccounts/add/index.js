@@ -1,6 +1,6 @@
 var template = require('./index.html')
 , validation = require('../../../../helpers/validation')
-, sepa = require('../../../../assets/sepa.json')
+, iban = require('../../../../assets/iban.json')
 
 module.exports = function() {
     var $el = $('<div class=account-bankaccounts-add>')
@@ -86,7 +86,7 @@ module.exports = function() {
 
     if (api.user.country == 'NO') {
         typeGuess = 'norway'
-    } else if (~sepa.indexOf(api.user.country)) {
+    } else if (~iban.indexOf(api.user.country)) {
         typeGuess = 'iban'
     }
 
