@@ -1,6 +1,8 @@
 var template = require('./index.html')
 , nav = require('../nav')
 , _ = require('lodash')
+, sepa = require('../../../assets/sepa.json')
+, wire = require('../../../assets/wire.json')
 
 module.exports = function() {
     var $el = $('<div class=account-bankaccounts>').html(template())
@@ -32,6 +34,10 @@ module.exports = function() {
         $accounts.html($items)
 
         $el.toggleClass('is-empty', !accounts.length).addClass('is-loaded')
+    }
+
+    if (!(~sepa.indexOf(api.user.country) || ~wire.indexOf(api.user.country))) {
+        $el.addClass('is-blocked')
     }
 
     refresh()

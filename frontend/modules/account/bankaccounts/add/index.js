@@ -1,6 +1,6 @@
 var template = require('./index.html')
 , validation = require('../../../../helpers/validation')
-, sepa = require('../../../../assets/sepa.json')
+, iban = require('../../../../assets/iban.json')
 
 module.exports = function() {
     var $el = $('<div class=account-bankaccounts-add>')
@@ -21,12 +21,17 @@ module.exports = function() {
         history.go(-1)
     })
 
+    $el.on('click', '[data-action="advanced"]', function(e) {
+        e.preventDefault()
+        $form.addClass('is-advanced')
+    })
+
     $el.find('.modal').modal({
         keyboard: false,
         backdrop: 'static'
     })
 
-    var validateIban = validation.fromRegex($el.find('.iban'), /^[A-Za-z0-9 ]{1,35}$/)
+    var validateIban = validation.fromRegex($el.find('.iban'), /^[A-Z]{2}[A-Z0-9]+$/)
     validation.monitorField($el.field('iban'), validateIban)
 
     var validateAccountNumber = validation.fromRegex($el.find('.account-number'), /^[0-9]{1,35}$/)
@@ -81,8 +86,12 @@ module.exports = function() {
 
     if (api.user.country == 'NO') {
         typeGuess = 'norway'
-    } else if (~sepa.indexOf(api.user.country)) {
+    } else if (~iban.indexOf(api.user.country)) {
         typeGuess = 'iban'
+    }
+
+    if (api.user.country != 'NO') {
+        $form.find('select[name="type"] option[value="norway"]').remove();
     }
 
     $form.field('type').on('change', function() {
