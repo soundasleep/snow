@@ -39,7 +39,8 @@ exports.withdraw = function(req, res, next) {
                 id: row.request_id,
                 rippleAddress: row.ripple_address,
                 state: row.state,
-                createdAt: row.created_at
+                createdAt: row.created_at,
+                bankForceSwift: row.bank_force_swift
             }
         })[0])
     })

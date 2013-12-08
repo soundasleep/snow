@@ -27,7 +27,7 @@ exports.withdrawBank = function(req, res, next) {
 
     req.app.conn.write.query({
         text: [
-            'SELECT withdraw_bank($2, $3, $4)',
+            'SELECT withdraw_bank($2, $3, $4, $5)',
             'FROM bank_account',
             'WHERE bank_account_id = $2 AND user_id = $1'
         ].join('\n'),
@@ -35,7 +35,8 @@ exports.withdrawBank = function(req, res, next) {
             req.user.id,
             +req.body.bankAccount,
             req.body.currency,
-            req.app.cache.parseCurrency(req.body.amount, req.body.currency)
+            req.app.cache.parseCurrency(req.body.amount, req.body.currency),
+            req.body.forceSwift === undefined ? null : req.body.forceSwift
         ]
     }, function(err, dr) {
         if (err) {
