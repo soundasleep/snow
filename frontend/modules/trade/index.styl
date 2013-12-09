@@ -35,6 +35,42 @@
                 td
                     text-align right
 
+    .order-modes
+        padding-bottom: 20px
+        background-color: #fff
+
+        a
+            display: block
+            width: 50%
+            float: left
+            text-align: center
+            color: #fff
+            text-decoration: none
+            background-color: #aaaaaa
+            padding: 10px 0
+            position: relative
+
+            .arrow
+                display: none;
+                background-image: url(img/nav-active.png)
+                background-position: center bottom
+                background-repeat: no-repeat;
+                height: 10px
+                position: absolute
+                left: 0
+                right: 0
+                bottom: -10px
+
+            &:hover
+                background-color: #888
+
+
+            &.active
+                background-color: #07415b
+
+                .arrow
+                    display: block;
+
 #area > .trade-orders
     .active-orders, .order-history
         td.number
@@ -51,7 +87,3 @@
             font-weight bold
             pointer-events none
             color #333
-
-    .jc-sidenav
-        @media (min-width: 768px)
-            margin-top 10px

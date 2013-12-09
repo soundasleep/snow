@@ -2,12 +2,14 @@
     <div class="trade-nav"></div>
 
     <div class="col-lg-9">
-        <div class="market-nav"></div>
-
         <h1 class="content-title"><%- i18n('markets.market.heading', base, quote) %></h1>
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6">                
+                <div class="order-modes clearfix row-right">
+                    <a class="instant" href="#trade/<%= id %>/instant/<%= type %>"><%- i18n('trade.nav.instant') %><div class="arrow"></div></a>
+                    <a class="advanced" href="#trade/<%= id %>/advanced/<%= type %>"><%- i18n('trade.nav.advanced') %><div class="arrow"></div></a>
+                </div>
                 <div class="visible-order-mode-market">
                     <div class="market-order">
                     </div>

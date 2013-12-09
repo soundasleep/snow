@@ -20,6 +20,9 @@ module.exports = function(market, mode, type) {
     $el.find('.limit-order').replaceWith(limitOrder.$el)
     $el.find('.depth-container').html(depth.$el)
 
+    $el.find('.order-modes .instant').toggleClass('active', mode == 'market')
+    $el.find('.order-modes .advanced').toggleClass('active', mode == 'limit')
+
     // Set order mode (market or limit)
     function setOrderMode(mode) {
         $el.removeClasses(/^is-order-mode/).addClass('is-order-mode-' + mode)
