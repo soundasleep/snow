@@ -356,7 +356,7 @@ Status: 200 OK
 
 ### Response
 
-´´´´
+```
 [
   {
     "id": "BTCLTC",
@@ -389,11 +389,11 @@ Status: 200 OK
     "scale": 3
   }
 ]
-´´´
+```
 
 ## Get market depth
 
-´GET /v1/markets/:market/depth´
+`GET /v1/markets/:market/depth`
 
 ### Parameters
 
@@ -403,7 +403,7 @@ Status: 200 OK
 
 ### Response
 
-´´´
+```
 Status: 200 OK
 
 {
@@ -428,15 +428,15 @@ Status: 200 OK
         ]
     ]
 }
-´´´
+```
 
-The inner array is ´[price, volume]´
+The inner array is `[price, volume]`
 
 # Orders
 
 ## List orders
 
-´GET /v1/orders´
+`GET /v1/orders`
 
 ## Authorization
 
@@ -447,7 +447,7 @@ TODO
 
 ## Create order
 
-´POST /v1/orders´
+`POST /v1/orders`
 
 ### Authorization
 
@@ -482,7 +482,7 @@ TODO
 
 ## Cancel an order
 
-´DELETE /v1/orders/:order´
+`DELETE /v1/orders/:order`
 
 ### Parameters
 
